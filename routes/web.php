@@ -110,13 +110,23 @@ Route::group(['middleware' => ['auth:sanctum', 'verified']], function() {
     });
 
     /** PRODUCT */
-    Route::resource('productos', ProductController::class, [
+    Route::resource('produtos', ProductController::class, [
         'names' => 'products'])->parameters([
-        'productos' => 'product'
+        'produtos' => 'product'
     ]);
 
-    Route::prefix('productos')->name('products.')->group(function(){
+    Route::prefix('produtos')->name('products.')->group(function(){
         Route::post('/filter', [ProductController::class, 'filter'])->name('filter');
+    });
+
+    /** CUSTOMER */
+    Route::resource('clientes', CustomerController::class, [
+        'names' => 'customers'])->parameters([
+        'clientes' => 'customer'
+    ]);
+
+    Route::prefix('clientes')->name('customers.')->group(function(){
+        Route::post('/filter', [CustomerController::class, 'filter'])->name('filter');
     });
 });
 
