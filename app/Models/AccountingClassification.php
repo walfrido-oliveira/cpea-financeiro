@@ -5,17 +5,17 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Department extends Model
+class AccountingClassification extends Model
 {
     use HasFactory;
 
-    /**
+     /**
      * The attributes that are mass assignable.
      *
      * @var array
      */
     protected $fillable = [
-        'name', 'obs'
+        'name', 'obs', 'level', 'classification'
     ];
 
     /**
@@ -45,6 +45,22 @@ class Department extends Model
                 if(!is_null($query['name']))
                 {
                     $q->where('name', 'like','%' . $query['name'] . '%');
+                }
+            }
+
+            if(isset($query['level']))
+            {
+                if(!is_null($query['level']))
+                {
+                    $q->where('level', $query['level']);
+                }
+            }
+
+            if(isset($query['classification']))
+            {
+                if(!is_null($query['classification']))
+                {
+                    $q->where('classification', 'like','%' . $query['classification'] . '%');
                 }
             }
         });

@@ -38,6 +38,7 @@ use App\Http\Controllers\PointIdentificationController;
 use App\Http\Controllers\CalculationParameterController;
 use App\Http\Controllers\GuidingParameterValueController;
 use App\Http\Controllers\ParameterAnalysisGroupController;
+use App\Http\Controllers\AccountingClassificationController;
 use App\Http\Controllers\GuidingParameterRefValueController;
 
 /*
@@ -127,6 +128,16 @@ Route::group(['middleware' => ['auth:sanctum', 'verified']], function() {
 
     Route::prefix('clientes')->name('customers.')->group(function(){
         Route::post('/filter', [CustomerController::class, 'filter'])->name('filter');
+    });
+
+    /** Accounting Classification */
+    Route::resource('classificacao-contabeis', AccountingClassificationController::class, [
+        'names' => 'accounting-classifications'])->parameters([
+        'classificacao-contabeis' => 'accounting-classification'
+    ]);
+
+    Route::prefix('classificacao-contabeis')->name('accounting-classifications.')->group(function(){
+        Route::post('/filter', [AccountingClassificationController::class, 'filter'])->name('filter');
     });
 });
 
