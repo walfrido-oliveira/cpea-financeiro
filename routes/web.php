@@ -12,6 +12,7 @@ use App\Http\Controllers\ReplaceController;
 use App\Http\Controllers\CampaignController;
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\DepartmentController;
+use App\Http\Controllers\OccupationController;
 use App\Http\Controllers\EmailConfigController;
 use App\Http\Controllers\GuidingValueController;
 use App\Http\Controllers\AnalysisOrderController;
@@ -95,6 +96,16 @@ Route::group(['middleware' => ['auth:sanctum', 'verified']], function() {
 
     Route::prefix('departamentos')->name('departments.')->group(function(){
         Route::post('/filter', [DepartmentController::class, 'filter'])->name('filter');
+    });
+
+    /** OCCUPATION */
+    Route::resource('cargos', OccupationController::class, [
+        'names' => 'occupations'])->parameters([
+        'cargos' => 'occupation'
+    ]);
+
+    Route::prefix('cargos')->name('occupations.')->group(function(){
+        Route::post('/filter', [OccupationController::class, 'filter'])->name('filter');
     });
 });
 

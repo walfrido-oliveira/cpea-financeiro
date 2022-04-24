@@ -1,17 +1,17 @@
 <x-app-layout>
-    <div class="py-6 index-departments">
+    <div class="py-6 index-occupations">
         <div class="md:max-w-6xl lg:max-w-full mx-auto px-4">
 
             <div class="flex md:flex-row flex-col">
                 <div class="w-full flex items-center">
-                    <h1>{{ __('Departamento') }}</h1>
+                    <h1>{{ __('Cargo') }}</h1>
                 </div>
                 <div class="w-full flex justify-end">
                     <div class="m-2 ">
-                        <a class="btn-outline-info" href="{{ route('departments.create') }}" >{{ __('Cadastrar') }}</a>
+                        <a class="btn-outline-info" href="{{ route('occupations.create') }}" >{{ __('Cadastrar') }}</a>
                     </div>
                     <div class="m-2">
-                        <button type="button" class="btn-outline-danger delete-departments" data-type="multiple">{{ __('Apagar') }}</a>
+                        <button type="button" class="btn-outline-danger delete-occupations" data-type="multiple">{{ __('Apagar') }}</a>
                     </div>
                 </div>
             </div>
@@ -27,35 +27,35 @@
                         </div>
                         <div class="w-full md:w-1/2 px-2 mb-6 md:mb-0">
                             <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="name">
-                                {{ __('Departamento') }}
+                                {{ __('Cargo') }}
                             </label>
                             <x-jet-input id="name" class="form-control block w-full filter-field" type="text" name="name" :value="app('request')->input('name')" autofocus autocomplete="name" />
                         </div>
                     </div>
                 </div>
                 <div class="flex mt-4">
-                    <table id="departments_table" class="table table-responsive md:table w-full">
-                        @include('departments.filter-result', ['departments' => $departments, 'ascending' => $ascending, 'orderBy' => $orderBy])
+                    <table id="occupations_table" class="table table-responsive md:table w-full">
+                        @include('occupations.filter-result', ['occupations' => $occupations, 'ascending' => $ascending, 'orderBy' => $orderBy])
                     </table>
                 </div>
                 <div class="flex mt-4 p-2" id="pagination">
-                        {{ $departments->appends(request()->input())->links() }}
+                        {{ $occupations->appends(request()->input())->links() }}
                 </div>
             </div>
         </div>
     </div>
 
-    <x-modal title="{{ __('Excluir Departamento') }}"
-             msg="{{ __('Deseja realmente apagar esse Departamento?') }}"
-             confirm="{{ __('Sim') }}" cancel="{{ __('Não') }}" id="delete_department_modal"
+    <x-modal title="{{ __('Excluir Cargo') }}"
+             msg="{{ __('Deseja realmente apagar esse Cargo?') }}"
+             confirm="{{ __('Sim') }}" cancel="{{ __('Não') }}" id="delete_occupation_modal"
              method="DELETE"
-             redirect-url="{{ route('departments.index') }}"/>
+             redirect-url="{{ route('occupations.index') }}"/>
 
     <script>
         window.addEventListener("load", function() {
             var filterCallback = function (event) {
                 var ajax = new XMLHttpRequest();
-                var url = "{!! route('departments.filter') !!}";
+                var url = "{!! route('occupations.filter') !!}";
                 var token = document.querySelector('meta[name="csrf-token"]').content;
                 var method = 'POST';
                 var paginationPerPage = document.getElementById("paginate_per_page").value;
@@ -67,7 +67,7 @@
                 ajax.onreadystatechange = function() {
                     if (this.readyState == 4 && this.status == 200) {
                         var resp = JSON.parse(ajax.response);
-                        document.getElementById("departments_table").innerHTML = resp.filter_result;
+                        document.getElementById("occupations_table").innerHTML = resp.filter_result;
                         document.getElementById("pagination").innerHTML = resp.pagination;
                         eventsFilterCallback();
                         eventsDeleteCallback();
@@ -98,7 +98,7 @@
                 ascending = this.dataset.ascending;
                 var that = this;
                 var ajax = new XMLHttpRequest();
-                var url = "{!! route('departments.filter') !!}";
+                var url = "{!! route('occupations.filter') !!}";
                 var token = document.querySelector('meta[name="csrf-token"]').content;
                 var method = 'POST';
                 var paginationPerPage = document.getElementById("paginate_per_page").value;
@@ -110,7 +110,7 @@
                 ajax.onreadystatechange = function() {
                     if (this.readyState == 4 && this.status == 200) {
                         var resp = JSON.parse(ajax.response);
-                        document.getElementById("departments_table").innerHTML = resp.filter_result;
+                        document.getElementById("occupations_table").innerHTML = resp.filter_result;
                         document.getElementById("pagination").innerHTML = resp.pagination;
                         that.dataset.ascending = that.dataset.ascending == 'asc' ? that.dataset.ascending = 'desc' : that.dataset.ascending = 'asc';
                         eventsFilterCallback();
@@ -139,24 +139,24 @@
                     item.addEventListener('change', filterCallback, false);
                     item.addEventListener('keyup', filterCallback, false);
                 });
-                document.querySelectorAll("#departments_table thead [data-name]").forEach(item => {
+                document.querySelectorAll("#occupations_table thead [data-name]").forEach(item => {
                     item.addEventListener("click", orderByCallback, false);
                 });
             }
 
             function eventsDeleteCallback() {
-                document.querySelectorAll('.delete-departments').forEach(item => {
+                document.querySelectorAll('.delete-occupations').forEach(item => {
                 item.addEventListener("click", function() {
                     if(this.dataset.type != 'multiple') {
                         var url = this.dataset.url;
-                        var modal = document.getElementById("delete_department_modal");
+                        var modal = document.getElementById("delete_occupation_modal");
                         modal.dataset.url = url;
                         modal.classList.remove("hidden");
                         modal.classList.add("block");
                     }
                     else {
                         var urls = '';
-                        document.querySelectorAll('input:checked.departments-url').forEach((item, index, arr) => {
+                        document.querySelectorAll('input:checked.occupations-url').forEach((item, index, arr) => {
                             urls += item.value ;
                             if(index < (arr.length - 1)) {
                                 urls += ',';
@@ -164,7 +164,7 @@
                         });
 
                         if(urls.length > 0) {
-                            var modal = document.getElementById("delete_department_modal");
+                            var modal = document.getElementById("delete_occupation_modal");
                             modal.dataset.url = urls;
                             modal.classList.remove("hidden");
                             modal.classList.add("block");
