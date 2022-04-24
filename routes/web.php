@@ -11,6 +11,7 @@ use App\Http\Controllers\ProjectController;
 use App\Http\Controllers\ReplaceController;
 use App\Http\Controllers\CampaignController;
 use App\Http\Controllers\CustomerController;
+use App\Http\Controllers\DepartmentController;
 use App\Http\Controllers\EmailConfigController;
 use App\Http\Controllers\GuidingValueController;
 use App\Http\Controllers\AnalysisOrderController;
@@ -66,6 +67,7 @@ Route::group(['middleware' => ['auth:sanctum', 'verified']], function() {
     })->name('dashboard');
 
 
+    /** USERS */
     Route::resource('usuarios', UserController::class, [
         'names' => 'users'])->parameters([
         'usuarios' => 'user'
@@ -85,6 +87,15 @@ Route::group(['middleware' => ['auth:sanctum', 'verified']], function() {
         });
     });
 
+    /** DEPARTMENT */
+    Route::resource('departamentos', DepartmentController::class, [
+        'names' => 'departments'])->parameters([
+        'departamentos' => 'department'
+    ]);
+
+    Route::prefix('departamentos')->name('departments.')->group(function(){
+        Route::post('/filter', [DepartmentController::class, 'filter'])->name('filter');
+    });
 });
 
 
