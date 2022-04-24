@@ -7,6 +7,7 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\UnityController;
 use App\Http\Controllers\ExportController;
 use App\Http\Controllers\ImportController;
+use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProjectController;
 use App\Http\Controllers\ReplaceController;
 use App\Http\Controllers\CampaignController;
@@ -106,6 +107,16 @@ Route::group(['middleware' => ['auth:sanctum', 'verified']], function() {
 
     Route::prefix('cargos')->name('occupations.')->group(function(){
         Route::post('/filter', [OccupationController::class, 'filter'])->name('filter');
+    });
+
+    /** PRODUCT */
+    Route::resource('productos', ProductController::class, [
+        'names' => 'products'])->parameters([
+        'productos' => 'product'
+    ]);
+
+    Route::prefix('productos')->name('products.')->group(function(){
+        Route::post('/filter', [ProductController::class, 'filter'])->name('filter');
     });
 });
 
