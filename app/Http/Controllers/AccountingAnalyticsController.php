@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use App\Models\AccountingAnalytics;
+use Illuminate\Support\Facades\Validator;
 
 class AccountingAnalyticsController extends Controller
 {
@@ -107,22 +109,27 @@ class AccountingAnalyticsController extends Controller
     {
         $accountingClassification = AccountingAnalytics::findOrFail($id);
 
-        $this->validating($request);
+        $validator = Validator::make($request->all(), [
+            'value' => ['required', 'numeric'],
+            'justification' => ['required', 'string']
+        ]);
+
+        if ($validator->fails())
+        {
+            return response()->json($validator->messages(), Response::HTTP_BAD_REQUEST);
+        }
 
         $input = $request->all();
 
         $accountingClassification->update([
-            'name' => $input['name'],
-            'classification' => $input['classification'],
             'value' => $input['value'],
+            'justification' => $input['justification'],
         ]);
 
-        $resp = [
-            'message' => __('Analítico Contábil Atualizado com Sucesso!'),
+        return response()->json([
+            'message' => __('Valores atualizados com sucesso!'),
             'alert-type' => 'success'
-        ];
-
-        return redirect()->route('accounting-analytics.index')->with($resp);
+        ]);
     }
 
     /**

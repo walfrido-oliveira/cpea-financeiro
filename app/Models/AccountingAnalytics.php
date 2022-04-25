@@ -17,7 +17,7 @@ class AccountingAnalytics extends Model
      * @var array
      */
     protected $fillable = [
-        'name', 'value', 'classification', 'accounting_control_id'
+        'name', 'value', 'classification', 'accounting_control_id', 'justification'
     ];
 
     /**

@@ -52,6 +52,9 @@
         </div>
     </div>
 
+    @include('accounting-analytics.edit-modal')
+    <x-spin-load />
+
     <x-modal title="{{ __('Excluir item') }}"
     msg="{{ __('Deseja realmente apagar esse item?') }}"
     confirm="{{ __('Sim') }}" cancel="{{ __('Não') }}" id="delete_accounting_control_modal"
@@ -204,6 +207,70 @@
 
         eventsDeleteCallback();
         eventsFilterCallback();
+
+
+        function eventsEditCallback() {
+            document.querySelectorAll('.edit-accounting-analytics').forEach(item => {
+                item.addEventListener("click", function() {
+                    var modal = document.getElementById("accounting_analytics_modal");
+                    modal.classList.remove("hidden");
+                    modal.classList.add("block");
+
+                    const id = this.dataset.id;
+                    const value = document.getElementById(`accounting_analytics_value_${id}`).value
+                    const justification = document.getElementById(`accounting_analytics_justification_${id}`).value;
+                    const idValue = document.getElementById(`accounting_analytics_id_${id}`).value;
+
+                    document.querySelector("#accounting_analytics_modal #value").value = value;
+                    document.querySelector("#accounting_analytics_modal #justification").value = justification;
+                    document.querySelector("#accounting_analytics_modal #id").value = idValue;
+                });
+            });
+        }
+
+        document.getElementById("accounting_analytics_cancel_modal").addEventListener("click", function(e) {
+            var modal = document.getElementById("accounting_analytics_modal");
+            modal.classList.add("hidden");
+        });
+
+        document.getElementById("accounting_analytics_confirm_modal").addEventListener("click", function(e) {
+            document.getElementById("spin_load").classList.remove("hidden");
+
+            let ajax = new XMLHttpRequest();
+            let token = document.querySelector('meta[name="csrf-token"]').content;
+            let method = 'PUT';
+            let value = document.querySelector("#accounting_analytics_modal #value").value;
+            let justification = document.querySelector("#accounting_analytics_modal #justification").value
+            let id = document.querySelector("#accounting_analytics_modal #id").value
+            let url = "{!! route('accounting-analytics.update', ['accounting_analytics' => '#']) !!}".replace("#", id);
+
+            ajax.open("POST", url);
+
+            ajax.onreadystatechange = function() {
+                if (this.readyState == 4 && this.status == 200) {
+                    var resp = JSON.parse(ajax.response);
+                    document.getElementById("spin_load").classList.add("hidden");
+                    toastr.success(resp.message);
+
+                    location.reload();
+                } else if(this.readyState == 4 && this.status != 200) {
+                    document.getElementById("spin_load").classList.add("hidden");
+                    toastr.error("{!! __('Um erro ocorreu ao solicitar a consulta') !!}");
+                }
+            }
+
+            var data = new FormData();
+            data.append('_token', token);
+            data.append('_method', method);
+            data.append('value', value);
+            data.append('justification', justification);
+            data.append('id', id);
+
+            ajax.send(data);
+
+        });
+
+        eventsEditCallback();
       });
     </script>
 </x-app-layout>

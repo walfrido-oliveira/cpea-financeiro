@@ -20,6 +20,7 @@ class CreateAccountingAnalyticsTable extends Migration
             $table->string('classification');
             $table->string('name');
             $table->decimal('value', 10, 1);
+            $table->string('justification');
             $table->timestamps();
         });
     }
