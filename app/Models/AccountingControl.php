@@ -17,7 +17,7 @@ class AccountingControl extends Model
      * @var array
      */
     protected $fillable = [
-        'month'
+        'month', 'obs'
     ];
 
     /**

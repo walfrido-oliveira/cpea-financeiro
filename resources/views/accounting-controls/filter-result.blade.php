@@ -17,7 +17,7 @@
                 <input class="form-checkbox accounting-controls-url" type="checkbox" name="accounting_controls[{{ $accountingControl->id }}]" value="{!! route('accounting-controls.destroy', ['accounting_control' => $accountingControl->id]) !!}">
             </td>
             <td>
-                <a class="text-item-table" href="{{ route('accounting-controls.show', ['accounting_control' => $accountingControl->id]) }}">{{ $accountingControl->month }}</a>
+                <a class="text-item-table text-green-600 underline" href="{{ route('accounting-controls.show', ['accounting_control' => $accountingControl->id]) }}">{{ $accountingControl->month }}</a>
             </td>
             <td>
                 <a class="text-item-table" href="{{ route('accounting-controls.show', ['accounting_control' => $accountingControl->id]) }}">{{ $accountingControl->obs }}</a>

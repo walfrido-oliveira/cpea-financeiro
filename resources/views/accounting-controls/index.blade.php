@@ -10,13 +10,12 @@
                     <form action="{{ route('accounting-controls.import') }}" method="POST">
                         @csrf
                         @method("POST")
-                        <input type="file" name="file" id="file" accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet|application/vnd.ms-excel" class="hidden">
                         <div class="m-2 ">
                             <button id="import" type="button" class="btn-outline-info">{{ __('Importar') }}</button>
                         </div>
                     </form>
                     <div class="m-2">
-                        <button type="button" class="btn-outline-danger delete_accounting_classifications" data-type="multiple">{{ __('Apagar') }}</button>
+                        <button type="button" class="btn-outline-danger delete_accounting_controlls" data-type="multiple">{{ __('Apagar') }}</button>
                     </div>
                 </div>
             </div>
@@ -39,7 +38,7 @@
                     </div>
                 </div>
                 <div class="flex mt-4">
-                    <table id="accounting_classifications_table" class="table table-responsive md:table w-full">
+                    <table id="accounting_controls_table" class="table table-responsive md:table w-full">
                         @include('accounting-controls.filter-result', ['accounting-controls' => $accountingControls, 'ascending' => $ascending, 'orderBy' => $orderBy])
                     </table>
                 </div>
@@ -50,24 +49,38 @@
         </div>
     </div>
 
+    @include('accounting-controls.create-modal')
     <x-spin-load />
 
     <x-modal title="{{ __('Excluir Classificações Contábeis') }}"
              msg="{{ __('Deseja realmente apagar esse Classificações Contábeis?') }}"
-             confirm="{{ __('Sim') }}" cancel="{{ __('Não') }}" id="delete_accounting_classification_modal"
+             confirm="{{ __('Sim') }}" cancel="{{ __('Não') }}" id="delete_accounting_control_modal"
              method="DELETE"
              redirect-url="{{ route('accounting-controls.index') }}"/>
 
     <script>
-        document.getElementById("file").addEventListener("change", function(e) {
+        document.getElementById("import").addEventListener("click", function() {
+            var modal = document.getElementById("import_modal");
+            modal.classList.remove("hidden");
+            modal.classList.add("block");
+        });
+
+        document.getElementById("import_cancel_modal").addEventListener("click", function(e) {
+            var modal = document.getElementById("import_modal");
+            modal.classList.add("hidden");
+        });
+
+        document.getElementById("import_confirm_modal").addEventListener("click", function(e) {
             document.getElementById("spin_load").classList.remove("hidden");
 
             let ajax = new XMLHttpRequest();
             let url = "{!! route('accounting-controls.import') !!}";
             let token = document.querySelector('meta[name="csrf-token"]').content;
             let method = 'POST';
-            let that = document.querySelector('#file');
-            let files = that.files;
+            let file = document.getElementById("file")
+            let files = file.files;
+            let month = document.querySelector("#import_modal #month").value;
+            let obs = document.getElementById("obs").value;
 
             ajax.open(method, url);
 
@@ -76,11 +89,13 @@
                     var resp = JSON.parse(ajax.response);
                     document.getElementById("spin_load").classList.add("hidden");
                     toastr.success(resp.message);
-                    that.value='';
+                    file.value='';
+
+                    location.reload();
                 } else if(this.readyState == 4 && this.status != 200) {
                     document.getElementById("spin_load").classList.add("hidden");
                     toastr.error("{!! __('Um erro ocorreu ao solicitar a consulta') !!}");
-                    that.value = '';
+                    file.value = '';
                 }
             }
 
@@ -89,14 +104,13 @@
             data.append('_method', method);
             data.append('_method', method);
             data.append('file', files[0]);
+            data.append('month', month);
+            data.append('obs', obs);
 
             ajax.send(data);
 
         });
 
-        document.getElementById("import").addEventListener("click", function() {
-            document.getElementById("file").click();
-        });
     </script>
 
     <script>
@@ -115,7 +129,7 @@
                 ajax.onreadystatechange = function() {
                     if (this.readyState == 4 && this.status == 200) {
                         var resp = JSON.parse(ajax.response);
-                        document.getElementById("accounting_classifications_table").innerHTML = resp.filter_result;
+                        document.getElementById("accounting_controls_table").innerHTML = resp.filter_result;
                         document.getElementById("pagination").innerHTML = resp.pagination;
                         eventsFilterCallback();
                         eventsDeleteCallback();
@@ -158,7 +172,7 @@
                 ajax.onreadystatechange = function() {
                     if (this.readyState == 4 && this.status == 200) {
                         var resp = JSON.parse(ajax.response);
-                        document.getElementById("accounting_classifications_table").innerHTML = resp.filter_result;
+                        document.getElementById("accounting_controls_table").innerHTML = resp.filter_result;
                         document.getElementById("pagination").innerHTML = resp.pagination;
                         that.dataset.ascending = that.dataset.ascending == 'asc' ? that.dataset.ascending = 'desc' : that.dataset.ascending = 'asc';
                         eventsFilterCallback();
@@ -187,17 +201,17 @@
                     item.addEventListener('change', filterCallback, false);
                     item.addEventListener('keyup', filterCallback, false);
                 });
-                document.querySelectorAll("#accounting_classifications_table thead [data-name]").forEach(item => {
+                document.querySelectorAll("#accounting_controls_table thead [data-name]").forEach(item => {
                     item.addEventListener("click", orderByCallback, false);
                 });
             }
 
             function eventsDeleteCallback() {
-                document.querySelectorAll('.delete_accounting_classifications').forEach(item => {
+                document.querySelectorAll('.delete-accounting-controls').forEach(item => {
                 item.addEventListener("click", function() {
                     if(this.dataset.type != 'multiple') {
                         var url = this.dataset.url;
-                        var modal = document.getElementById("delete_accounting_classification_modal");
+                        var modal = document.getElementById("delete_accounting_control_modal");
                         modal.dataset.url = url;
                         modal.classList.remove("hidden");
                         modal.classList.add("block");
@@ -212,7 +226,7 @@
                         });
 
                         if(urls.length > 0) {
-                            var modal = document.getElementById("delete_accounting_classification_modal");
+                            var modal = document.getElementById("delete_accounting_control_modal");
                             modal.dataset.url = urls;
                             modal.classList.remove("hidden");
                             modal.classList.add("block");

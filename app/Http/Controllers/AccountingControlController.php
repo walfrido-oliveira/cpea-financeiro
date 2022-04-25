@@ -175,14 +175,17 @@ class AccountingControlController extends Controller
      */
     public function import(Request $request)
     {
+        #dd($request->obs);
         $validator = Validator::make($request->all(), [
-            'file' => ['required', 'file', 'mimes:application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,application/vnd.ms-excel'],
+            'file' => 'required|mimes:xls,xlsx|max:4096',
         ]);
 
         if ($validator->fails())
         {
             return response()->json($validator->messages(), Response::HTTP_BAD_REQUEST);
         }
+
+        $inputs = $request->all();
 
         if($request->file)
         {
@@ -206,10 +209,10 @@ class AccountingControlController extends Controller
                 }
             }
 
-            $resp = [
-                'message' => __('Arquivo importado com sucesso!'),
-                'alert-type' => 'success'
-            ];
+            AccountingControl::create([
+                'month' => $inputs['month'],
+                'obs' => $inputs['obs'],
+            ]);
 
             return response()->json([
                 'message' => __('Arquivo importado com sucesso!'),
