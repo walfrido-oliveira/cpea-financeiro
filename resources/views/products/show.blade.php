@@ -71,8 +71,8 @@
         </div>
     </div>
 
-    <x-modal title="{{ __('Excluir usuário') }}"
-             msg="{{ __('Deseja realmente apagar esse usuário?') }}"
+    <x-modal title="{{ __('Excluir produto') }}"
+             msg="{{ __('Deseja realmente apagar esse produto?') }}"
              confirm="{{ __('Sim') }}" cancel="{{ __('Não') }}" id="delete_product_modal"
              method="DELETE"
              url="{{ route('products.destroy', ['product' => $product->id]) }}"

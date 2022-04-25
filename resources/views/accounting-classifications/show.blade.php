@@ -10,10 +10,10 @@
                         <a class="btn-outline-info" href="{{ route('accounting-classifications.index') }}">{{ __('Listar') }}</a>
                     </div>
                     <div class="m-2">
-                        <a class="btn-outline-warning" href="{{ route('accounting-classifications.edit', ['accounting-classification' => $accountingClassification->id]) }}">{{ __('Editar') }}</a>
+                        <a class="btn-outline-warning" href="{{ route('accounting-classifications.edit', ['accounting_classification' => $accountingClassification->id]) }}">{{ __('Editar') }}</a>
                     </div>
                     <div class="m-2">
-                        <button type="button" class="btn-outline-danger delete-accounting-classification" id="accounting-classification_delete" data-toggle="modal" data-target="#delete_modal" data-id="{{ $accountingClassification->id }}">{{ __('Apagar') }}</button>
+                        <button type="button" class="btn-outline-danger delete-accounting-classification" id="accounting_classification_delete" data-toggle="modal" data-target="#delete_modal" data-id="{{ $accountingClassification->id }}">{{ __('Apagar') }}</button>
                     </div>
                 </div>
             </div>
@@ -32,10 +32,28 @@
 
                     <div class="flex flex-wrap">
                         <div class="w-full md:w-2/12">
-                            <p class="font-bold">{{ __('Nome') }}</p>
+                            <p class="font-bold">{{ __('Descrição') }}</p>
                         </div>
                         <div class="w-full md:w-1/2">
                             <p class="text-gray-500 font-bold">{{ $accountingClassification->name }}</p>
+                        </div>
+                    </div>
+
+                    <div class="flex flex-wrap">
+                        <div class="w-full md:w-2/12">
+                            <p class="font-bold">{{ __('Classificação') }}</p>
+                        </div>
+                        <div class="w-full md:w-1/2">
+                            <p class="text-gray-500 font-bold">{{ $accountingClassification->classification }}</p>
+                        </div>
+                    </div>
+
+                    <div class="flex flex-wrap">
+                        <div class="w-full md:w-2/12">
+                            <p class="font-bold">{{ __('Nível') }}</p>
+                        </div>
+                        <div class="w-full md:w-1/2">
+                            <p class="text-gray-500 font-bold">{{ $accountingClassification->level }}</p>
                         </div>
                     </div>
 
@@ -71,11 +89,11 @@
         </div>
     </div>
 
-    <x-modal title="{{ __('Excluir usuário') }}"
-             msg="{{ __('Deseja realmente apagar esse usuário?') }}"
+    <x-modal title="{{ __('Excluir Classificação Contábil') }}"
+             msg="{{ __('Deseja realmente apagar esse Classificação Contábil?') }}"
              confirm="{{ __('Sim') }}" cancel="{{ __('Não') }}" id="delete_accounting_classification_modal"
              method="DELETE"
-             url="{{ route('accounting-classifications.destroy', ['accounting-classification' => $accountingClassification->id]) }}"
+             url="{{ route('accounting-classifications.destroy', ['accounting_classification' => $accountingClassification->id]) }}"
              redirect-url="{{ route('accounting-classifications.index') }}"/>
 
     <script>

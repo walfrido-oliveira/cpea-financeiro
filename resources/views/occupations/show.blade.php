@@ -71,8 +71,8 @@
         </div>
     </div>
 
-    <x-modal title="{{ __('Excluir usuário') }}"
-             msg="{{ __('Deseja realmente apagar esse usuário?') }}"
+    <x-modal title="{{ __('Excluir cargo') }}"
+             msg="{{ __('Deseja realmente apagar esse cargo?') }}"
              confirm="{{ __('Sim') }}" cancel="{{ __('Não') }}" id="delete_occupation_modal"
              method="DELETE"
              url="{{ route('occupations.destroy', ['occupation' => $occupation->id]) }}"

@@ -71,8 +71,8 @@
         </div>
     </div>
 
-    <x-modal title="{{ __('Excluir usuário') }}"
-             msg="{{ __('Deseja realmente apagar esse usuário?') }}"
+    <x-modal title="{{ __('Excluir Cliente') }}"
+             msg="{{ __('Deseja realmente apagar esse Cliente?') }}"
              confirm="{{ __('Sim') }}" cancel="{{ __('Não') }}" id="delete_customer_modal"
              method="DELETE"
              url="{{ route('customers.destroy', ['customer' => $customer->id]) }}"

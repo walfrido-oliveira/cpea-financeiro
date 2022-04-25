@@ -71,8 +71,8 @@
         </div>
     </div>
 
-    <x-modal title="{{ __('Excluir usuário') }}"
-             msg="{{ __('Deseja realmente apagar esse usuário?') }}"
+    <x-modal title="{{ __('Excluir departamento') }}"
+             msg="{{ __('Deseja realmente apagar esse departamento?') }}"
              confirm="{{ __('Sim') }}" cancel="{{ __('Não') }}" id="delete_department_modal"
              method="DELETE"
              url="{{ route('departments.destroy', ['department' => $department->id]) }}"
