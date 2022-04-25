@@ -4,9 +4,11 @@ namespace App\Http\Controllers;
 
 use stdClass;
 use Illuminate\Http\Request;
-use App\Models\AccountingControl;
-use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\Response;
+use App\Models\AccountingControl;
+use App\Models\AccountingAnalytics;
+use PhpOffice\PhpSpreadsheet\IOFactory;
+use Illuminate\Support\Facades\Validator;
 
 class AccountingControlController extends Controller
 {
@@ -32,7 +34,7 @@ class AccountingControlController extends Controller
     {
         $accountingControls =  AccountingControl::filter($request->all());
         $ascending = isset($query['ascending']) ? $query['ascending'] : 'desc';
-        $orderBy = isset($query['order_by']) ? $query['order_by'] : 'name';
+        $orderBy = isset($query['order_by']) ? $query['order_by'] : 'created_at';
 
         return view('accounting-controls.index', compact('accountingControls', 'ascending', 'orderBy'));
     }
@@ -81,7 +83,12 @@ class AccountingControlController extends Controller
     public function show($id)
     {
         $accountingControl = AccountingControl::findOrFail($id);
-        return view('accounting-controls.show', compact('accountingControl'));
+        $accountingAnalytics = AccountingAnalytics::filter(['accounting_control_id' => $id]);
+
+        $ascending = isset($query['ascending']) ? $query['ascending'] : 'desc';
+        $orderBy = isset($query['order_by']) ? $query['order_by'] : 'created_at';
+
+        return view('accounting-controls.show', compact('accountingControl', 'accountingAnalytics', 'ascending', 'orderBy'));
     }
 
     /**
@@ -175,7 +182,6 @@ class AccountingControlController extends Controller
      */
     public function import(Request $request)
     {
-        #dd($request->obs);
         $validator = Validator::make($request->all(), [
             'file' => 'required|mimes:xls,xlsx|max:4096',
         ]);
@@ -189,30 +195,40 @@ class AccountingControlController extends Controller
 
         if($request->file)
         {
-            $imports = [];
-            $index = 0;
-            $file_handle = fopen($request->file, 'r');
-            while (!feof($file_handle))
-            {
-                $items[] = fgetcsv($file_handle, 0, ";");
-                $index++;
-            }
-            array_pop($items);
 
-            foreach ($items as $key => $value)
-            {
-                if($key > 1)
-                {
-
-                    $obj = new stdClass();
-                    $imports[] = $obj;
-                }
-            }
-
-            AccountingControl::create([
+            $accountingControl = AccountingControl::create([
                 'month' => $inputs['month'],
                 'obs' => $inputs['obs'],
             ]);
+
+            $spreadsheet = IOFactory::load($request->file->path());
+            $worksheet = $spreadsheet->getActiveSheet();
+            $rows = $worksheet->toArray();
+
+            foreach($rows as $key => $value)
+            {
+                if($key <= 1) continue;
+                $validator = Validator::make([
+                    'classification' => $value[0],
+                    'name' => $value[1],
+                    'value' => $value[2],
+                ],
+                [
+                    'name' => ['required', 'string', 'max:255'],
+                    'value' => ['required', 'numeric'],
+                    'classification' => ['required', 'string']
+                ]);
+
+                if (!$validator->fails())
+                {
+                    AccountingAnalytics::create([
+                        'classification' => $value[0],
+                        'name' => $value[1],
+                        'value' => $value[2],
+                        'accounting_control_id' => $accountingControl->id
+                    ]);
+                }
+            }
 
             return response()->json([
                 'message' => __('Arquivo importado com sucesso!'),

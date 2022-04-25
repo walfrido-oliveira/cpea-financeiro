@@ -21,6 +21,14 @@ class AccountingControl extends Model
     ];
 
     /**
+     * The Accounting Analytics
+     */
+    public function accountingAnalytics()
+    {
+        return $this->hasMany(AccountingAnalytics::class);
+    }
+
+    /**
      * Find users in dabase
      *
      * @param Array

@@ -15,7 +15,7 @@
                         </div>
                     </form>
                     <div class="m-2">
-                        <button type="button" class="btn-outline-danger delete_accounting_controlls" data-type="multiple">{{ __('Apagar') }}</button>
+                        <button type="button" class="btn-outline-danger delete-accounting-controls" data-type="multiple">{{ __('Apagar') }}</button>
                     </div>
                 </div>
             </div>

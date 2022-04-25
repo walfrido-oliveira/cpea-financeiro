@@ -33,6 +33,7 @@ use App\Http\Controllers\ParameterAnalysisController;
 use App\Http\Controllers\PreparationMethodController;
 use App\Http\Controllers\AnalysisResultFileController;
 use App\Http\Controllers\ProjectPointMatrixController;
+use App\Http\Controllers\AccountingAnalyticsController;
 use App\Http\Controllers\CalculationVariableController;
 use App\Http\Controllers\EnvironmentalAgencyController;
 use App\Http\Controllers\PointIdentificationController;
@@ -150,6 +151,16 @@ Route::group(['middleware' => ['auth:sanctum', 'verified']], function() {
     Route::prefix('controle-contabeis')->name('accounting-controls.')->group(function(){
         Route::post('/filter', [AccountingControlController::class, 'filter'])->name('filter');
         Route::post('/import', [AccountingControlController::class, 'import'])->name('import');
+    });
+
+    /** Accounting Analytics */
+    Route::resource('analitico-contabil', AccountingAnalyticsController::class, [
+        'names' => 'accounting-analytics'])->parameters([
+        'analitico-contabil' => 'accounting-analytics'
+    ]);
+
+    Route::prefix('analitico-contabil')->name('accounting-analytics.')->group(function(){
+        Route::post('/filter', [AccountingAnalyticsController::class, 'filter'])->name('filter');
     });
 });
 
