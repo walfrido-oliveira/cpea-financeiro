@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use stdClass;
+use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use App\Models\AccountingControl;
@@ -211,7 +212,7 @@ class AccountingControlController extends Controller
                 $validator = Validator::make([
                     'classification' => $value[0],
                     'name' => $value[1],
-                    'value' => $value[2],
+                    'value' => Str::replace(',', '', $value[2]),
                 ],
                 [
                     'name' => ['required', 'string', 'max:255'],
@@ -224,7 +225,7 @@ class AccountingControlController extends Controller
                     AccountingAnalytics::create([
                         'classification' => $value[0],
                         'name' => $value[1],
-                        'value' => $value[2],
+                        'value' => Str::replace(',', '', $value[2]),
                         'accounting_control_id' => $accountingControl->id
                     ]);
                 }
