@@ -15,6 +15,8 @@ class CreateAccountingControlsTable extends Migration
     {
         Schema::create('accounting_controls', function (Blueprint $table) {
             $table->id();
+            $table->string("month");
+            $table->string("obs");
             $table->timestamps();
         });
     }

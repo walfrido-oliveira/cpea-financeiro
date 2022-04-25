@@ -11,7 +11,7 @@
                         <a class="btn-outline-info" href="{{ route('accounting-classifications.create') }}" >{{ __('Cadastrar') }}</a>
                     </div>
                     <div class="m-2">
-                        <button type="button" class="btn-outline-danger delete_accounting_classifications" data-type="multiple">{{ __('Apagar') }}</a>
+                        <button type="button" class="btn-outline-danger delete_accounting_classifications" data-type="multiple">{{ __('Apagar') }}</button>
                     </div>
                 </div>
             </div>

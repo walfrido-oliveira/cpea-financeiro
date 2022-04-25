@@ -67,7 +67,7 @@ class AccountingClassificationController extends Controller
         ]);
 
         $resp = [
-            'message' => __('Classificações Contábel Cadastrado com Sucesso!'),
+            'message' => __('Classificação Contábel Cadastrado com Sucesso!'),
             'alert-type' => 'success'
         ];
 
@@ -121,7 +121,7 @@ class AccountingClassificationController extends Controller
         ]);
 
         $resp = [
-            'message' => __('Classificações Contábel Atualizado com Sucesso!'),
+            'message' => __('Classificação Contábel Atualizado com Sucesso!'),
             'alert-type' => 'success'
         ];
 
@@ -141,7 +141,7 @@ class AccountingClassificationController extends Controller
         $accountingClassification->delete();
 
         return response()->json([
-            'message' => __('Classificações Contábel Apagado com Sucesso!!'),
+            'message' => __('Classificação Contábel Apagado com Sucesso!!'),
             'alert-type' => 'success'
         ]);
     }

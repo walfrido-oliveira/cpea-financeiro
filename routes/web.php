@@ -26,6 +26,7 @@ use App\Http\Controllers\SampleAnalysisController;
 use App\Http\Controllers\ParameterMethodController;
 use App\Http\Controllers\PlanActionLevelController;
 use App\Http\Controllers\GuidingParameterController;
+use App\Http\Controllers\AccountingControlController;
 use App\Http\Controllers\AnalysisParameterController;
 use App\Http\Controllers\EnvironmentalAreaController;
 use App\Http\Controllers\ParameterAnalysisController;
@@ -138,6 +139,17 @@ Route::group(['middleware' => ['auth:sanctum', 'verified']], function() {
 
     Route::prefix('classificacao-contabeis')->name('accounting-classifications.')->group(function(){
         Route::post('/filter', [AccountingClassificationController::class, 'filter'])->name('filter');
+    });
+
+    /** Accounting Control */
+    Route::resource('controle-contabeis', AccountingControlController::class, [
+        'names' => 'accounting-controls'])->parameters([
+        'controle-contabeis' => 'accounting-control'
+    ]);
+
+    Route::prefix('controle-contabeis')->name('accounting-controls.')->group(function(){
+        Route::post('/filter', [AccountingControlController::class, 'filter'])->name('filter');
+        Route::post('/import', [AccountingControlController::class, 'import'])->name('import');
     });
 });
 

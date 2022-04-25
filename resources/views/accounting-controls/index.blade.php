@@ -1,17 +1,22 @@
 <x-app-layout>
-    <div class="py-6 index-customers">
+    <div class="py-6 index-accounting-controls">
         <div class="md:max-w-6xl lg:max-w-full mx-auto px-4">
 
             <div class="flex md:flex-row flex-col">
                 <div class="w-full flex items-center">
-                    <h1>{{ __('Cliente') }}</h1>
+                    <h1>{{ __('Lista de Controles Contabeis') }}</h1>
                 </div>
                 <div class="w-full flex justify-end">
-                    <div class="m-2 ">
-                        <a class="btn-outline-info" href="{{ route('customers.create') }}" >{{ __('Cadastrar') }}</a>
-                    </div>
+                    <form action="{{ route('accounting-controls.import') }}" method="POST">
+                        @csrf
+                        @method("POST")
+                        <input type="file" name="file" id="file" accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet|application/vnd.ms-excel" class="hidden">
+                        <div class="m-2 ">
+                            <button id="import" type="button" class="btn-outline-info">{{ __('Importar') }}</button>
+                        </div>
+                    </form>
                     <div class="m-2">
-                        <button type="button" class="btn-outline-danger delete-customers" data-type="multiple">{{ __('Apagar') }}</button>
+                        <button type="button" class="btn-outline-danger delete_accounting_classifications" data-type="multiple">{{ __('Apagar') }}</button>
                     </div>
                 </div>
             </div>
@@ -26,48 +31,91 @@
                             <x-jet-input id="id" class="form-control block w-full filter-field" type="text" name="id" :value="app('request')->input('id')" autofocus autocomplete="id" />
                         </div>
                         <div class="w-full md:w-1/2 px-2 mb-6 md:mb-0">
-                            <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="name">
-                                {{ __('Cliente') }}
+                            <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="month">
+                                {{ __('Mês') }}
                             </label>
-                            <x-jet-input id="name" class="form-control block w-full filter-field" type="text" name="name" :value="app('request')->input('name')" autofocus autocomplete="name" />
+                            <x-jet-input id="month" class="form-control block w-full filter-field" type="text" name="month" :value="app('request')->input('month')" autofocus autocomplete="month" />
                         </div>
                     </div>
                 </div>
                 <div class="flex mt-4">
-                    <table id="customers_table" class="table table-responsive md:table w-full">
-                        @include('customers.filter-result', ['customers' => $customers, 'ascending' => $ascending, 'orderBy' => $orderBy])
+                    <table id="accounting_classifications_table" class="table table-responsive md:table w-full">
+                        @include('accounting-controls.filter-result', ['accounting-controls' => $accountingControls, 'ascending' => $ascending, 'orderBy' => $orderBy])
                     </table>
                 </div>
                 <div class="flex mt-4 p-2" id="pagination">
-                        {{ $customers->appends(request()->input())->links() }}
+                        {{ $accountingControls->appends(request()->input())->links() }}
                 </div>
             </div>
         </div>
     </div>
 
-    <x-modal title="{{ __('Excluir Cliente') }}"
-             msg="{{ __('Deseja realmente apagar esse Cliente?') }}"
-             confirm="{{ __('Sim') }}" cancel="{{ __('Não') }}" id="delete_customer_modal"
+    <x-spin-load />
+
+    <x-modal title="{{ __('Excluir Classificações Contábeis') }}"
+             msg="{{ __('Deseja realmente apagar esse Classificações Contábeis?') }}"
+             confirm="{{ __('Sim') }}" cancel="{{ __('Não') }}" id="delete_accounting_classification_modal"
              method="DELETE"
-             redirect-url="{{ route('customers.index') }}"/>
+             redirect-url="{{ route('accounting-controls.index') }}"/>
+
+    <script>
+        document.getElementById("file").addEventListener("change", function(e) {
+            document.getElementById("spin_load").classList.remove("hidden");
+
+            let ajax = new XMLHttpRequest();
+            let url = "{!! route('accounting-controls.import') !!}";
+            let token = document.querySelector('meta[name="csrf-token"]').content;
+            let method = 'POST';
+            let that = document.querySelector('#file');
+            let files = that.files;
+
+            ajax.open(method, url);
+
+            ajax.onreadystatechange = function() {
+                if (this.readyState == 4 && this.status == 200) {
+                    var resp = JSON.parse(ajax.response);
+                    document.getElementById("spin_load").classList.add("hidden");
+                    toastr.success(resp.message);
+                    that.value='';
+                } else if(this.readyState == 4 && this.status != 200) {
+                    document.getElementById("spin_load").classList.add("hidden");
+                    toastr.error("{!! __('Um erro ocorreu ao solicitar a consulta') !!}");
+                    that.value = '';
+                }
+            }
+
+            var data = new FormData();
+            data.append('_token', token);
+            data.append('_method', method);
+            data.append('_method', method);
+            data.append('file', files[0]);
+
+            ajax.send(data);
+
+        });
+
+        document.getElementById("import").addEventListener("click", function() {
+            document.getElementById("file").click();
+        });
+    </script>
 
     <script>
         window.addEventListener("load", function() {
             var filterCallback = function (event) {
                 var ajax = new XMLHttpRequest();
-                var url = "{!! route('customers.filter') !!}";
+                var url = "{!! route('accounting-controls.filter') !!}";
                 var token = document.querySelector('meta[name="csrf-token"]').content;
                 var method = 'POST';
                 var paginationPerPage = document.getElementById("paginate_per_page").value;
                 var id = document.getElementById("id").value;
-                var name = document.getElementById("name").value;
+                var month = document.getElementById("month").value;
 
                 ajax.open(method, url);
 
                 ajax.onreadystatechange = function() {
                     if (this.readyState == 4 && this.status == 200) {
                         var resp = JSON.parse(ajax.response);
-                        document.getElementById("customers_table").innerHTML = resp.filter_result;
+                        document.getElementById("accounting_classifications_table").innerHTML = resp.filter_result;
                         document.getElementById("pagination").innerHTML = resp.pagination;
                         eventsFilterCallback();
                         eventsDeleteCallback();
@@ -85,7 +133,7 @@
                 data.append('ascending', ascending);
                 data.append('order_by', orderBY);
                 if(id) data.append('id', id);
-                if(name) data.append('name', name);
+                if(month) data.append('month', month);
 
                 ajax.send(data);
             }
@@ -98,19 +146,19 @@
                 ascending = this.dataset.ascending;
                 var that = this;
                 var ajax = new XMLHttpRequest();
-                var url = "{!! route('customers.filter') !!}";
+                var url = "{!! route('accounting-controls.filter') !!}";
                 var token = document.querySelector('meta[name="csrf-token"]').content;
                 var method = 'POST';
                 var paginationPerPage = document.getElementById("paginate_per_page").value;
                 var id = document.getElementById("id").value;
-                var name = document.getElementById("name").value;
+                var month = document.getElementById("month").value;
 
                 ajax.open(method, url);
 
                 ajax.onreadystatechange = function() {
                     if (this.readyState == 4 && this.status == 200) {
                         var resp = JSON.parse(ajax.response);
-                        document.getElementById("customers_table").innerHTML = resp.filter_result;
+                        document.getElementById("accounting_classifications_table").innerHTML = resp.filter_result;
                         document.getElementById("pagination").innerHTML = resp.pagination;
                         that.dataset.ascending = that.dataset.ascending == 'asc' ? that.dataset.ascending = 'desc' : that.dataset.ascending = 'asc';
                         eventsFilterCallback();
@@ -129,7 +177,7 @@
                 data.append('ascending', ascending);
                 data.append('order_by', orderBY);
                 if(id) data.append('id', id);
-                if(name) data.append('name', name);
+                if(month) data.append('month', month);
 
                 ajax.send(data);
             }
@@ -139,24 +187,24 @@
                     item.addEventListener('change', filterCallback, false);
                     item.addEventListener('keyup', filterCallback, false);
                 });
-                document.querySelectorAll("#customers_table thead [data-name]").forEach(item => {
+                document.querySelectorAll("#accounting_classifications_table thead [data-name]").forEach(item => {
                     item.addEventListener("click", orderByCallback, false);
                 });
             }
 
             function eventsDeleteCallback() {
-                document.querySelectorAll('.delete-customers').forEach(item => {
+                document.querySelectorAll('.delete_accounting_classifications').forEach(item => {
                 item.addEventListener("click", function() {
                     if(this.dataset.type != 'multiple') {
                         var url = this.dataset.url;
-                        var modal = document.getElementById("delete_customer_modal");
+                        var modal = document.getElementById("delete_accounting_classification_modal");
                         modal.dataset.url = url;
                         modal.classList.remove("hidden");
                         modal.classList.add("block");
                     }
                     else {
                         var urls = '';
-                        document.querySelectorAll('input:checked.customers-url').forEach((item, index, arr) => {
+                        document.querySelectorAll('input:checked.accounting-controls-url').forEach((item, index, arr) => {
                             urls += item.value ;
                             if(index < (arr.length - 1)) {
                                 urls += ',';
@@ -164,7 +212,7 @@
                         });
 
                         if(urls.length > 0) {
-                            var modal = document.getElementById("delete_customer_modal");
+                            var modal = document.getElementById("delete_accounting_classification_modal");
                             modal.dataset.url = urls;
                             modal.classList.remove("hidden");
                             modal.classList.add("block");
