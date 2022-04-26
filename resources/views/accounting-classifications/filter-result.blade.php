@@ -2,6 +2,7 @@
     <tr class="thead-light">
         <x-table-sort-header :orderBy="null" :ascending="null" columnName="" columnText="{{ __('') }}"/>
         <x-table-sort-header :orderBy="$orderBy" :ascending="$ascending" columnName="classification" columnText="{{ __('Classificação') }}"/>
+        <x-table-sort-header :orderBy="$orderBy" :ascending="$ascending" columnName="type_classification" columnText="{{ __('Tipo Classificação') }}"/>
         <x-table-sort-header :orderBy="$orderBy" :ascending="$ascending" columnName="name" columnText="{{ __('Descrição') }}"/>
         <x-table-sort-header :orderBy="$orderBy" :ascending="$ascending" columnName="obs" columnText="{{ __('Observações') }}"/>
         <th scope="col"
@@ -18,6 +19,9 @@
             </td>
             <td>
                 <a class="text-item-table" href="{{ route('accounting-classifications.show', ['accounting_classification' => $accountingClassifications->id]) }}">{{ $accountingClassifications->classification }}</a>
+            </td>
+            <td>
+                <a class="text-item-table" href="{{ route('accounting-classifications.show', ['accounting_classification' => $accountingClassifications->id]) }}">{{ $accountingClassifications->type_classification }}</a>
             </td>
             <td>
                 <a class="text-item-table" href="{{ route('accounting-classifications.show', ['accounting_classification' => $accountingClassifications->id]) }}">{{ $accountingClassifications->name }}</a>

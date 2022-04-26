@@ -15,8 +15,31 @@ class AccountingClassification extends Model
      * @var array
      */
     protected $fillable = [
-        'name', 'obs', 'level', 'classification'
+        'name', 'obs', 'level', 'classification', 'type_classification'
     ];
+
+    /**
+     * Get types
+     *
+     * @return Array
+     */
+    public static function getTypesClassifications()
+    {
+        return ['DRE', 'Retiradas Gerenciais', 'Resultado do Exercicio'];
+    }
+
+    /**
+     * Get types
+     *
+     * @return Array
+     */
+    public static function getTypesClassifications2()
+    {
+        return ['DRE' => 'DRE',
+                'Retiradas Gerenciais' => 'Retiradas Gerenciais',
+                'Resultado do Exercicio' => 'Resultado do Exercicio'
+            ];
+    }
 
     /**
      * Find users in dabase
@@ -61,6 +84,14 @@ class AccountingClassification extends Model
                 if(!is_null($query['classification']))
                 {
                     $q->where('classification', 'like','%' . $query['classification'] . '%');
+                }
+            }
+
+            if(isset($query['type_classification']))
+            {
+                if(!is_null($query['type_classification']))
+                {
+                    $q->where('type_classification', $query['type_classification']);
                 }
             }
         });

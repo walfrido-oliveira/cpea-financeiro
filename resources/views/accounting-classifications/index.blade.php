@@ -19,25 +19,25 @@
             <div class="py-2 my-2 bg-white rounded-lg min-h-screen">
                 <div class="filter-container">
                     <div class="flex -mx-3 mb-6 p-3 md:flex-row flex-col w-full">
-                        <div class="w-full md:w-1/5 px-2 mb-6 md:mb-0">
-                            <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="id">
-                                {{ __('ID') }}
-                            </label>
-                            <x-jet-input id="id" class="form-control block w-full filter-field" type="text" name="id" :value="app('request')->input('id')" autofocus autocomplete="id" />
-                        </div>
-                        <div class="w-full md:w-1/5 px-2 mb-6 md:mb-0">
+                        <div class="w-full md:w-1/4 px-2 mb-6 md:mb-0">
                             <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="classification">
                                 {{ __('Classificação') }}
                             </label>
                             <x-jet-input id="classification" class="form-control block w-full filter-field" type="text" name="classification" :value="app('request')->input('classification')" autofocus autocomplete="classification" />
                         </div>
-                        <div class="w-full md:w-1/5 px-2 mb-6 md:mb-0">
+                        <div class="w-full md:w-1/4 px-2 mb-6 md:mb-0">
+                            <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="type_classification">
+                                {{ __('Tipo Classificação') }}
+                            </label>
+                            <x-custom-select class="filter-field" :options="$types" name="type_classification" id="type_classification" :value="app('request')->input('type_classification')"/>
+                        </div>
+                        <div class="w-full md:w-1/4 px-2 mb-6 md:mb-0">
                             <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="level">
                                 {{ __('Nível') }}
                             </label>
                             <x-jet-input id="level" class="form-control block w-full filter-field" type="text" name="level" :value="app('request')->input('level')" autofocus autocomplete="level" />
                         </div>
-                        <div class="w-full md:w-1/5 px-2 mb-6 md:mb-0">
+                        <div class="w-full md:w-1/4 px-2 mb-6 md:mb-0">
                             <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="name">
                                 {{ __('Descrição') }}
                             </label>
@@ -71,9 +71,9 @@
                 var token = document.querySelector('meta[name="csrf-token"]').content;
                 var method = 'POST';
                 var paginationPerPage = document.getElementById("paginate_per_page").value;
-                var id = document.getElementById("id").value;
                 var name = document.getElementById("name").value;
                 var classification = document.getElementById("classification").value;
+                var typeClassification = document.getElementById("type_classification").value;
                 var level = document.getElementById("level").value;
 
                 ajax.open(method, url);
@@ -98,9 +98,9 @@
                 data.append('paginate_per_page', paginationPerPage);
                 data.append('ascending', ascending);
                 data.append('order_by', orderBY);
-                if(id) data.append('id', id);
                 if(name) data.append('name', name);
                 if(classification) data.append('classification', classification);
+                if(typeClassification) data.append('type_classification', typeClassification);
                 if(level) data.append('level', level);
 
                 ajax.send(data);
@@ -118,9 +118,9 @@
                 var token = document.querySelector('meta[name="csrf-token"]').content;
                 var method = 'POST';
                 var paginationPerPage = document.getElementById("paginate_per_page").value;
-                var id = document.getElementById("id").value;
                 var name = document.getElementById("name").value;
                 var classification = document.getElementById("classification").value;
+                var typeClassification = document.getElementById("type_classification").value;
                 var level = document.getElementById("level").value;
 
                 ajax.open(method, url);
@@ -146,9 +146,9 @@
                 data.append('paginate_per_page', paginationPerPage);
                 data.append('ascending', ascending);
                 data.append('order_by', orderBY);
-                if(id) data.append('id', id);
                 if(name) data.append('name', name);
                 if(classification) data.append('classification', classification);
+                if(typeClassification) data.append('type_classification', typeClassification);
                 if(level) data.append('level', level);
 
                 ajax.send(data);
