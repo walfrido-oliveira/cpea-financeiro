@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateAccountingAnalyticsTable extends Migration
+class CreateWithdrawalsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,14 +13,11 @@ class CreateAccountingAnalyticsTable extends Migration
      */
     public function up()
     {
-        Schema::create('accounting_analytics', function (Blueprint $table) {
+        Schema::create('withdrawals', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('accounting_control_id')->constrained()->onDelete('cascade');
-
-            $table->string('classification');
-            $table->string('name');
+            $table->foreignId('accounting_classification_id')->constrained()->onDelete('cascade');
+            $table->integer("month")->index('month');
             $table->decimal('value', 10, 2);
-            $table->string('justification');
             $table->timestamps();
         });
     }
@@ -32,6 +29,6 @@ class CreateAccountingAnalyticsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('accounting_analytics');
+        Schema::dropIfExists('withdrawals');
     }
 }

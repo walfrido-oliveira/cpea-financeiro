@@ -1,5 +1,5 @@
 <!-- Modal -->
-<div class="fixed z-10 inset-0 overflow-y-auto hidden" aria-labelledby="modal-title" role="dialog" aria-modal="true" id="import_modal" data-url="">
+<div class="fixed z-10 inset-0 overflow-y-auto hidden modal" aria-labelledby="modal-title" role="dialog" aria-modal="true" id="import_modal" data-url="">
     <div class="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
       <div class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" aria-hidden="true"></div>
 
@@ -63,10 +63,10 @@
           </div>
         </div>
         <div class="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
-          <button type="button" id="import_confirm_modal" class="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-green-600 text-base font-medium text-white hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 sm:ml-3 sm:w-auto sm:text-sm">
+          <button type="button" id="import_confirm_modal" class="btn-confirm">
             {{ __('Confirmar') }}
           </button>
-          <button type="button" id="import_cancel_modal" class="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm">
+          <button type="button" id="import_cancel_modal" class="btn-cancel">
             {{ __('Cancelar') }}
           </button>
         </div>

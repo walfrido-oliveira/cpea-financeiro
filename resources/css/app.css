@@ -283,6 +283,17 @@ input:read-only {
     border-top: 1px solid #dee2e6;
 }
 
+.table tfoot {
+    background-color: #005e10;
+}
+
+.table tfoot td {
+    color: #FFF;
+    text-transform: uppercase;
+    font-weight: bolder;
+    white-space: nowrap;
+}
+
 .badge {
     @apply inline-flex items-center justify-center px-2 py-1 mr-2 text-xs font-bold leading-none rounded-full;
 }
@@ -380,4 +391,21 @@ input:read-only {
 .pagination .current-page {
     background-color: #005e10;
     color: white;
+}
+
+.modal .btn-confirm {
+    @apply  w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-green-600 text-base font-medium text-white hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 sm:ml-3 sm:w-auto sm:text-sm
+}
+
+.modal .btn-cancel {
+    @apply   mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-red-600 text-base font-medium text-white hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm
+}
+
+.index-withdrawals tr.featured {
+    background-color: #005d0f12;
+}
+
+.index-withdrawals tr.featured td {
+    color: #000;
+    font-weight: bolder;
 }

@@ -15,6 +15,7 @@ use App\Http\Controllers\CampaignController;
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\DepartmentController;
 use App\Http\Controllers\OccupationController;
+use App\Http\Controllers\WithdrawalController;
 use App\Http\Controllers\EmailConfigController;
 use App\Http\Controllers\GuidingValueController;
 use App\Http\Controllers\AnalysisOrderController;
@@ -172,6 +173,16 @@ Route::group(['middleware' => ['auth:sanctum', 'verified']], function() {
 
     Route::prefix('formulas')->name('formulas.')->group(function(){
         Route::post('/filter', [FormulaController::class, 'filter'])->name('filter');
+    });
+
+    /** Withdrawal */
+    Route::resource('retiradas', WithdrawalController::class, [
+        'names' => 'withdrawals'])->parameters([
+        'retiradas' => 'withdrawal'
+    ]);
+
+    Route::prefix('retiradas')->name('withdrawals.')->group(function(){
+        Route::post('/filter', [WithdrawalController::class, 'filter'])->name('filter');
     });
 });
 

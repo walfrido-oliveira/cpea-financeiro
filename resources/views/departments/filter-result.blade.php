@@ -19,7 +19,7 @@
                 <a class="text-item-table" href="{{ route('departments.show', ['department' => $department->id]) }}">{{ $department->name }}</a>
             </td>
             <td>
-                {{ $departments->obs ? $departments->obs : '-'  }}
+                {{ $department->obs ? $department->obs : '-'  }}
             </td>
             <td>
                 <a class="btn-transition-warning" href="{{ route('departments.edit', ['department' => $department->id]) }}">
