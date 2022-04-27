@@ -53,6 +53,15 @@
 
                     <div class="flex flex-wrap mx-4 px-3 py-2 mt-4">
                         <div class="w-full px-3 mb-6 md:mb-0">
+                            <label for="featured" class="flex items-center">
+                                <input id="featured" type="checkbox" class="form-checkbox" name="featured">
+                                <span class="ml-2 text-sm text-gray-600">{{ __('Destaque') }}</span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="flex flex-wrap mx-4 px-3 py-2 mt-4">
+                        <div class="w-full px-3 mb-6 md:mb-0">
                             <x-jet-label for="name" value="{{ __('Observações') }}" />
                             <textarea class="form-input w-full" name="obs" id="obs" cols="30" rows="10"></textarea>
                         </div>

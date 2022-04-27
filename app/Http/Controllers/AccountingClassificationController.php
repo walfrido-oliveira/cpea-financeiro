@@ -19,7 +19,7 @@ class AccountingClassificationController extends Controller
             'name' => ['required', 'string', 'max:255', Rule::unique('accounting_classifications', 'name', )->ignore($request->name, 'name')],
             'level' => ['required', 'max:10', 'min:1', 'integer'],
             'classification' => ['required', 'string'],
-            'type_classification' => ['required', Rule::in(AccountingClassification::getTypesClassifications())]
+            'type_classification' => ['required', Rule::in(AccountingClassification::getTypesClassifications())],
         ]);
     }
 
@@ -68,7 +68,8 @@ class AccountingClassificationController extends Controller
             'classification' => $input['classification'],
             'level' => $input['level'],
             'obs' => $input['obs'],
-            'type_classification' => $input['type_classification']
+            'type_classification' => $input['type_classification'],
+            'featured' => isset($input['featured']) ? true : false
         ]);
 
         $resp = [
@@ -125,7 +126,8 @@ class AccountingClassificationController extends Controller
             'classification' => $input['classification'],
             'level' => $input['level'],
             'obs' => $input['obs'],
-            'type_classification' => $input['type_classification']
+            'type_classification' => $input['type_classification'],
+            'featured' => isset($input['featured']) ? true : false
         ]);
 
         $resp = [

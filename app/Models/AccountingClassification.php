@@ -15,7 +15,7 @@ class AccountingClassification extends Model
      * @var array
      */
     protected $fillable = [
-        'name', 'obs', 'level', 'classification', 'type_classification'
+        'name', 'obs', 'level', 'classification', 'type_classification', 'featured'
     ];
 
     /**

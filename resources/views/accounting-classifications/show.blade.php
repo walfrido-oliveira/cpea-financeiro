@@ -59,6 +59,27 @@
 
                     <div class="flex flex-wrap">
                         <div class="w-full md:w-2/12">
+                            <p class="font-bold">{{ __('Destaque') }}</p>
+                        </div>
+                        <div class="w-full md:w-1/2">
+                            @if($accountingClassification->featured)
+                                <p class="text-green-500 font-bold">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                                        <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
+                                    </svg>
+                                </p>
+                            @else
+                                <p class="text-gray-500 font-bold">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                                        <path fill-rule="evenodd" d="M13.477 14.89A6 6 0 015.11 6.524l8.367 8.368zm1.414-1.414L6.524 5.11a6 6 0 018.367 8.367zM18 10a8 8 0 11-16 0 8 8 0 0116 0z" clip-rule="evenodd" />
+                                    </svg>
+                                </p>
+                            @endif
+                        </div>
+                    </div>
+
+                    <div class="flex flex-wrap">
+                        <div class="w-full md:w-2/12">
                             <p class="font-bold">{{ __('Obs') }}</p>
                         </div>
                         <div class="w-full md:w-1/2">
