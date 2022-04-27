@@ -7,6 +7,7 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\UnityController;
 use App\Http\Controllers\ExportController;
 use App\Http\Controllers\ImportController;
+use App\Http\Controllers\FormulaController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProjectController;
 use App\Http\Controllers\ReplaceController;
@@ -161,6 +162,16 @@ Route::group(['middleware' => ['auth:sanctum', 'verified']], function() {
 
     Route::prefix('analitico-contabil')->name('accounting-analytics.')->group(function(){
         Route::post('/filter', [AccountingAnalyticsController::class, 'filter'])->name('filter');
+    });
+
+    /** Formula */
+    Route::resource('formulas', FormulaController::class, [
+        'names' => 'formulas'])->parameters([
+        'formulas' => 'formula'
+    ]);
+
+    Route::prefix('formulas')->name('formulas.')->group(function(){
+        Route::post('/filter', [FormulaController::class, 'filter'])->name('filter');
     });
 });
 

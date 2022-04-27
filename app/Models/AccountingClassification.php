@@ -41,6 +41,21 @@ class AccountingClassification extends Model
             ];
     }
 
+    public function getDescriptionAttribute()
+    {
+        return $this->classification . '-' . $this->name;
+    }
+
+    /**
+     * Get calc name
+     *
+     * @return string
+     */
+    public function getCalcNameAttribute()
+    {
+        return '{' . $this->classification . '&' . $this->name . '}';
+    }
+
     /**
      * Find users in dabase
      *
