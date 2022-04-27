@@ -283,7 +283,7 @@ input:read-only {
     border-top: 1px solid #dee2e6;
 }
 
-.table tfoot {
+.table tfoot, .table tfoot td {
     background-color: #005e10;
 }
 
@@ -409,3 +409,61 @@ input:read-only {
     color: #000;
     font-weight: bolder;
 }
+
+.index-withdrawals .view {
+    margin: auto;
+    width: calc(100vw - 21rem);
+}
+
+.index-withdrawals .wrapper {
+    position: relative;
+    overflow: auto;
+    white-space: nowrap;
+}
+
+.index-withdrawals .wrapper::-webkit-scrollbar {
+    width: 5px;
+}
+
+.index-withdrawals .wrapper::-webkit-scrollbar-track {
+    background: #f1f1f1;
+}
+
+.index-withdrawals .wrapper::-webkit-scrollbar-thumb {
+    background: #888;
+}
+
+.index-withdrawals .wrapper::-webkit-scrollbar-thumb:hover {
+    background: #555;
+}
+
+.index-withdrawals table .sticky-col {
+    position: -webkit-sticky;
+    position: sticky;
+    background-color: white;
+}
+
+.index-withdrawals table tr.featured .sticky-col {
+    background-color: #edf4ee;
+}
+
+.index-withdrawals table tfoot .sticky-col {
+    background-color: #005e10;
+}
+
+.index-withdrawals table .first-col {
+    /*width: 100px;
+    min-width: 100px;
+    max-width: 100px;
+    */left: 0px;
+    /*white-space: break-spaces;*/
+}
+
+.index-withdrawals table .second-col {
+    /*width: 150px;
+    min-width: 150px;
+    max-width: 150px;
+    */left: 120px;
+    /*white-space: break-spaces;*/
+}
+

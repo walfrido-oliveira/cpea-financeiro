@@ -1,8 +1,7 @@
 <thead>
     <tr class="thead-light">
-        <x-table-sort-header :orderBy="null" :ascending="null" columnName="" columnText="{{ __('') }}"/>
-        <x-table-sort-header :orderBy="$orderBy" :ascending="$ascending" columnName="" columnText="{{ __('Classificação') }}"/>
-        <x-table-sort-header :orderBy="$orderBy" :ascending="$ascending" columnName="" columnText="{{ __('Diretoria') }}"/>
+        <x-table-sort-header :orderBy="$orderBy" :ascending="$ascending" columnName="" columnText="{{ __('Classificação') }}" class="sticky-col first-col"/>
+        <x-table-sort-header :orderBy="$orderBy" :ascending="$ascending" columnName="" columnText="{{ __('Diretoria') }}" class="sticky-col second-col"/>
         @foreach ($months as $month)
             <x-table-sort-header :orderBy="$orderBy" :ascending="$ascending" columnName="{{ $month . '/' . $year }}" columnText="{{ $month . '/' . $year }}"/>
         @endforeach
@@ -13,12 +12,10 @@
         <tr @if ( $withdrawal->accountingClassification->featured)
             class="featured"
         @endif>
-            <td>
-            </td>
-            <td>
+            <td class="sticky-col first-col">
                 {{ $withdrawal->accountingClassification->classification }}
             </td>
-            <td>
+            <td class="sticky-col second-col">
                 {{ $withdrawal->accountingClassification->name }}
             </td>
             @foreach ($months as $key => $month)
@@ -37,9 +34,8 @@
 <tbody>
     <tfoot>
         <tr>
-            <td></td>
-            <td></td>
-            <td>{{ __('TOTAL GERAL') }}</td>
+            <td class="sticky-col first-col"></td>
+            <td class="sticky-col second-col">{{ __('TOTAL GERAL') }}</td>
             @foreach ($months as $key => $month)
                 <td>R${{ number_format (App\Models\Withdrawal::getTotalByMonth($key, $year), 2, ',', '.')  }}</td>
             @endforeach

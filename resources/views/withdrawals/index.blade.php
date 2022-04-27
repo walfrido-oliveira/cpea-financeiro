@@ -24,12 +24,16 @@
                         </div>
                     </form>
                 </div>
-                <div class="flex mt-4" style="position: relative; overflow: auto; width: 100%; display: block;">
-                    <table id="accounting_classifications_table" class="table table-responsive md:table w-full">
-                        @include('withdrawals.filter-result', ['accountingClassifications1' => $accountingClassifications1, 'ascending' => $ascending, 'orderBy' => $orderBy])
-                    </table>
+                <div class="flex mt-4">
+                    <div class="view">
+                        <div class="wrapper">
+                            <table id="accounting_classifications_table" class="table table-responsive md:table w-full">
+                                @include('withdrawals.filter-result', ['accountingClassifications1' => $accountingClassifications1, 'ascending' => $ascending, 'orderBy' => $orderBy])
+                            </table>
+                        </div>
+                    </div>
                 </div>
-                <div class="mt-4" style="position: relative; overflow: auto; width: 100%; display: block;">
+                <div class="mt-4">
                     <div class="flex items-center mx-4 my-2">
                         <h2>{{ __('Resultado do Exercício') }}</h2>
                         <button type="button" class="btn-transition-primary px-2" id="btn_withdrawal_add" title="Adicionar nova classificação">
@@ -38,9 +42,13 @@
                             </svg>
                         </button>
                     </div>
-                    <table id="accounting_classifications_table2" class="table table-responsive md:table w-full">
-                        @include('withdrawals.filter-result2', ['$withdrawals' => $withdrawals, 'ascending' => $ascending, 'orderBy' => $orderBy])
-                    </table>
+                    <div class="view">
+                        <div class="wrapper">
+                            <table id="accounting_classifications_table2" class="table table-responsive md:table w-full">
+                                @include('withdrawals.filter-result2', ['$withdrawals' => $withdrawals, 'ascending' => $ascending, 'orderBy' => $orderBy])
+                            </table>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
