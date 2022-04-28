@@ -35,7 +35,7 @@
             <td class="sticky-col first-col"></td>
             <td class="sticky-col second-col">{{ __('TOTAL GERAL') }}</td>
             @foreach ($months as $key => $month)
-                <td>R${{ number_format (0, 2, ',', '.')  }}</td>
+                <td>R${{ number_format (App\Models\AccountingClassification::getTotalClassificationByMonth($key, $year), 2, ',', '.')  }}</td>
             @endforeach
         </tr>
     </tfoot>

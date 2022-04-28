@@ -104,6 +104,23 @@ class AccountingClassification extends Model
         return 0;
     }
 
+        /**
+     * Get total by classification by month
+     *
+     * @param int $month
+     * @param int $year
+     */
+    public static function getTotalClassificationByMonth($month, $year)
+    {
+        $total = 0;
+        $accountingClassifications = self::where('type_classification', 'Retiradas Gerenciais')->get();
+        foreach ($accountingClassifications as $key => $accountingClassification)
+        {
+            $total += $accountingClassification->getTotalClassification($month, $year);
+        }
+        return $total;
+    }
+
     /**
      * Find users in dabase
      *
