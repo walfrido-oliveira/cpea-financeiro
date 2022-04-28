@@ -34,10 +34,10 @@ class WithdrawalController extends Controller
     {
         $query = $request->all();
         $withdrawals =  Withdrawal::filter($request->all());
-        $accountingClassifications1 = AccountingClassification::where('type_classification', 'Resultado do Exercicio')->get();
+        $accountingClassifications1 = AccountingClassification::where('type_classification', 'Retiradas Gerenciais')->get();
         $months = months();
 
-        $accountingClassifications = AccountingClassification::all()->pluck('description', 'id');
+        $accountingClassifications = AccountingClassification::where('type_classification', 'Resultado do Exercicio')->get()->pluck('description', 'id');
         $ascending = isset($query['ascending']) ? $query['ascending'] : 'desc';
         $orderBy = isset($query['order_by']) ? $query['order_by'] : 'accounting_classification_id';
         $year = isset($query['year']) ? $query['year'] : now()->year;

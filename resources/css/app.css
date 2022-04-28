@@ -443,6 +443,13 @@ input:read-only {
     background-color: white;
 }
 
+.index-withdrawals table tr td {
+    padding: 0.5rem;
+    vertical-align: top;
+    border-top: 1px solid #dee2e6;
+    font-size: 14px;
+}
+
 .index-withdrawals table tr.featured .sticky-col {
     background-color: #edf4ee;
 }
