@@ -20,7 +20,39 @@
             </td>
             @foreach ($months as $key => $month)
                 <td>
-                    R${{ number_format (0, 2, ',', '.')  }}
+                    @php
+                        $formula = App\Models\Formula::where('accounting_classification_id', $accountingClassification->id)->get();
+                        if($formula)
+                        {
+                            $re = '/{(.*?)}/m';
+                            $formulaText = $formula->formula;
+                            preg_match_all($re, $formula, $matches, PREG_SET_ORDER, 0);
+
+                            foreach ($matches as $key2 => $value2)
+                            {
+                                $result = explode("&", $value2[1]);
+                                $classification = App\Models\accountingClassification::where('classification', $result[0])->get();
+                                if($classification)
+                                {
+                                    $sum = 0;
+                                    $withdrawals = App\Models\Withdrawal::where('accounting_classification_id', $classification->id)
+                                    ->where('month', $month)
+                                    ->where(DB::raw('YEAR(created_at)'), '=', $year)
+                                    ->get();
+                                    foreach ($withdrawals as $key => $withdrawal)
+                                    {
+                                        $sum += $withdrawal->value;
+                                    }
+                                }
+                                $formulaText = Str::replace($value2[0], $sum);
+                            }
+
+                            $stringCalc = new StringCalc();
+                            $result = $stringCalc->calculate($formulaText);
+
+                            echo $result;
+                        }
+                    @endphp
                 </td>
             @endforeach
         <tr>

@@ -3424,6 +3424,7 @@ input:read-only {
 .index-withdrawals table .sticky-col {
     position: sticky;
     background-color: white;
+    border-top: 2px solid #dee2e6;
 }
 .index-withdrawals table tr td {
     padding: 0.5rem;
