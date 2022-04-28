@@ -46,6 +46,7 @@ class Withdrawal extends Model
         return $sum;
     }
 
+
     /**
      * Find users in dabase
      *

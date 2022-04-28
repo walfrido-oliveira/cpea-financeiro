@@ -2,8 +2,11 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Support\Str;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Database\Eloquent\Model;
+use ChrisKonnertz\StringCalc\StringCalc;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class AccountingClassification extends Model
 {
@@ -54,6 +57,51 @@ class AccountingClassification extends Model
     public function getCalcNameAttribute()
     {
         return '{' . $this->classification . '&' . $this->name . '}';
+    }
+
+        /**
+     * Get total by classification
+     *
+     * @param int $month
+     * @param int $year
+     */
+    public function getTotalClassification($month, $year)
+    {
+        $formula = Formula::where('accounting_classification_id', $this->id)->first();
+
+        if($formula)
+        {
+            $re = '/{(.*?)}/m';
+            $formulaText = $formula->formula;
+            preg_match_all($re, $formulaText, $matches, PREG_SET_ORDER, 0);
+            $sum = 0;
+
+            foreach ($matches as $key2 => $value2)
+            {
+                $result = explode("&", $value2[1]);
+
+                $classification = self::where('classification', $result[0])->first();
+
+                if($classification)
+                {
+                    $sum=0;
+                    $withdrawals = Withdrawal::where('accounting_classification_id', $classification->id)
+                    ->where('month', $month)
+                    ->where(DB::raw('YEAR(created_at)'), '=', $year)
+                    ->get();
+
+                    foreach ($withdrawals as $withdrawal)
+                    {
+                        $sum += $withdrawal->value;
+                    }
+                }
+                $formulaText = Str::replace($value2[0], $sum, $formulaText);
+            }
+            $stringCalc = new StringCalc();
+            $result = $stringCalc->calculate($formulaText);
+            return $result;
+        }
+        return 0;
     }
 
     /**
