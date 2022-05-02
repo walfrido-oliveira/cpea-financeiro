@@ -50,7 +50,7 @@ class AccountingClassificationController extends Controller
         $types = AccountingClassification::getTypesClassifications2();
         $accountingClassifications =  AccountingClassification::all()->pluck('description', 'id');
 
-        return view('accounting-classifications.create', compact('types'));
+        return view('accounting-classifications.create', compact('types', 'accountingClassifications'));
     }
 
     /**
@@ -73,6 +73,7 @@ class AccountingClassificationController extends Controller
             'type_classification' => $input['type_classification'],
             'featured' => isset($input['featured']) ? true : false,
             'bolder' => isset($input['bolder']) ? true : false,
+            'visible' => isset($input['visible']) ? true : false,
             'color' => $input['color'],
             'accounting_classification_id' => $input['accounting_classification_id'],
         ]);
@@ -135,6 +136,7 @@ class AccountingClassificationController extends Controller
             'type_classification' => $input['type_classification'],
             'featured' => isset($input['featured']) ? true : false,
             'bolder' => isset($input['bolder']) ? true : false,
+            'visible' => isset($input['visible']) ? true : false,
             'color' => $input['color'],
             'accounting_classification_id' => $input['accounting_classification_id'],
         ]);

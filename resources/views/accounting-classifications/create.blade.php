@@ -65,16 +65,22 @@
                                 <span class="ml-2 text-sm text-gray-600">{{ __('Destaque') }}</span>
                             </label>
                         </div>
+                        <div class="w-full px-3 mb-6 md:mb-0">
+                            <label for="visible" class="flex items-center">
+                                <input id="visible" type="checkbox" class="form-checkbox" name="visible" checked>
+                                <span class="ml-2 text-sm text-gray-600">{{ __('Visível') }}</span>
+                            </label>
+                        </div>
                     </div>
 
                     <div class="flex flex-wrap mx-4 px-3 py-2 mt-4">
-                        <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
+                        <div class="w-full md:w-auto px-3 mb-6 md:mb-0">
                             <label for="bolder" class="flex items-center">
                                 <input id="bolder" type="checkbox" class="form-checkbox" name="bolder">
                                 <span class="ml-2 text-sm text-gray-600">{{ __('Negrito') }}</span>
                             </label>
                         </div>
-                        <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
+                        <div class="w-full md:w-auto px-3 mb-6 md:mb-0">
                             <x-jet-label for="color" value="{{ __('Cor') }}"/>
                             <x-jet-input id="color" class="form-control block mt-1 w-full" type="color" name="color"  placeholder="{{ __('Cor') }}" value="" />
                         </div>
