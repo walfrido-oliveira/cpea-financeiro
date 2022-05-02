@@ -14,7 +14,7 @@ class AddVisibleColumnToAccountingClassifications extends Migration
     public function up()
     {
         Schema::table('accounting_classifications', function (Blueprint $table) {
-            $table->boolean('visible')->defaukt(true);
+            $table->boolean('visible')->default(true);
         });
     }
 
