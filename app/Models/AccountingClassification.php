@@ -18,7 +18,8 @@ class AccountingClassification extends Model
      * @var array
      */
     protected $fillable = [
-        'name', 'obs', 'level', 'classification', 'type_classification', 'featured'
+        'name', 'obs', 'level', 'classification', 'type_classification', 'featured',
+        'color', 'bolder'
     ];
 
     /**
@@ -28,7 +29,7 @@ class AccountingClassification extends Model
      */
     public static function getTypesClassifications()
     {
-        return ['DRE', 'Retiradas Gerenciais', 'Resultado do Exercicio'];
+        return ['DRE', 'Retiradas Gerenciais', 'Resultado do Exercicio', 'DRE Ajustável'];
     }
 
     /**
@@ -38,10 +39,12 @@ class AccountingClassification extends Model
      */
     public static function getTypesClassifications2()
     {
-        return ['DRE' => 'DRE',
-                'Retiradas Gerenciais' => 'Retiradas Gerenciais',
-                'Resultado do Exercicio' => 'Resultado do Exercicio'
-            ];
+        return [
+            'DRE' => 'DRE',
+            'Retiradas Gerenciais' => 'Retiradas Gerenciais',
+            'Resultado do Exercicio' => 'Resultado do Exercicio',
+            'DRE Ajustável' => 'DRE Ajustável',
+        ];
     }
 
     public function getDescriptionAttribute()

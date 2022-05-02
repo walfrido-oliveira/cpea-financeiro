@@ -12,14 +12,37 @@
         <tr @if ( $withdrawal->accountingClassification->featured)
             class="featured"
         @endif>
-            <td class="sticky-col first-col">
+            <td class="sticky-col first-col"
+            style="
+            @if ($withdrawal->accountingClassification->color)
+                color:{{ $withdrawal->accountingClassification->color }};
+            @endif
+            @if ($withdrawal->accountingClassification->bolder)
+                font-weight:bolder;
+            @endif
+            ">
                 {{ $withdrawal->accountingClassification->classification }}
             </td>
-            <td class="sticky-col second-col">
+            <td class="sticky-col second-col"
+            style="
+            @if ($withdrawal->accountingClassification->color)
+                color:{{ $withdrawal->accountingClassification->color }};
+            @endif
+            @if ($withdrawal->accountingClassification->bolder)
+                font-weight:bolder;
+            @endif
+            ">
                 {{ $withdrawal->accountingClassification->name }}
             </td>
             @foreach ($months as $key => $month)
-                <td>
+                <td style="
+                @if ($withdrawal->accountingClassification->color)
+                    color:{{ $withdrawal->accountingClassification->color }};
+                @endif
+                @if ($withdrawal->accountingClassification->bolder)
+                    font-weight:bolder;
+                @endif
+                ">
                     @if($key == $withdrawal->month)
                         R${{ number_format ($withdrawal->value, 2, ',', '.')  }}
                     @endif

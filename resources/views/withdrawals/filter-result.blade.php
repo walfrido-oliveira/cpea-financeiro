@@ -11,15 +11,39 @@
     @forelse ($accountingClassifications1 as $key => $accountingClassification)
         <tr @if ( $accountingClassification->featured)
             class="featured"
-        @endif>
-            <td class="sticky-col first-col">
+             @endif
+        >
+            <td class="sticky-col first-col"
+            style="
+            @if ($accountingClassification->color)
+                color:{{ $accountingClassification->color }};
+            @endif
+            @if ($accountingClassification->bolder)
+                font-weight:bolder;
+            @endif
+            ">
                 {{ $accountingClassification->classification }}
             </td>
-            <td class="sticky-col second-col">
+            <td class="sticky-col second-col"
+            style="
+            @if ($accountingClassification->color)
+                color:{{ $accountingClassification->color }};
+            @endif
+            @if ($accountingClassification->bolder)
+                font-weight:bolder;
+            @endif
+            ">
                 {{ $accountingClassification->name }}
             </td>
             @foreach ($months as $key => $month)
-                <td>
+                <td  style="
+                @if ($accountingClassification->color)
+                    color:{{ $accountingClassification->color }};
+                @endif
+                @if ($accountingClassification->bolder)
+                    font-weight:bolder;
+                @endif
+                ">
                     R${{ number_format($accountingClassification->getTotalClassification($key, $year), 2, ',', '.') }}
                 </td>
             @endforeach

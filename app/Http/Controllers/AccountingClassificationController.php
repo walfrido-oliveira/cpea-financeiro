@@ -69,7 +69,9 @@ class AccountingClassificationController extends Controller
             'level' => $input['level'],
             'obs' => $input['obs'],
             'type_classification' => $input['type_classification'],
-            'featured' => isset($input['featured']) ? true : false
+            'featured' => isset($input['featured']) ? true : false,
+            'bolder' => isset($input['bolder']) ? true : false,
+            'color' => $input['color'],
         ]);
 
         $resp = [
@@ -127,7 +129,9 @@ class AccountingClassificationController extends Controller
             'level' => $input['level'],
             'obs' => $input['obs'],
             'type_classification' => $input['type_classification'],
-            'featured' => isset($input['featured']) ? true : false
+            'featured' => isset($input['featured']) ? true : false,
+            'bolder' => isset($input['bolder']) ? true : false,
+            'color' => $input['color'],
         ]);
 
         $resp = [
