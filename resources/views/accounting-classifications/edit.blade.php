@@ -72,7 +72,7 @@
                             </label>
                         </div>
                         <div class="w-full md:w-auto px-3 mb-6 md:mb-0">
-                            <x-jet-label for="color" value="{{ __('Cor') }}" required/>
+                            <x-jet-label for="color" value="{{ __('Cor') }}"/>
                             <x-jet-input id="color" class="form-control block mt-1 w-full" type="color" name="color"  placeholder="{{ __('Cor') }}" :value="$accountingClassification->color"/>
                         </div>
                     </div>
