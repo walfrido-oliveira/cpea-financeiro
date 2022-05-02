@@ -19,8 +19,48 @@ class AccountingClassification extends Model
      */
     protected $fillable = [
         'name', 'obs', 'level', 'classification', 'type_classification', 'featured',
-        'color', 'bolder'
+        'color', 'bolder', 'accounting_classification_id'
     ];
+
+     /**
+     * The Accounting Control
+     */
+    public function parent()
+    {
+        return $this->belongsTo(AccountingClassification::class);
+    }
+
+    /**
+     * Returns the depth of an Instance
+     * @param $idToFind
+     * @return int
+     */
+    public static function DepthHelper($idToFind)
+    {
+        return AccountingClassification::GetParentHelper($idToFind);
+    }
+
+    // Recursive Helper function
+    public static function  GetParentHelper($id, $depth = 0)
+    {
+        $model = AccountingClassification::find($id);
+
+        if ($model->accounting_classification_id != null) {
+            $depth++;
+
+            return AccountingClassification::GetParentHelper($model->accounting_classification_id, $depth);
+        } else {
+            return $depth;
+        }
+    }
+
+    /**
+     * Get the depth of this instance from the top-level instance.
+     */
+    public function getDepthAttribute()
+    {
+        return AccountingClassification::DepthHelper($this->id);
+    }
 
     /**
      * Get types

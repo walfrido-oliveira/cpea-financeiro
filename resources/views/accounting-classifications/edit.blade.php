@@ -46,6 +46,13 @@
 
                     <div class="flex flex-wrap mx-4 px-3 py-2 mt-4">
                         <div class="w-full px-3 mb-6 md:mb-0">
+                            <x-jet-label for="accounting_classification_id" value="{{ __('Classificação') }}" required />
+                            <x-custom-select no-filter :options="$accountingClassifications" name="accounting_classification_id" id="accounting_classification_id" :value="$accountingClassification->accounting_classification_id"/>
+                        </div>
+                    </div>
+
+                    <div class="flex flex-wrap mx-4 px-3 py-2 mt-4">
+                        <div class="w-full px-3 mb-6 md:mb-0">
                             <x-jet-label for="level" value="{{ __('Nível de Recuo (1 à 10)') }}" required/>
                             <x-jet-input id="level" class="form-control block mt-1 w-full" type="number" name="level" min="1" max="10" required autofocus autocomplete="level" placeholder="{{ __('Nível') }}" :value="$accountingClassification->level"/>
                         </div>

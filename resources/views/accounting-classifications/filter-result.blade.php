@@ -23,7 +23,7 @@
             <td>
                 <a class="text-item-table" href="{{ route('accounting-classifications.show', ['accounting_classification' => $accountingClassifications->id]) }}">{{ $accountingClassifications->type_classification }}</a>
             </td>
-            <td>
+            <td style="padding-left: {{ $accountingClassifications->depth }}rem">
                 <a class="text-item-table" href="{{ route('accounting-classifications.show', ['accounting_classification' => $accountingClassifications->id]) }}">{{ $accountingClassifications->name }}</a>
             </td>
             <td>

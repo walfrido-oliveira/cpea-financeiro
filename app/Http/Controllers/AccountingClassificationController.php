@@ -20,6 +20,7 @@ class AccountingClassificationController extends Controller
             'level' => ['required', 'max:10', 'min:1', 'integer'],
             'classification' => ['required', 'string'],
             'type_classification' => ['required', Rule::in(AccountingClassification::getTypesClassifications())],
+            'accounting_classification_id' => ['nullable', 'exists:accounting_classifications,id']
         ]);
     }
 
@@ -36,7 +37,7 @@ class AccountingClassificationController extends Controller
         $ascending = isset($query['ascending']) ? $query['ascending'] : 'desc';
         $orderBy = isset($query['order_by']) ? $query['order_by'] : 'name';
 
-        return view('accounting-classifications.index', compact('accountingClassifications', 'ascending', 'orderBy', 'types'));
+        return view('accounting-classifications.index', compact('accountingClassifications', 'ascending', 'orderBy', 'types', 'accountingClassifications'));
     }
 
     /**
@@ -47,6 +48,7 @@ class AccountingClassificationController extends Controller
     public function create()
     {
         $types = AccountingClassification::getTypesClassifications2();
+        $accountingClassifications =  AccountingClassification::all()->pluck('description', 'id');
 
         return view('accounting-classifications.create', compact('types'));
     }
@@ -72,6 +74,7 @@ class AccountingClassificationController extends Controller
             'featured' => isset($input['featured']) ? true : false,
             'bolder' => isset($input['bolder']) ? true : false,
             'color' => $input['color'],
+            'accounting_classification_id' => $input['accounting_classification_id'],
         ]);
 
         $resp = [
@@ -104,8 +107,9 @@ class AccountingClassificationController extends Controller
     {
         $accountingClassification = AccountingClassification::findOrFail($id);
         $types = AccountingClassification::getTypesClassifications2();
+        $accountingClassifications =  AccountingClassification::all()->pluck('description', 'id');
 
-        return view('accounting-classifications.edit', compact('accountingClassification', 'types'));
+        return view('accounting-classifications.edit', compact('accountingClassification', 'types', 'accountingClassifications'));
     }
 
     /**
@@ -132,6 +136,7 @@ class AccountingClassificationController extends Controller
             'featured' => isset($input['featured']) ? true : false,
             'bolder' => isset($input['bolder']) ? true : false,
             'color' => $input['color'],
+            'accounting_classification_id' => $input['accounting_classification_id'],
         ]);
 
         $resp = [
