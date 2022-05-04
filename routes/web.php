@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ToController;
+use App\Http\Controllers\DREController;
 use App\Http\Controllers\LabController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\UnityController;
@@ -183,6 +184,11 @@ Route::group(['middleware' => ['auth:sanctum', 'verified']], function() {
 
     Route::prefix('retiradas')->name('withdrawals.')->group(function(){
         Route::post('/filter', [WithdrawalController::class, 'filter'])->name('filter');
+    });
+
+    /** DRE */
+    Route::prefix('dre')->name('dre.')->group(function(){
+        Route::get('/', [DREController::class, 'index'])->name('index');
     });
 });
 

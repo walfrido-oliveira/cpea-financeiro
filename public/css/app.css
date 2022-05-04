@@ -3034,7 +3034,6 @@ input:read-only {
     color: #313131;
     background-color: hsla(0,0%,76.9%,.16);
     border-color: hsla(0,0%,76.9%,.16);
-    text-align: left;
 }
 .table tr>th {
     cursor: pointer;
@@ -3396,64 +3395,66 @@ input:read-only {
 		line-height: 1.25rem;
 	}
 }
-.index-withdrawals tr.featured {
+/*** ACCOUNTING TABLE **/
+.accounting-table tr.featured {
     background-color: #005d0f12;
 }
-.index-withdrawals tr.featured td {
+.accounting-table tr.featured td {
     color: #000;
     font-weight: bolder;
 }
-.index-withdrawals .view {
+.accounting-table .view {
     margin: auto;
     width: calc(100vw - 21rem);
 }
-.index-withdrawals .wrapper {
+.accounting-table .wrapper {
     position: relative;
     overflow: auto;
     white-space: nowrap;
 }
-.index-withdrawals .wrapper::-webkit-scrollbar {
+.accounting-table .wrapper::-webkit-scrollbar {
     width: 5px;
 }
-.index-withdrawals .wrapper::-webkit-scrollbar-track {
+.accounting-table .wrapper::-webkit-scrollbar-track {
     background: #f1f1f1;
 }
-.index-withdrawals .wrapper::-webkit-scrollbar-thumb {
+.accounting-table .wrapper::-webkit-scrollbar-thumb {
     background: #888;
 }
-.index-withdrawals .wrapper::-webkit-scrollbar-thumb:hover {
+.accounting-table .wrapper::-webkit-scrollbar-thumb:hover {
     background: #555;
 }
-.index-withdrawals table .sticky-col {
+.accounting-table table .sticky-col {
     position: sticky;
     background-color: white;
     border-top: 2px solid #dee2e6;
 }
-.index-withdrawals table tr td {
+.accounting-table table tr td {
     padding: 0.5rem;
     vertical-align: top;
     border-top: 1px solid #dee2e6;
     font-size: 14px;
 }
-.index-withdrawals table tr.featured .sticky-col {
+.accounting-table table tr.featured .sticky-col {
     background-color: #edf4ee;
 }
-.index-withdrawals table tfoot .sticky-col {
+.accounting-table table tfoot .sticky-col {
     background-color: #005e10;
 }
-.index-withdrawals table .first-col {
-    /*width: 100px;
-    min-width: 100px;
-    max-width: 100px;
-    */left: 0px;
-    /*white-space: break-spaces;*/
+.accounting-table table .first-col {
+    left: 0px;
 }
-.index-withdrawals table .second-col {
-    /*width: 150px;
-    min-width: 150px;
-    max-width: 150px;
-    */left: 120px;
-    /*white-space: break-spaces;*/
+.accounting-table table .second-col {
+    left: 120px;
+}
+.accounting-table table .third-col {
+    left: 231px;
+}
+.accounting-table table .fourth-col {
+    left: 298px;
+}
+.accounting-table table .fifth-col {
+    left: 480px;
 }
 .hover\:border-gray-300:hover {
 	--tw-border-opacity: 1;
@@ -3994,6 +3995,10 @@ input:read-only {
 		width: 33.333333%;
 	}
 
+	.md\:w-1\/12 {
+		width: 8.333333%;
+	}
+
 	.md\:w-auto {
 		width: auto;
 	}
@@ -4012,14 +4017,6 @@ input:read-only {
 
 	.md\:w-5\/12 {
 		width: 41.666667%;
-	}
-
-	.md\:w-1\/12 {
-		width: 8.333333%;
-	}
-
-	.md\:w-1\/6 {
-		width: 16.666667%;
 	}
 
 	.md\:w-full {
@@ -4132,5 +4129,6 @@ input:read-only {
 		padding-right: 2rem;
 	}
 }
+
 
 

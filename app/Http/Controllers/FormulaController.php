@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\AccountingClassification;
 use App\Models\Formula;
+use App\Models\MonthFormula;
 use Illuminate\Http\Request;
 
 class FormulaController extends Controller
@@ -48,7 +49,9 @@ class FormulaController extends Controller
         $accountingClassifications = AccountingClassification::all()->pluck('description', 'id');
         $accountingClassificationsCalc = AccountingClassification::all()->pluck('description', 'calc_name');
         $types = AccountingClassification::getTypesClassifications2();
-        return view('formulas.create', compact('accountingClassifications', 'accountingClassificationsCalc', 'types'));
+        $months = months();
+
+        return view('formulas.create', compact('accountingClassifications', 'accountingClassificationsCalc', 'types', 'months'));
     }
 
     /**
@@ -63,12 +66,21 @@ class FormulaController extends Controller
 
         $input = $request->all();
 
-       Formula::create([
+       $formula = Formula::create([
             'accounting_classification_id' => $input['accounting_classification_id'],
             'type_classification' => $input['type_classification'],
             'formula' => $input['formula'],
             'obs' => $input['obs'],
         ]);
+
+        foreach ($input['months'] as $value)
+        {
+            if(!$value) continue;
+            MonthFormula::create([
+                'formula_id' => $formula->id,
+                'month' => $value
+            ]);
+        }
 
         $resp = [
             'message' => __('Formula Cadastrada com Sucesso!'),
@@ -102,7 +114,15 @@ class FormulaController extends Controller
         $accountingClassifications = AccountingClassification::all()->pluck('description', 'id');
         $accountingClassificationsCalc = AccountingClassification::all()->pluck('description', 'calc_name');
         $types = AccountingClassification::getTypesClassifications2();
-        return view('formulas.edit', compact('formula', 'accountingClassifications', 'accountingClassificationsCalc', 'types'));
+        $months = months();
+        $monthsFormula = [];
+
+        foreach ($formula->months as $key => $value)
+        {
+            $monthsFormula[] = $value->month;
+        }
+
+        return view('formulas.edit', compact('formula', 'accountingClassifications', 'accountingClassificationsCalc', 'types', 'months','monthsFormula'));
     }
 
     /**
@@ -126,6 +146,20 @@ class FormulaController extends Controller
             'formula' => $input['formula'],
             'obs' => $input['obs'],
         ]);
+
+        foreach ($formula->months as $value)
+        {
+           $value->delete();
+        }
+
+        foreach ($input['months'] as $value)
+        {
+            if(!$value) continue;
+            MonthFormula::create([
+                'formula_id' => $formula->id,
+                'month' => $value
+            ]);
+        }
 
         $resp = [
             'message' => __('Formula Atualizada com Sucesso!'),

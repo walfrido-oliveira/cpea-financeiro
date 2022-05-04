@@ -24,7 +24,7 @@
                         </div>
                     </form>
                 </div>
-                <div class="flex mt-4">
+                <div class="flex mt-4 accounting-table">
                     <div class="view">
                         <div class="wrapper">
                             <table id="accounting_classifications_table" class="table table-responsive md:table w-full">
@@ -33,7 +33,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="mt-4">
+                <div class="mt-4 accounting-table">
                     <div class="flex items-center mx-4 my-2">
                         <h2>{{ __('Resultado do Exercício') }}</h2>
                         <button type="button" class="btn-transition-primary px-2" id="btn_withdrawal_add" title="Adicionar nova classificação">

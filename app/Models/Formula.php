@@ -27,6 +27,14 @@ class Formula extends Model
     }
 
     /**
+     * The months
+     */
+    public function months()
+    {
+        return $this->hasMany(MonthFormula::class);
+    }
+
+    /**
      * Find users in dabase
      *
      * @param Array

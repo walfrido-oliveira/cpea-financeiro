@@ -60,6 +60,13 @@
 
                     <div class="flex flex-wrap mx-4 px-3 py-2 mt-4">
                         <div class="w-full px-3 mb-6 md:mb-0">
+                            <x-jet-label for="months" value="{{ __('Meses') }}" required/>
+                            <x-custom-multi-select multiple :options="$months" name="months[]" id="months" required :value="old('months')"/>
+                        </div>
+                    </div>
+
+                    <div class="flex flex-wrap mx-4 px-3 py-2 mt-4">
+                        <div class="w-full px-3 mb-6 md:mb-0">
                             <x-jet-label for="name" value="{{ __('Observações') }}" />
                             <textarea class="form-input w-full" name="obs" id="obs" cols="30" rows="10"></textarea>
                         </div>
