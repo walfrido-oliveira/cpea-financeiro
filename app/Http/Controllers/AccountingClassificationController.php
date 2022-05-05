@@ -34,8 +34,8 @@ class AccountingClassificationController extends Controller
     {
         $accountingClassifications =  AccountingClassification::filter($request->all());
         $types = AccountingClassification::getTypesClassifications2();
-        $ascending = isset($query['ascending']) ? $query['ascending'] : 'desc';
-        $orderBy = isset($query['order_by']) ? $query['order_by'] : 'classification';
+        $ascending = isset($query['ascending']) ? $query['ascending'] : 'asc';
+        $orderBy = isset($query['order_by']) ? $query['order_by'] : 'id';
 
         return view('accounting-classifications.index', compact('accountingClassifications', 'ascending', 'orderBy', 'types', 'accountingClassifications'));
     }

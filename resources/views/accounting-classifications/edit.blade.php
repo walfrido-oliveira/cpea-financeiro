@@ -46,7 +46,7 @@
 
                     <div class="flex flex-wrap mx-4 px-3 py-2 mt-4">
                         <div class="w-full px-3 mb-6 md:mb-0">
-                            <x-jet-label for="accounting_classification_id" value="{{ __('Classificação') }}" />
+                            <x-jet-label for="accounting_classification_id" value="{{ __('Classificação Antecessora') }}" />
                             <x-custom-select no-filter :options="$accountingClassifications" name="accounting_classification_id" id="accounting_classification_id" :value="$accountingClassification->accounting_classification_id"/>
                         </div>
                     </div>
