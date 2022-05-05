@@ -33,8 +33,8 @@ class WithdrawalController extends Controller
     public function index(Request $request)
     {
         $query = $request->all();
-        $withdrawals =  Withdrawal::filter($request->all());
         $accountingClassifications1 = AccountingClassification::where('type_classification', 'Retiradas Gerenciais')->get();
+        $accountingClassifications2 = AccountingClassification::where('type_classification', 'Resultado do Exercicio')->get();
         $months = months();
 
         $accountingClassifications = AccountingClassification::where('type_classification', 'Resultado do Exercicio')->get()->pluck('description', 'id');
@@ -43,8 +43,8 @@ class WithdrawalController extends Controller
         $year = isset($query['year']) ? $query['year'] : now()->year;
 
         return view('withdrawals.index',
-        compact('withdrawals', 'ascending', 'orderBy', 'accountingClassifications', 'accountingClassifications1', 'months',
-                'year'));
+        compact('ascending', 'orderBy', 'accountingClassifications', 'accountingClassifications1', 'months',
+                'year', 'accountingClassifications2'));
     }
 
     /**

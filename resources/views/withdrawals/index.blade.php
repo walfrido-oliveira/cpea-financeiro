@@ -45,7 +45,7 @@
                     <div class="view">
                         <div class="wrapper">
                             <table id="accounting_classifications_table2" class="table table-responsive md:table w-full">
-                                @include('withdrawals.filter-result2', ['$withdrawals' => $withdrawals, 'ascending' => $ascending, 'orderBy' => $orderBy])
+                                @include('withdrawals.filter-result2', ['accountingClassifications2' => $accountingClassifications2, 'ascending' => $ascending, 'orderBy' => $orderBy])
                             </table>
                         </div>
                     </div>

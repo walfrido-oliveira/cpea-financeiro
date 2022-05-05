@@ -8,44 +8,43 @@
     </tr>
 </thead>
 <tbody id="withdrawals_table_content">
-    @forelse ($withdrawals as $key => $withdrawal)
-        <tr @if ( $withdrawal->accountingClassification->featured)
+    @forelse ($accountingClassifications2 as $key => $accountingClassification)
+        <tr @if ( $accountingClassification->featured)
             class="featured"
-        @endif>
+             @endif
+        >
             <td class="sticky-col first-col"
             style="
-            @if ($withdrawal->accountingClassification->color)
-                color:{{ $withdrawal->accountingClassification->color }};
+            @if ($accountingClassification->color)
+                color:{{ $accountingClassification->color }};
             @endif
-            @if ($withdrawal->accountingClassification->bolder)
+            @if ($accountingClassification->bolder)
                 font-weight:bolder;
             @endif
             ">
-                {{ $withdrawal->accountingClassification->classification }}
+                {{ $accountingClassification->classification }}
             </td>
             <td class="sticky-col second-col"
             style="
-            @if ($withdrawal->accountingClassification->color)
-                color:{{ $withdrawal->accountingClassification->color }};
+            @if ($accountingClassification->color)
+                color:{{ $accountingClassification->color }};
             @endif
-            @if ($withdrawal->accountingClassification->bolder)
+            @if ($accountingClassification->bolder)
                 font-weight:bolder;
             @endif
             ">
-                {{ $withdrawal->accountingClassification->name }}
+                {{ $accountingClassification->name }}
             </td>
             @foreach ($months as $key => $month)
-                <td style="
-                @if ($withdrawal->accountingClassification->color)
-                    color:{{ $withdrawal->accountingClassification->color }};
+                <td  style="
+                @if ($accountingClassification->color)
+                    color:{{ $accountingClassification->color }};
                 @endif
-                @if ($withdrawal->accountingClassification->bolder)
+                @if ($accountingClassification->bolder)
                     font-weight:bolder;
                 @endif
                 ">
-                    @if($key == $withdrawal->month)
-                        R${{ number_format ($withdrawal->value, 2, ',', '.')  }}
-                    @endif
+                    R${{ number_format(App\Models\Withdrawal::getTotalByMonthAndClassification($key, $year, $accountingClassification->id), 2, ',', '.') }}
                 </td>
             @endforeach
         <tr>

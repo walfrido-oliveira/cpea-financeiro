@@ -39,7 +39,29 @@ class Withdrawal extends Model
         $result = self::where('month', $month)->where(DB::raw('YEAR(created_at)'), '=', $year)->get();
         $sum = 0;
 
-        foreach ($result as $key => $value)
+        foreach ($result as $value)
+        {
+            $sum += $value->value;
+        }
+        return $sum;
+    }
+
+    /**
+     * Get total by mont and year
+     *
+     * @param int $month
+     * @param int $year
+     * @param int $classification
+     */
+    public static function getTotalByMonthAndClassification($month, $year, $classification)
+    {
+        $result = self::where('month', $month)
+        ->where(DB::raw('YEAR(created_at)'), '=', $year)
+        ->where('accounting_classification_id', $classification)
+        ->get();
+        $sum = 0;
+
+        foreach ($result as $value)
         {
             $sum += $value->value;
         }
