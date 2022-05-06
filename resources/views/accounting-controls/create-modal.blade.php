@@ -46,9 +46,13 @@
                     </div>
 
                     <div class="flex flex-wrap py-2 mt-4">
-                        <div class="w-full px-3 mb-6 md:mb-0">
+                        <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
                             <x-jet-label for="month" value="{{ __('Mês') }}" required />
-                            <x-jet-input id="month" class="form-control block mt-1 w-full" type="text" name="month" maxlength="255" required autofocus autocomplete="month" :value="old('month')"/>
+                            <x-custom-select no-filter class="mt-1" :options="$months" name="month" id="month" :value="app('request')->input('month')"/>
+                        </div>
+                        <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
+                            <x-jet-label for="year" value="{{ __('Ano') }}" required />
+                            <x-jet-input id="year" class="form-control block mt-1 w-full" type="number" name="year" required autofocus autocomplete="year" :value="old('year')"/>
                         </div>
                     </div>
                     <div class="flex flex-wrap py-2 mt-4">

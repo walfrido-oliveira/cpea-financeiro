@@ -37,8 +37,9 @@ class AccountingControlController extends Controller
         $accountingControls =  AccountingControl::filter($request->all());
         $ascending = isset($query['ascending']) ? $query['ascending'] : 'desc';
         $orderBy = isset($query['order_by']) ? $query['order_by'] : 'created_at';
+        $months = months();
 
-        return view('accounting-controls.index', compact('accountingControls', 'ascending', 'orderBy'));
+        return view('accounting-controls.index', compact('accountingControls', 'ascending', 'orderBy', 'months'));
     }
 
     /**
@@ -186,6 +187,8 @@ class AccountingControlController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'file' => 'required|mimes:xls,xlsx,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet|max:4096',
+            'month' => 'required|numeric',
+            'year' => 'required|numeric',
         ]);
 
         if ($validator->fails())
@@ -200,6 +203,7 @@ class AccountingControlController extends Controller
 
             $accountingControl = AccountingControl::create([
                 'month' => $inputs['month'],
+                'year' => $inputs['year'],
                 'obs' => $inputs['obs'],
             ]);
 

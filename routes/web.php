@@ -192,7 +192,7 @@ Route::group(['middleware' => ['auth:sanctum', 'verified']], function() {
     });
 
     Route::get('teste', function () {
-        return App\Models\AccountingClassification::where('classification', '3')->first();
+        return App\Models\AccountingClassification::where('classification', '4.2.5')->first();
     })->name('home');
 });
 

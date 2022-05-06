@@ -80,6 +80,7 @@
             let file = document.getElementById("file")
             let files = file.files;
             let month = document.querySelector("#import_modal #month").value;
+            let year = document.querySelector("#import_modal #year").value;
             let obs = document.getElementById("obs").value;
 
             ajax.open(method, url);
@@ -105,6 +106,7 @@
             data.append('_method', method);
             data.append('file', files[0]);
             data.append('month', month);
+            data.append('year', year);
             data.append('obs', obs);
 
             ajax.send(data);
