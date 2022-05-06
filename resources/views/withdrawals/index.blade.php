@@ -25,9 +25,12 @@
                         </div>
                     </form>
                 </div>
+                <div id="scroll_top" style="width: calc(100vw - 21rem); overflow: auto;">
+                    <div style="height: 1px;"></div>
+                </div>
                 <div class="flex mt-4 accounting-table">
                     <div class="view">
-                        <div class="wrapper">
+                        <div class="wrapper" id="scroll_bottom">
                             <table id="accounting_classifications_table" class="table table-responsive md:table w-full">
                                 @include('withdrawals.filter-result', ['accountingClassifications1' => $accountingClassifications1, 'ascending' => $ascending, 'orderBy' => $orderBy])
                             </table>
@@ -43,8 +46,11 @@
                             </svg>
                         </button>
                     </div>
+                    <div id="scroll_top_2" style="width: calc(100vw - 21rem); overflow: auto;">
+                        <div style="height: 1px;"></div>
+                    </div>
                     <div class="view">
-                        <div class="wrapper">
+                        <div class="wrapper" id="scroll_bottom_2">
                             <table id="accounting_classifications_table2" class="table table-responsive md:table w-full">
                                 @include('withdrawals.filter-result2', ['accountingClassifications2' => $accountingClassifications2, 'ascending' => $ascending, 'orderBy' => $orderBy])
                             </table>
@@ -63,6 +69,40 @@
              confirm="{{ __('Sim') }}" cancel="{{ __('Não') }}" id="delete_accounting_classification_modal"
              method="DELETE"
              redirect-url="{{ route('withdrawals.index') }}"/>
+
+    <script>
+        window.addEventListener("load", function() {
+            document.querySelector("#scroll_top div").style.width = document.querySelector("#accounting_classifications_table").clientWidth + 'px';
+        });
+
+        var wrapper1 = document.getElementById('scroll_top');
+        var wrapper2 = document.getElementById('scroll_bottom');
+
+        wrapper1.onscroll = function() {
+            wrapper2.scrollLeft = wrapper1.scrollLeft;
+        };
+
+        wrapper2.onscroll = function() {
+            wrapper1.scrollLeft = wrapper2.scrollLeft;
+        };
+    </script>
+
+    <script>
+        window.addEventListener("load", function() {
+            document.querySelector("#scroll_top_2 div").style.width = document.querySelector("#accounting_classifications_table2").clientWidth + 'px';
+        });
+
+        var wrapper3 = document.getElementById('scroll_top_2');
+        var wrapper4 = document.getElementById('scroll_bottom_2');
+
+        wrapper3.onscroll = function() {
+            wrapper4.scrollLeft = wrapper3.scrollLeft;
+        };
+
+        wrapper4.onscroll = function() {
+            wrapper3.scrollLeft = wrapper4.scrollLeft;
+        };
+    </script>
 
     <script>
         document.getElementById("btn_withdrawal_add").addEventListener("click", function() {

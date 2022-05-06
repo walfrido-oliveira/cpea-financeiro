@@ -82,12 +82,12 @@
         </tr>
     @endforelse
 <tbody>
-    <tfoot>
-        <tr>
-            <td class="sticky-col first-col"></td>
-            <td class="sticky-col second-col">{{ __('TOTAL GERAL') }}</td>
-            @foreach ($months as $key => $month)
-                <td>R${{ number_format (App\Models\AccountingClassification::getTotalClassificationByMonthDRE($key, $year), 2, ',', '.')  }}</td>
-            @endforeach
-        </tr>
-    </tfoot>
+<tfoot>
+    <tr>
+        <td class="sticky-col first-col"></td>
+        <td class="sticky-col second-col">{{ __('TOTAL GERAL') }}</td>
+        @foreach ($months as $key => $month)
+            <td>R${{ number_format (App\Models\AccountingClassification::getTotalClassificationByMonthDRE($key, $year), 2, ',', '.')  }}</td>
+        @endforeach
+    </tr>
+</tfoot>
