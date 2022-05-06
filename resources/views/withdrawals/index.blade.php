@@ -20,7 +20,8 @@
                 <div class="flex -mx-3 mb-6 p-3 md:flex-row flex-col w-full justify-end">
                     <form id="search_year_form" action="{{ route('withdrawals.index') }}" method="GET">
                         <div class="w-full md:w-auto px-2 mb-6 md:mb-0">
-                            <x-custom-select class="filter-field" select-class="no-nice-select" :options="[2022 => 2022, 2021 => 2021]" name="year" id="year" :value="app('request')->input('year')"/>
+                            <x-custom-select class="filter-field" select-class="no-nice-select" :options="[2022 => 2022, 2021 => 2021]" name="year" id="year"
+                                :value="app('request')->has('year') ? app('request')->input('year') : now()->year"/>
                         </div>
                     </form>
                 </div>
@@ -83,6 +84,7 @@
             let token = document.querySelector('meta[name="csrf-token"]').content;
             let method = 'POST';
             let month = document.querySelector("#withdrawal_modal #month").value;
+            let year = document.querySelector("#year").value;
             let value = document.getElementById("value").value;
             let accountingClassification = document.querySelector("#withdrawal_modal #accounting_classification_id").value;
 
@@ -105,6 +107,7 @@
             data.append('_token', token);
             data.append('_method', method);
             data.append('month', month);
+            data.append('year', year);
             data.append('value', value);
             data.append('accounting_classification_id', accountingClassification);
 

@@ -192,7 +192,14 @@ Route::group(['middleware' => ['auth:sanctum', 'verified']], function() {
     });
 
     Route::get('teste', function () {
-        return App\Models\AccountingClassification::where('classification', '4.2.5')->first();
+        $formula = "if({3.1.1.01.8.1.007} + {3.1.1.01.8.1.007})";
+
+        $re = '/if\((.*?)\)/m';
+        $formulaText = $formula;
+        preg_match_all($re, $formulaText, $matches, PREG_SET_ORDER, 0);
+        $sum = 0;
+
+        return $matches[0][1];
     })->name('home');
 });
 

@@ -15,7 +15,8 @@ class Formula extends Model
      * @var array
      */
     protected $fillable = [
-        'accounting_classification_id', 'type_classification', 'formula', 'obs'
+        'accounting_classification_id', 'type_classification', 'formula', 'obs',
+        'conditional', 'conditional_type', 'conditional_value', 'conditional_formula'
     ];
 
      /**
@@ -32,6 +33,61 @@ class Formula extends Model
     public function months()
     {
         return $this->hasMany(MonthFormula::class);
+    }
+
+    /**
+     * Get conditional types
+     */
+    public static function conditionalTypes()
+    {
+        return [
+            "==" => "Igual",
+            "!=" => "Diferente",
+            ">" => "Maior",
+            "<" => "Menor",
+            ">=" => "Maior Igual",
+            "<=" => "Menor Igual",
+        ];
+    }
+
+    /**
+     * Retur value in conditional
+     *
+     * @param string $token
+     * @return bool
+     */
+    public static function conditionalCalc($token, $a, $b)
+    {
+        switch ($token)
+        {
+            case '==':
+                return $a == $b;
+                break;
+
+            case '!=':
+                return $a != $b;
+                break;
+
+            case '>':
+                return $a > $b;
+                break;
+
+            case '<':
+                return $a < $b;
+                break;
+
+            case '>=':
+                return $a >= $b;
+                break;
+
+            case '<=':
+                return $a <= $b;
+                break;
+
+            default:
+                return false;
+                break;
+        }
     }
 
     /**

@@ -17,6 +17,7 @@ class CreateWithdrawalsTable extends Migration
             $table->id();
             $table->foreignId('accounting_classification_id')->constrained()->onDelete('cascade');
             $table->integer("month")->index('month');
+            $table->integer("year")->index('year');
             $table->decimal('value', 10, 2);
             $table->timestamps();
         });

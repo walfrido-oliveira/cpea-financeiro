@@ -18,7 +18,7 @@ class CreateFormulasTable extends Migration
             $table->foreignId('accounting_classification_id')->constrained()->onDelete('cascade');
             $table->string('type_classification')->index('type_cassification');
             $table->text('formula');
-            $table->text('obs');
+            $table->text('obs')->nullable();
             $table->timestamps();
         });
     }

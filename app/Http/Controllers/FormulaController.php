@@ -50,8 +50,9 @@ class FormulaController extends Controller
         $accountingClassificationsCalc = AccountingClassification::all()->pluck('description', 'calc_name');
         $types = AccountingClassification::getTypesClassifications2();
         $months = months();
+        $conditionalTypes = Formula::conditionalTypes();
 
-        return view('formulas.create', compact('accountingClassifications', 'accountingClassificationsCalc', 'types', 'months'));
+        return view('formulas.create', compact('accountingClassifications', 'accountingClassificationsCalc', 'types', 'months', 'conditionalTypes'));
     }
 
     /**
@@ -71,6 +72,10 @@ class FormulaController extends Controller
             'type_classification' => $input['type_classification'],
             'formula' => $input['formula'],
             'obs' => $input['obs'],
+            'conditional' => $input['conditional'],
+            'conditional_type' => $input['conditional_type'],
+            'conditional_value' => $input['conditional_value'],
+            'conditional_formula' => $input['conditional_formula'],
         ]);
 
         foreach ($input['months'] as $value)
@@ -114,6 +119,7 @@ class FormulaController extends Controller
         $accountingClassifications = AccountingClassification::all()->pluck('description', 'id');
         $accountingClassificationsCalc = AccountingClassification::all()->pluck('description', 'calc_name');
         $types = AccountingClassification::getTypesClassifications2();
+        $conditionalTypes = Formula::conditionalTypes();
         $months = months();
         $monthsFormula = [];
 
@@ -122,7 +128,8 @@ class FormulaController extends Controller
             $monthsFormula[] = $value->month;
         }
 
-        return view('formulas.edit', compact('formula', 'accountingClassifications', 'accountingClassificationsCalc', 'types', 'months','monthsFormula'));
+        return view('formulas.edit',
+        compact('formula', 'accountingClassifications', 'accountingClassificationsCalc', 'types', 'months','monthsFormula', 'conditionalTypes'));
     }
 
     /**
@@ -145,6 +152,10 @@ class FormulaController extends Controller
             'type_classification' => $input['type_classification'],
             'formula' => $input['formula'],
             'obs' => $input['obs'],
+            'conditional' => $input['conditional'],
+            'conditional_type' => $input['conditional_type'],
+            'conditional_value' => $input['conditional_value'],
+            'conditional_formula' => $input['conditional_formula'],
         ]);
 
         foreach ($formula->months as $value)

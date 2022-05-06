@@ -17,7 +17,7 @@ class Withdrawal extends Model
      * @var array
      */
     protected $fillable = [
-        'accounting_classification_id', 'month', 'value'
+        'accounting_classification_id', 'month', 'year', 'value'
     ];
 
     /**
@@ -36,7 +36,9 @@ class Withdrawal extends Model
      */
     public static function getTotalByMonth($month, $year)
     {
-        $result = self::where('month', $month)->where(DB::raw('YEAR(created_at)'), '=', $year)->get();
+        $result = self::where('month', $month)
+        ->where('year', $year)
+        ->get();
         $sum = 0;
 
         foreach ($result as $value)
@@ -56,7 +58,7 @@ class Withdrawal extends Model
     public static function getTotalByMonthAndClassification($month, $year, $classification)
     {
         $result = self::where('month', $month)
-        ->where(DB::raw('YEAR(created_at)'), '=', $year)
+        ->where('year', $year)
         ->where('accounting_classification_id', $classification)
         ->get();
         $sum = 0;
@@ -111,7 +113,7 @@ class Withdrawal extends Model
             {
                 if(!is_null($query['year']))
                 {
-                    $q->where(DB::raw('YEAR(created_at)'), '=', $query['year']);
+                    $q->where('year', $query['year']);
                 }
             }
         });

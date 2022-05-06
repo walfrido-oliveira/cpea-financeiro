@@ -18,7 +18,7 @@ class CreateAccountingClassificationsTable extends Migration
             $table->string("classification");
             $table->string("name")->unique();
             $table->integer("level");
-            $table->text("obs");
+            $table->text("obs")->nullable();
             $table->timestamps();
         });
     }

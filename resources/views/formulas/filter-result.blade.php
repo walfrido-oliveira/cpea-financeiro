@@ -16,7 +16,7 @@
                 <input class="form-checkbox formulas-url" type="checkbox" name="formulas[{{ $formula->id }}]" value="{!! route('formulas.destroy', ['formula' => $formula->id]) !!}">
             </td>
             <td>
-                <a class="text-item-table text-green-600 underline" href="{{ route('accounting-classifications.show', ['accounting_classification' => $formula->accounting_classification_id]) }}">{{ $formula->accountingClassification->description }}</a>
+                <a class="text-item-table text-green-600 underline" href="{{ route('formulas.show', ['formula' => $formula->accounting_classification_id]) }}">{{ $formula->accountingClassification->description }}</a>
             </td>
             <td>
                 {{ $formula->formula  }}

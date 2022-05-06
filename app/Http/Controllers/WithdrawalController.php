@@ -70,7 +70,8 @@ class WithdrawalController extends Controller
 
         $validator = Validator::make($request->all(), [
             'accounting_classification_id' => ['required', 'exists:accounting_classifications,id'],
-            'month' => ['required', 'string'],
+            'month' => ['required', 'numeric'],
+            'year' => ['required', 'numeric'],
             'value' => ['required', 'numeric']
         ]);
 
@@ -82,6 +83,7 @@ class WithdrawalController extends Controller
        Withdrawal::create([
             'accounting_classification_id' => $input['accounting_classification_id'],
             'month' => $input['month'],
+            'year' => $input['year'],
             'value' => $input['value']
         ]);
 
@@ -134,6 +136,7 @@ class WithdrawalController extends Controller
         $withdrawal->update([
             'accounting_classification_id' => $input['accounting_classification_id'],
             'month' => $input['month'],
+            'year' => $input['year'],
             'value' => $input['value']
         ]);
 

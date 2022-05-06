@@ -31,7 +31,7 @@
                     </div>
 
                     <div class="flex flex-wrap mx-4 px-3 py-2 mt-4">
-                        <div class="w-full px-3 mb-6 md:mb-0">
+                        <div class="w-full px-3 mb-6 md:mb-1">
                             <x-jet-label for="accounting_classification_formula" value="{{ __('Classificação Cálculo') }}"/>
                             <div class="w-full flex py-2">
                                 <x-custom-select :options="$accountingClassificationsCalc" name="accounting_classification_formula" id="accounting_classification_formula" value=""/>
@@ -42,12 +42,50 @@
                                 </button>
                             </div>
                         </div>
-                    </div>
-
-                    <div class="flex flex-wrap mx-4 px-3 py-2 mt-4">
                         <div class="w-full px-3 mb-6 md:mb-0">
                             <x-jet-label for="formula" value="{{ __('Fórmula') }}" required/>
                             <textarea class="form-input w-full" name="formula" id="formula" cols="30" rows="10" required></textarea>
+                        </div>
+                    </div>
+
+                    <div class="flex flex-wrap mx-4 px-3 py-2 mt-4">
+                        <div class="w-full px-3 mb-6 md:mb-1">
+                            <x-jet-label for="accounting_classification_conditional" value="{{ __('Classificação Condição') }}"/>
+                            <div class="w-full flex py-2">
+                                <x-custom-select :options="$accountingClassificationsCalc" name="accounting_classification_conditional" id="accounting_classification_conditional" value=""/>
+                                <button type="button" class="btn-transition-primary px-2" id="btn_accounting_classification_conditional_add" title="Adicionar nova classificação">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v3m0 0v3m0-3h3m-3 0H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                    </svg>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="w-full px-3 mb-6 md:mb-1">
+                            <x-jet-label for="conditional" value="{{ __('Condição') }}"/>
+                            <textarea class="form-input w-full" name="conditional" id="conditional" cols="30" rows="3"></textarea>
+                        </div>
+                        <div class="w-full px-3 mb-6 md:mb-1">
+                            <x-jet-label for="conditional_type" value="{{ __('Tipo de Condição') }}"/>
+                            <x-custom-select select-class="no-nice-select" :options="$conditionalTypes" name="conditional_type" id="conditional_type" :value="null"/>
+                        </div>
+                        <div class="w-full px-3 mb-6 md:mb-1">
+                            <x-jet-label for="conditional_value" value="{{ __('Valor da Condição') }}"/>
+                            <x-jet-input id="conditional_value" class="form-control block mt-1 w-full" type="number" name="conditional_value" maxlength="255"/>
+                        </div>
+                        <div class="w-full px-3 mb-6 md:mb-1">
+                            <x-jet-label for="accounting_classification_conditional_formula" value="{{ __('Classificação Formula Negação') }}"/>
+                            <div class="w-full flex py-2">
+                                <x-custom-select :options="$accountingClassificationsCalc" name="accounting_classification_conditional" id="accounting_classification_conditional_formula" value=""/>
+                                <button type="button" class="btn-transition-primary px-2" id="btn_accounting_classification_conditional_formula_add" title="Adicionar nova classificação">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v3m0 0v3m0-3h3m-3 0H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                    </svg>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="w-full px-3 mb-6 md:mb-1">
+                            <x-jet-label for="conditional_formula" value="{{ __('Formula da Negação') }}"/>
+                            <textarea class="form-input w-full" name="conditional_formula" id="conditional_formula" cols="30" rows="3"></textarea>
                         </div>
                     </div>
 

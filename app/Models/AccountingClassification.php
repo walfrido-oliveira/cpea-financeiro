@@ -3,7 +3,6 @@
 namespace App\Models;
 
 use Illuminate\Support\Str;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Database\Eloquent\Model;
 use ChrisKonnertz\StringCalc\StringCalc;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -102,15 +101,17 @@ class AccountingClassification extends Model
         return '{' . $this->classification . '&' . $this->name . '}';
     }
 
-        /**
+    /**
      * Get total by classification
      *
      * @param int $month
      * @param int $year
      */
-    public function getTotalClassification($month, $year)
+    public function getTotalClassificationWithdrawal($month, $year)
     {
-        $formula = Formula::where('accounting_classification_id', $this->id)->first();
+        $formula = Formula::where('accounting_classification_id', $this->id)
+        ->where('type_classification', 'Retiradas Gerenciais')
+        ->first();
 
         if($formula)
         {
@@ -119,7 +120,7 @@ class AccountingClassification extends Model
             preg_match_all($re, $formulaText, $matches, PREG_SET_ORDER, 0);
             $sum = 0;
 
-            foreach ($matches as $key2 => $value2)
+            foreach ($matches as $value2)
             {
                 $result = explode("&", $value2[1]);
 
@@ -130,7 +131,7 @@ class AccountingClassification extends Model
                     $sum=0;
                     $withdrawals = Withdrawal::where('accounting_classification_id', $classification->id)
                     ->where('month', $month)
-                    ->where(DB::raw('YEAR(created_at)'), '=', $year)
+                    ->where('year', $year)
                     ->get();
 
                     foreach ($withdrawals as $withdrawal)
@@ -147,19 +148,150 @@ class AccountingClassification extends Model
         return 0;
     }
 
-        /**
+    /**
      * Get total by classification by month
      *
      * @param int $month
      * @param int $year
      */
-    public static function getTotalClassificationByMonth($month, $year)
+    public static function getTotalClassificationByMonthWithdrawal($month, $year)
     {
         $total = 0;
         $accountingClassifications = self::where('type_classification', 'Retiradas Gerenciais')->get();
-        foreach ($accountingClassifications as $key => $accountingClassification)
+        foreach ($accountingClassifications as $accountingClassification)
         {
-            $total += $accountingClassification->getTotalClassification($month, $year);
+            $total += $accountingClassification->getTotalClassificationWithdrawal($month, $year);
+        }
+        return $total;
+    }
+
+    /**
+     * Get total by classification
+     *
+     * @param int $month
+     * @param int $year
+     */
+    public function getTotalClassificationDRE($month, $year)
+    {
+        $formula = Formula::where('accounting_classification_id', $this->id)
+        ->where('type_classification', 'DRE Ajustável')
+        ->first();
+
+        if($formula)
+        {
+            $re = '/{(.*?)}/m';
+            $formulaText = $this->checkCondicionalDRE($formula, $month, $year) ? $formula->formula : $formula->conditional_formula;
+            preg_match_all($re, $formulaText, $matches, PREG_SET_ORDER, 0);
+            $sum = 0;
+
+            foreach ($matches as $value2)
+            {
+                $result = explode("&", $value2[1]);
+
+                $classification = self::where('classification', $result[0])->first();
+
+                if($classification)
+                {
+                    $sum=0;
+                    $accountingControl = AccountingControl::where('month', $month)
+                    ->where('year', $year)
+                    ->first();
+
+                    if($accountingControl)
+                    {
+                        $accountingAnalytics = $accountingControl->accountingAnalytics()->where('accounting_classification_id', $classification->id)->get();
+                        if(count($accountingAnalytics) > 0)
+                        {
+                            foreach ($accountingAnalytics  as $accountingAnalytic)
+                            {
+                                $sum += $accountingAnalytic->value;
+                            }
+                        }
+                        else
+                        {
+                            $sum = $classification->getTotalClassificationDRE($month, $year);
+                        }
+                    }
+                }
+                $formulaText = Str::replace($value2[0], $sum, $formulaText);
+            }
+            $stringCalc = new StringCalc();
+            $result = $stringCalc->calculate($formulaText);
+            return $result;
+        }
+        return 0;
+    }
+
+    /**
+     * Get total by classification
+     *
+     * @param App\Modeles\Formula
+     * @param int $month
+     * @param int $year
+     */
+    public function checkCondicionalDRE($formula, $month, $year)
+    {
+        if($formula)
+        {
+            if(!$formula->conditional) return true;
+
+            $re = '/{(.*?)}/m';
+            $formulaText = $formula->conditional;
+            preg_match_all($re, $formulaText, $matches, PREG_SET_ORDER, 0);
+            $sum = 0;
+
+            foreach ($matches as $value2)
+            {
+                $result = explode("&", $value2[1]);
+
+                $classification = self::where('classification', $result[0])->first();
+
+                if($classification)
+                {
+                    $sum=0;
+                    $accountingControl = AccountingControl::where('month', $month)
+                    ->where('year', $year)
+                    ->first();
+
+                    if($accountingControl)
+                    {
+                        $accountingAnalytics = $accountingControl->accountingAnalytics()->where('accounting_classification_id', $classification->id)->get();
+                        if(count($accountingAnalytics) > 0)
+                        {
+                            foreach ($accountingAnalytics  as $accountingAnalytic)
+                            {
+                                $sum += $accountingAnalytic->value;
+                            }
+                        }
+                        else
+                        {
+                            $sum = $classification->getTotalClassificationDRE($month, $year);
+                        }
+                    }
+                }
+                $formulaText = Str::replace($value2[0], $sum, $formulaText);
+            }
+            $stringCalc = new StringCalc();
+            $result = $stringCalc->calculate($formulaText);
+
+            return Formula::conditionalCalc($formula->conditional_type, $result, $formula->conditional_value) ;
+        }
+        return true;
+    }
+
+     /**
+     * Get total by classification by month
+     *
+     * @param int $month
+     * @param int $year
+     */
+    public static function getTotalClassificationByMonthDRE($month, $year)
+    {
+        $total = 0;
+        $accountingClassifications = self::where('type_classification', 'Retiradas Gerenciais')->get();
+        foreach ($accountingClassifications as $accountingClassification)
+        {
+            $total += $accountingClassification->getTotalClassificationDRE($month, $year);
         }
         return $total;
     }
