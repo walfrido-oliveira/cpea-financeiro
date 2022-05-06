@@ -17,8 +17,16 @@ class AccountingAnalytics extends Model
      * @var array
      */
     protected $fillable = [
-        'name', 'value', 'classification', 'accounting_control_id', 'justification'
+        'value', 'accounting_classification_id', 'accounting_control_id', 'justification'
     ];
+
+     /**
+     * The Accounting Classification
+     */
+    public function accountingClassification()
+    {
+        return $this->belongsTo(AccountingClassification::class);
+    }
 
     /**
      * The Accounting Control

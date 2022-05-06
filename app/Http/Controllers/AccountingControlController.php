@@ -9,6 +9,7 @@ use Illuminate\Http\Response;
 use App\Models\AccountingControl;
 use App\Models\AccountingAnalytics;
 use PhpOffice\PhpSpreadsheet\IOFactory;
+use App\Models\AccountingClassification;
 use Illuminate\Support\Facades\Validator;
 
 class AccountingControlController extends Controller
@@ -86,8 +87,8 @@ class AccountingControlController extends Controller
         $accountingControl = AccountingControl::findOrFail($id);
         $accountingAnalytics = AccountingAnalytics::filter(['accounting_control_id' => $id]);
 
-        $ascending = isset($query['ascending']) ? $query['ascending'] : 'desc';
-        $orderBy = isset($query['order_by']) ? $query['order_by'] : 'created_at';
+        $ascending = isset($query['ascending']) ? $query['ascending'] : 'asc';
+        $orderBy = isset($query['order_by']) ? $query['order_by'] : 'id';
 
         return view('accounting-controls.show', compact('accountingControl', 'accountingAnalytics', 'ascending', 'orderBy'));
     }
@@ -184,7 +185,7 @@ class AccountingControlController extends Controller
     public function import(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'file' => 'required|mimes:xls,xlsx|max:4096',
+            'file' => 'required|mimes:xls,xlsx,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet|max:4096',
         ]);
 
         if ($validator->fails())
@@ -209,6 +210,7 @@ class AccountingControlController extends Controller
             foreach($rows as $key => $value)
             {
                 if($key <= 1) continue;
+
                 $validator = Validator::make([
                     'classification' => $value[0],
                     'name' => $value[1],
@@ -217,17 +219,21 @@ class AccountingControlController extends Controller
                 [
                     'name' => ['required', 'string', 'max:255'],
                     'value' => ['required', 'numeric'],
-                    'classification' => ['required', 'string']
+                    'classification' => ['required']
                 ]);
 
                 if (!$validator->fails())
                 {
-                    AccountingAnalytics::create([
-                        'classification' => $value[0],
-                        'name' => $value[1],
-                        'value' => Str::replace(',', '', $value[2]),
-                        'accounting_control_id' => $accountingControl->id
-                    ]);
+                    $accountingClassification = AccountingClassification::where('classification', Str::replace(' ','',  $value[0]))->first();
+
+                    if($accountingClassification)
+                    {
+                        AccountingAnalytics::create([
+                            'accounting_classification_id' => $accountingClassification->id,
+                            'value' => Str::replace(',', '', $value[2]),
+                            'accounting_control_id' => $accountingControl->id
+                        ]);
+                    }
                 }
             }
 

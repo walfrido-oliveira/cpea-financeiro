@@ -17,10 +17,10 @@
                 <input class="form-checkbox accounting-analytics-url" type="checkbox" name="accounting_analytics[{{ $analytics->id }}]" value="{!! route('accounting-analytics.destroy', ['accounting_analytics' => $analytics->id]) !!}">
             </td>
             <td>
-                <a class="text-item-table" href="{{ route('accounting-analytics.show', ['accounting_analytics' => $analytics->id]) }}">{{ $analytics->classification }}</a>
+                <a class="text-item-table" href="{{ route('accounting-analytics.show', ['accounting_analytics' => $analytics->id]) }}">{{ $analytics->accountingClassification->classification }}</a>
             </td>
             <td>
-                <a class="text-item-table" href="{{ route('accounting-analytics.show', ['accounting_analytics' => $analytics->id]) }}">{{ $analytics->name }}</a>
+                <a class="text-item-table" style="padding-left: {{ $analytics->accountingClassification->depth }}rem" href="{{ route('accounting-analytics.show', ['accounting_analytics' => $analytics->id]) }}">{{ $analytics->accountingClassification->name }}</a>
             </td>
             <td >
                 <input type="hidden" id="accounting_analytics_value_{{ $key }}" value="{{ $analytics->value }}">

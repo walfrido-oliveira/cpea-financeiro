@@ -190,6 +190,10 @@ Route::group(['middleware' => ['auth:sanctum', 'verified']], function() {
     Route::prefix('dre')->name('dre.')->group(function(){
         Route::get('/', [DREController::class, 'index'])->name('index');
     });
+
+    Route::get('teste', function () {
+        return App\Models\AccountingClassification::where('classification', '3')->first();
+    })->name('home');
 });
 
 

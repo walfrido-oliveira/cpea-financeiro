@@ -16,9 +16,8 @@ class CreateAccountingAnalyticsTable extends Migration
         Schema::create('accounting_analytics', function (Blueprint $table) {
             $table->id();
             $table->foreignId('accounting_control_id')->constrained()->onDelete('cascade');
+            $table->foreignId('accounting_classification_id')->constrained()->onDelete('cascade');
 
-            $table->string('classification');
-            $table->string('name');
             $table->decimal('value', 10, 2);
             $table->string('justification');
             $table->timestamps();

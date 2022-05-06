@@ -1,8 +1,8 @@
 <?php
 
 const DEFAULT_PAGINATE_PER_PAGE = 10;
-const DEFAULT_ORDER_BY_COLUMN = "created_at";
-const DEFAULT_ASCENDING = "desc";
+const DEFAULT_ORDER_BY_COLUMN = "id";
+const DEFAULT_ASCENDING = "asc";
 const SECONDS = "1000";
 
 if (! function_exists('mask'))
