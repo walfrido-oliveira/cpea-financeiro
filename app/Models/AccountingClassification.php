@@ -142,6 +142,7 @@ class AccountingClassification extends Model
                 $formulaText = Str::replace($value2[0], $sum, $formulaText);
             }
             $stringCalc = new StringCalc();
+            if(Str::contains($formulaText, '0/0')) return 0;
             $result = $stringCalc->calculate($formulaText);
             return $result;
         }
@@ -216,6 +217,7 @@ class AccountingClassification extends Model
                 $formulaText = Str::replace($value2[0], $sum, $formulaText);
             }
             $stringCalc = new StringCalc();
+            if(Str::contains($formulaText, '0/0')) return 0;
             $result = $stringCalc->calculate($formulaText);
             return $result;
         }
@@ -272,6 +274,7 @@ class AccountingClassification extends Model
                 $formulaText = Str::replace($value2[0], $sum, $formulaText);
             }
             $stringCalc = new StringCalc();
+            if(Str::contains($formulaText, '0/0')) return 0;
             $result = $stringCalc->calculate($formulaText);
 
             return Formula::conditionalCalc($formula->conditional_type, $result, $formula->conditional_value) ;
