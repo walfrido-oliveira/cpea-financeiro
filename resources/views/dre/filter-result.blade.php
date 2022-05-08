@@ -75,8 +75,10 @@
                 @php
                     $totalClassificationDRE = $accountingClassification->getTotalClassificationDRE($key, $year);
                 @endphp
-                @if ($totalClassificationDRE != 0)
-                    {{ $totalClassificationDRE > 0 ? 'R$' . number_format($totalClassificationDRE, 0, ',', '.') : '(' . number_format($totalClassificationDRE * -1, 0, ',', '.') . ')'}}
+                @if ($totalClassificationDRE > 0)
+                    {{ 'R$' . number_format($totalClassificationDRE, 0, ',', '.') }}
+                @elseif($totalClassificationDRE < 0)
+                    {{ 'R$ (' . number_format($totalClassificationDRE * -1, 0, ',', '.') . ')' }}
                 @else
                     -
                 @endif
@@ -99,8 +101,10 @@
                 @php
                     $totalClassificationByMonthDRE = App\Models\AccountingClassification::getTotalClassificationByMonthDRE($key, $year);
                 @endphp
-                @if ($totalClassificationByMonthDRE != 0)
-                    {{  $totalClassificationByMonthDRE > 0 ? 'R$' . number_format($totalClassificationByMonthDRE, 0, ',', '.') : '(' . number_format($totalClassificationByMonthDRE * -1, 0, ',', '.') . ')' }}
+                @if ($totalClassificationByMonthDRE > 0)
+                    {{  'R$' . number_format($totalClassificationByMonthDRE, 0, ',', '.') }}
+                @elseif($totalClassificationByMonthDRE < 0)
+                    {{ 'R$ (' . number_format($totalClassificationByMonthDRE * -1, 0, ',', '.') . ')' }}
                 @else
                     -
                 @endif
