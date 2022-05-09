@@ -31,9 +31,13 @@
                     </div>
 
                     <div class="flex flex-wrap mx-4 px-3 py-2 mt-4">
-                        <div class="w-full px-3 mb-6 md:mb-0">
+                        <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
                             <x-jet-label for="type_classification" value="{{ __('Tipo de Classificação') }}" required/>
                             <x-custom-select :options="$types" name="type_classification" id="type_classification" required :value="$accountingClassification->type_classification"/>
+                        </div>
+                        <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
+                            <x-jet-label for="unity" value="{{ __('Unidade') }}" required/>
+                            <x-custom-select :options="$unitys" name="unity" id="unity" required :value="$accountingClassification->unity"/>
                         </div>
                     </div>
 

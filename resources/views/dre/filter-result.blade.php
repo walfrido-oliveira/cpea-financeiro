@@ -76,9 +76,9 @@
                     $totalClassificationDRE = $accountingClassification->getTotalClassificationDRE($key, $year);
                 @endphp
                 @if ($totalClassificationDRE > 0)
-                    {{ 'R$' . number_format($totalClassificationDRE, 0, ',', '.') }}
+                    {{ $accountingClassification->unity . number_format($totalClassificationDRE, 0, ',', '.') }}
                 @elseif($totalClassificationDRE < 0)
-                    {{ 'R$ (' . number_format($totalClassificationDRE * -1, 0, ',', '.') . ')' }}
+                    {{ $accountingClassification->unity . '(' . number_format($totalClassificationDRE * -1, 0, ',', '.') . ')' }}
                 @else
                     -
                 @endif
@@ -94,8 +94,10 @@
 <tbody>
 <tfoot>
     <tr>
-        <td class="sticky-col first-col"></td>
-        <td class="sticky-col second-col">{{ __('TOTAL GERAL') }}</td>
+        <td class="sticky-col first-col">{{ __('TOTAL GERAL') }}</td>
+        <td class="sticky-col second-col">-</td>
+        <td class="sticky-col third-col">-</td>
+        <td class="sticky-col fourth-col">-</td>
         @foreach ($months as $key => $month)
             <td>
                 @php

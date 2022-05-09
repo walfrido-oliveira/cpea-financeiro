@@ -18,7 +18,7 @@ class AccountingClassification extends Model
      */
     protected $fillable = [
         'name', 'obs', 'level', 'classification', 'type_classification', 'featured',
-        'color', 'bolder', 'accounting_classification_id', 'visible'
+        'color', 'bolder', 'accounting_classification_id', 'visible', 'unity'
     ];
 
      /**
@@ -83,6 +83,29 @@ class AccountingClassification extends Model
             'Retiradas Gerenciais' => 'Retiradas Gerenciais',
             'Resultado do Exercicio' => 'Resultado do Exercicio',
             'DRE Ajustável' => 'DRE Ajustável',
+        ];
+    }
+
+    /**
+     * Get types
+     *
+     * @return Array
+     */
+    public static function getUnitys()
+    {
+        return ['R$', '%'];
+    }
+
+    /**
+     * Get types
+     *
+     * @return Array
+     */
+    public static function getUnitys2()
+    {
+        return [
+            'R$' => 'R$',
+            '%' => '%',
         ];
     }
 
@@ -158,7 +181,9 @@ class AccountingClassification extends Model
     public static function getTotalClassificationByMonthWithdrawal($month, $year)
     {
         $total = 0;
-        $accountingClassifications = self::where('type_classification', 'Retiradas Gerenciais')->get();
+        $accountingClassifications = self::where('type_classification', 'Retiradas Gerenciais')
+        ->where('unity', 'R$')
+        ->get();
         foreach ($accountingClassifications as $accountingClassification)
         {
             $total += $accountingClassification->getTotalClassificationWithdrawal($month, $year);
@@ -291,11 +316,14 @@ class AccountingClassification extends Model
     public static function getTotalClassificationByMonthDRE($month, $year)
     {
         $total = 0;
-        $accountingClassifications = self::where('type_classification', 'Retiradas Gerenciais')->get();
+        $accountingClassifications = self::where('type_classification', 'DRE Ajustável')
+        ->where('unity', 'R$')
+        ->get();
         foreach ($accountingClassifications as $accountingClassification)
         {
             $total += $accountingClassification->getTotalClassificationDRE($month, $year);
         }
+
         return $total;
     }
 
