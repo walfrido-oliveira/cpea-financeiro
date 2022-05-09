@@ -248,7 +248,7 @@ class AccountingClassification extends Model
             if(Str::contains($formulaText, '0/0')) return 0;
             $result = $stringCalc->calculate($formulaText);
 
-            return $this->unity == 'R$' ? (int) round($result, 0, PHP_ROUND_HALF_UP) : $result;
+            return $this->unity == 'R$' ? round($result, 0, PHP_ROUND_HALF_UP) : $result;
         }
         return 0;
     }
