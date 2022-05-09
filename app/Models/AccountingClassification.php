@@ -129,6 +129,7 @@ class AccountingClassification extends Model
      *
      * @param int $month
      * @param int $year
+     * @return int
      */
     public function getTotalClassificationWithdrawal($month, $year)
     {
@@ -167,7 +168,7 @@ class AccountingClassification extends Model
             $stringCalc = new StringCalc();
             if(Str::contains($formulaText, '0/0')) return 0;
             $result = $stringCalc->calculate($formulaText);
-            return $result;
+            return (int) $result;
         }
         return 0;
     }
@@ -177,6 +178,7 @@ class AccountingClassification extends Model
      *
      * @param int $month
      * @param int $year
+     * @return int
      */
     public static function getTotalClassificationByMonthWithdrawal($month, $year)
     {
@@ -196,6 +198,7 @@ class AccountingClassification extends Model
      *
      * @param int $month
      * @param int $year
+     * @return int
      */
     public function getTotalClassificationDRE($month, $year)
     {
@@ -244,7 +247,7 @@ class AccountingClassification extends Model
             $stringCalc = new StringCalc();
             if(Str::contains($formulaText, '0/0')) return 0;
             $result = $stringCalc->calculate($formulaText);
-            return $result;
+            return (int) $result;
         }
         return 0;
     }
@@ -255,6 +258,7 @@ class AccountingClassification extends Model
      * @param App\Modeles\Formula
      * @param int $month
      * @param int $year
+     * @return bool
      */
     public function checkCondicionalDRE($formula, $month, $year)
     {
@@ -312,6 +316,7 @@ class AccountingClassification extends Model
      *
      * @param int $month
      * @param int $year
+     * @return int
      */
     public static function getTotalClassificationByMonthDRE($month, $year)
     {
