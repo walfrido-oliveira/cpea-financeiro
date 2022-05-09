@@ -49,9 +49,9 @@
                         $decimal = $accountingClassification->unity == '%' ? 2 : 0;
                     @endphp
                     @if ($totalByMonthAndClassification > 0)
-                        {{ $accountingClassification->unity == 'R$' ? $accountingClassification->unity  : '' .  $accountingClassification->unity . number_format($totalByMonthAndClassification, $decimal, ',', '.') . $accountingClassification->unity == '%' ? $accountingClassification->unity  : '' }}
+                        {{ ($accountingClassification->unity == 'R$' ? $accountingClassification->unity  : '') .  $accountingClassification->unity . number_format($totalByMonthAndClassification, $decimal, ',', '.') . ($accountingClassification->unity == '%' ? $accountingClassification->unity  : '') }}
                     @elseif($totalByMonthAndClassification < 0)
-                        {{ $accountingClassification->unity == 'R$' ? $accountingClassification->unity  : '' .  $accountingClassification->unity . '(' . number_format($totalByMonthAndClassification * -1, $decimal, ',', '.') . ')' . $accountingClassification->unity == '%' ? $accountingClassification->unity  : ''}}
+                        {{ ($accountingClassification->unity == 'R$' ? $accountingClassification->unity  : '') .  $accountingClassification->unity . '(' . number_format($totalByMonthAndClassification * -1, $decimal, ',', '.') . ')' . ($accountingClassification->unity == '%' ? $accountingClassification->unity  : '')  }}
                     @else
                         -
                     @endif
