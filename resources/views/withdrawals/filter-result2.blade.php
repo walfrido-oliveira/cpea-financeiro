@@ -53,6 +53,7 @@
                         {{ $accountingClassification->unity . '(' . number_format($totalByMonthAndClassification * -1, 0, ',', '.') . ')' }}
                     @else
                         -
+                    @endif
                 </td>
             @endforeach
         <tr>
