@@ -44,7 +44,15 @@
                     font-weight:bolder;
                 @endif
                 ">
-                    {{ App\Models\Withdrawal::getTotalByMonthAndClassification($key, $year, $accountingClassification->id) > 0 ? 'R$' . number_format(App\Models\Withdrawal::getTotalByMonthAndClassification($key, $year, $accountingClassification->id), 2, ',', '.') : '-' }}
+                    @php
+                        $totalByMonthAndClassification = $accountingClassification->getTotalByMonthAndClassification($key, $year, $accountingClassification);
+                    @endphp
+                    @if ($totalByMonthAndClassification > 0)
+                        {{ $accountingClassification->unity . number_format($totalByMonthAndClassification, 0, ',', '.') }}
+                    @elseif($totalByMonthAndClassification < 0)
+                        {{ $accountingClassification->unity . '(' . number_format($totalByMonthAndClassification * -1, 0, ',', '.') . ')' }}
+                    @else
+                        -
                 </td>
             @endforeach
         <tr>
@@ -59,7 +67,18 @@
             <td class="sticky-col first-col"></td>
             <td class="sticky-col second-col">{{ __('TOTAL GERAL') }}</td>
             @foreach ($months as $key => $month)
-                <td>{{ App\Models\Withdrawal::getTotalByMonth($key, $year)? 'R$' . number_format (App\Models\Withdrawal::getTotalByMonth($key, $year), 2, ',', '.') ? '-'  }}</td>
+                <td>
+                    @php
+                        $totalClassificationByMonthDRE = App\Models\AccountingClassification::getTotalByMonth($key, $year);
+                    @endphp
+                    @if ($totalClassificationByMonthDRE > 0)
+                        {{  'R$' . number_format($totalClassificationByMonthDRE, 0, ',', '.') }}
+                    @elseif($totalClassificationByMonthDRE < 0)
+                        {{ 'R$ (' . number_format($totalClassificationByMonthDRE * -1, 0, ',', '.') . ')' }}
+                    @else
+                        -
+                    @endif
+                </td>
             @endforeach
         </tr>
     </tfoot>

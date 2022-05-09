@@ -72,16 +72,16 @@
                     font-weight:bolder;
                 @endif
                 ">
-                @php
-                    $totalClassificationDRE = $accountingClassification->getTotalClassificationDRE($key, $year);
-                @endphp
-                @if ($totalClassificationDRE > 0)
-                    {{ $accountingClassification->unity . number_format($totalClassificationDRE, 0, ',', '.') }}
-                @elseif($totalClassificationDRE < 0)
-                    {{ $accountingClassification->unity . '(' . number_format($totalClassificationDRE * -1, 0, ',', '.') . ')' }}
-                @else
-                    -
-                @endif
+                    @php
+                        $totalClassificationDRE = $accountingClassification->getTotalClassificationDRE($key, $year);
+                    @endphp
+                    @if ($totalClassificationDRE > 0)
+                        {{ $accountingClassification->unity . number_format($totalClassificationDRE, 0, ',', '.') }}
+                    @elseif($totalClassificationDRE < 0)
+                        {{ $accountingClassification->unity . '(' . number_format($totalClassificationDRE * -1, 0, ',', '.') . ')' }}
+                    @else
+                        -
+                    @endif
 
                 </td>
             @endforeach
