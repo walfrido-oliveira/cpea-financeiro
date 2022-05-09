@@ -46,11 +46,12 @@
                 ">
                     @php
                         $totalByMonthAndClassification = App\Models\Withdrawal::getTotalByMonthAndClassification($key, $year, $accountingClassification->id);
+                        $decimal = $accountingClassification->unity == '%' ? 2 : 0;
                     @endphp
                     @if ($totalByMonthAndClassification > 0)
-                        {{ $accountingClassification->unity . number_format($totalByMonthAndClassification, 0, ',', '.') }}
+                        {{ $accountingClassification->unity . number_format($totalByMonthAndClassification, $decimal, ',', '.') }}
                     @elseif($totalByMonthAndClassification < 0)
-                        {{ $accountingClassification->unity . '(' . number_format($totalByMonthAndClassification * -1, 0, ',', '.') . ')' }}
+                        {{ $accountingClassification->unity . '(' . number_format($totalByMonthAndClassification * -1, $decimal, ',', '.') . ')' }}
                     @else
                         -
                     @endif

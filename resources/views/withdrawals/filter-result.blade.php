@@ -46,11 +46,12 @@
                 ">
                     @php
                         $totalClassificationDRE = $accountingClassification->getTotalClassificationWithdrawal($key, $year);
+                        $decimal = $accountingClassification->unity == '%' ? 2 : 0;
                     @endphp
                     @if ($totalClassificationDRE > 0)
-                        {{ $accountingClassification->unity . number_format($totalClassificationDRE, 0, ',', '.') }}
+                        {{ $accountingClassification->unity . number_format($totalClassificationDRE, $decimal, ',', '.') }}
                     @elseif($totalClassificationDRE < 0)
-                        {{ $accountingClassification->unity . '(' . number_format($totalClassificationDRE * -1, 0, ',', '.') . ')' }}
+                        {{ $accountingClassification->unity . '(' . number_format($totalClassificationDRE * -1, $decimal, ',', '.') . ')' }}
                     @else
                         -
                     @endif

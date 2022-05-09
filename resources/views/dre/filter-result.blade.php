@@ -74,11 +74,12 @@
                 ">
                     @php
                         $totalClassificationDRE = $accountingClassification->getTotalClassificationDRE($key, $year);
+                        $decimal = $accountingClassification->unity == '%' ? 2 : 0;
                     @endphp
                     @if ($totalClassificationDRE > 0)
-                        {{ $accountingClassification->unity . number_format($totalClassificationDRE, 0, ',', '.') }}
+                        {{ $accountingClassification->unity . number_format($totalClassificationDRE, $decimal, ',', '.') }}
                     @elseif($totalClassificationDRE < 0)
-                        {{ $accountingClassification->unity . '(' . number_format($totalClassificationDRE * -1, 0, ',', '.') . ')' }}
+                        {{ $accountingClassification->unity . '(' . number_format($totalClassificationDRE * -1, $decimal, ',', '.') . ')' }}
                     @else
                         -
                     @endif
@@ -102,11 +103,12 @@
             <td>
                 @php
                     $totalClassificationByMonthDRE = App\Models\AccountingClassification::getTotalClassificationByMonthDRE($key, $year);
+                    $decimal = $accountingClassification->unity == '%' ? 2 : 0;
                 @endphp
                 @if ($totalClassificationByMonthDRE > 0)
-                    {{  'R$' . number_format($totalClassificationByMonthDRE, 0, ',', '.') }}
+                    {{  'R$' . number_format($totalClassificationByMonthDRE, $decimal, ',', '.') }}
                 @elseif($totalClassificationByMonthDRE < 0)
-                    {{ 'R$ (' . number_format($totalClassificationByMonthDRE * -1, 0, ',', '.') . ')' }}
+                    {{ 'R$ (' . number_format($totalClassificationByMonthDRE * -1, $decimal, ',', '.') . ')' }}
                 @else
                     -
                 @endif
