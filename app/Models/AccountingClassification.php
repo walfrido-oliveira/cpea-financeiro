@@ -168,7 +168,7 @@ class AccountingClassification extends Model
             $stringCalc = new StringCalc();
             if(Str::contains($formulaText, '0/0')) return 0;
             $result = $stringCalc->calculate($formulaText);
-            return (int) $result;
+            return $this->unity == 'R$' ? (int) $result : $result;
         }
         return 0;
     }
@@ -247,7 +247,7 @@ class AccountingClassification extends Model
             $stringCalc = new StringCalc();
             if(Str::contains($formulaText, '0/0')) return 0;
             $result = $stringCalc->calculate($formulaText);
-            return (int) $result;
+            return $this->unity == 'R$' ? (int) $result : $result;
         }
         return 0;
     }
