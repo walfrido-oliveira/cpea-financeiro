@@ -45,7 +45,7 @@
                 @endif
                 ">
                     @php
-                        $totalByMonthAndClassification = $accountingClassification->getTotalByMonthAndClassification($key, $year, $accountingClassification);
+                        $totalByMonthAndClassification = App\Models\Withdrawal::getTotalByMonthAndClassification($key, $year, $accountingClassification->id);
                     @endphp
                     @if ($totalByMonthAndClassification > 0)
                         {{ $accountingClassification->unity . number_format($totalByMonthAndClassification, 0, ',', '.') }}
@@ -70,7 +70,7 @@
             @foreach ($months as $key => $month)
                 <td>
                     @php
-                        $totalClassificationByMonthDRE = App\Models\AccountingClassification::getTotalByMonth($key, $year);
+                        $totalClassificationByMonthDRE = App\Models\Withdrawal::getTotalByMonth($key, $year);
                     @endphp
                     @if ($totalClassificationByMonthDRE > 0)
                         {{  'R$' . number_format($totalClassificationByMonthDRE, 0, ',', '.') }}
