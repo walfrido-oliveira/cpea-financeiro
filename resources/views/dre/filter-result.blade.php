@@ -79,7 +79,7 @@
                     @if ($totalClassificationDRE > 0)
                         {{ $accountingClassification->unity . number_format($totalClassificationDRE, $decimal, ',', '.') }}
                     @elseif($totalClassificationDRE < 0)
-                        {{ $accountingClassification->unity . '(' . number_format($totalClassificationDRE * -1, $decimal, ',', '.') . ')' }}
+                        {{ $accountingClassification->unity == 'R$' ? $accountingClassification->unity  : ''  . '(' . number_format($totalClassificationDRE * -1, $decimal, ',', '.') . ')' $accountingClassification->unity == '%' ? $accountingClassification->unity  : '' }}
                     @else
                         -
                     @endif
