@@ -43,7 +43,7 @@
                             @include('accounting-analytics.filter-result', ['accountingAnalytics' => $accountingAnalytics, 'ascending' => $ascending, 'orderBy' => $orderBy])
                         </table>
                     </div>
-                    <div class="flex w-full mt-4 p-2" id="pagination_campaigns">
+                    <div class="flex w-full mt-4 p-2" id="pagination">
                         {{ $accountingAnalytics->links() }}
                     </div>
                 </div>
@@ -132,7 +132,7 @@
           var token = document.querySelector('meta[name="csrf-token"]').content;
           var method = 'POST';
           var paginationPerPage = document.getElementById("paginate_per_page").value;
-          var   q = document.getElementById("q").value;
+          var q = document.getElementById("q").value;
 
           ajax.open(method, url);
 

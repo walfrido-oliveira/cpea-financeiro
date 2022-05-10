@@ -58,14 +58,6 @@ class AccountingAnalytics extends Model
                 }
             }
 
-            if(isset($query['name']))
-            {
-                if(!is_null($query['name']))
-                {
-                    $q->where('name', 'like','%' . $query['name'] . '%');
-                }
-            }
-
             if(isset($query['classification']))
             {
                 if(!is_null($query['classification']))
@@ -86,8 +78,11 @@ class AccountingAnalytics extends Model
             {
                 if(!is_null($query['q']))
                 {
-                    $q->where('name', 'like', '%' . $query['q'] . '%')
-                    ->orWhere('classification', 'like', '%' . $query['q'] . '%');
+                    $q->whereHas('accountingClassification', function($q) use ($query) {
+                        $q->where('accounting_classifications.name', 'like', '%' . $query['q'] . '%')
+                        ->orWhere('accounting_classifications.classification', 'like', '%' . $query['q'] . '%');
+                    });
+
                 }
             }
         });
