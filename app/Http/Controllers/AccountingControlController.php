@@ -221,8 +221,8 @@ class AccountingControlController extends Controller
                     'value' => Str::replace(',', '', $value[2]),
                 ],
                 [
-                    'name' => ['required', 'string', 'max:255'],
-                    'value' => ['required', 'numeric'],
+                    'name' => ['required'],
+                    'value' => ['required'],
                     'classification' => ['required']
                 ]);
 
