@@ -103,7 +103,7 @@
             <td>
                 @php
                     $totalClassificationByMonthDRE = App\Models\AccountingClassification::getTotalClassificationByMonthDRE($key, $year);
-                    $decimal = $accountingClassification->unity == '%' ? 2 : 0;
+                    $decimal = 2;
                 @endphp
                 @if ($totalClassificationByMonthDRE > 0)
                     {{  'R$' . number_format($totalClassificationByMonthDRE, $decimal, ',', '.') }}
