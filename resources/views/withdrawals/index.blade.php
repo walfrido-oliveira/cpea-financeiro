@@ -6,14 +6,6 @@
                 <div class="w-full flex items-center">
                     <h1>{{ __('Retiradas Gerenciais') }}</h1>
                 </div>
-                <div class="w-full flex justify-end">
-                    <div class="m-2 ">
-                        <a class="btn-outline-info" href="{{ route('withdrawals.create') }}" >{{ __('Cadastrar') }}</a>
-                    </div>
-                    <div class="m-2">
-                        <button type="button" class="btn-outline-danger delete_accounting_classifications" data-type="multiple">{{ __('Apagar') }}</button>
-                    </div>
-                </div>
             </div>
 
             <div class="py-2 my-2 bg-white rounded-lg min-h-screen">
