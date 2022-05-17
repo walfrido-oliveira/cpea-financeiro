@@ -228,13 +228,10 @@ class AccountingClassification extends Model
 
                     if($accountingControl)
                     {
-                        $accountingAnalytics = $accountingControl->accountingAnalytics()->where('accounting_classification_id', $classification->id)->get();
-                        if(count($accountingAnalytics) > 0)
+                        $accountingAnalytics = $accountingControl->accountingAnalytics()->where('accounting_classification_id', $classification->id)->first();
+                        if($accountingAnalytics)
                         {
-                            foreach ($accountingAnalytics  as $accountingAnalytic)
-                            {
-                                $sum += $accountingAnalytic->value;
-                            }
+                            $sum += $accountingAnalytics->value;
                         }
                         else
                         {
@@ -288,13 +285,10 @@ class AccountingClassification extends Model
 
                     if($accountingControl)
                     {
-                        $accountingAnalytics = $accountingControl->accountingAnalytics()->where('accounting_classification_id', $classification->id)->get();
-                        if(count($accountingAnalytics) > 0)
+                        $accountingAnalytics = $accountingControl->accountingAnalytics()->where('accounting_classification_id', $classification->id)->first();
+                        if($accountingAnalytics)
                         {
-                            foreach ($accountingAnalytics  as $accountingAnalytic)
-                            {
-                                $sum += $accountingAnalytic->value;
-                            }
+                            $sum += $accountingAnalytics->value;
                         }
                         else
                         {
