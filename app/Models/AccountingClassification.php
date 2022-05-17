@@ -242,6 +242,7 @@ class AccountingClassification extends Model
                         }
                     }
                 }
+                if($classification->unity == "%") $sum = $sum / 100;
                 $formulaText = Str::replace($value2[0], $sum, $formulaText);
             }
             $stringCalc = new StringCalc();
@@ -301,6 +302,7 @@ class AccountingClassification extends Model
                         }
                     }
                 }
+                if($classification->unity == "%") $sum = $sum / 100;
                 $formulaText = Str::replace($value2[0], $sum, $formulaText);
             }
             $stringCalc = new StringCalc();
