@@ -71,7 +71,7 @@
                 @if ($accountingClassification->bolder)
                     font-weight:bolder;
                 @endif
-                ">
+                " title="{{ $accountingClassification->formula ? $accountingClassification->formula->formula : '' }}">
                     @php
                         $totalClassificationDRE = $accountingClassification->getTotalClassificationDRE($key, $year);
                         $decimal = $accountingClassification->unity == '%' ? 2 : 0;

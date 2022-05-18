@@ -30,6 +30,14 @@ class AccountingClassification extends Model
     }
 
     /**
+     * The Formula
+     */
+    public function formula()
+    {
+        return $this->belongsTo(Formula::class);
+    }
+
+    /**
      * Returns the depth of an Instance
      * @param $idToFind
      * @return int
