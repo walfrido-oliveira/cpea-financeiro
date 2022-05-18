@@ -34,7 +34,7 @@ class AccountingClassification extends Model
      */
     public function formula()
     {
-        return $this->belongsTo(Formula::class);
+        return $this->hasMany(Formula::class);
     }
 
     /**
