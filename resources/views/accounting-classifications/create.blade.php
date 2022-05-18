@@ -37,7 +37,7 @@
                         </div>
                         <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
                             <x-jet-label for="unity" value="{{ __('Unidade') }}" required/>
-                            <x-custom-select :options="$unitys" name="type_classification" id="unity" required :value="old('unity')"/>
+                            <x-custom-select :options="$unitys" name="unity" id="unity" required :value="old('unity')"/>
                         </div>
                     </div>
 
