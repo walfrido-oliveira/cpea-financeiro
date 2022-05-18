@@ -93,26 +93,3 @@
         </tr>
     @endforelse
 <tbody>
-<tfoot>
-    <tr>
-        <td class="sticky-col first-col">{{ __('TOTAL GERAL') }}</td>
-        <td class="sticky-col second-col">-</td>
-        <td class="sticky-col third-col">-</td>
-        <td class="sticky-col fourth-col">-</td>
-        @foreach ($months as $key => $month)
-            <td>
-                @php
-                    $totalClassificationByMonthDRE = App\Models\AccountingClassification::getTotalClassificationByMonthDRE($key, $year);
-                    $decimal = 2;
-                @endphp
-                @if ($totalClassificationByMonthDRE > 0)
-                    {{  'R$' . number_format($totalClassificationByMonthDRE, $decimal, ',', '.') }}
-                @elseif($totalClassificationByMonthDRE < 0)
-                    {{ 'R$ (' . number_format($totalClassificationByMonthDRE * -1, $decimal, ',', '.') . ')' }}
-                @else
-                    -
-                @endif
-            </td>
-        @endforeach
-    </tr>
-</tfoot>
