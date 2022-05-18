@@ -201,7 +201,7 @@ class AccountingControlController extends Controller
         if($request->file)
         {
 
-            $accountingControl = AccountingControl::create([
+            $accountingControl = AccountingControl::updateOrCreate([
                 'month' => $inputs['month'],
                 'year' => $inputs['year'],
                 'obs' => $inputs['obs'],
@@ -232,7 +232,7 @@ class AccountingControlController extends Controller
 
                     if($accountingClassification)
                     {
-                        AccountingAnalytics::create([
+                        AccountingAnalytics::updateOrCreate([
                             'accounting_classification_id' => $accountingClassification->id,
                             'value' => Str::replace(',', '', $value[2]),
                             'accounting_control_id' => $accountingControl->id
