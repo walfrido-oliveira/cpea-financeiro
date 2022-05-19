@@ -80,13 +80,15 @@ class AccountingControlController extends Controller
     /**
      * Display the specified resource.
      *
+     * @param  \Illuminate\Http\Request  $request
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Request $request, $id)
     {
         $accountingControl = AccountingControl::findOrFail($id);
-        $accountingAnalytics = AccountingAnalytics::filter(['accounting_control_id' => $id]);
+        $accountingAnalytics = AccountingAnalytics::filter(['accounting_control_id' => $id,
+                                                            'paginate_per_page' => $request->has('paginate_per_page') ? $request->get('paginate_per_page') : 10]);
 
         $ascending = isset($query['ascending']) ? $query['ascending'] : 'asc';
         $orderBy = isset($query['order_by']) ? $query['order_by'] : 'id';

@@ -15,7 +15,6 @@ class AccountingClassificationController extends Controller
      */
     private function validating(Request $request)
     {
-        dd($request->all());
         $request->validate([
             'name' => ['required', 'string', 'max:255', Rule::unique('accounting_classifications', 'name', )->ignore($request->name, 'name')],
             'level' => ['required', 'max:10', 'min:1', 'integer'],
