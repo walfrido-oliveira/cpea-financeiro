@@ -235,7 +235,7 @@ class AccountingControlController extends Controller
 
                     if($accountingClassification)
                     {
-                        AccountingAnalytics::updateOrCreate([
+                        AccountingAnalytics::create([
                             'accounting_classification_id' => $accountingClassification->id,
                             'value' => Str::replace(',', '', $value[2]),
                             'accounting_control_id' => $accountingControl->id
