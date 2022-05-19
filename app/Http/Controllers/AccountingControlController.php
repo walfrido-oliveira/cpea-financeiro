@@ -249,7 +249,9 @@ class AccountingControlController extends Controller
 
             return response()->json([
                 'message' => __('Arquivo importado com sucesso!'),
-                'alert-type' => 'success'
+                'alert-type' => 'success',
+                'not_imported' => $notImport,
+                'total_imported' =>  $totalImported
             ]);
         }
 
