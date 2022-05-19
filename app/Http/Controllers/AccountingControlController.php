@@ -210,10 +210,13 @@ class AccountingControlController extends Controller
             $spreadsheet = IOFactory::load($request->file->path());
             $worksheet = $spreadsheet->getActiveSheet();
             $rows = $worksheet->toArray();
+            $notImport = [];
+            $totalImported=0;
 
             foreach($rows as $key => $value)
             {
-                if($key <= 1) continue;
+                if($key < 1) continue;
+                if(!$value[0]) continue;
 
                 $validator = Validator::make([
                     'classification' => $value[0],
@@ -237,7 +240,10 @@ class AccountingControlController extends Controller
                             'value' => Str::replace(',', '', $value[2]),
                             'accounting_control_id' => $accountingControl->id
                         ]);
+                        $totalImported++;
                     }
+                }else{
+                  $notImport[] = $value[0];
                 }
             }
 
