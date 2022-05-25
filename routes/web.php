@@ -44,6 +44,7 @@ use App\Http\Controllers\CalculationParameterController;
 use App\Http\Controllers\GuidingParameterValueController;
 use App\Http\Controllers\ParameterAnalysisGroupController;
 use App\Http\Controllers\AccountingClassificationController;
+use App\Http\Controllers\AccountingConfigController;
 use App\Http\Controllers\GuidingParameterRefValueController;
 
 /*
@@ -189,6 +190,16 @@ Route::group(['middleware' => ['auth:sanctum', 'verified']], function() {
     /** DRE */
     Route::prefix('dre')->name('dre.')->group(function(){
         Route::get('/', [DREController::class, 'index'])->name('index');
+    });
+
+    /** Configs */
+    Route::resource('configuracoes', AccountingConfigController::class, [
+        'names' => 'accounting-configs'])->parameters([
+        'configuracoes' => 'accounting-config'
+    ]);
+
+    Route::prefix('configuracoes')->name('accounting-configs.')->group(function(){
+        Route::post('/filter', [AccountingConfigController::class, 'filter'])->name('filter');
     });
 
     Route::get('teste', function () {
