@@ -33,6 +33,8 @@
     </div>
 
     @include('accounting-configs.create-modal')
+    @include('accounting-configs.add-classification-modal')
+    @include('accounting-configs.add-formula-modal')
 
     <x-spin-load />
 
@@ -89,47 +91,143 @@
             modal.classList.add("block");
         });
 
-    document.getElementById("accounting_config_cancel_modal").addEventListener("click", function(e) {
-        var modal = document.getElementById("accounting_config_modal");
-        modal.classList.add("hidden");
-    });
+        document.getElementById("btn_add_classification").addEventListener("click", function() {
+            var modal = document.getElementById("add_classification_modal");
+            modal.classList.remove("hidden");
+            modal.classList.add("block");
+        });
 
-    document.getElementById("accounting_config_confirm_modal").addEventListener("click", function(e) {
-        document.getElementById("spin_load").classList.remove("hidden");
+        document.getElementById("btn_add_formula").addEventListener("click", function() {
+            var modal = document.getElementById("add_formula_modal");
+            modal.classList.remove("hidden");
+            modal.classList.add("block");
+        });
 
-        let ajax = new XMLHttpRequest();
-        let url = "{!! route('accounting-configs.store') !!}";
-        let token = document.querySelector('meta[name="csrf-token"]').content;
-        let method = 'POST';
-        let month = document.querySelector("#accounting_config_modal #month").value;
-        let year = document.querySelector("#year").value;
+        document.getElementById("accounting_config_cancel_modal").addEventListener("click", function(e) {
+            var modal = document.getElementById("accounting_config_modal");
+            modal.classList.add("hidden");
+        });
 
-        ajax.open(method, url);
+        document.getElementById("add_classification_cancel_modal").addEventListener("click", function(e) {
+            var modal = document.getElementById("add_classification_modal");
+            modal.classList.add("hidden");
+        });
 
-        ajax.onreadystatechange = function() {
-            if (this.readyState == 4 && this.status == 200) {
-                var resp = JSON.parse(ajax.response);
-                document.getElementById("spin_load").classList.add("hidden");
-                toastr.success(resp.message);
+        document.getElementById("add_formula_cancel_modal").addEventListener("click", function(e) {
+            var modal = document.getElementById("add_formula_modal");
+            modal.classList.add("hidden");
+        });
 
-                location.reload();
-            } else if(this.readyState == 4 && this.status != 200) {
-                document.getElementById("spin_load").classList.add("hidden");
-                toastr.error("{!! __('Um erro ocorreu ao solicitar a consulta') !!}");
+        document.getElementById("accounting_config_confirm_modal").addEventListener("click", function(e) {
+            document.getElementById("spin_load").classList.remove("hidden");
+
+            let ajax = new XMLHttpRequest();
+            let url = "{!! route('accounting-configs.store') !!}";
+            let token = document.querySelector('meta[name="csrf-token"]').content;
+            let method = 'POST';
+            let month = document.querySelector("#accounting_config_modal #month").value;
+            let year = document.querySelector("#accounting_config_modal #year").value;
+
+            ajax.open(method, url);
+
+            ajax.onreadystatechange = function() {
+                if (this.readyState == 4 && this.status == 200) {
+                    var resp = JSON.parse(ajax.response);
+                    document.getElementById("spin_load").classList.add("hidden");
+                    toastr.success(resp.message);
+
+                    location.reload();
+                } else if(this.readyState == 4 && this.status != 200) {
+                    document.getElementById("spin_load").classList.add("hidden");
+                    toastr.error("{!! __('Um erro ocorreu ao solicitar a consulta') !!}");
+                }
             }
-        }
 
-        var data = new FormData();
-        data.append('_token', token);
-        data.append('_method', method);
-        data.append('month', month);
-        data.append('year', year);
+            var data = new FormData();
+            data.append('_token', token);
+            data.append('_method', method);
+            data.append('month', month);
+            data.append('year', year);
 
-        ajax.send(data);
+            ajax.send(data);
 
-    });
+        });
 
-</script>
+        document.getElementById("add_classification_confirm_modal").addEventListener("click", function(e) {
+            document.getElementById("spin_load").classList.remove("hidden");
+
+            let ajax = new XMLHttpRequest();
+            let token = document.querySelector('meta[name="csrf-token"]').content;
+            let method = 'POST';
+            let month = document.querySelector("#add_classification_modal #month").value;
+            let year = document.querySelector("#add_classification_modal #year").value;
+            let accounting_classification_id = document.querySelector("#add_classification_modal #accounting_classification_id").value;
+            let url = "{!! route('accounting-configs.add-Classification', ['month' => '#1', 'year' => '#2']) !!}".replace('#1', month).replace('#2', year);
+
+            ajax.open(method, url);
+
+            ajax.onreadystatechange = function() {
+                if (this.readyState == 4 && this.status == 200) {
+                    var resp = JSON.parse(ajax.response);
+                    document.getElementById("spin_load").classList.add("hidden");
+                    toastr.success(resp.message);
+
+                    location.reload();
+                } else if(this.readyState == 4 && this.status != 200) {
+                    document.getElementById("spin_load").classList.add("hidden");
+                    toastr.error("{!! __('Um erro ocorreu ao solicitar a consulta') !!}");
+                }
+            }
+
+            var data = new FormData();
+            data.append('_token', token);
+            data.append('_method', method);
+            data.append('month', month);
+            data.append('year', year);
+            data.append('accounting_classification_id', accounting_classification_id);
+
+            ajax.send(data);
+
+        });
+
+        document.getElementById("add_formula_confirm_modal").addEventListener("click", function(e) {
+            document.getElementById("spin_load").classList.remove("hidden");
+
+            let ajax = new XMLHttpRequest();
+            let token = document.querySelector('meta[name="csrf-token"]').content;
+            let method = 'POST';
+            let month = document.querySelector("#add_formula_modal #month").value;
+            let year = document.querySelector("#add_formula_modal #year").value;
+            let formula_id = document.querySelector("#add_formula_modal #formula_id").value;
+            let url = "{!! route('accounting-configs.add-formula', ['month' => '#1', 'year' => '#2']) !!}".replace('#1', month).replace('#2', year);
+
+            ajax.open(method, url);
+
+            ajax.onreadystatechange = function() {
+                if (this.readyState == 4 && this.status == 200) {
+                    var resp = JSON.parse(ajax.response);
+                    document.getElementById("spin_load").classList.add("hidden");
+                    toastr.success(resp.message);
+
+                    location.reload();
+                } else if(this.readyState == 4 && this.status != 200) {
+                    document.getElementById("spin_load").classList.add("hidden");
+                    toastr.error("{!! __('Um erro ocorreu ao solicitar a consulta') !!}");
+                }
+            }
+
+            var data = new FormData();
+            data.append('_token', token);
+            data.append('_method', method);
+            data.append('month', month);
+            data.append('year', year);
+            data.append('formula_id', formula_id);
+
+            ajax.send(data);
+
+        });
+
+    </script>
 
     <script>
         window.addEventListener("load", function() {

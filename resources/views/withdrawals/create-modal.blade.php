@@ -34,7 +34,7 @@
                         </div>
                         <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
                             <x-jet-label for="value" value="{{ __('Valor') }}" required />
-                            <x-jet-input id="value" class="form-control block mt-1 w-full" type="number" name="value" step=".01" required autofocus autocomplete="value" :value="old('value')"/>
+                            <x-jet-input id="value" class="form-control block mt-1 w-full" type="number" name="value" step="1" required autofocus autocomplete="value" :value="old('value')"/>
                         </div>
                     </div>
                     <div class="flex -mx-3 mb-6 p-3 md:flex-row flex-col w-full">

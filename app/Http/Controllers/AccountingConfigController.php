@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\AccountingConfig;
+use App\Models\AccountingClassification;
+use App\Models\Formula;
 
 class AccountingConfigController extends Controller
 {
@@ -32,8 +34,11 @@ class AccountingConfigController extends Controller
         $ascending = isset($query['ascending']) ? $query['ascending'] : 'desc';
         $orderBy = isset($query['order_by']) ? $query['order_by'] : 'created_at';
         $months = months();
+        $accountingClassifications = AccountingClassification::all()->pluck('description', 'id');
+        $formulas = Formula::all()->pluck('formula', 'id');
 
-        return view('accounting-configs.index', compact('accountingConfigs', 'ascending', 'orderBy', 'months'));
+        return view('accounting-configs.index',
+        compact('accountingConfigs', 'ascending', 'orderBy', 'months', 'accountingClassifications', 'formulas'));
     }
 
     /**
@@ -58,15 +63,86 @@ class AccountingConfigController extends Controller
 
         $input = $request->all();
 
-       AccountingConfig::create([
-            'month' => $input['month'],
-            'year' => $input['year']
-        ]);
+        $accountingConfig = AccountingConfig::where('month', $input['month'])->where('year', $input['year'])->get();
 
+        if(count($accountingConfig) == 0)
+        {
+            AccountingConfig::create([
+                'month' => $input['month'],
+                'year' => $input['year']
+            ]);
+
+            return response()->json([
+                'message' => __('Configuração Adicionada com Sucesso!'),
+                'alert-type' => 'success'
+            ]);
+        } else {
+            return response()->json([
+                'message' => __('Essa configuração já foi adicionada'),
+                'alert-type' => 'error'
+            ]);
+        }
+
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $year
+     * @param  int  $month
+     * @return \Illuminate\Http\Response
+     */
+    public function addClassification(Request $request, $year, $month)
+    {
+        $accountingConfig = AccountingConfig::where('month', $month)->where('year', $year)->first();
+
+       if($accountingConfig)
+       {
+            $input = $request->all();
+
+            $accountingConfig->accountingClassifications()->attach($input['accounting_classification_id']);
+
+            return response()->json([
+                'message' => __('Configuração Atualizada com Sucesso!'),
+                'alert-type' => 'success'
+            ]);
+       } else {
         return response()->json([
-            'message' => __('Configuração Adicionada com Sucesso!'),
-            'alert-type' => 'success'
+            'message' => __('Configuração não encontrada!'),
+            'alert-type' => 'error'
         ]);
+       }
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $year
+     * @param  int  $month
+     * @return \Illuminate\Http\Response
+     */
+    public function addFormula(Request $request, $year, $month)
+    {
+        $accountingConfig = AccountingConfig::where('month', $month)->where('year', $year)->first();
+
+        if($accountingConfig)
+        {
+            $input = $request->all();
+
+            $accountingConfig->formulas()->attach($input['formula_id']);
+
+            return response()->json([
+                'message' => __('Configuração Atualizada com Sucesso!'),
+                'alert-type' => 'success'
+            ]);
+        } else {
+            return response()->json([
+                'message' => __('Configuração não encontrada!'),
+                'alert-type' => 'error'
+            ]);
+        }
     }
 
     /**

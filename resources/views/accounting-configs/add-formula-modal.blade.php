@@ -1,5 +1,5 @@
 <!-- Modal -->
-<div class="modal fixed z-10 inset-0 overflow-y-auto hidden" aria-labelledby="modal-title" role="dialog" aria-modal="true" id="accounting_config_modal" data-url="">
+<div class="modal fixed z-10 inset-0 overflow-y-auto hidden" aria-labelledby="modal-title" role="dialog" aria-modal="true" id="add_formula_modal" data-url="">
     <div class="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
       <div class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" aria-hidden="true"></div>
 
@@ -15,10 +15,10 @@
             </div>
             <div class="mt-3 text-center sm:mt-0 sm:text-left w-full">
               <h3 class="text-lg leading-6 font-medium text-gray-900 sm:ml-4 " id="modal-title">
-                {{ __('Mês/Ano') }}
+                {{ __('Formula') }}
               </h3>
               <div class="mt-2">
-                <form method="POST" id="accounting_config_form" action="">
+                <form method="POST" id="add_formula_form" action="">
                     @csrf
                     @method("POST")
                     <div class="flex -mx-3 mb-6 p-0 md:flex-row flex-col w-full">
@@ -28,7 +28,13 @@
                         </div>
                         <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
                             <x-jet-label for="year" value="{{ __('Ano') }}" required />
-                            <x-jet-input id="year" class="form-control block mt-1 w-full" type="number" name="year" step=".01" required autofocus autocomplete="year" :value="old('year')"/>
+                            <x-jet-input id="year" class="form-control block mt-1 w-full" type="number" name="year" step="1" required autofocus autocomplete="year" :value="old('year')"/>
+                        </div>
+                    </div>
+                    <div class="flex -mx-3 mb-6 p-0 md:flex-row flex-col w-full">
+                        <div class="w-full md:w-full px-2 md:mb-0">
+                            <x-jet-label for="formula_id" value="{{ __('Formula') }}" required />
+                            <x-custom-select no-filter :options="$formulas" name="formula_id" id="formula_id" :value="app('request')->input('formula_id')"/>
                         </div>
                     </div>
                     <div class="flex -mx-3 mb-6 p-3 md:flex-row flex-col w-full">
@@ -39,10 +45,10 @@
           </div>
         </div>
         <div class="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
-          <button type="button" id="accounting_config_confirm_modal" class="btn-confirm">
+          <button type="button" id="add_formula_confirm_modal" class="btn-confirm">
             {{ __('Confirmar') }}
           </button>
-          <button type="button" id="accounting_config_cancel_modal" class="btn-cancel">
+          <button type="button" id="add_formula_cancel_modal" class="btn-cancel">
             {{ __('Cancelar') }}
           </button>
         </div>

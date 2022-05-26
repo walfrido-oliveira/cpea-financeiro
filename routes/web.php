@@ -200,18 +200,9 @@ Route::group(['middleware' => ['auth:sanctum', 'verified']], function() {
 
     Route::prefix('configuracoes')->name('accounting-configs.')->group(function(){
         Route::post('/filter', [AccountingConfigController::class, 'filter'])->name('filter');
+        Route::post('/add-classificacao/{year}/{month}', [AccountingConfigController::class, 'addClassification'])->name('add-Classification');
+        Route::post('/add-formula/{year}/{month}', [AccountingConfigController::class, 'addFormula'])->name('add-formula');
     });
-
-    Route::get('teste', function () {
-        $formula = "if({3.1.1.01.8.1.007} + {3.1.1.01.8.1.007})";
-
-        $re = '/if\((.*?)\)/m';
-        $formulaText = $formula;
-        preg_match_all($re, $formulaText, $matches, PREG_SET_ORDER, 0);
-        $sum = 0;
-
-        return $matches[0][1];
-    })->name('home');
 });
 
 

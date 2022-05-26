@@ -19,6 +19,22 @@ class AccountingConfig extends Model
     ];
 
     /**
+     * The Accounting Classifications.
+     */
+    public function accountingClassifications()
+    {
+        return $this->belongsToMany(AccountingClassification::class);
+    }
+
+    /**
+     * The Formulas.
+     */
+    public function formulas()
+    {
+        return $this->belongsToMany(Formula::class);
+    }
+
+    /**
      * Find users in dabase
      *
      * @param Array
