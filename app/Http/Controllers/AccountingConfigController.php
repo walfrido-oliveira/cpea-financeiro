@@ -116,6 +116,28 @@ class AccountingConfigController extends Controller
     }
 
     /**
+     * Remove the specified resource from storage.
+     *
+     * @param  \Illuminate\Http\Request  $reques
+     * @param  int  $id
+     * @param  int  $config
+     * @return \Illuminate\Http\Response
+     */
+    public function deleteClassification($id, $config)
+    {
+        $accountingConfig = AccountingConfig::findOrFail($config);
+
+        $accountingConfig->accountingClassifications()->detach($id);
+
+        $resp = [
+            'message' => __('Configuração Apagada com Sucesso!!'),
+            'alert-type' => 'success'
+        ];
+
+        return redirect()->route('accounting-configs.index')->with($resp);
+    }
+
+    /**
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
@@ -143,6 +165,28 @@ class AccountingConfigController extends Controller
                 'alert-type' => 'error'
             ]);
         }
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  \Illuminate\Http\Request  $reques
+     * @param  int  $id
+     * @param  int  $config
+     * @return \Illuminate\Http\Response
+     */
+    public function deleteFormula($id, $config)
+    {
+        $accountingConfig = AccountingConfig::findOrFail($config);
+
+        $accountingConfig->formulas()->detach($id);
+
+        $resp = [
+            'message' => __('Configuração Apagada com Sucesso!!'),
+            'alert-type' => 'success'
+        ];
+
+        return redirect()->route('accounting-configs.index')->with($resp);
     }
 
     /**

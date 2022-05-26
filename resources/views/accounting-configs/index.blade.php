@@ -38,8 +38,8 @@
 
     <x-spin-load />
 
-    <x-modal title="{{ __('Excluir Classificações Contábeis') }}"
-             msg="{{ __('Deseja realmente apagar esse Classificações Contábeis?') }}"
+    <x-modal title="{{ __('Excluir Configuração') }}"
+             msg="{{ __('Deseja realmente apagar essa configuração?') }}"
              confirm="{{ __('Sim') }}" cancel="{{ __('Não') }}" id="delete_accounting_config_modal"
              method="DELETE"
              redirect-url="{{ route('accounting-configs.index') }}"/>
@@ -72,8 +72,14 @@
                     }
 
                     if(item.dataset.type == 'classification') {
-                        document.querySelectorAll(".point-items-" + item.dataset.point).forEach(item => {
-                            if(item.dataset.type == 'item') item.classList.toggle("active");
+                        document.querySelectorAll(`tr[data-type='item-classification'][data-year='${item.dataset.year}'][data-month='${item.dataset.month}'][data-classification='${item.dataset.classification}']`).forEach(item => {
+                            if(item.dataset.type == 'item-classification') item.classList.toggle("active");
+                        });
+                    }
+
+                    if(item.dataset.type == 'formula') {
+                        document.querySelectorAll(`tr[data-type='item-formula'][data-year='${item.dataset.year}'][data-month='${item.dataset.month}']`).forEach(item => {
+                            if(item.dataset.type == 'item-formula') item.classList.toggle("active");
                         });
                     }
 
