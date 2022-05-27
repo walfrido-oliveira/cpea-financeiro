@@ -68,6 +68,24 @@
                     if(item.dataset.type == 'month') {
                         document.querySelectorAll(`tr[data-type='classification'][data-year='${item.dataset.year}'][data-month='${item.dataset.month}']`).forEach(item2 => {
                             item2.classList.toggle("active");
+
+                            if(!item2.classList.contains('active')) {
+                                document.querySelectorAll(`tr[data-type='classification'][data-year='${item2.dataset.year}'][data-month='${item2.dataset.month}'] button svg.minus:not(.hidden)`).forEach(item5 => {
+                                    item5.classList.toggle("hidden");
+                                });
+
+                                document.querySelectorAll(`tr[data-type='classification'][data-year='${item2.dataset.year}'][data-month='${item2.dataset.month}'] button svg.plus.hidden`).forEach(item6 => {
+                                    item6.classList.toggle("hidden");
+                                });
+
+                                document.querySelectorAll(`tr[data-type='item-classification'][data-year='${item2.dataset.year}'][data-month='${item2.dataset.month}'].active`).forEach(item3 => {
+                                    item3.classList.toggle("active");
+                                });
+
+                                document.querySelectorAll(`tr[data-type='item-formula'][data-year='${item2.dataset.year}'][data-month='${item2.dataset.month}'].active`).forEach(item3 => {
+                                    item3.classList.toggle("active");
+                                });
+                            }
                         });
                     }
 
