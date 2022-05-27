@@ -30,7 +30,7 @@ class AccountingConfigController extends Controller
      */
     public function index(Request $request)
     {
-        $accountingConfigs =  AccountingConfig::filter($request->all());
+        $accountingConfigs =  AccountingConfig::all();
         $ascending = isset($query['ascending']) ? $query['ascending'] : 'desc';
         $orderBy = isset($query['order_by']) ? $query['order_by'] : 'created_at';
         $months = months();
