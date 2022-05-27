@@ -36,9 +36,10 @@ class AccountingConfigController extends Controller
         $months = months();
         $accountingClassifications = AccountingClassification::all()->pluck('description', 'id');
         $formulas = Formula::all()->pluck('formula', 'id');
+        $accountingClassificationTypes = AccountingClassification::getTypesClassifications2();
 
         return view('accounting-configs.index',
-        compact('accountingConfigs', 'ascending', 'orderBy', 'months', 'accountingClassifications', 'formulas'));
+        compact('accountingConfigs', 'ascending', 'orderBy', 'months', 'accountingClassifications', 'formulas', 'accountingClassificationTypes'));
     }
 
     /**
@@ -101,7 +102,16 @@ class AccountingConfigController extends Controller
        {
             $input = $request->all();
 
-            $accountingConfig->accountingClassifications()->attach($input['accounting_classification_id']);
+            if($input['all_accounting_classification'] == 'true')
+            {
+                $accountingClassifications = AccountingClassification::all()->pluck('id');
+                $accountingConfig->accountingClassifications()->attach($accountingClassifications);
+            } else if($input['accounting_classification_type']) {
+                $accountingClassifications = AccountingClassification::where('type_classification', $input['accounting_classification_type'])->get()->pluck('id');
+                $accountingConfig->accountingClassifications()->attach($accountingClassifications);
+            } else if($input['accounting_classification_id']) {
+                $accountingConfig->accountingClassifications()->attach($input['accounting_classification_id']);
+            }
 
             return response()->json([
                 'message' => __('Configuração Atualizada com Sucesso!'),

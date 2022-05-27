@@ -124,6 +124,14 @@
             modal.classList.add("hidden");
         });
 
+        document.getElementById("all_accounting_classification").addEventListener("change", function(e) {
+            if(e.currentTarget.checked) {
+                e.currentTarget.value = true;
+            } else {
+                e.currentTarget.value = false;
+            }
+        })
+
         document.getElementById("accounting_config_confirm_modal").addEventListener("click", function(e) {
             document.getElementById("spin_load").classList.remove("hidden");
 
@@ -169,6 +177,8 @@
             let year = document.querySelector("#add_classification_modal #year").value;
             let accounting_classification_id = document.querySelector("#add_classification_modal #accounting_classification_id").value;
             let url = "{!! route('accounting-configs.add-Classification', ['month' => '#1', 'year' => '#2']) !!}".replace('#1', month).replace('#2', year);
+            let accounting_classification_type = document.querySelector("#add_classification_modal #accounting_classification_type").value;
+            let all_accounting_classification = document.querySelector("#add_classification_modal #all_accounting_classification").value;
 
             ajax.open(method, url);
 
@@ -191,6 +201,8 @@
             data.append('month', month);
             data.append('year', year);
             data.append('accounting_classification_id', accounting_classification_id);
+            data.append('accounting_classification_type', accounting_classification_type);
+            data.append('all_accounting_classification', all_accounting_classification);
 
             ajax.send(data);
 

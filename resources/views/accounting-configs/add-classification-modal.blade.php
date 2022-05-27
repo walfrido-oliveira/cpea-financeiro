@@ -6,7 +6,7 @@
       <span class="hidden sm:inline-block sm:align-middle sm:h-screen" aria-hidden="true">&#8203;</span>
 
       <div class="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full">
-        <div class="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4" style="height: 370px;">
+        <div class="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4" style="height: 500px;">
           <div class="sm:flex sm:items-start">
             <div class="mx-auto flex-shrink-0 flex items-center justify-center h-12 w-12 rounded-full bg-green-100 sm:mx-0 sm:h-10 sm:w-10">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-green-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -35,6 +35,18 @@
                         <div class="w-full md:w-full px-2 md:mb-0">
                             <x-jet-label for="accounting_classification_id" value="{{ __('Classificação') }}" required />
                             <x-custom-select no-filter :options="$accountingClassifications" name="accounting_classification_id" id="accounting_classification_id" :value="app('request')->input('accounting_classification_id')"/>
+                        </div>
+                    </div>
+                    <div class="flex -mx-3 mb-6 p-0 md:flex-row flex-col w-full">
+                        <div class="w-full md:w-full px-2 md:mb-0">
+                            <x-jet-label for="accounting_classification_type" value="{{ __('Todas classificação por tipo') }}" />
+                            <x-custom-select no-filter :options="$accountingClassificationTypes" name="accounting_classification_type" id="accounting_classification_type" :value="app('request')->input('accounting_classification_type')"/>
+                        </div>
+                        <div class="w-full px-3 mb-6 md:mb-0 flex">
+                            <label for="all_accounting_classification" class="flex items-center">
+                                <input id="all_accounting_classification" type="checkbox" class="form-checkbox" name="all_accounting_classification" value="false">
+                                <span class="ml-2 text-sm text-gray-600">{{ __('Todas as Classificações') }}</span>
+                            </label>
                         </div>
                     </div>
                 </form>
