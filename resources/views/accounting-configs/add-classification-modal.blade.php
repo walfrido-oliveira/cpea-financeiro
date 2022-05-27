@@ -33,14 +33,14 @@
                     </div>
                     <div class="flex -mx-3 mb-6 p-0 md:flex-row flex-col w-full">
                         <div class="w-full md:w-full px-2 md:mb-0">
-                            <x-jet-label for="accounting_classification_id" value="{{ __('Classificação') }}" required />
+                            <x-jet-label for="accounting_classification_id" value="{{ __('Classificação') }}" />
                             <x-custom-select no-filter :options="$accountingClassifications" name="accounting_classification_id" id="accounting_classification_id" :value="app('request')->input('accounting_classification_id')"/>
                         </div>
                     </div>
-                    <div class="flex -mx-3 mb-6 p-0 md:flex-row flex-col w-full">
+                    <div class="flex -mx-3 mb-6 p-0 md:flex-row flex-col w-full flex-wrap">
                         <div class="w-full md:w-full px-2 md:mb-0">
                             <x-jet-label for="accounting_classification_type" value="{{ __('Todas classificação por tipo') }}" />
-                            <x-custom-select no-filter :options="$accountingClassificationTypes" name="accounting_classification_type" id="accounting_classification_type" :value="app('request')->input('accounting_classification_type')"/>
+                            <x-custom-select multiple no-filter :options="$accountingClassificationTypes" name="accounting_classification_type[]" id="accounting_classification_type" :value="app('request')->input('accounting_classification_type')"/>
                         </div>
                         <div class="w-full px-3 mb-6 md:mb-0 flex">
                             <label for="all_accounting_classification" class="flex items-center">

@@ -126,11 +126,16 @@
 
         document.getElementById("all_accounting_classification").addEventListener("change", function(e) {
             if(e.currentTarget.checked) {
-                e.currentTarget.value = true;
+                document.querySelectorAll("#accounting_classification_type option").forEach(item => {
+                   item.selected = true;
+                });
             } else {
-                e.currentTarget.value = false;
+                document.querySelectorAll("#accounting_classification_type option").forEach(item => {
+                   item.selected = false;
+                });
             }
-        })
+            window.customSelectArray['accounting_classification_type'].update();
+        });
 
         document.getElementById("accounting_config_confirm_modal").addEventListener("click", function(e) {
             document.getElementById("spin_load").classList.remove("hidden");
@@ -177,8 +182,7 @@
             let year = document.querySelector("#add_classification_modal #year").value;
             let accounting_classification_id = document.querySelector("#add_classification_modal #accounting_classification_id").value;
             let url = "{!! route('accounting-configs.add-Classification', ['month' => '#1', 'year' => '#2']) !!}".replace('#1', month).replace('#2', year);
-            let accounting_classification_type = document.querySelector("#add_classification_modal #accounting_classification_type").value;
-            let all_accounting_classification = document.querySelector("#add_classification_modal #all_accounting_classification").value;
+            let accounting_classification_type = Array.from(document.getElementById("accounting_classification_type").options).filter(o => (o.selected && o.text != '')).map(o => o.value);
 
             ajax.open(method, url);
 
@@ -202,7 +206,6 @@
             data.append('year', year);
             data.append('accounting_classification_id', accounting_classification_id);
             data.append('accounting_classification_type', accounting_classification_type);
-            data.append('all_accounting_classification', all_accounting_classification);
 
             ajax.send(data);
 

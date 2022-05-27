@@ -101,13 +101,10 @@ class AccountingConfigController extends Controller
        if($accountingConfig)
        {
             $input = $request->all();
+            $input['accounting_classification_type'] = explode(",", $input['accounting_classification_type']);
 
-            if($input['all_accounting_classification'] == 'true')
-            {
-                $accountingClassifications = AccountingClassification::all()->pluck('id');
-                $accountingConfig->accountingClassifications()->attach($accountingClassifications);
-            } else if($input['accounting_classification_type']) {
-                $accountingClassifications = AccountingClassification::where('type_classification', $input['accounting_classification_type'])->get()->pluck('id');
+            if($input['accounting_classification_type']) {
+                $accountingClassifications = AccountingClassification::whereIn('type_classification', $input['accounting_classification_type'])->get()->pluck('id');
                 $accountingConfig->accountingClassifications()->attach($accountingClassifications);
             } else if($input['accounting_classification_id']) {
                 $accountingConfig->accountingClassifications()->attach($input['accounting_classification_id']);
