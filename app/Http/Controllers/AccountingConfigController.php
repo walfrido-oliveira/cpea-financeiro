@@ -160,7 +160,14 @@ class AccountingConfigController extends Controller
         {
             $input = $request->all();
 
-            $accountingConfig->formulas()->attach($input['formula_id']);
+            if($input['all_formulas'])
+            {
+              $formulas = Formula::all()->pluck('id');
+              $accountingConfig->formulas()->attach($formulas);
+
+            } else {
+              $accountingConfig->formulas()->attach($input['formula_id']);
+            }
 
             return response()->json([
                 'message' => __('Configuração Atualizada com Sucesso!'),

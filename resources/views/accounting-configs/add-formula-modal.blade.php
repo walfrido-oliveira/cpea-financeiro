@@ -37,7 +37,13 @@
                             <x-custom-select no-filter :options="$formulas" name="formula_id" id="formula_id" :value="app('request')->input('formula_id')"/>
                         </div>
                     </div>
-                    <div class="flex -mx-3 mb-6 p-3 md:flex-row flex-col w-full">
+                    <div class="flex -mx-3 mb-6 p-0 md:flex-row flex-col w-full flex-wrap">
+                        <div class="w-full px-3 mb-6 md:mb-0 flex">
+                            <label for="all_formulas" class="flex items-center">
+                                <input id="all_formulas" type="checkbox" class="form-checkbox" name="all_formulas" value="false">
+                                <span class="ml-2 text-sm text-gray-600">{{ __('Todas as fórmulas') }}</span>
+                            </label>
+                        </div>
                     </div>
                 </form>
               </div>

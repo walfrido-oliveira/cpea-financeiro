@@ -155,6 +155,10 @@
             window.customSelectArray['accounting_classification_type'].update();
         });
 
+        document.getElementById("all_formulas").addEventListener("change", function(e){
+            e.currentTarget.value = e.currentTarget.checked;
+        });
+
         document.getElementById("accounting_config_confirm_modal").addEventListener("click", function(e) {
             document.getElementById("spin_load").classList.remove("hidden");
 
@@ -238,6 +242,7 @@
             let month = document.querySelector("#add_formula_modal #month").value;
             let year = document.querySelector("#add_formula_modal #year").value;
             let formula_id = document.querySelector("#add_formula_modal #formula_id").value;
+            let all_formulas = document.querySelector("#add_formula_modal #all_formulas").value;
             let url = "{!! route('accounting-configs.add-formula', ['month' => '#1', 'year' => '#2']) !!}".replace('#1', month).replace('#2', year);
 
             ajax.open(method, url);
@@ -261,6 +266,7 @@
             data.append('month', month);
             data.append('year', year);
             data.append('formula_id', formula_id);
+            data.append('all_formulas', all_formulas);
 
             ajax.send(data);
 
