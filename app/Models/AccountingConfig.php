@@ -60,7 +60,7 @@ class AccountingConfig extends Model
             {
                 if(!is_null($query['month']))
                 {
-                    $q->where('month', 'like','%' . $query['month'] . '%');
+                    $q->where('month', 'like', $query['month']);
                 }
             }
 
@@ -68,7 +68,7 @@ class AccountingConfig extends Model
             {
                 if(!is_null($query['year']))
                 {
-                    $q->where('year', 'like','%' . $query['year'] . '%');
+                    $q->where('year', 'like', $query['year']);
                 }
             }
 
