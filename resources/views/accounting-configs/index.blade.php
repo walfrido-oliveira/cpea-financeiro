@@ -23,6 +23,24 @@
             </div>
 
             <div class="py-2 my-2 bg-white rounded-lg min-h-screen">
+                <div class="w-full">
+                    <form id="search_year_form" class="flex -mx-3 mb-6 p-3 md:flex-column flex-row w-full justify-end" action="{{ route('accounting-configs.index') }}" method="GET">
+                        <div class="w-full md:w-auto px-2 mb-6 md:mb-0">
+                            <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="year">
+                                {{ __('Ano') }}
+                            </label>
+                            <x-custom-select class="filter-field" select-class="no-nice-select" :options="[2022 => 2022, 2021 => 2021, 2020 => 2020]" name="year" id="year"
+                                :value="app('request')->has('year') ? app('request')->input('year') : now()->year"/>
+                        </div>
+                        <div class="w-full md:w-auto px-2 mb-6 md:mb-0">
+                            <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="month">
+                                {{ __('Mês') }}
+                            </label>
+                            <x-custom-select class="filter-field" select-class="no-nice-select" :options="months()" name="month" id="month"
+                                :value="app('request')->has('month') ? app('request')->input('month') : now()->year"/>
+                        </div>
+                    </form>
+                </div>
                 <div class="flex mt-4">
                     <table id="accounting_configs_table" class="table table-responsive md:table w-full">
                         @include('accounting-configs.filter-result', ['accounting-configs' => $accountingConfigs, 'ascending' => $ascending, 'orderBy' => $orderBy])
@@ -45,6 +63,13 @@
              redirect-url="{{ route('accounting-configs.index') }}"/>
 
     <script>
+        document.getElementById("year").addEventListener("change", function() {
+            document.getElementById("search_year_form").submit();
+        });
+        document.getElementById("month").addEventListener("change", function() {
+            document.getElementById("search_year_form").submit();
+        });
+
         function showPoint() {
             document.querySelectorAll(".show-accounting-config").forEach(item => {
                 item.addEventListener("click", function() {
