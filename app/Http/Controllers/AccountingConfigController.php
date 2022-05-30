@@ -160,7 +160,7 @@ class AccountingConfigController extends Controller
         {
             $input = $request->all();
 
-            if($input['all_formulas'])
+            if($input['all_formulas'] == "true")
             {
               $formulas = Formula::all()->pluck('id');
               $accountingConfig->formulas()->attach($formulas);
