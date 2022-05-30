@@ -37,7 +37,7 @@
                                 {{ __('Mês') }}
                             </label>
                             <x-custom-select class="filter-field" select-class="no-nice-select" :options="months()" name="month" id="month"
-                                :value="app('request')->has('month') ? app('request')->input('month') : now()->year"/>
+                                :value="app('request')->has('month') ? app('request')->input('month') : now()->month"/>
                         </div>
                     </form>
                 </div>

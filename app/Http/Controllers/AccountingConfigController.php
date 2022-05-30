@@ -31,8 +31,8 @@ class AccountingConfigController extends Controller
     public function index(Request $request)
     {
         $accountingConfigs =  AccountingConfig::filter([
-            'month' => $request->has('month') ? $request->get('month') : null,
-            'year' => $request->has('year') ? $request->get('year') : null,
+            'month' => $request->has('month') ? $request->get('month') : now()->month,
+            'year' => $request->has('year') ? $request->get('year') : now()->year,
         ]
         );
 
