@@ -51,6 +51,7 @@
     </div>
 
     @include('accounting-configs.create-modal')
+    @include('accounting-configs.duplicate-modal')
     @include('accounting-configs.add-classification-modal')
     @include('accounting-configs.add-formula-modal')
 
@@ -140,6 +141,12 @@
             modal.classList.add("block");
         });
 
+        document.getElementById("btn_duplicate").addEventListener("click", function() {
+            var modal = document.getElementById("accounting_config_duplicate_modal");
+            modal.classList.remove("hidden");
+            modal.classList.add("block");
+        });
+
         document.getElementById("btn_add_classification").addEventListener("click", function() {
             var modal = document.getElementById("add_classification_modal");
             modal.classList.remove("hidden");
@@ -154,6 +161,11 @@
 
         document.getElementById("accounting_config_cancel_modal").addEventListener("click", function(e) {
             var modal = document.getElementById("accounting_config_modal");
+            modal.classList.add("hidden");
+        });
+
+        document.getElementById("accounting_config_duplicate_cancel_modal").addEventListener("click", function(e) {
+            var modal = document.getElementById("accounting_config_duplicate_modal");
             modal.classList.add("hidden");
         });
 
@@ -181,8 +193,33 @@
         });
 
         document.getElementById("all_formulas").addEventListener("change", function(e){
-            e.currentTarget.value = e.currentTarget.checked;
+            setCheckboxValue(e);
         });
+
+        document.getElementById("retiradas_gerenciais").addEventListener("change", function(e){
+            setCheckboxValue(e);
+        });
+
+        document.getElementById("resultado_exercicio").addEventListener("change", function(e){
+            setCheckboxValue(e);
+        });
+
+        document.getElementById("dre").addEventListener("change", function(e){
+            setCheckboxValue(e);
+        });
+
+        document.getElementById("dre_ajustavel").addEventListener("change", function(e){
+            setCheckboxValue(e);
+        });
+
+        document.getElementById("formula").addEventListener("change", function(e){
+            setCheckboxValue(e);
+        });
+
+
+        function setCheckboxValue(e) {
+            e.currentTarget.value = e.currentTarget.checked;
+        }
 
         document.getElementById("accounting_config_confirm_modal").addEventListener("click", function(e) {
             document.getElementById("spin_load").classList.remove("hidden");
@@ -215,6 +252,54 @@
             data.append('month', month);
             data.append('year', year);
 
+            ajax.send(data);
+
+        });
+
+        document.getElementById("accounting_config_duplicate_confirm_modal").addEventListener("click", function(e) {
+            document.getElementById("spin_load").classList.remove("hidden");
+
+            let ajax = new XMLHttpRequest();
+            let url = "{!! route('accounting-configs.duplicate') !!}";
+            let token = document.querySelector('meta[name="csrf-token"]').content;
+            let method = 'POST';
+            let month = document.querySelector("#accounting_config_duplicate_modal #month").value;
+            let month_ref = document.querySelector("#accounting_config_duplicate_modal #month_ref").value;
+            let year = document.querySelector("#accounting_config_duplicate_modal #year").value;
+            let year_ref = document.querySelector("#accounting_config_duplicate_modal #year_ref").value;
+            let retiradas_gerenciais = document.querySelector("#accounting_config_duplicate_modal #retiradas_gerenciais").value;
+            let resultado_exercicio = document.querySelector("#accounting_config_duplicate_modal #resultado_exercicio").value;
+            let dre = document.querySelector("#accounting_config_duplicate_modal #dre").value;
+            let dre_ajustavel = document.querySelector("#accounting_config_duplicate_modal #dre_ajustavel").value;
+            let formula = document.querySelector("#accounting_config_duplicate_modal #formula").value;
+
+            ajax.open(method, url);
+
+            ajax.onreadystatechange = function() {
+                if (this.readyState == 4 && this.status == 200) {
+                    var resp = JSON.parse(ajax.response);
+                    document.getElementById("spin_load").classList.add("hidden");
+                    toastr.success(resp.message);
+
+                    location.reload();
+                } else if(this.readyState == 4 && this.status != 200) {
+                    document.getElementById("spin_load").classList.add("hidden");
+                    toastr.error("{!! __('Um erro ocorreu ao solicitar a consulta') !!}");
+                }
+            }
+
+            var data = new FormData();
+            data.append('_token', token);
+            data.append('_method', method);
+            data.append('month', month);
+            data.append('year', year);
+            data.append('month_ref', month_ref);
+            data.append('year_ref', year_ref);
+            data.append('retiradas_gerenciais', retiradas_gerenciais);
+            data.append('resultado_exercicio', resultado_exercicio);
+            data.append('dre', dre);
+            data.append('dre_ajustavel', dre_ajustavel);
+            data.append('formula', formula);
             ajax.send(data);
 
         });

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\AccountingClassification;
+use App\Models\AccountingConfig;
 
 class DREController extends Controller
 {
@@ -16,12 +17,22 @@ class DREController extends Controller
     public function index(Request $request)
     {
         $query = $request->all();
-        $accountingClassifications = AccountingClassification::where('type_classification', 'DRE Ajustável')->get();
-        $months = months();
 
         $ascending = isset($query['ascending']) ? $query['ascending'] : 'desc';
         $orderBy = isset($query['order_by']) ? $query['order_by'] : 'accounting_classification_id';
         $year = isset($query['year']) ? $query['year'] : now()->year;
+
+        $accountingClassifications = collect([]);
+        $accountingConfigs = AccountingConfig::where("year", $year)->get();
+        if($accountingConfigs)
+        {
+            foreach ($accountingConfigs  as $key => $accountingConfig)
+            {
+                $accountingClassifications = $accountingClassifications->merge($accountingConfig->accountingClassifications()->where('type_classification', 'DRE Ajustável')->get());
+            }
+        }
+
+        $months = months();
 
         return view('dre.index',
         compact('ascending', 'orderBy', 'accountingClassifications', 'months', 'year'));

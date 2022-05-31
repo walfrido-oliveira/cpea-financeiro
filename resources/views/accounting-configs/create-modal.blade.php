@@ -28,7 +28,7 @@
                         </div>
                         <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
                             <x-jet-label for="year" value="{{ __('Ano') }}" required />
-                            <x-jet-input id="year" class="form-control block mt-1 w-full" type="number" name="year" step=".01" required autofocus autocomplete="year" :value="old('year')"/>
+                            <x-jet-input id="year" class="form-control block mt-1 w-full" type="number" name="year" required autofocus autocomplete="year" :value="old('year')"/>
                         </div>
                     </div>
                     <div class="flex -mx-3 mb-6 p-3 md:flex-row flex-col w-full">

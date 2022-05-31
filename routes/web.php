@@ -196,14 +196,12 @@ Route::group(['middleware' => ['auth:sanctum', 'verified']], function() {
     Route::prefix('configuracoes')->name('accounting-configs.')->group(function(){
         Route::get('/', [AccountingConfigController::class, 'index'])->name('index');
         Route::post('/store', [AccountingConfigController::class, 'store'])->name('store');
+        Route::post('/duplicate', [AccountingConfigController::class, 'duplicate'])->name('duplicate');
         Route::post('/filter', [AccountingConfigController::class, 'filter'])->name('filter');
         Route::post('/add-classificacao/{year}/{month}', [AccountingConfigController::class, 'addClassification'])->name('add-Classification');
         Route::post('/add-formula/{year}/{month}', [AccountingConfigController::class, 'addFormula'])->name('add-formula');
         Route::delete('/delete-classificacao/{classification}/{config}', [AccountingConfigController::class, 'deleteClassification'])->name('delete-classification');
         Route::delete('/delete-formula/{formula}/{config}', [AccountingConfigController::class, 'deleteFormula'])->name('delete-formula');
-        Route::get('/teste', function() {
-            dd(1);
-        });
     });
 });
 
