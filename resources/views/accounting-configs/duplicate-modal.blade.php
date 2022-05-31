@@ -9,13 +9,13 @@
         <div class="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4" style="height: 600px;">
           <div class="sm:flex sm:items-start">
             <div class="mx-auto flex-shrink-0 flex items-center justify-center h-12 w-12 rounded-full bg-green-100 sm:mx-0 sm:h-10 sm:w-10">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-green-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v3m0 0v3m0-3h3m-3 0H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z" />
-                  </svg>
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-green-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
+                </svg>
             </div>
             <div class="mt-3 text-center sm:mt-0 sm:text-left w-full">
               <h3 class="text-lg leading-6 font-medium text-gray-900 sm:ml-4 " id="modal-title">
-                {{ __('Mês/Ano') }}
+                {{ __('Duplicar Mês/Ano') }}
               </h3>
               <div class="mt-2">
                 <form method="POST" id="accounting_config_duplicate_form" action="">
