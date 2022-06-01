@@ -30,9 +30,12 @@ class AccountingConfigController extends Controller
      */
     public function index(Request $request)
     {
+        $maxYear = AccountingConfig::max('year');
+        $maxMonth = AccountingConfig::where('year', $maxYear)->max('month');
+
         $accountingConfigs =  AccountingConfig::filter([
-            'month' => $request->has('month') ? $request->get('month') : now()->month,
-            'year' => $request->has('year') ? $request->get('year') : now()->year,
+            'month' => $request->has('month') ? $request->get('month') : $maxMonth,
+            'year' => $request->has('year') ? $request->get('year') : $maxYear,
         ]
         );
 

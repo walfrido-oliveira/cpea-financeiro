@@ -11,7 +11,7 @@
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 plus hidden inline text-blue-400" viewBox="0 0 20 20" fill="currentColor">
                             <path fill-rule="evenodd" d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z" clip-rule="evenodd" />
                         </svg>
-                        {{ $accountingConfig->year }}
+                        {{ $accountingConfig->year }} ({{ $accountingConfig->accountingClassifications()->count() + $accountingConfig->formulas()->count() }})
                     </button>
                 </td>
             </tr>
@@ -28,7 +28,7 @@
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 plus hidden inline text-blue-400" viewBox="0 0 20 20" fill="currentColor">
                             <path fill-rule="evenodd" d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z" clip-rule="evenodd" />
                         </svg>
-                        {{ months()[$accountingConfig->month] }}
+                        {{ months()[$accountingConfig->month] }} ({{ $accountingConfig->accountingClassifications()->count() + $accountingConfig->formulas()->count() }})
                     </button>
                 </td>
             </tr>
@@ -43,7 +43,7 @@
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 plus inline text-white" viewBox="0 0 20 20" fill="currentColor">
                         <path fill-rule="evenodd" d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z" clip-rule="evenodd" />
                     </svg>
-                    {{ "Classificações Contábeis - DRE" }}
+                    {{ "Classificações Contábeis - DRE" }} ({{ $accountingConfig->accountingClassifications()->where('type_classification', 'DRE')->count() }})
                 </button>
             </td>
         </tr>
@@ -84,7 +84,7 @@
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 plus inline text-white" viewBox="0 0 20 20" fill="currentColor">
                         <path fill-rule="evenodd" d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z" clip-rule="evenodd" />
                     </svg>
-                    {{ "Classificações Contábeis - Retiradas Gerenciais" }}
+                    {{ "Classificações Contábeis - Retiradas Gerenciais" }} ({{ $accountingConfig->accountingClassifications()->where('type_classification', 'Retiradas Gerenciais')->count() }})
                 </button>
             </td>
         </tr>
@@ -125,7 +125,7 @@
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 plus inline text-white" viewBox="0 0 20 20" fill="currentColor">
                         <path fill-rule="evenodd" d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z" clip-rule="evenodd" />
                     </svg>
-                    {{ "Classificações Contábeis - Resultado do Exercício" }}
+                    {{ "Classificações Contábeis - Resultado do Exercício" }} ({{ $accountingConfig->accountingClassifications()->where('type_classification', 'Resultado do Exercicio')->count() }})
                 </button>
             </td>
         </tr>
@@ -166,7 +166,7 @@
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 plus inline text-white" viewBox="0 0 20 20" fill="currentColor">
                         <path fill-rule="evenodd" d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z" clip-rule="evenodd" />
                     </svg>
-                    {{ "Classificações Contábeis - DRE Ajustável" }}
+                    {{ "Classificações Contábeis - DRE Ajustável" }} ({{ $accountingConfig->accountingClassifications()->where('type_classification', 'DRE Ajustável')->count() }})
                 </button>
             </td>
         </tr>
@@ -207,7 +207,7 @@
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 plus inline text-white" viewBox="0 0 20 20" fill="currentColor">
                         <path fill-rule="evenodd" d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z" clip-rule="evenodd" />
                     </svg>
-                    {{ "Formulas" }}
+                    {{ "Formulas" }} ({{ $accountingConfig->formulas()->count() }})
                 </button>
             </td>
         </tr>
