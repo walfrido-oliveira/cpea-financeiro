@@ -23,7 +23,7 @@ class DREController extends Controller
         $year = isset($query['year']) ? $query['year'] : now()->year;
 
         $accountingClassifications = collect([]);
-        $accountingConfigs = AccountingConfig::where("year", $year)->get();
+        $accountingConfigs = AccountingConfig::where("year", $year, "month", 1)->get();
         if($accountingConfigs)
         {
             foreach ($accountingConfigs  as $key => $accountingConfig)
