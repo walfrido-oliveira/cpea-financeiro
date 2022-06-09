@@ -33,6 +33,8 @@ class AccountingConfigController extends Controller
         $maxYear = AccountingConfig::max('year');
         $maxMonth = AccountingConfig::where('year', $maxYear)->max('month');
 
+        $years = AccountingConfig::groupBy('year')->get()->pluck('year', 'year');
+
         $accountingConfigs =  AccountingConfig::filter([
             'month' => $request->has('month') ? $request->get('month') : $maxMonth,
             'year' => $request->has('year') ? $request->get('year') : $maxYear,
@@ -47,7 +49,8 @@ class AccountingConfigController extends Controller
         $accountingClassificationTypes = AccountingClassification::getTypesClassifications2();
 
         return view('accounting-configs.index',
-        compact('accountingConfigs', 'ascending', 'orderBy', 'months', 'accountingClassifications', 'formulas', 'accountingClassificationTypes'));
+        compact('accountingConfigs', 'ascending', 'orderBy',
+        'months', 'accountingClassifications', 'formulas', 'accountingClassificationTypes', 'years'));
     }
 
     /**
