@@ -50,7 +50,8 @@ class AccountingConfigController extends Controller
 
         return view('accounting-configs.index',
         compact('accountingConfigs', 'ascending', 'orderBy',
-        'months', 'accountingClassifications', 'formulas', 'accountingClassificationTypes', 'years'));
+        'months', 'accountingClassifications', 'formulas', 'accountingClassificationTypes', 'years',
+        'maxMonth', 'maxYear'));
     }
 
     /**
