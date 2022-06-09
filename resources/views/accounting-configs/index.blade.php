@@ -30,14 +30,14 @@
                                 {{ __('Ano') }}
                             </label>
                             <x-custom-select class="filter-field" select-class="no-nice-select" :options="$years" name="year" id="year"
-                                :value="app('request')->has('year') ? app('request')->input('year') : now()->year"/>
+                                :value="app('request')->has('year') ? app('request')->input('year') : $maxYear"/>
                         </div>
                         <div class="w-full md:w-auto px-2 mb-6 md:mb-0">
                             <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="month">
                                 {{ __('Mês') }}
                             </label>
                             <x-custom-select class="filter-field" select-class="no-nice-select" :options="months()" name="month" id="month"
-                                :value="app('request')->has('month') ? app('request')->input('month') : now()->month"/>
+                                :value="app('request')->has('month') ? app('request')->input('month') : $maxMonth"/>
                         </div>
                     </form>
                 </div>
