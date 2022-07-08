@@ -45,6 +45,7 @@ use App\Http\Controllers\GuidingParameterValueController;
 use App\Http\Controllers\ParameterAnalysisGroupController;
 use App\Http\Controllers\AccountingClassificationController;
 use App\Http\Controllers\AccountingConfigController;
+use App\Http\Controllers\DirectionController;
 use App\Http\Controllers\GuidingParameterRefValueController;
 
 /*
@@ -105,6 +106,17 @@ Route::group(['middleware' => ['auth:sanctum', 'verified']], function() {
     Route::prefix('departamentos')->name('departments.')->group(function(){
         Route::post('/filter', [DepartmentController::class, 'filter'])->name('filter');
     });
+
+    /** DIRECTION */
+    Route::resource('diretorias', DirectionController::class, [
+        'names' => 'directions'])->parameters([
+        'diretorias' => 'direction'
+    ]);
+
+    Route::prefix('diretorias')->name('directions.')->group(function(){
+        Route::post('/filter', [DirectionController::class, 'filter'])->name('filter');
+    });
+
 
     /** OCCUPATION */
     Route::resource('cargos', OccupationController::class, [
