@@ -88,7 +88,7 @@
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 plus inline text-white" viewBox="0 0 20 20" fill="currentColor">
                         <path fill-rule="evenodd" d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z" clip-rule="evenodd" />
                     </svg>
-                    {{ "Classificações Contábeis - Retiradas Gerenciais" }} ({{ $accountingConfig->accountingClassifications()->where('type_classification', 'Retiradas Gerenciais')->count() }})
+                    {{ "Classificações Contábeis - Retiradas Gerenciais" }} ({{ $accountingConfig->accountingClassifications()->where('type_classification', 'RETIRADAS GERENCIAIS')->count() }})
                 </button>
             </td>
         </tr>
@@ -133,7 +133,7 @@
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 plus inline text-white" viewBox="0 0 20 20" fill="currentColor">
                         <path fill-rule="evenodd" d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z" clip-rule="evenodd" />
                     </svg>
-                    {{ "Classificações Contábeis - Resultado do Exercício" }} ({{ $accountingConfig->accountingClassifications()->where('type_classification', 'Resultado do Exercicio')->count() }})
+                    {{ "Classificações Contábeis - Resultado do Exercício" }} ({{ $accountingConfig->accountingClassifications()->where('type_classification', 'RESULTADOS DO EXERCICIO')->count() }})
                 </button>
             </td>
         </tr>
@@ -178,7 +178,7 @@
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 plus inline text-white" viewBox="0 0 20 20" fill="currentColor">
                         <path fill-rule="evenodd" d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z" clip-rule="evenodd" />
                     </svg>
-                    {{ "Classificações Contábeis - DRE Ajustável" }} ({{ $accountingConfig->accountingClassifications()->where('type_classification', 'DRE Ajustável')->count() }})
+                    {{ "Classificações Contábeis - DRE Ajustável" }} ({{ $accountingConfig->accountingClassifications()->where('type_classification', 'DRE AJUSTÁVEL')->count() }})
                 </button>
             </td>
         </tr>
