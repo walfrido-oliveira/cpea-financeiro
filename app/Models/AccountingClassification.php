@@ -88,9 +88,9 @@ class AccountingClassification extends Model
     {
         return [
             'DRE' => 'DRE',
-            'Retiradas Gerenciais' => 'Retiradas Gerenciais',
-            'Resultado do Exercicio' => 'Resultado do Exercicio',
-            'DRE Ajustável' => 'DRE Ajustável',
+            'RETIRADAS GERENCIAIS' => 'Retiradas Gerenciais',
+            'RESULTADOS DO EXERCICIO' => 'Resultado do Exercicio',
+            'DRE AJUSTÁVEL' => 'DRE Ajustável',
         ];
     }
 
