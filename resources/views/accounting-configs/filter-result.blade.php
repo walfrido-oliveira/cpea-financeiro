@@ -57,10 +57,14 @@
         @foreach ($accountingConfig->accountingClassifications()->where('type_classification', 'DRE')->get() as $accountingClassification)
             <tr class="point-items-{{ $accountingConfig->id }}" data-type="item-classification" data-year="{{ $accountingConfig->year }}" data-month="{{ $accountingConfig->month }}" data-classification="DRE">
                 <td style="padding-left: 3.5rem!important;">
+                    <a class="text-item-table" href="{{ route('accounting-classifications.edit', ['accounting_classification' => $accountingClassification->id]) }}">
                         {{ $accountingClassification->classification }}
+                    </a>
                 </td>
                 <td style="padding-left: 3.5rem !important;">
-                    {{ $accountingClassification->name }}
+                    <a class="text-item-table" href="{{ route('accounting-classifications.edit', ['accounting_classification' => $accountingClassification->id]) }}">
+                        {{ $accountingClassification->name }}
+                    </a>
                 </td>
                 <td style="padding-left: 3.5rem!important;">
                     {{ $accountingClassification->obs }}
@@ -98,10 +102,14 @@
         @foreach ($accountingConfig->accountingClassifications()->where('type_classification', 'Retiradas Gerenciais')->get() as $accountingClassification)
             <tr class="point-items-{{ $accountingConfig->id }}" data-type="item-classification" data-year="{{ $accountingConfig->year }}" data-month="{{ $accountingConfig->month }}" data-classification="Retiradas Gerenciais">
                 <td style="padding-left: 3.5rem!important;">
+                    <a class="text-item-table" href="{{ route('accounting-classifications.edit', ['accounting_classification' => $accountingClassification->id]) }}">
                         {{ $accountingClassification->classification }}
+                    </a>
                 </td>
                 <td style="padding-left: 3.5rem !important;">
-                    {{ $accountingClassification->name }}
+                    <a class="text-item-table" href="{{ route('accounting-classifications.edit', ['accounting_classification' => $accountingClassification->id]) }}">
+                        {{ $accountingClassification->name }}
+                    </a>
                 </td>
                 <td style="padding-left: 3.5rem!important;">
                     {{ $accountingClassification->obs }}
@@ -139,10 +147,14 @@
             @foreach ($accountingConfig->accountingClassifications()->where('type_classification', 'Resultado do Exercicio')->get() as $accountingClassification)
             <tr class="point-items-{{ $accountingConfig->id }}" data-type="item-classification" data-year="{{ $accountingConfig->year }}" data-month="{{ $accountingConfig->month }}" data-classification="Resultado do Exercicio">
                 <td style="padding-left: 3.5rem!important;">
-                    {{ $accountingClassification->classification }}
+                    <a class="text-item-table" href="{{ route('accounting-classifications.edit', ['accounting_classification' => $accountingClassification->id]) }}">
+                        {{ $accountingClassification->classification }}
+                    </a>
                 </td>
                 <td style="padding-left: 3.5rem !important;">
-                    {{ $accountingClassification->name }}
+                    <a class="text-item-table" href="{{ route('accounting-classifications.edit', ['accounting_classification' => $accountingClassification->id]) }}">
+                        {{ $accountingClassification->name }}
+                    </a>
                 </td>
                 <td style="padding-left: 3.5rem!important;">
                     {{ $accountingClassification->obs }}
@@ -180,21 +192,27 @@
             @foreach ($accountingConfig->accountingClassifications()->where('type_classification', 'DRE Ajustável')->get() as $accountingClassification)
         <tr class="point-items-{{ $accountingConfig->id }}" data-type="item-classification" data-year="{{ $accountingConfig->year }}" data-month="{{ $accountingConfig->month }}" data-classification="DRE Ajustável">
             <td style="padding-left: 3.5rem!important;">
-                    {{ $accountingClassification->classification }}
+                <td style="padding-left: 3.5rem!important;">
+                    <a class="text-item-table" href="{{ route('accounting-classifications.edit', ['accounting_classification' => $accountingClassification->id]) }}">
+                        {{ $accountingClassification->classification }}
+                    </a>
                 </td>
-                <td style="padding-left: 3.5rem !important;">
+            </td>
+            <td style="padding-left: 3.5rem !important;">
+                <a class="text-item-table" href="{{ route('accounting-classifications.edit', ['accounting_classification' => $accountingClassification->id]) }}">
                     {{ $accountingClassification->name }}
-                </td>
-                <td style="padding-left: 3.5rem!important;">
-                    {{ $accountingClassification->obs }}
-                </td>
-                <td style="padding-left: 3.5rem!important;">
-                    <button type="button" class="delete-accounting-configs" data-url="{{ route('accounting-configs.delete-classification', ['classification' => $accountingClassification->id, 'config' => $accountingConfig->id]) }}">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 inline text-red-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" />
-                        </svg>
-                    </button>
-                </td>
+                </a>
+            </td>
+            <td style="padding-left: 3.5rem!important;">
+                {{ $accountingClassification->obs }}
+            </td>
+            <td style="padding-left: 3.5rem!important;">
+                <button type="button" class="delete-accounting-configs" data-url="{{ route('accounting-configs.delete-classification', ['classification' => $accountingClassification->id, 'config' => $accountingConfig->id]) }}">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 inline text-red-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
+                </button>
+            </td>
         </tr>
         @endforeach
 
@@ -221,21 +239,21 @@
         @foreach ($accountingConfig->formulas as $formula)
             <tr class="point-items-{{ $accountingConfig->id }}" data-type="item-formula" data-year="{{ $accountingConfig->year }}" data-month="{{ $accountingConfig->month }}">
                 <td style="padding-left: 3.5rem!important;">
-                        {{ $formula->accountingClassification->classification }}
-                    </td>
-                    <td style="padding-left: 3.5rem !important;">
-                        {{ $formula->formula }}
-                    </td>
-                    <td style="padding-left: 3.5rem!important;">
-                        {{ $formula->obs }}
-                    </td>
-                    <td style="padding-left: 3.5rem!important;">
-                        <button type="button" class="delete-accounting-configs" data-url="{{ route('accounting-configs.delete-formula', ['formula' => $formula->id, 'config' => $accountingConfig->id]) }}">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 inline text-red-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" />
-                            </svg>
-                        </button>
-                    </td>
+                    <a class="text-item-table" href="{{ route('formulas.edit', ['formula' => $formula->id]) }}">{{ $formula->accountingClassification->classification }}</a>
+                </td>
+                <td style="padding-left: 3.5rem !important;">
+                    <a class="text-item-table" href="{{ route('formulas.edit', ['formula' => $formula->id]) }}">{{ $formula->formula }}</a>
+                </td>
+                <td style="padding-left: 3.5rem!important;">
+                    {{ $formula->obs }}
+                </td>
+                <td style="padding-left: 3.5rem!important;">
+                    <button type="button" class="delete-accounting-configs" data-url="{{ route('accounting-configs.delete-formula', ['formula' => $formula->id, 'config' => $accountingConfig->id]) }}">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 inline text-red-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                        </svg>
+                    </button>
+                </td>
                 </tr>
         @endforeach
     @empty
