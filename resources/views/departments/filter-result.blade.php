@@ -2,6 +2,7 @@
     <tr class="thead-light">
         <x-table-sort-header :orderBy="null" :ascending="null" columnName="" columnText="{{ __('') }}"/>
         <x-table-sort-header :orderBy="$orderBy" :ascending="$ascending" columnName="name" columnText="{{ __('Departamento') }}"/>
+        <x-table-sort-header :orderBy="$orderBy" :ascending="$ascending" columnName="acronym" columnText="{{ __('Sigla') }}"/>
         <x-table-sort-header :orderBy="$orderBy" :ascending="$ascending" columnName="obs" columnText="{{ __('Observações') }}"/>
         <th scope="col"
             class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
@@ -17,6 +18,9 @@
             </td>
             <td>
                 <a class="text-item-table" href="{{ route('departments.show', ['department' => $department->id]) }}">{{ $department->name }}</a>
+            </td>
+            <td>
+                <a class="text-item-table" href="{{ route('departments.show', ['department' => $department->id]) }}">{{ $department->acronym }}</a>
             </td>
             <td>
                 {{ $department->obs ? $department->obs : '-'  }}
