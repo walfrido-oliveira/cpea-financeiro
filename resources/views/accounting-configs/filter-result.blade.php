@@ -99,7 +99,7 @@
             <td style="padding-left: 3.5rem !important;" class="font-bold">Observações</td>
             <td style="padding-left: 3.5rem !important;" class="font-bold">Ação</td>
         </tr>
-        @foreach ($accountingConfig->accountingClassifications()->where('type_classification', 'Retiradas Gerenciais')->get() as $accountingClassification)
+        @foreach ($accountingConfig->accountingClassifications()->where('type_classification', 'RETIRADAS GERENCIAIS')->get() as $accountingClassification)
             <tr class="point-items-{{ $accountingConfig->id }}" data-type="item-classification" data-year="{{ $accountingConfig->year }}" data-month="{{ $accountingConfig->month }}" data-classification="Retiradas Gerenciais">
                 <td style="padding-left: 3.5rem!important;">
                     <a class="text-item-table" href="{{ route('accounting-classifications.edit', ['accounting_classification' => $accountingClassification->id]) }}">
@@ -144,7 +144,7 @@
             <td style="padding-left: 3.5rem !important;" class="font-bold">Observações</td>
             <td style="padding-left: 3.5rem !important;" class="font-bold">Ação</td>
         </tr>
-            @foreach ($accountingConfig->accountingClassifications()->where('type_classification', 'Resultado do Exercicio')->get() as $accountingClassification)
+            @foreach ($accountingConfig->accountingClassifications()->where('type_classification', 'RESULTADOS DO EXERCICIO')->get() as $accountingClassification)
             <tr class="point-items-{{ $accountingConfig->id }}" data-type="item-classification" data-year="{{ $accountingConfig->year }}" data-month="{{ $accountingConfig->month }}" data-classification="Resultado do Exercicio">
                 <td style="padding-left: 3.5rem!important;">
                     <a class="text-item-table" href="{{ route('accounting-classifications.edit', ['accounting_classification' => $accountingClassification->id]) }}">
@@ -189,7 +189,7 @@
             <td style="padding-left: 3.5rem !important;" class="font-bold">Observações</td>
             <td style="padding-left: 3.5rem !important;" class="font-bold">Ação</td>
         </tr>
-            @foreach ($accountingConfig->accountingClassifications()->where('type_classification', 'DRE Ajustável')->get() as $accountingClassification)
+            @foreach ($accountingConfig->accountingClassifications()->where('type_classification', 'DRE AJUSTÁVEL')->get() as $accountingClassification)
         <tr class="point-items-{{ $accountingConfig->id }}" data-type="item-classification" data-year="{{ $accountingConfig->year }}" data-month="{{ $accountingConfig->month }}" data-classification="DRE Ajustável">
             <td style="padding-left: 3.5rem!important;">
                 <td style="padding-left: 3.5rem!important;">
