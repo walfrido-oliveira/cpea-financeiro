@@ -49,6 +49,8 @@ use App\Http\Controllers\ActivityController;
 use App\Http\Controllers\DirectionController;
 use App\Http\Controllers\EmployeeController;
 use App\Http\Controllers\GuidingParameterRefValueController;
+use App\Http\Controllers\WorkingDayController;
+use App\Models\WorkingDay;
 
 /*
 |--------------------------------------------------------------------------
@@ -226,6 +228,16 @@ Route::group(['middleware' => ['auth:sanctum', 'verified']], function() {
 
         Route::prefix('atividades')->name('activities.')->group(function(){
             Route::post('/filter', [DepartmentController::class, 'filter'])->name('filter');
+        });
+
+        /** Working Day */
+        Route::resource('jornada-de-trabalho', WorkingDayController::class, [
+            'names' => 'working-days'])->parameters([
+            'jornada-de-trabalho' => 'working-day'
+        ]);
+
+        Route::prefix('jornada-de-trabalho')->name('working-days.')->group(function(){
+            Route::post('/filter', [WorkingDayController::class, 'filter'])->name('filter');
         });
     });
 

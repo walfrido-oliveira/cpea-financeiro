@@ -8,7 +8,6 @@ use App\Models\Employee;
 use App\Models\Occupation;
 use App\Models\User;
 use Illuminate\Http\Request;
-use Illuminate\Validation\Rule;
 
 class EmployeeController extends Controller
 {
@@ -32,6 +31,7 @@ class EmployeeController extends Controller
         ]);
 
     }
+
     /**
     * Display a listing of the user.
      *

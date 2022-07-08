@@ -118,6 +118,9 @@
               <div class="px-0 py-0 ">
                   <a class="@if(request()->routeIs('check-points.activities.index')) {{ 'active' }} @endif" href="{{ route('check-points.activities.index') }}">Atividades</a>
               </div>
+              <div class="px-0 py-0 ">
+                <a class="@if(request()->routeIs('check-points.working-days.index')) {{ 'active' }} @endif" href="{{ route('check-points.working-days.index') }}">Jornada de Trabalho</a>
+            </div>
             </div>
           </div>
 

@@ -49,6 +49,20 @@ if (! function_exists('months'))
     }
 }
 
+if (! function_exists('daysOfWeek'))
+{
+    function daysOfWeek()
+    {
+        return ['1' => 'Domingo',
+        '2' => 'Segunda-Feira',
+        '3' => 'Terca-Feira',
+        '4' => 'Quarta-Feira',
+        '5' => 'Quinta-Feira',
+        '6' => 'Sexta-Feira',
+        '7' => 'Sábado'];
+    }
+}
+
 if (! function_exists("defaultSaveMessagemNotification"))
 {
     function defaultSaveMessagemNotification()
