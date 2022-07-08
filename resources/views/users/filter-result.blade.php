@@ -4,7 +4,7 @@
         <x-table-sort-header :orderBy="$orderBy" :ascending="$ascending" columnName="name" columnText="{{ __('Nome') }}"/>
         <x-table-sort-header :orderBy="$orderBy" :ascending="$ascending" columnName="email" columnText="{{ __('Email') }}"/>
         <x-table-sort-header :orderBy="$orderBy" :ascending="$ascending" columnName="role" columnText="{{ __('Nível') }}"/>
-        <x-table-sort-header :orderBy="$orderBy" :ascending="$ascending" columnName="status" columnText="{{ __('STatus') }}"/>
+        <x-table-sort-header :orderBy="$orderBy" :ascending="$ascending" columnName="status" columnText="{{ __('Status') }}"/>
         <th scope="col"
             class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
             Ações

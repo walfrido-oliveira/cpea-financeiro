@@ -47,6 +47,7 @@ use App\Http\Controllers\AccountingClassificationController;
 use App\Http\Controllers\AccountingConfigController;
 use App\Http\Controllers\ActivityController;
 use App\Http\Controllers\DirectionController;
+use App\Http\Controllers\EmployeeController;
 use App\Http\Controllers\GuidingParameterRefValueController;
 
 /*
@@ -106,6 +107,16 @@ Route::group(['middleware' => ['auth:sanctum', 'verified']], function() {
 
     Route::prefix('departamentos')->name('departments.')->group(function(){
         Route::post('/filter', [DepartmentController::class, 'filter'])->name('filter');
+    });
+
+    /** employees */
+    Route::resource('colacoradores', EmployeeController::class, [
+        'names' => 'employees'])->parameters([
+        'colacoradores' => 'employee'
+    ]);
+
+    Route::prefix('colacoradores')->name('employees.')->group(function(){
+        Route::post('/filter', [EmployeeController::class, 'filter'])->name('filter');
     });
 
     /** DIRECTION */
