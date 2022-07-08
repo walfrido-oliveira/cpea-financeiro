@@ -45,6 +45,7 @@ use App\Http\Controllers\GuidingParameterValueController;
 use App\Http\Controllers\ParameterAnalysisGroupController;
 use App\Http\Controllers\AccountingClassificationController;
 use App\Http\Controllers\AccountingConfigController;
+use App\Http\Controllers\ActivityController;
 use App\Http\Controllers\DirectionController;
 use App\Http\Controllers\GuidingParameterRefValueController;
 
@@ -116,7 +117,6 @@ Route::group(['middleware' => ['auth:sanctum', 'verified']], function() {
     Route::prefix('diretorias')->name('directions.')->group(function(){
         Route::post('/filter', [DirectionController::class, 'filter'])->name('filter');
     });
-
 
     /** OCCUPATION */
     Route::resource('cargos', OccupationController::class, [
@@ -202,6 +202,20 @@ Route::group(['middleware' => ['auth:sanctum', 'verified']], function() {
     /** DRE */
     Route::prefix('dre')->name('dre.')->group(function(){
         Route::get('/', [DREController::class, 'index'])->name('index');
+    });
+
+    /** Check Point */
+    Route::prefix('controle-de-ponto')->name('check-points.')->group(function(){
+
+        /** ACTIVITYS */
+        Route::resource('atividades', ActivityController::class, [
+            'names' => 'activities'])->parameters([
+            'atividades' => 'activity'
+        ]);
+
+        Route::prefix('atividades')->name('activities.')->group(function(){
+            Route::post('/filter', [DepartmentController::class, 'filter'])->name('filter');
+        });
     });
 
     /** Configs */
