@@ -34,7 +34,7 @@
                         </div>
                         <div class="w-full md:w-1/3 px-3 mb-6 md:mb-0">
                             <x-jet-label for="working_day_id" value="{{ __('Jornada de Trabalho') }}" required/>
-                            <x-custom-select :options="$workingDays" name="working_day_id" id="working_day_id" required :value="old('working_day_id')"/>
+                            <x-custom-select class="mt-1" :options="$workingDays" name="working_day_id" id="working_day_id" required :value="old('working_day_id')"/>
                         </div>
                     </div>
 
