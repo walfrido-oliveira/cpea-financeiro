@@ -23,7 +23,7 @@ class Employee extends Model
         'occupation_type',
         'employee_id',
         'admitted_at',
-        'working_day'
+        'working_day_id'
     ];
 
     /**
@@ -49,6 +49,14 @@ class Employee extends Model
     public function manager()
     {
         return $this->belongsTo(User::class, 'manager_id', 'id');
+    }
+
+    /**
+     * The work day
+     */
+    public function workingDay()
+    {
+        return $this->belongsTo(WorkingDay::class);
     }
 
     /**

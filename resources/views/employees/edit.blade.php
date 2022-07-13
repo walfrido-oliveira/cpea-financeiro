@@ -33,8 +33,8 @@
                             <x-jet-input id="admitted_at" class="form-control block mt-1 w-full" type="date" :value="$employee->admitted_at->format('Y-m-d')" name="admitted_at" maxlength="255" required autofocus autocomplete="admitted_at" placeholder="{{ __('Data de Amissão') }}"/>
                         </div>
                         <div class="w-full md:w-1/3 px-3 mb-6 md:mb-0">
-                            <x-jet-label for="working_day" value="{{ __('Jornada de Trabalho') }}" required/>
-                            <x-jet-input id="working_day" class="form-control block mt-1 w-full" type="number" :value="$employee->working_day" name="working_day" maxlength="255" required autofocus autocomplete="working_day" placeholder="{{ __('Jornada de Trabalho') }}"/>
+                            <x-jet-label for="working_day_id" value="{{ __('Jornada de Trabalho') }}" required/>
+                            <x-custom-select :options="$workingDays" name="working_day_id" id="working_day_id" required :value="$employee->working_day_id"/>
                         </div>
                     </div>
 

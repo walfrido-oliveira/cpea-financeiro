@@ -29,6 +29,10 @@ class WorkingDay extends Model
         'end' => 'datetime',
     ];
 
+    public function getFullDescriptionAttribute() {
+        return $this->description . ' - ' . $this->start->format('H:i') . 'h' . ' às ' . $this->end->format('H:i') . 'h';
+    }
+
     /**
      * Find users in dabase
      *

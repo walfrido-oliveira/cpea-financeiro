@@ -7,6 +7,7 @@ use App\Models\Direction;
 use App\Models\Employee;
 use App\Models\Occupation;
 use App\Models\User;
+use App\Models\WorkingDay;
 use Illuminate\Http\Request;
 
 class EmployeeController extends Controller
@@ -27,7 +28,7 @@ class EmployeeController extends Controller
             'occupation_type' => ['required', 'string', 'in:ADMINISTRATIVO,COMERCIAL,PROJETO'],
             'employee_id' => ['required', 'string'],
             'admitted_at' => ['required', 'date'],
-            'working_day' => ['required', 'numeric']
+            'working_day_id' => ['required', 'exists:working_days,id']
         ]);
 
     }
@@ -59,8 +60,9 @@ class EmployeeController extends Controller
         $departments = Department::all()->pluck('name', 'id');
         $users = User::all()->pluck('name', 'id');
         $occupationTypes = ['ADMINISTRATIVO' => 'ADMINISTRATIVO', 'COMERCIAL' => 'COMERCIAL', 'PROJETO' => 'PROJETO'];
+        $workingDays = WorkingDay::all()->pluck('full_description', 'id');
 
-        return view('employees.create', compact('occupations', 'directions', 'departments', 'users', 'occupationTypes'));
+        return view('employees.create', compact('occupations', 'directions', 'departments', 'users', 'occupationTypes', 'workingDays'));
     }
 
     /**
@@ -84,7 +86,7 @@ class EmployeeController extends Controller
             'occupation_type' => $input['occupation_type'],
             'employee_id' => $input['employee_id'],
             'admitted_at' => $input['admitted_at'],
-            'working_day' => $input['working_day'],
+            'working_day_id' => $input['working_day_id'],
         ]);
 
         $resp = [
@@ -121,8 +123,9 @@ class EmployeeController extends Controller
         $departments = Department::all()->pluck('name', 'id');
         $users = User::all()->pluck('name', 'id');
         $occupationTypes = ['ADMINISTRATIVO' => 'ADMINISTRATIVO', 'COMERCIAL' => 'COMERCIAL', 'PROJETO' => 'PROJETO'];
+        $workingDays = WorkingDay::all()->pluck('full_description', 'id');
 
-        return view('employees.edit', compact('employee', 'occupations', 'directions', 'departments', 'users', 'occupationTypes'));
+        return view('employees.edit', compact('employee', 'occupations', 'directions', 'departments', 'users', 'occupationTypes', 'workingDays'));
     }
 
     /**
@@ -149,7 +152,7 @@ class EmployeeController extends Controller
             'occupation_type' => $input['occupation_type'],
             'employee_id' => $input['employee_id'],
             'admitted_at' => $input['admitted_at'],
-            'working_day' => $input['working_day'],
+            'working_day_id' => $input['working_day_id'],
         ]);
 
         $resp = [
