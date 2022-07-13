@@ -192,11 +192,9 @@
             @foreach ($accountingConfig->accountingClassifications()->where('type_classification', 'DRE AJUSTÁVEL')->get() as $accountingClassification)
         <tr class="point-items-{{ $accountingConfig->id }}" data-type="item-classification" data-year="{{ $accountingConfig->year }}" data-month="{{ $accountingConfig->month }}" data-classification="DRE Ajustável">
             <td style="padding-left: 3.5rem!important;">
-                <td style="padding-left: 3.5rem!important;">
-                    <a class="text-item-table" href="{{ route('accounting-classifications.edit', ['accounting_classification' => $accountingClassification->id]) }}">
-                        {{ $accountingClassification->classification }}
-                    </a>
-                </td>
+                <a class="text-item-table" href="{{ route('accounting-classifications.edit', ['accounting_classification' => $accountingClassification->id]) }}">
+                    {{ $accountingClassification->classification }}
+                </a>
             </td>
             <td style="padding-left: 3.5rem !important;">
                 <a class="text-item-table" href="{{ route('accounting-classifications.edit', ['accounting_classification' => $accountingClassification->id]) }}">

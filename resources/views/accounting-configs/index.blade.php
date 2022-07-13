@@ -61,7 +61,9 @@
              msg="{{ __('Deseja realmente apagar essa configuração?') }}"
              confirm="{{ __('Sim') }}" cancel="{{ __('Não') }}" id="delete_accounting_config_modal"
              method="DELETE"
-             redirect-url="{{ route('accounting-configs.index') }}"/>
+             redirect-url="{!! route('accounting-configs.index',
+             ['year' => app('request')->has('year') ? app('request')->input('year') : $maxYear,
+             'month' => app('request')->has('month') ? app('request')->input('month') : $maxMonth]) !!}"/>
 
     <script>
         document.getElementById("year").addEventListener("change", function() {

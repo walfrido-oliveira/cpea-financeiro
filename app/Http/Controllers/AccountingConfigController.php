@@ -217,7 +217,6 @@ class AccountingConfigController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \Illuminate\Http\Request  $reques
      * @param  int  $id
      * @param  int  $config
      * @return \Illuminate\Http\Response

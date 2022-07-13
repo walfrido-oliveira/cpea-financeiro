@@ -95,10 +95,10 @@
             }
 
             @if(isset($attributes['redirect-url']))
-                var url = "{{ $attributes['redirect-url'] }}?";
+                var url = "{!! $attributes['redirect-url'] !!}";
                 @if(isset($attributes['form-id']))
                     document.querySelectorAll("#{{ $attributes['form-id'] }} input").forEach(function (item) {
-                        url += `${item.name}=${item.value}&`;
+                        url += `?${item.name}=${item.value}&`;
                     });
                     document.querySelectorAll("#{{ $attributes['form-id'] }} select").forEach(function (item) {
                         url += `${item.name}=${item.value}&`;
