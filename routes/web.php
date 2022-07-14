@@ -223,6 +223,7 @@ Route::group(['middleware' => ['auth:sanctum', 'verified']], function() {
 
         Route::post('/filter', [CheckPointController::class, 'filter'])->name('filter');
         Route::get('/', [CheckPointController::class, 'index'])->name('index');
+        Route::get('/admin', [CheckPointController::class, 'admin'])->name('admin');
         Route::get('/create', [CheckPointController::class, 'create'])->name('create');
         Route::get('/{check_point}', [CheckPointController::class, 'show'])->name('show');
         Route::get('/{check_point}', [CheckPointController::class, 'show'])->name('show');

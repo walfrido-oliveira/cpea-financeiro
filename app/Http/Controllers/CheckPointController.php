@@ -2,16 +2,17 @@
 
 namespace App\Http\Controllers;
 
+use DB;
 use App\Models\Activity;
 use App\Models\CheckPoint;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Validator;
 
 class CheckPointController extends Controller
 {
     /**
-    * Display a listing of the user.
+    * Display a listing of the CheckPoint.
      *
      * @param  Request  $request
      * @return \Illuminate\Http\Response
@@ -24,6 +25,34 @@ class CheckPointController extends Controller
         $orderBy = isset($query['order_by']) ? $query['order_by'] : 'start';
 
         return view('check-points.index', compact('checkPoints', 'ascending', 'orderBy', 'activities'));
+    }
+
+    /**
+    * Display a listing of the CheckPointadmin.
+     *
+     * @param  Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function admin(Request $request)
+    {
+        $maxYear = CheckPoint::all()->max('start')->format('Y');
+        $maxMonth = CheckPoint::all()->max('start')->format('m');
+        $years = CheckPoint::whereYear('start', '>=', 2021)
+        ->whereYear('start', '<=', 3000)
+        ->select(DB::raw("DATE_FORMAT(start, '%Y') AS y"))
+        ->pluck('y', 'y')
+         ->all();
+
+        $ascending = isset($query['ascending']) ? $query['ascending'] : 'desc';
+        $orderBy = isset($query['order_by']) ? $query['order_by'] : 'user_id';
+
+        $checkPoints =  CheckPoint::filter([
+            'month' => $request->has('month') ? $request->get('month') : $maxMonth,
+            'year' => $request->has('year') ? $request->get('year') : $maxYear,
+        ]
+        );
+
+        return view('check-points.admin', compact('checkPoints', 'ascending', 'orderBy', 'maxYear', 'maxMonth', 'years'));
     }
 
     /**

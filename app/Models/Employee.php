@@ -86,6 +86,32 @@ class Employee extends Model
     }
 
     /**
+     * Get balance of hours
+     */
+    public function balanceByMonthAndYear($month, $year)
+    {
+        $hours = 0;
+        $minuts = 0;
+
+        foreach ($this->user->checkPoints()->whereMonth('start', $month)->whereYear('start', $year)->get() as $checkpoint)
+        {
+            $hours += $checkpoint->start->diffInHours($checkpoint->end);
+            $minuts += $checkpoint->start->diff($checkpoint->end)->i;
+        }
+
+        if($minuts > 60)
+        {
+            $hours++;
+            $minuts = 0;
+        }
+
+        $hours = str_pad($hours, 2, "0", STR_PAD_LEFT);
+        $minuts = str_pad($minuts, 2, "0", STR_PAD_LEFT);
+
+        return "${hours}:${minuts}";
+    }
+
+    /**
      * Find users in dabase
      *
      * @param Array

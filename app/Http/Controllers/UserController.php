@@ -121,8 +121,6 @@ class UserController extends Controller
 
         $user = User::findOrFail($id);
 
-        $isInactivated = $user->status == 'activated' && $input['status'] == 'inactivated';
-
         $user->update([
             'name' => $input['name'],
             'last_name' => $input['last_name'],

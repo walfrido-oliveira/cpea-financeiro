@@ -74,6 +74,22 @@ class CheckPoint extends Model
                 }
             }
 
+            if(isset($query['month']))
+            {
+                if(!is_null($query['month']))
+                {
+                    $q->whereMonth('start', $query['month']);
+                }
+            }
+
+            if(isset($query['year']))
+            {
+                if(!is_null($query['year']))
+                {
+                    $q->whereYear('start', $query['year']);
+                }
+            }
+
         });
 
         $result->orderBy($orderBy, $ascending);
