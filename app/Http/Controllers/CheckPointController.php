@@ -35,8 +35,8 @@ class CheckPointController extends Controller
      */
     public function admin(Request $request)
     {
-        $maxYear = CheckPoint::all()->max('start')->format('Y');
-        $maxMonth = CheckPoint::all()->max('start')->format('m');
+        $maxYear = CheckPoint::all()->max('start') ? CheckPoint::all()->max('start')->format('Y') : now()->format("y");
+        $maxMonth = CheckPoint::all()->max('start') ? CheckPoint::all()->max('start')->format('m') : now()->format("m");
         $years = CheckPoint::whereYear('start', '>=', 2021)
         ->whereYear('start', '<=', 3000)
         ->select(DB::raw("DATE_FORMAT(start, '%Y') AS y"))
