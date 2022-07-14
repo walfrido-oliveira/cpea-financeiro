@@ -37,11 +37,14 @@ class CheckPointController extends Controller
     {
         $maxYear = CheckPoint::all()->max('start') ? CheckPoint::all()->max('start')->format('Y') : now()->format("y");
         $maxMonth = CheckPoint::all()->max('start') ? CheckPoint::all()->max('start')->format('m') : now()->format("m");
+
         $years = CheckPoint::whereYear('start', '>=', 2021)
         ->whereYear('start', '<=', 3000)
         ->select(DB::raw("DATE_FORMAT(start, '%Y') AS y"))
         ->pluck('y', 'y')
          ->all();
+
+        if(!$years)  $years = [2022 => 2022];
 
         $ascending = isset($query['ascending']) ? $query['ascending'] : 'desc';
         $orderBy = isset($query['order_by']) ? $query['order_by'] : 'user_id';
