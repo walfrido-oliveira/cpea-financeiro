@@ -65,24 +65,21 @@ class Employee extends Model
     public function balance($start)
     {
         $hours = 0;
-        $minuts = 0;
+        $minutes = 0;
 
         foreach ($this->user->checkPoints->where('start', $start) as $checkpoint)
         {
-            $hours += $checkpoint->start->diffInHours($checkpoint->end);
-            $minuts += $checkpoint->start->diff($checkpoint->end)->i;
+            $minutes += $checkpoint->start->diffInHours($checkpoint->end) * 60;
+            $minutes += $checkpoint->start->diff($checkpoint->end)->i;
         }
 
-        if($minuts > 60)
-        {
-            $hours++;
-            $minuts = 0;
-        }
+        $hours = floor($minutes / 60);
+        $minutes -= $hours * 60;
 
         $hours = str_pad($hours, 2, "0", STR_PAD_LEFT);
-        $minuts = str_pad($minuts, 2, "0", STR_PAD_LEFT);
+        $minutes = str_pad($minutes, 2, "0", STR_PAD_LEFT);
 
-        return "${hours}:${minuts}";
+        return "${hours}:${minutes}";
     }
 
     /**
@@ -91,24 +88,47 @@ class Employee extends Model
     public function balanceByMonthAndYear($month, $year)
     {
         $hours = 0;
-        $minuts = 0;
+        $minutes = 0;
 
         foreach ($this->user->checkPoints()->whereMonth('start', $month)->whereYear('start', $year)->get() as $checkpoint)
         {
-            $hours += $checkpoint->start->diffInHours($checkpoint->end);
-            $minuts += $checkpoint->start->diff($checkpoint->end)->i;
+            $minutes += $checkpoint->start->diffInHours($checkpoint->end) * 60;
+            $minutes += $checkpoint->start->diff($checkpoint->end)->i;
         }
 
-        if($minuts > 60)
-        {
-            $hours++;
-            $minuts = 0;
-        }
+        $hours = floor($minutes / 60);
+        $minutes -= $hours * 60;
 
         $hours = str_pad($hours, 2, "0", STR_PAD_LEFT);
-        $minuts = str_pad($minuts, 2, "0", STR_PAD_LEFT);
+        $minutes = str_pad($minutes, 2, "0", STR_PAD_LEFT);
 
-        return "${hours}:${minuts}";
+        return "${hours}:${minutes}";
+    }
+
+    public static function totalBalanceByMonthAndYear($month, $year)
+    {
+        $totalHours = 0;
+        $totalMinutes = 0;
+
+        $employees = self::all();
+        foreach ($employees as $employee)
+        {
+            $time = explode(":", $employee->balanceByMonthAndYear($month, $year));
+
+            $hours = $time[0];
+            $minutes = $time[1];
+
+            $totalMinutes += $hours * 60;
+            $totalMinutes += $minutes;
+        }
+
+        $totalHours = floor($totalMinutes / 60);
+        $totalMinutes -= $totalHours * 60;
+
+        $totalHours = str_pad($totalHours, 2, "0", STR_PAD_LEFT);
+        $totalMinutes = str_pad($totalMinutes, 2, "0", STR_PAD_LEFT);
+
+        return "${totalHours}:${totalMinutes}";
     }
 
     /**

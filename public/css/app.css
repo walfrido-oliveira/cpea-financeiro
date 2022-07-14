@@ -1302,6 +1302,9 @@ select {
 .table {
 	display: table;
 }
+.table-row {
+	display: table-row;
+}
 .grid {
 	display: grid;
 }
@@ -2131,6 +2134,14 @@ select {
 .text-green-900 {
 	--tw-text-opacity: 1;
 	color: rgba(6, 78, 59, var(--tw-text-opacity));
+}
+.text-red-900 {
+	--tw-text-opacity: 1;
+	color: rgba(127, 29, 29, var(--tw-text-opacity));
+}
+.text-yellow-400 {
+	--tw-text-opacity: 1;
+	color: rgba(251, 191, 36, var(--tw-text-opacity));
 }
 .text-blue-400 {
 	--tw-text-opacity: 1;

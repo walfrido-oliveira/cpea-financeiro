@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class CheckPoint extends Model
+class PointManagement extends Model
 {
     use HasFactory;
 
@@ -15,17 +15,7 @@ class CheckPoint extends Model
      * @var array
      */
     protected $fillable = [
-        'user_id', 'project_id', 'activity_id', 'start', 'end', 'description', 'status'
-    ];
-
-    /**
-     * The attributes that should be cast to native types.
-     *
-     * @var array
-     */
-    protected $casts = [
-        'start' => 'datetime',
-        'end' => 'datetime',
+        'user_id', 'employee_id', 'month', 'year', 'status', 'balance'
     ];
 
     /**
@@ -37,11 +27,11 @@ class CheckPoint extends Model
     }
 
     /**
-     * The activity
+     * The employee
      */
-    public function activity()
+    public function employee()
     {
-        return $this->belongsTo(Activity::class);
+        return $this->belongsTo(Employee::class);
     }
 
     /**
@@ -66,11 +56,11 @@ class CheckPoint extends Model
                 }
             }
 
-            if(isset($query['name']))
+            if(isset($query['status']))
             {
-                if(!is_null($query['name']))
+                if(!is_null($query['status']))
                 {
-                    $q->where('name', 'like','%' . $query['name'] . '%');
+                    $q->where('status', 'like', $query['status']);
                 }
             }
 

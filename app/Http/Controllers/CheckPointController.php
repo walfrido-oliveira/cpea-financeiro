@@ -49,11 +49,10 @@ class CheckPointController extends Controller
         $ascending = isset($query['ascending']) ? $query['ascending'] : 'desc';
         $orderBy = isset($query['order_by']) ? $query['order_by'] : 'user_id';
 
-        $checkPoints =  CheckPoint::filter([
-            'month' => $request->has('month') ? $request->get('month') : $maxMonth,
-            'year' => $request->has('year') ? $request->get('year') : $maxYear,
-        ]
-        );
+        $checkPoints =  CheckPoint::whereMonth('start', $request->has('month') ? $request->get('month') : $maxMonth)
+        ->whereYear('start', $request->has('year') ? $request->get('year') : $maxYear)
+        ->groupBy("user_id")
+        ->get();
 
         return view('check-points.admin', compact('checkPoints', 'ascending', 'orderBy', 'maxYear', 'maxMonth', 'years'));
     }

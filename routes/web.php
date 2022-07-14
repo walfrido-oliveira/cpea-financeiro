@@ -50,6 +50,7 @@ use App\Http\Controllers\CheckPointController;
 use App\Http\Controllers\DirectionController;
 use App\Http\Controllers\EmployeeController;
 use App\Http\Controllers\GuidingParameterRefValueController;
+use App\Http\Controllers\PointManagementController;
 use App\Http\Controllers\WorkingDayController;
 use App\Models\WorkingDay;
 
@@ -230,6 +231,7 @@ Route::group(['middleware' => ['auth:sanctum', 'verified']], function() {
         Route::get('/{check_point}/edit', [CheckPointController::class, 'edit'])->name('edit');
         Route::post('/store', [CheckPointController::class, 'store'])->name('store');
         Route::delete('/destroy/{check_point}', [CheckPointController::class, 'destroy'])->name('destroy');
+        Route::post('/acao/{month}/{year}', [PointManagementController::class, 'action'])->name('action');
 
         /** ACTIVITYS */
         Route::resource('atividades', ActivityController::class, [
