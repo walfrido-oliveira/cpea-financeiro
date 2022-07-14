@@ -10,9 +10,6 @@
                     <div class="m-2 ">
                         <a class="btn-outline-info" href="#" id="add_check_point">{{ __('Adicionar Registro') }}</a>
                     </div>
-                    <div class="m-2">
-                        <a class="btn-outline-info" href="{{ route('check-points.create') }}" >{{ __('Abrir Ponto') }}</a>
-                    </div>
                 </div>
             </div>
 

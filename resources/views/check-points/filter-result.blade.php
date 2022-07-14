@@ -7,7 +7,6 @@
         <x-table-sort-header :orderBy="$orderBy" :ascending="$ascending" columnName="" columnText="{{ __('Saída') }}"/>
         <x-table-sort-header :orderBy="$orderBy" :ascending="$ascending" columnName="" columnText="{{ __('Saldo') }}"/>
         <x-table-sort-header :orderBy="$orderBy" :ascending="$ascending" columnName="" columnText="{{ __('Colaborador') }}"/>
-        <x-table-sort-header :orderBy="$orderBy" :ascending="$ascending" columnName="" columnText="{{ __('Situação') }}"/>
     </tr>
 </thead>
 <tbody id="check-points_table_content">
@@ -52,7 +51,6 @@
                     {{ $checkpoint->user->full_name }}
                 </a>
             </td>
-            <td></td>
         <tr>
         <tr class="checkpoint-table" style="display: none;" data-day="{{ $checkpoint->start }}">
             <td class="header"></td>
@@ -61,7 +59,6 @@
             <td class="header">Entrada</td>
             <td class="header">Saída</td>
             <td class="header">Descrição</td>
-            <td class="header"></td>
             <td class="header"></td>
         </tr>
         @foreach ($checkPoints->where('start', $checkpoint->start) as $checkpoint2)
