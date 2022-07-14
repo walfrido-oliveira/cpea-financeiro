@@ -5,7 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\Activity;
 use App\Models\CheckPoint;
 use Illuminate\Http\Request;
-use Illuminate\Validation\Rule;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Http\Response;
 
 class CheckPointController extends Controller
 {
@@ -33,13 +34,18 @@ class CheckPointController extends Controller
      */
     public function store(Request $request)
     {
-        $request->validate([
+        $validator = Validator::make($request->all(), [
             'activity_id' => ['exists:activities,id', 'nullable'],
             'project_id' => ['nullable', 'string', 'max:191'],
             'start' => ['date', 'required'],
             'end' => ['date', 'required'],
             'description' => ['required', 'string']
         ]);
+
+        if ($validator->fails())
+        {
+            return response()->json($validator->messages(), Response::HTTP_BAD_REQUEST);
+        }
 
         $input = $request->all();
 
