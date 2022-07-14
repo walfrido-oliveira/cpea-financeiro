@@ -42,6 +42,18 @@
     <x-spin-load />
 
     <script>
+        document.querySelectorAll(".show-check-points").forEach(item => {
+            item.addEventListener("click", function(e) {
+                e.preventDefault();
+                const day = this.dataset.day;
+                document.querySelectorAll(`tr[data-day='${day}']`).forEach(item2 => {
+                    item2.style.display = item2.style.display == "table-row" ? "none" : "table-row";
+                });
+            });
+        });
+    </script>
+
+    <script>
          document.getElementById("add_check_point").addEventListener("click", function() {
             var modal = document.getElementById("check_points_modal");
             modal.classList.remove("hidden");

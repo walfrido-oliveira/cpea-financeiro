@@ -13,7 +13,13 @@
 <tbody id="check-points_table_content">
     @forelse (App\Models\CheckPoint::where("user_id", auth()->user()->id)->groupBy('start')->get() as $key => $checkpoint)
         <tr>
-            <td></td>
+            <td>
+                <button type="button" class="show-check-points" data-day="{{ $checkpoint->start }}">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 inline text-blue-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3m0 0v3m0-3h3m-3 0H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
+                </button>
+            </td>
             <td>
                 <a class="text-item-table" href="{{ route('check-points.show', ['check_point' => $checkpoint->id]) }}">
                     {{ ucfirst(substr($checkpoint->start->translatedFormat('l'), 0, 3)) . ' - ' .  $checkpoint->start->translatedFormat('d/m') }}
@@ -48,7 +54,7 @@
             </td>
             <td></td>
         <tr>
-        <tr class="checkpoint-table">
+        <tr class="checkpoint-table" style="display: none;" data-day="{{ $checkpoint->start }}">
             <td class="header"></td>
             <td class="header">ID</td>
             <td class="header">Atividade</td>
@@ -59,7 +65,7 @@
             <td class="header"></td>
         </tr>
         @foreach ($checkPoints->where('start', $checkpoint->start) as $checkpoint2)
-            <tr class="checkpoint-table">
+            <tr class="checkpoint-table" style="display: none;" data-day="{{ $checkpoint->start }}">
                 <td></td>
                 <td>{{ $checkpoint2->activity_id ? str_pad($checkpoint2->activity->id, 3, "0", STR_PAD_LEFT) : $checkpoint2->project_id  }}</td>
                 <td>{{ $checkpoint2->activity_id ? $checkpoint2->activity->name : $checkpoint2->project_id  }}</td>
