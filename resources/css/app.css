@@ -480,4 +480,8 @@ input:read-only {
     left: 480px;
 }
 
+.checkpoint-table td.header {
+    background-color: #005e10;
+    color: #FFF;
+}
 

@@ -34,9 +34,6 @@
                         @include('check-points.filter-result', ['check-points' => $checkPoints, 'ascending' => $ascending, 'orderBy' => $orderBy])
                     </table>
                 </div>
-                <div class="flex mt-4 p-2" id="pagination">
-                        {{ $checkPoints->appends(request()->input())->links() }}
-                </div>
             </div>
         </div>
     </div>

@@ -65,6 +65,22 @@ class User extends Authenticatable
     ];
 
     /**
+     * The user
+     */
+    public function employee()
+    {
+        return $this->hasMany(Employee::class);
+    }
+
+    /**
+     * Check Points
+     */
+    public function checkPoints()
+    {
+        return $this->hasMany(CheckPoint::class);
+    }
+
+    /**
      * Send update mail to user
      *
      * @return void

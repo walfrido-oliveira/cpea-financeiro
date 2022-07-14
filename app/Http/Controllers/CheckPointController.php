@@ -17,12 +17,12 @@ class CheckPointController extends Controller
      */
     public function index(Request $request)
     {
-        $checkPoints =  CheckPoint::filter($request->all());
-        $checkPoints = Activity::all()->pluck('name', 'id');
+        $checkPoints =  CheckPoint::where("user_id", auth()->user()->id)->get();
+        $activities = Activity::all()->pluck('name', 'id');
         $ascending = isset($query['ascending']) ? $query['ascending'] : 'desc';
         $orderBy = isset($query['order_by']) ? $query['order_by'] : 'start';
 
-        return view('check-points.index', compact('checkPoints', 'ascending', 'orderBy', 'checkPoints'));
+        return view('check-points.index', compact('checkPoints', 'ascending', 'orderBy', 'activities'));
     }
 
     /**
@@ -34,7 +34,7 @@ class CheckPointController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'activity_id' => ['exists:checkPoints,id', 'nullable'],
+            'activity_id' => ['exists:activities,id', 'nullable'],
             'project_id' => ['nullable', 'string', 'max:191'],
             'start' => ['date', 'required'],
             'end' => ['date', 'required'],

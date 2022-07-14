@@ -55,11 +55,11 @@
                     <div class="flex -mx-3 mb-6 p-3 md:flex-row flex-col w-full">
                         <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
                             <x-jet-label for="start" value="{{ __('Início') }}" required />
-                            <x-jet-input id="start" class="form-control block mt-1 w-full" type="date" name="start" value="" required  placeholder="{{ __('Início') }}"/>
+                            <x-jet-input id="start" class="form-control block mt-1 w-full" type="datetime-local" name="start" value="" required  placeholder="{{ __('Início') }}"/>
                         </div>
                         <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
                             <x-jet-label for="end" value="{{ __('Fim') }}" required />
-                            <x-jet-input id="end" class="form-control block mt-1 w-full" type="date" name="end" value="" required  placeholder="{{ __('Fim') }}"/>
+                            <x-jet-input id="end" class="form-control block mt-1 w-full" type="datetime-local" name="end" value="" required  placeholder="{{ __('Fim') }}"/>
                         </div>
                     </div>
                     <div class="flex -mx-3 mb-6 p-3 md:flex-row flex-col w-full">

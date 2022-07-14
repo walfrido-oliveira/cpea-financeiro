@@ -3460,6 +3460,10 @@ input:read-only {
 .accounting-table table .fifth-col {
     left: 480px;
 }
+.checkpoint-table td.header {
+    background-color: #005e10;
+    color: #FFF;
+}
 .hover\:border-gray-300:hover {
 	--tw-border-opacity: 1;
 	border-color: rgba(209, 213, 219, var(--tw-border-opacity));
@@ -4137,6 +4141,5 @@ input:read-only {
 		padding-right: 2rem;
 	}
 }
-
 
 
