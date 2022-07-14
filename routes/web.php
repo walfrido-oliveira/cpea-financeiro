@@ -46,6 +46,7 @@ use App\Http\Controllers\ParameterAnalysisGroupController;
 use App\Http\Controllers\AccountingClassificationController;
 use App\Http\Controllers\AccountingConfigController;
 use App\Http\Controllers\ActivityController;
+use App\Http\Controllers\CheckPointController;
 use App\Http\Controllers\DirectionController;
 use App\Http\Controllers\EmployeeController;
 use App\Http\Controllers\GuidingParameterRefValueController;
@@ -220,14 +221,22 @@ Route::group(['middleware' => ['auth:sanctum', 'verified']], function() {
     /** Check Point */
     Route::prefix('controle-de-ponto')->name('check-points.')->group(function(){
 
+        Route::post('/filter', [CheckPointController::class, 'filter'])->name('filter');
+        Route::get('/', [CheckPointController::class, 'index'])->name('index');
+        Route::get('/create', [CheckPointController::class, 'create'])->name('create');
+        Route::get('/{check_point}', [CheckPointController::class, 'show'])->name('show');
+        Route::get('/{check_point}', [CheckPointController::class, 'show'])->name('show');
+        Route::get('/{check_point}/edit', [CheckPointController::class, 'edit'])->name('edit');
+        Route::post('/store', [CheckPointController::class, 'store'])->name('store');
+        Route::delete('/destroy/{check_point}', [CheckPointController::class, 'destroy'])->name('destroy');
+
         /** ACTIVITYS */
         Route::resource('atividades', ActivityController::class, [
             'names' => 'activities'])->parameters([
             'atividades' => 'activity'
         ]);
-
         Route::prefix('atividades')->name('activities.')->group(function(){
-            Route::post('/filter', [DepartmentController::class, 'filter'])->name('filter');
+            Route::post('/filter', [ActivityController::class, 'filter'])->name('filter');
         });
 
         /** Working Day */
@@ -235,7 +244,6 @@ Route::group(['middleware' => ['auth:sanctum', 'verified']], function() {
             'names' => 'working-days'])->parameters([
             'jornada-de-trabalho' => 'working-day'
         ]);
-
         Route::prefix('jornada-de-trabalho')->name('working-days.')->group(function(){
             Route::post('/filter', [WorkingDayController::class, 'filter'])->name('filter');
         });

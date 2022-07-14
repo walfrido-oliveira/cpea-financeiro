@@ -115,12 +115,15 @@
               </svg>
             </button>
             <div x-show="openCheckPoint" x-transition:enter="transition ease-out duration-100" x-transition:enter-start="transform opacity-0 scale-95" x-transition:enter-end="transform opacity-100 scale-100" x-transition:leave="transition ease-in duration-75" x-transition:leave-start="transform opacity-100 scale-100" x-transition:leave-end="transform opacity-0 scale-95" class="relative right-0 w-full origin-top-right">
-              <div class="px-0 py-0 ">
+                <div class="px-0 py-0 ">
+                    <a class="@if(request()->routeIs('check-points.index')) {{ 'active' }} @endif" href="{{ route('check-points.index') }}">Gestão de Pontos</a>
+                </div>
+                <div class="px-0 py-0 ">
                   <a class="@if(request()->routeIs('check-points.activities.index')) {{ 'active' }} @endif" href="{{ route('check-points.activities.index') }}">Atividades</a>
-              </div>
-              <div class="px-0 py-0 ">
-                <a class="@if(request()->routeIs('check-points.working-days.index')) {{ 'active' }} @endif" href="{{ route('check-points.working-days.index') }}">Jornada de Trabalho</a>
-            </div>
+                </div>
+                <div class="px-0 py-0 ">
+                    <a class="@if(request()->routeIs('check-points.working-days.index')) {{ 'active' }} @endif" href="{{ route('check-points.working-days.index') }}">Jornada de Trabalho</a>
+                </div>
             </div>
           </div>
 
