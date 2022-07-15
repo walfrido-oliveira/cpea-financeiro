@@ -274,7 +274,7 @@
 
             let ajax = new XMLHttpRequest();
 
-            let url = "{!! route('accounting-configs.delete-formulas', ['config' => $accountingConfigs[0]->id]) !!}";
+            let url = "{!! route('accounting-configs.delete-formulas', ['config' => count($accountingConfigs) > 0 ? $accountingConfigs[0]->id : 0]) !!}";
 
             let token = document.querySelector("input[name='_token']").value;
             let method = 'DELETE';
@@ -309,7 +309,7 @@
 
             let ajax = new XMLHttpRequest();
 
-            let url = "{!! route('accounting-configs.delete-classifications', ['config' => $accountingConfigs[0]->id]) !!}";
+            let url = "{!! route('accounting-configs.delete-classifications', ['config' => count($accountingConfigs) > 0 ? $accountingConfigs[0]->id : 0]) !!}";
 
             let token = document.querySelector("input[name='_token']").value;
             let method = 'DELETE';
