@@ -1,58 +1,26 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\ToController;
 use App\Http\Controllers\DREController;
-use App\Http\Controllers\LabController;
 use App\Http\Controllers\UserController;
-use App\Http\Controllers\UnityController;
-use App\Http\Controllers\ExportController;
-use App\Http\Controllers\ImportController;
 use App\Http\Controllers\FormulaController;
 use App\Http\Controllers\ProductController;
-use App\Http\Controllers\ProjectController;
-use App\Http\Controllers\ReplaceController;
-use App\Http\Controllers\CampaignController;
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\DepartmentController;
 use App\Http\Controllers\OccupationController;
 use App\Http\Controllers\WithdrawalController;
 use App\Http\Controllers\EmailConfigController;
-use App\Http\Controllers\GuidingValueController;
-use App\Http\Controllers\AnalysisOrderController;
 use App\Http\Controllers\TemplateEmailController;
-use App\Http\Controllers\AnalysisMatrixController;
-use App\Http\Controllers\AnalysisResultController;
-use App\Http\Controllers\CampaignStatusController;
-use App\Http\Controllers\GeodeticSystemController;
-use App\Http\Controllers\SampleAnalysisController;
-use App\Http\Controllers\ParameterMethodController;
-use App\Http\Controllers\PlanActionLevelController;
-use App\Http\Controllers\GuidingParameterController;
 use App\Http\Controllers\AccountingControlController;
-use App\Http\Controllers\AnalysisParameterController;
-use App\Http\Controllers\EnvironmentalAreaController;
-use App\Http\Controllers\ParameterAnalysisController;
-use App\Http\Controllers\PreparationMethodController;
-use App\Http\Controllers\AnalysisResultFileController;
-use App\Http\Controllers\ProjectPointMatrixController;
 use App\Http\Controllers\AccountingAnalyticsController;
-use App\Http\Controllers\CalculationVariableController;
-use App\Http\Controllers\EnvironmentalAgencyController;
-use App\Http\Controllers\PointIdentificationController;
-use App\Http\Controllers\CalculationParameterController;
-use App\Http\Controllers\GuidingParameterValueController;
-use App\Http\Controllers\ParameterAnalysisGroupController;
 use App\Http\Controllers\AccountingClassificationController;
 use App\Http\Controllers\AccountingConfigController;
 use App\Http\Controllers\ActivityController;
 use App\Http\Controllers\CheckPointController;
 use App\Http\Controllers\DirectionController;
 use App\Http\Controllers\EmployeeController;
-use App\Http\Controllers\GuidingParameterRefValueController;
 use App\Http\Controllers\PointManagementController;
 use App\Http\Controllers\WorkingDayController;
-use App\Models\WorkingDay;
 
 /*
 |--------------------------------------------------------------------------
@@ -226,8 +194,7 @@ Route::group(['middleware' => ['auth:sanctum', 'verified']], function() {
         Route::get('/', [CheckPointController::class, 'index'])->name('index');
         Route::get('/admin', [CheckPointController::class, 'admin'])->name('admin');
         Route::get('/create', [CheckPointController::class, 'create'])->name('create');
-        Route::get('/{check_point}', [CheckPointController::class, 'show'])->name('show');
-        Route::get('/{user_id}', [CheckPointController::class, 'show'])->name('show');
+        Route::get('/show/{user_id}', [CheckPointController::class, 'show'])->name('show');
         Route::get('/{check_point}/edit', [CheckPointController::class, 'edit'])->name('edit');
         Route::post('/store', [CheckPointController::class, 'store'])->name('store');
         Route::delete('/destroy/{check_point}', [CheckPointController::class, 'destroy'])->name('destroy');
@@ -263,7 +230,7 @@ Route::group(['middleware' => ['auth:sanctum', 'verified']], function() {
         Route::delete('/delete-classificacao/{classification}/{config}', [AccountingConfigController::class, 'deleteClassification'])->name('delete-classification');
         Route::delete('/delete-classificacao/{config}', [AccountingConfigController::class, 'deleteClassifications'])->name('delete-classifications');
         Route::delete('/delete-formula/{formula}/{config}', [AccountingConfigController::class, 'deleteFormula'])->name('delete-formula');
-        Route::delete('/delete-formula/{config}', [AccountingConfigController::class, 'deleteFormulas'])->name('delete-formulas');
+        Route::delete('/delete-formula/{config}', [AccountingConfigController::class, 'deleteFormulas'])->name('delete-formula');
     });
 });
 
