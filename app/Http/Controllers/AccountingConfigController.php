@@ -236,6 +236,34 @@ class AccountingConfigController extends Controller
     }
 
     /**
+     * Remove the specified resource from storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function deleteClassifications(Request $request, $id)
+    {
+        $accountingConfig = AccountingConfig::findOrFail($id);
+
+        if($request->has('accounting_classification'))
+        {
+            $input = $request->all();
+            $input['accounting_classification'] = explode(",", $input['accounting_classification']);
+
+            foreach ($input['accounting_classification'] as $value)
+            {
+                $accountingConfig->accountingClassifications()->detach($value);
+            }
+        }
+
+        return response()->json([
+            'message' => __('Configurações Apagadas com Sucesso!!'),
+            'alert-type' => 'success'
+        ]);
+    }
+
+    /**
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
@@ -257,7 +285,8 @@ class AccountingConfigController extends Controller
               $accountingConfig->formulas()->attach($formulas);
 
             } else {
-              $accountingConfig->formulas()->attach($input['formula_id']);
+                $input['formula_id'] = explode(",", $input['formula_id']);
+                $accountingConfig->formulas()->attach($input['formula_id']);
             }
 
             return response()->json([
@@ -292,6 +321,34 @@ class AccountingConfigController extends Controller
         ];
 
         return redirect()->route('accounting-configs.index')->with($resp);
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function deleteFormulas(Request $request, $id)
+    {
+        $accountingConfig = AccountingConfig::findOrFail($id);
+
+        if($request->has('formula'))
+        {
+            $input = $request->all();
+            $input['formula'] = explode(",", $input['formula']);
+
+            foreach ($input['formula'] as $value)
+            {
+                $accountingConfig->formulas()->detach($value);
+            }
+        }
+
+        return response()->json([
+            'message' => __('Configurações Apagadas com Sucesso!!'),
+            'alert-type' => 'success'
+        ]);
     }
 
     /**

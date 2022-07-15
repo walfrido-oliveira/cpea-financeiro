@@ -261,7 +261,9 @@ Route::group(['middleware' => ['auth:sanctum', 'verified']], function() {
         Route::post('/add-classificacao/{year}/{month}', [AccountingConfigController::class, 'addClassification'])->name('add-Classification');
         Route::post('/add-formula/{year}/{month}', [AccountingConfigController::class, 'addFormula'])->name('add-formula');
         Route::delete('/delete-classificacao/{classification}/{config}', [AccountingConfigController::class, 'deleteClassification'])->name('delete-classification');
+        Route::delete('/delete-classificacao/{config}', [AccountingConfigController::class, 'deleteClassifications'])->name('delete-classifications');
         Route::delete('/delete-formula/{formula}/{config}', [AccountingConfigController::class, 'deleteFormula'])->name('delete-formula');
+        Route::delete('/delete-formula/{config}', [AccountingConfigController::class, 'deleteFormulas'])->name('delete-formulas');
     });
 });
 

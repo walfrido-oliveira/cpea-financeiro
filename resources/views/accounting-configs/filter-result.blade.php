@@ -57,9 +57,12 @@
         @foreach ($accountingConfig->accountingClassifications()->where('type_classification', 'DRE')->get() as $accountingClassification)
             <tr class="point-items-{{ $accountingConfig->id }}" data-type="item-classification" data-year="{{ $accountingConfig->year }}" data-month="{{ $accountingConfig->month }}" data-classification="DRE">
                 <td style="padding-left: 3.5rem!important;">
-                    <a class="text-item-table" href="{{ route('accounting-classifications.edit', ['accounting_classification' => $accountingClassification->id]) }}">
-                        {{ $accountingClassification->classification }}
-                    </a>
+                    <div class="flex">
+                        <input class="form-checkbox accounting-classification-url mr-2" type="checkbox" name="accounting_classification[{{ $accountingClassification->id }}]" value="{{ $accountingClassification->id }}">
+                        <a class="text-item-table" href="{{ route('accounting-classifications.edit', ['accounting_classification' => $accountingClassification->id]) }}">
+                            {{ $accountingClassification->classification }}
+                        </a>
+                    </div>
                 </td>
                 <td style="padding-left: 3.5rem !important;">
                     <a class="text-item-table" href="{{ route('accounting-classifications.edit', ['accounting_classification' => $accountingClassification->id]) }}">
@@ -102,9 +105,12 @@
         @foreach ($accountingConfig->accountingClassifications()->where('type_classification', 'RETIRADAS GERENCIAIS')->get() as $accountingClassification)
             <tr class="point-items-{{ $accountingConfig->id }}" data-type="item-classification" data-year="{{ $accountingConfig->year }}" data-month="{{ $accountingConfig->month }}" data-classification="Retiradas Gerenciais">
                 <td style="padding-left: 3.5rem!important;">
-                    <a class="text-item-table" href="{{ route('accounting-classifications.edit', ['accounting_classification' => $accountingClassification->id]) }}">
-                        {{ $accountingClassification->classification }}
-                    </a>
+                    <div class="flex">
+                        <input class="form-checkbox accounting-classification-url mr-2" type="checkbox" name="accounting_classification[{{ $accountingClassification->id }}]" value="{{ $accountingClassification->id }}">
+                        <a class="text-item-table" href="{{ route('accounting-classifications.edit', ['accounting_classification' => $accountingClassification->id]) }}">
+                            {{ $accountingClassification->classification }}
+                        </a>
+                    </div>
                 </td>
                 <td style="padding-left: 3.5rem !important;">
                     <a class="text-item-table" href="{{ route('accounting-classifications.edit', ['accounting_classification' => $accountingClassification->id]) }}">
@@ -147,9 +153,12 @@
             @foreach ($accountingConfig->accountingClassifications()->where('type_classification', 'RESULTADOS DO EXERCICIO')->get() as $accountingClassification)
             <tr class="point-items-{{ $accountingConfig->id }}" data-type="item-classification" data-year="{{ $accountingConfig->year }}" data-month="{{ $accountingConfig->month }}" data-classification="Resultado do Exercicio">
                 <td style="padding-left: 3.5rem!important;">
-                    <a class="text-item-table" href="{{ route('accounting-classifications.edit', ['accounting_classification' => $accountingClassification->id]) }}">
-                        {{ $accountingClassification->classification }}
-                    </a>
+                    <div class="flex">
+                        <input class="form-checkbox accounting-classification-url mr-2" type="checkbox" name="accounting_classification[{{ $accountingClassification->id }}]" value="{{ $accountingClassification->id }}">
+                        <a class="text-item-table" href="{{ route('accounting-classifications.edit', ['accounting_classification' => $accountingClassification->id]) }}">
+                            {{ $accountingClassification->classification }}
+                        </a>
+                    </div>
                 </td>
                 <td style="padding-left: 3.5rem !important;">
                     <a class="text-item-table" href="{{ route('accounting-classifications.edit', ['accounting_classification' => $accountingClassification->id]) }}">
@@ -192,9 +201,12 @@
             @foreach ($accountingConfig->accountingClassifications()->where('type_classification', 'DRE AJUSTÁVEL')->get() as $accountingClassification)
         <tr class="point-items-{{ $accountingConfig->id }}" data-type="item-classification" data-year="{{ $accountingConfig->year }}" data-month="{{ $accountingConfig->month }}" data-classification="DRE Ajustável">
             <td style="padding-left: 3.5rem!important;">
-                <a class="text-item-table" href="{{ route('accounting-classifications.edit', ['accounting_classification' => $accountingClassification->id]) }}">
-                    {{ $accountingClassification->classification }}
-                </a>
+                <div class="flex">
+                    <input class="form-checkbox accounting-classification-url mr-2" type="checkbox" name="accounting_classification[{{ $accountingClassification->id }}]" value="{{ $accountingClassification->id }}">
+                    <a class="text-item-table" href="{{ route('accounting-classifications.edit', ['accounting_classification' => $accountingClassification->id]) }}">
+                        {{ $accountingClassification->classification }}
+                    </a>
+                </div>
             </td>
             <td style="padding-left: 3.5rem !important;">
                 <a class="text-item-table" href="{{ route('accounting-classifications.edit', ['accounting_classification' => $accountingClassification->id]) }}">
@@ -237,7 +249,12 @@
         @foreach ($accountingConfig->formulas as $formula)
             <tr class="point-items-{{ $accountingConfig->id }}" data-type="item-formula" data-year="{{ $accountingConfig->year }}" data-month="{{ $accountingConfig->month }}">
                 <td style="padding-left: 3.5rem!important;">
-                    <a class="text-item-table" href="{{ route('formulas.edit', ['formula' => $formula->id]) }}">{{ $formula->accountingClassification->classification }}</a>
+                    <div class="flex">
+                        <input class="form-checkbox formula-url mr-2" type="checkbox" name="formula[{{ $formula->id }}]" value="{{ $formula->id }}">
+                        <a class="text-item-table" href="{{ route('formulas.edit', ['formula' => $formula->id]) }}">
+                            {{ $formula->accountingClassification->classification }}
+                        </a>
+                    </div>
                 </td>
                 <td style="padding-left: 3.5rem !important;">
                     <a class="text-item-table" href="{{ route('formulas.edit', ['formula' => $formula->id]) }}">{{ $formula->formula }}</a>

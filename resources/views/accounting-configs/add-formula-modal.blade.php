@@ -34,7 +34,7 @@
                     <div class="flex -mx-3 mb-6 p-0 md:flex-row flex-col w-full">
                         <div class="w-full md:w-full px-2 md:mb-0">
                             <x-jet-label for="formula_id" value="{{ __('Formula') }}" required />
-                            <x-custom-select no-filter :options="$formulas" name="formula_id" id="formula_id" :value="app('request')->input('formula_id')"/>
+                            <x-custom-multi-select multiple no-filter :options="$formulas" name="formula_id" id="formula_id" :value="[]"/>
                         </div>
                     </div>
                     <div class="flex -mx-3 mb-6 p-0 md:flex-row flex-col w-full flex-wrap">
