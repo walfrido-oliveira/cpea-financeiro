@@ -10,7 +10,7 @@
     </tr>
 </thead>
 <tbody id="check-points_table_content">
-    @forelse (App\Models\CheckPoint::where("user_id", auth()->user()->id)->groupBy('start')->get() as $key => $checkpoint)
+    @forelse ($checkPoints as $key => $checkpoint)
         <tr>
             <td>
                 <button type="button" class="show-check-points" data-day="{{ $checkpoint->start }}">
@@ -20,24 +20,24 @@
                 </button>
             </td>
             <td>
-                <a class="text-item-table" href="{{ route('check-points.show', ['check_point' => $checkpoint->id]) }}">
+                <a class="text-item-table" href="{{ route('check-points.show', ['user_id' => $checkpoint->user_id]) }}">
                     {{ ucfirst(substr($checkpoint->start->translatedFormat('l'), 0, 3)) . ' - ' .  $checkpoint->start->translatedFormat('d/m') }}
                 </a>
             </td>
             <td>
-                <a class="text-item-table" href="{{ route('check-points.show', ['check_point' => $checkpoint->id]) }}">
+                <a class="text-item-table" href="{{ route('check-points.show', ['user_id' => $checkpoint->user_id]) }}">
                     @if (count($checkpoint->user->employee) > 0)
                         {{ $checkpoint->user->employee[0]->workingDay->full_description }}
                     @endif
                 </a>
             </td>
             <td>
-                <a class="text-item-table" href="{{ route('check-points.show', ['check_point' => $checkpoint->id]) }}">
+                <a class="text-item-table" href="{{ route('check-points.show', ['user_id' => $checkpoint->user_id]) }}">
                     {{ $checkPoints->where('start', $checkpoint->start)->min('start')->format('H:i') }}
                 </a>
             </td>
             <td>
-                <a class="text-item-table" href="{{ route('check-points.show', ['check_point' => $checkpoint->id]) }}">
+                <a class="text-item-table" href="{{ route('check-points.show', ['user_id' => $checkpoint->user_id]) }}">
                     {{ $checkPoints->where('start', $checkpoint->start)->max('end')->format('H:i') }}
                 </a>
             </td>
@@ -47,7 +47,7 @@
                 @endif
             </td>
             <td>
-                <a class="text-item-table" href="{{ route('check-points.show', ['check_point' => $checkpoint->id]) }}">
+                <a class="text-item-table" href="{{ route('check-points.show', ['user_id' => $checkpoint->user_id]) }}">
                     {{ $checkpoint->user->full_name }}
                 </a>
             </td>

@@ -19,7 +19,7 @@ class CheckPointController extends Controller
      */
     public function index(Request $request)
     {
-        $checkPoints =  CheckPoint::where("user_id", auth()->user()->id)->get();
+        $checkPoints =  CheckPoint::where("user_id", auth()->user()->id)->groupBy('start')->get();//CheckPoint::where("user_id", auth()->user()->id)->get();
         $activities = Activity::all()->pluck('name', 'id');
         $ascending = isset($query['ascending']) ? $query['ascending'] : 'desc';
         $orderBy = isset($query['order_by']) ? $query['order_by'] : 'start';
@@ -103,7 +103,12 @@ class CheckPointController extends Controller
      */
     public function show($id)
     {
+        $checkPoints =  CheckPoint::where("user_id", $id)->get();
+        $activities = Activity::all()->pluck('name', 'id');
+        $ascending = isset($query['ascending']) ? $query['ascending'] : 'desc';
+        $orderBy = isset($query['order_by']) ? $query['order_by'] : 'start';
 
+        return view('check-points.index', compact('checkPoints', 'ascending', 'orderBy', 'activities'));
     }
 
     /**
