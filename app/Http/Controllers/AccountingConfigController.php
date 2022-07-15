@@ -188,7 +188,6 @@ class AccountingConfigController extends Controller
     public function addClassification(Request $request, $year, $month)
     {
         $accountingConfig = AccountingConfig::where('month', $month)->where('year', $year)->first();
-
        if($accountingConfig)
        {
             $input = $request->all();
@@ -199,6 +198,7 @@ class AccountingConfigController extends Controller
                 $accountingConfig->accountingClassifications()->attach($accountingClassifications);
             } else if($input['accounting_classification_id']) {
 
+                $input['accounting_classification_id'] = explode(",", $input['accounting_classification_id']);
                 $accountingConfig->accountingClassifications()->attach($input['accounting_classification_id']);
             }
 

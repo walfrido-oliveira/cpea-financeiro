@@ -17,7 +17,7 @@
               <h3 class="text-lg leading-6 font-medium text-gray-900 sm:ml-4 " id="modal-title">
                 {{ __('Classificação') }}
               </h3>
-              <div class="mt-2">
+              <div class="mt-2 mr-2">
                 <form method="POST" id="add_classification_form" action="">
                     @csrf
                     @method("POST")
@@ -34,7 +34,7 @@
                     <div class="flex -mx-3 mb-6 p-0 md:flex-row flex-col w-full">
                         <div class="w-full md:w-full px-2 md:mb-0">
                             <x-jet-label for="accounting_classification_id" value="{{ __('Classificação') }}" />
-                            <x-custom-select no-filter :options="$accountingClassifications" name="accounting_classification_id" id="accounting_classification_id" :value="app('request')->input('accounting_classification_id')"/>
+                            <x-custom-multi-select multiple no-filter :options="$accountingClassifications" name="accounting_classification_id[]" id="accounting_classification_id" :value="[]"/>
                         </div>
                     </div>
                     <div class="flex -mx-3 mb-6 p-0 md:flex-row flex-col w-full flex-wrap">

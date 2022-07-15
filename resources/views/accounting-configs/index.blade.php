@@ -314,9 +314,9 @@
             let method = 'POST';
             let month = document.querySelector("#add_classification_modal #month").value;
             let year = document.querySelector("#add_classification_modal #year").value;
-            let accounting_classification_id = document.querySelector("#add_classification_modal #accounting_classification_id").value;
-            let url = "{!! route('accounting-configs.add-Classification', ['month' => '#1', 'year' => '#2']) !!}".replace('#1', month).replace('#2', year);
+            let accounting_classification_id = Array.from(document.getElementById("accounting_classification_id").options).filter(o => (o.selected && o.text != '')).map(o => o.value);
             let accounting_classification_type = Array.from(document.getElementById("accounting_classification_type").options).filter(o => (o.selected && o.text != '')).map(o => o.value);
+            let url = "{!! route('accounting-configs.add-Classification', ['month' => '#1', 'year' => '#2']) !!}".replace('#1', month).replace('#2', year);
 
             ajax.open(method, url);
 
