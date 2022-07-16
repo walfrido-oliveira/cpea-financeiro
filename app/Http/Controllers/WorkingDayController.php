@@ -21,7 +21,7 @@ class WorkingDayController extends Controller
             'day_of_the_week' => ['required', 'array'],
             'start' => ['required', 'date_format:H:i'],
             'end' => ['required', 'date_format:H:i'],
-            'obs' => ['string']
+            'obs' => ['string', 'nullable']
         ]);
     }
 
