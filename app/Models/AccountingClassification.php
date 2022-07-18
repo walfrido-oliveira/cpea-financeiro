@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Support\Str;
+use App\Models\AccountingConfig;
 use Illuminate\Database\Eloquent\Model;
 use ChrisKonnertz\StringCalc\StringCalc;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -210,9 +211,17 @@ class AccountingClassification extends Model
      */
     public function getTotalClassificationDRE($month, $year)
     {
-        $formula = Formula::where('accounting_classification_id', $this->id)
-        ->where('type_classification', 'DRE Ajustável')
+        $accountingConfig = AccountingConfig::where('month', $month)
+        ->where('year', $year)
         ->first();
+
+        $formula = null;
+        if($accountingConfig)
+        {
+            $formula = $accountingConfig->formulas()
+            ->where('accounting_classification_id', $this->id)
+            ->first();
+        }
 
         if($formula)
         {
@@ -250,6 +259,7 @@ class AccountingClassification extends Model
                 if($classification->unity == "%") $sum = $sum / 100;
                 $formulaText = Str::replace($value2[0], $sum, $formulaText);
             }
+
             $stringCalc = new StringCalc();
             if(Str::contains($formulaText, '0/0')) return 0;
             $result = $stringCalc->calculate($formulaText);
