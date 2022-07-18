@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Withdrawal;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use App\Models\AccountingConfig;
 use App\Models\AccountingClassification;
 use Illuminate\Support\Facades\Validator;
 
@@ -41,10 +42,11 @@ class WithdrawalController extends Controller
         $ascending = isset($query['ascending']) ? $query['ascending'] : 'desc';
         $orderBy = isset($query['order_by']) ? $query['order_by'] : 'accounting_classification_id';
         $year = isset($query['year']) ? $query['year'] : now()->year;
+        $years = AccountingConfig::groupBy('year')->get()->pluck('year', 'year');
 
         return view('withdrawals.index',
         compact('ascending', 'orderBy', 'accountingClassifications', 'accountingClassifications1', 'months',
-                'year', 'accountingClassifications2'));
+                'year', 'accountingClassifications2', 'years'));
     }
 
     /**

@@ -76,7 +76,7 @@ class AccountingClassification extends Model
      */
     public static function getTypesClassifications()
     {
-        return ['DRE', 'Retiradas Gerenciais', 'Resultado do Exercicio', 'DRE Ajustável'];
+        return ['DRE', 'RETIRADAS GERENCIAIS', 'RESULTADOS DO EXERCICIO', 'DRE AJUSTÁVEL'];
     }
 
     /**

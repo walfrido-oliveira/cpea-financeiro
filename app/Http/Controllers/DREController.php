@@ -20,6 +20,7 @@ class DREController extends Controller
         $ascending = isset($query['ascending']) ? $query['ascending'] : 'desc';
         $orderBy = isset($query['order_by']) ? $query['order_by'] : 'accounting_classification_id';
         $year = isset($query['year']) ? $query['year'] : now()->year;
+        $years = AccountingConfig::groupBy('year')->get()->pluck('year', 'year');
 
         $accountingClassifications = collect([]);
         $accountingConfigs = AccountingConfig::where("year", $year)->where("month", 1)->get();
@@ -34,6 +35,6 @@ class DREController extends Controller
         $months = months();
 
         return view('dre.index',
-        compact('ascending', 'orderBy', 'accountingClassifications', 'months', 'year'));
+        compact('ascending', 'orderBy', 'accountingClassifications', 'months', 'year', 'years'));
     }
 }
