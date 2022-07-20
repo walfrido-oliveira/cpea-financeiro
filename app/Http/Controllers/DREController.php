@@ -28,7 +28,7 @@ class DREController extends Controller
         {
             foreach ($accountingConfigs  as $key => $accountingConfig)
             {
-                $accountingClassifications = $accountingClassifications->merge($accountingConfig->accountingClassifications()->where('type_classification', 'DRE Ajustável')->get());
+                $accountingClassifications = $accountingClassifications->merge($accountingConfig->accountingClassifications()->where('type_classification', 'DRE Ajustável')->orderBy("id")->get());
             }
         }
 
