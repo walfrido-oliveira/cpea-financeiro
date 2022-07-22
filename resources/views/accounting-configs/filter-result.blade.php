@@ -54,9 +54,9 @@
             <td style="padding-left: 3.5rem !important;" class="font-bold">Observações</td>
             <td style="padding-left: 3.5rem !important;" class="font-bold">Ação</td>
         </tr>
-        @foreach ($accountingConfig->accountingClassifications()->where('type_classification', 'DRE')->orderBy("id")->get() as $accountingClassification)
+        @foreach ($accountingConfig->accountingClassifications()->where('type_classification', 'DRE')->orderByRaw(" COALESCE(`accounting_classifications`.`accounting_classification_id`, `accounting_classifications`.id), `accounting_classifications`.`accounting_classification_id` IS NOT NULL, `accounting_classifications`.id")->get() as $accountingClassification)
             <tr class="point-items-{{ $accountingConfig->id }}" data-type="item-classification" data-year="{{ $accountingConfig->year }}" data-month="{{ $accountingConfig->month }}" data-classification="DRE">
-                <td style="padding-left: 3.5rem!important;">
+                <td style="padding-left: {{ $accountingClassification->depth + 0.5 }}rem">
                     <div class="flex">
                         <input class="form-checkbox accounting-classification-url mr-2" type="checkbox" name="accounting_classification[{{ $accountingClassification->id }}]" value="{{ $accountingClassification->id }}">
                         <a class="text-item-table" href="{{ route('accounting-classifications.edit', ['accounting_classification' => $accountingClassification->id]) }}">
@@ -64,12 +64,12 @@
                         </a>
                     </div>
                 </td>
-                <td style="padding-left: 3.5rem !important;">
+                <td style="padding-left: {{ $accountingClassification->depth + 0.5 }}rem">
                     <a class="text-item-table" href="{{ route('accounting-classifications.edit', ['accounting_classification' => $accountingClassification->id]) }}">
                         {{ $accountingClassification->name }}
                     </a>
                 </td>
-                <td style="padding-left: 3.5rem!important;">
+                <td style="padding-left: {{ $accountingClassification->depth + 0.5 }}rem">
                     {{ $accountingClassification->obs }}
                 </td>
                 <td style="padding-left: 3.5rem!important;">
@@ -102,9 +102,9 @@
             <td style="padding-left: 3.5rem !important;" class="font-bold">Observações</td>
             <td style="padding-left: 3.5rem !important;" class="font-bold">Ação</td>
         </tr>
-        @foreach ($accountingConfig->accountingClassifications()->where('type_classification', 'RETIRADAS GERENCIAIS')->orderBy("id")->get() as $accountingClassification)
+        @foreach ($accountingConfig->accountingClassifications()->where('type_classification', 'RETIRADAS GERENCIAIS')->orderByRaw(" COALESCE(`accounting_classifications`.`accounting_classification_id`, `accounting_classifications`.id), `accounting_classifications`.`accounting_classification_id` IS NOT NULL, `accounting_classifications`.id")->get() as $accountingClassification)
             <tr class="point-items-{{ $accountingConfig->id }}" data-type="item-classification" data-year="{{ $accountingConfig->year }}" data-month="{{ $accountingConfig->month }}" data-classification="Retiradas Gerenciais">
-                <td style="padding-left: 3.5rem!important;">
+                <td style="padding-left: {{ $accountingClassification->depth + 0.5 }}rem">
                     <div class="flex">
                         <input class="form-checkbox accounting-classification-url mr-2" type="checkbox" name="accounting_classification[{{ $accountingClassification->id }}]" value="{{ $accountingClassification->id }}">
                         <a class="text-item-table" href="{{ route('accounting-classifications.edit', ['accounting_classification' => $accountingClassification->id]) }}">
@@ -112,12 +112,12 @@
                         </a>
                     </div>
                 </td>
-                <td style="padding-left: 3.5rem !important;">
+                <td style="padding-left: {{ $accountingClassification->depth + 0.5 }}rem">
                     <a class="text-item-table" href="{{ route('accounting-classifications.edit', ['accounting_classification' => $accountingClassification->id]) }}">
                         {{ $accountingClassification->name }}
                     </a>
                 </td>
-                <td style="padding-left: 3.5rem!important;">
+                <td style="padding-left: {{ $accountingClassification->depth + 0.5 }}rem">
                     {{ $accountingClassification->obs }}
                 </td>
                 <td style="padding-left: 3.5rem!important;">
@@ -150,9 +150,9 @@
             <td style="padding-left: 3.5rem !important;" class="font-bold">Observações</td>
             <td style="padding-left: 3.5rem !important;" class="font-bold">Ação</td>
         </tr>
-            @foreach ($accountingConfig->accountingClassifications()->where('type_classification', 'RESULTADOS DO EXERCICIO')->orderBy("id")->get() as $accountingClassification)
+            @foreach ($accountingConfig->accountingClassifications()->where('type_classification', 'RESULTADOS DO EXERCICIO')->orderByRaw(" COALESCE(`accounting_classifications`.`accounting_classification_id`, `accounting_classifications`.id), `accounting_classifications`.`accounting_classification_id` IS NOT NULL, `accounting_classifications`.id")->get() as $accountingClassification)
             <tr class="point-items-{{ $accountingConfig->id }}" data-type="item-classification" data-year="{{ $accountingConfig->year }}" data-month="{{ $accountingConfig->month }}" data-classification="Resultado do Exercicio">
-                <td style="padding-left: 3.5rem!important;">
+                <td style="padding-left: {{ $accountingClassification->depth + 0.5 }}rem">
                     <div class="flex">
                         <input class="form-checkbox accounting-classification-url mr-2" type="checkbox" name="accounting_classification[{{ $accountingClassification->id }}]" value="{{ $accountingClassification->id }}">
                         <a class="text-item-table" href="{{ route('accounting-classifications.edit', ['accounting_classification' => $accountingClassification->id]) }}">
@@ -160,12 +160,12 @@
                         </a>
                     </div>
                 </td>
-                <td style="padding-left: 3.5rem !important;">
+                <td style="padding-left: {{ $accountingClassification->depth + 0.5 }}rem">
                     <a class="text-item-table" href="{{ route('accounting-classifications.edit', ['accounting_classification' => $accountingClassification->id]) }}">
                         {{ $accountingClassification->name }}
                     </a>
                 </td>
-                <td style="padding-left: 3.5rem!important;">
+                <td style="padding-left: {{ $accountingClassification->depth + 0.5 }}rem">
                     {{ $accountingClassification->obs }}
                 </td>
                 <td style="padding-left: 3.5rem!important;">
@@ -198,32 +198,32 @@
             <td style="padding-left: 3.5rem !important;" class="font-bold">Observações</td>
             <td style="padding-left: 3.5rem !important;" class="font-bold">Ação</td>
         </tr>
-            @foreach ($accountingConfig->accountingClassifications()->where('type_classification', 'DRE AJUSTÁVEL')->orderBy("id")->get() as $accountingClassification)
-        <tr class="point-items-{{ $accountingConfig->id }}" data-type="item-classification" data-year="{{ $accountingConfig->year }}" data-month="{{ $accountingConfig->month }}" data-classification="DRE Ajustável">
-            <td style="padding-left: 3.5rem!important;">
-                <div class="flex">
-                    <input class="form-checkbox accounting-classification-url mr-2" type="checkbox" name="accounting_classification[{{ $accountingClassification->id }}]" value="{{ $accountingClassification->id }}">
+        @foreach ($accountingConfig->accountingClassifications()->where('type_classification', 'DRE AJUSTÁVEL')->orderByRaw(" COALESCE(`accounting_classifications`.`accounting_classification_id`, `accounting_classifications`.id), `accounting_classifications`.`accounting_classification_id` IS NOT NULL, `accounting_classifications`.id")->get() as $accountingClassification)
+            <tr class="point-items-{{ $accountingConfig->id }}" data-type="item-classification" data-year="{{ $accountingConfig->year }}" data-month="{{ $accountingConfig->month }}" data-classification="DRE Ajustável">
+                <td style=style="padding-left: {{ $accountingClassification->depth + 0.5 }}rem">
+                    <div class="flex">
+                        <input class="form-checkbox accounting-classification-url mr-2" type="checkbox" name="accounting_classification[{{ $accountingClassification->id }}]" value="{{ $accountingClassification->id }}">
+                        <a class="text-item-table" href="{{ route('accounting-classifications.edit', ['accounting_classification' => $accountingClassification->id]) }}">
+                            {{ $accountingClassification->classification }}
+                        </a>
+                    </div>
+                </td>
+                <td style="padding-left: {{ $accountingClassification->depth + 0.5 }}rem">
                     <a class="text-item-table" href="{{ route('accounting-classifications.edit', ['accounting_classification' => $accountingClassification->id]) }}">
-                        {{ $accountingClassification->classification }}
+                        {{ $accountingClassification->name }}
                     </a>
-                </div>
-            </td>
-            <td style="padding-left: 3.5rem !important;">
-                <a class="text-item-table" href="{{ route('accounting-classifications.edit', ['accounting_classification' => $accountingClassification->id]) }}">
-                    {{ $accountingClassification->name }}
-                </a>
-            </td>
-            <td style="padding-left: 3.5rem!important;">
-                {{ $accountingClassification->obs }}
-            </td>
-            <td style="padding-left: 3.5rem!important;">
-                <button type="button" class="delete-accounting-configs" data-url="{{ route('accounting-configs.delete-classification', ['classification' => $accountingClassification->id, 'config' => $accountingConfig->id]) }}">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 inline text-red-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" />
-                    </svg>
-                </button>
-            </td>
-        </tr>
+                </td>
+                <td style="padding-left: 3.5rem!important;">
+                    {{ $accountingClassification->obs }}
+                </td>
+                <td style="padding-left: 3.5rem!important;">
+                    <button type="button" class="delete-accounting-configs" data-url="{{ route('accounting-configs.delete-classification', ['classification' => $accountingClassification->id, 'config' => $accountingConfig->id]) }}">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 inline text-red-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                        </svg>
+                    </button>
+                </td>
+            </tr>
         @endforeach
 
         <tr class="point-items-{{ $accountingConfig->id }} active" data-type="classification" data-year="{{ $accountingConfig->year }}" data-month="{{ $accountingConfig->month }}">
