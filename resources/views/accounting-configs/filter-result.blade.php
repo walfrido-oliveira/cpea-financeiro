@@ -198,9 +198,9 @@
             <td style="padding-left: 3.5rem !important;" class="font-bold">Observações</td>
             <td style="padding-left: 3.5rem !important;" class="font-bold">Ação</td>
         </tr>
-        @foreach ($accountingConfig->accountingClassifications()->where('type_classification', 'DRE AJUSTÁVEL')->orderByRaw(" COALESCE(`accounting_classifications`.`accounting_classification_id`, `accounting_classifications`.id), `accounting_classifications`.`accounting_classification_id` IS NOT NULL, `accounting_classifications`.id")->get() as $accountingClassification)
+        @foreach ($accountingConfig->accountingClassifications()->where('type_classification', 'DRE AJUSTÁVEL')->where('accounting_classifications.accounting_classification_id', null)->get() as $accountingClassification)
             <tr class="point-items-{{ $accountingConfig->id }}" data-type="item-classification" data-year="{{ $accountingConfig->year }}" data-month="{{ $accountingConfig->month }}" data-classification="DRE Ajustável">
-                <td style=style="padding-left: {{ $accountingClassification->depth + 0.5 }}rem">
+                <td style="padding-left: {{ $accountingClassification->depth + 0.5 }}rem">
                     <div class="flex">
                         <input class="form-checkbox accounting-classification-url mr-2" type="checkbox" name="accounting_classification[{{ $accountingClassification->id }}]" value="{{ $accountingClassification->id }}">
                         <a class="text-item-table" href="{{ route('accounting-classifications.edit', ['accounting_classification' => $accountingClassification->id]) }}">
@@ -224,6 +224,9 @@
                     </button>
                 </td>
             </tr>
+            @if ($accountingClassification->parent)
+                @include('accounting-configs.classification-loop', ['accountingClassification2', $accountingClassification->parent])
+            @endif
         @endforeach
 
         <tr class="point-items-{{ $accountingConfig->id }} active" data-type="classification" data-year="{{ $accountingConfig->year }}" data-month="{{ $accountingConfig->month }}">
