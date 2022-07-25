@@ -27,7 +27,15 @@ class AccountingClassification extends Model
      */
     public function parent()
     {
-        return $this->belongsTo(AccountingClassification::class);
+        return $this->belongsTo(self::class);
+    }
+
+    /**
+     * Configs
+     */
+    public function accountingConfigs()
+    {
+        return $this->belongsToMany(AccountingConfig::class);
     }
 
 

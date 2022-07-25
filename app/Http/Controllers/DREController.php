@@ -37,6 +37,6 @@ class DREController extends Controller
         $months = months();
 
         return view('dre.index',
-        compact('ascending', 'orderBy', 'accountingClassifications', 'months', 'year', 'years'));
+        compact('ascending', 'orderBy', 'accountingClassifications', 'months', 'year', 'years', 'accountingConfigs'));
     }
 }

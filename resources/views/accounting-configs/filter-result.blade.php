@@ -233,9 +233,11 @@
                     </button>
                 </td>
             </tr>
-            @if (count($accountingClassification->children) > 0)
-                @include('accounting-configs.classification-loop', ['accountingClassificationChildrens' => $accountingClassification->children, 'type' => 'DRE Ajustável'])
-            @endif
+            @include('accounting-configs.classification-loop', [
+                'accountingClassificationChildrens' => $accountingClassification->children()->whereHas('accountingConfigs', function($q) use($accountingConfig) {
+                        $q->where('accounting_classification_accounting_config.accounting_config_id', $accountingConfig->id);
+                    })->get(),
+                'type' => 'DRE Ajustável'])
         @endforeach
 
         <tr class="point-items-{{ $accountingConfig->id }} active" data-type="classification" data-year="{{ $accountingConfig->year }}" data-month="{{ $accountingConfig->month }}">

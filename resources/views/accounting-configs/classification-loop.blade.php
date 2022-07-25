@@ -24,8 +24,10 @@
             </button>
         </td>
     </tr>
-    @if (count($accountingClassification2->children) > 0)
-        @include('accounting-configs.classification-loop', ['accountingClassificationChildrens' => $accountingClassification2->children, 'type' => $type])
-    @endif
+    @include('accounting-configs.classification-loop', [
+        'accountingClassificationChildrens' => $accountingClassification2->children()->whereHas('accountingConfigs', function($q) use($accountingConfig) {
+    $q->where('accounting_classification_accounting_config.accounting_config_id', $accountingConfig->id);
+})->get(),
+        'type' => $type])
 @endforeach
 
