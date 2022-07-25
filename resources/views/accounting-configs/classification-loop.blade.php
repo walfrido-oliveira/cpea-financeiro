@@ -25,7 +25,7 @@
         </td>
     </tr>
     @if (count($accountingClassification2->children) > 0)
-        @include('accounting-configs.classification-loop', ['accountingClassificationChildrens' => $accountingClassification2->children])
+        @include('accounting-configs.classification-loop', ['accountingClassificationChildrens' => $accountingClassification2->children, 'type' => $type])
     @endif
 @endforeach
 

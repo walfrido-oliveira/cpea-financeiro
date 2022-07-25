@@ -12,8 +12,8 @@
 <tbody id="withdrawals_table_content">
     @forelse ($accountingClassifications as $key => $accountingClassification)
         <tr @if ( $accountingClassification->featured)
-            class="featured"
-             @endif
+                class="featured"
+            @endif
         >
             <td class="sticky-col first-col"
             style="
@@ -87,6 +87,9 @@
                 </td>
             @endforeach
         <tr>
+        @if (count($accountingClassification->children) > 0)
+            @include('dre.classification-loop', ['accountingClassificationChildrens' => $accountingClassification->children])
+        @endif
     @empty
         <tr>
             <td class="text-center" colspan="5">{{ __("Nenhum resultado encontrado") }}</td>

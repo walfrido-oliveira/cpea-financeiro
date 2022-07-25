@@ -54,7 +54,7 @@
             <td style="padding-left: 3.5rem !important;" class="font-bold">Observações</td>
             <td style="padding-left: 3.5rem !important;" class="font-bold">Ação</td>
         </tr>
-        @foreach ($accountingConfig->accountingClassifications()->where('type_classification', 'DRE')->where('accounting_classifications.accounting_classification_id', null)->get() as $accountingClassification)
+        @foreach ($accountingConfig->accountingClassifications()->where('type_classification', 'DRE')->where('accounting_classifications.accounting_classification_id', null)->orderBy("accounting_classifications.id")->get() as $accountingClassification)
             <tr class="point-items-{{ $accountingConfig->id }}" data-type="item-classification" data-year="{{ $accountingConfig->year }}" data-month="{{ $accountingConfig->month }}" data-classification="DRE">
                 <td style="padding-left: {{ $accountingClassification->depth + 0.5 }}rem">
                     <div class="flex">
@@ -105,7 +105,7 @@
             <td style="padding-left: 3.5rem !important;" class="font-bold">Observações</td>
             <td style="padding-left: 3.5rem !important;" class="font-bold">Ação</td>
         </tr>
-        @foreach ($accountingConfig->accountingClassifications()->where('type_classification', 'RETIRADAS GERENCIAIS')->where('accounting_classifications.accounting_classification_id', null)->get() as $accountingClassification)
+        @foreach ($accountingConfig->accountingClassifications()->where('type_classification', 'RETIRADAS GERENCIAIS')->where('accounting_classifications.accounting_classification_id', null)->orderBy("accounting_classifications.id")->get() as $accountingClassification)
             <tr class="point-items-{{ $accountingConfig->id }}" data-type="item-classification" data-year="{{ $accountingConfig->year }}" data-month="{{ $accountingConfig->month }}" data-classification="Retiradas Gerenciais">
                 <td style="padding-left: {{ $accountingClassification->depth + 0.5 }}rem">
                     <div class="flex">
@@ -156,7 +156,7 @@
             <td style="padding-left: 3.5rem !important;" class="font-bold">Observações</td>
             <td style="padding-left: 3.5rem !important;" class="font-bold">Ação</td>
         </tr>
-        @foreach ($accountingConfig->accountingClassifications()->where('type_classification', 'RESULTADOS DO EXERCICIO')->where('accounting_classifications.accounting_classification_id', null)->get() as $accountingClassification)
+        @foreach ($accountingConfig->accountingClassifications()->where('type_classification', 'RESULTADOS DO EXERCICIO')->where('accounting_classifications.accounting_classification_id', null)->orderBy("accounting_classifications.id")->get() as $accountingClassification)
             <tr class="point-items-{{ $accountingConfig->id }}" data-type="item-classification" data-year="{{ $accountingConfig->year }}" data-month="{{ $accountingConfig->month }}" data-classification="Resultado do Exercicio">
                 <td style="padding-left: {{ $accountingClassification->depth + 0.5 }}rem">
                     <div class="flex">
@@ -207,7 +207,7 @@
             <td style="padding-left: 3.5rem !important;" class="font-bold">Observações</td>
             <td style="padding-left: 3.5rem !important;" class="font-bold">Ação</td>
         </tr>
-        @foreach ($accountingConfig->accountingClassifications()->where('type_classification', 'DRE AJUSTÁVEL')->where('accounting_classifications.accounting_classification_id', null)->get() as $accountingClassification)
+        @foreach ($accountingConfig->accountingClassifications()->where('type_classification', 'DRE AJUSTÁVEL')->where('accounting_classifications.accounting_classification_id', null)->orderBy("accounting_classifications.id")->get() as $accountingClassification)
             <tr class="point-items-{{ $accountingConfig->id }}" data-type="item-classification" data-year="{{ $accountingConfig->year }}" data-month="{{ $accountingConfig->month }}" data-classification="DRE Ajustável">
                 <td style="padding-left: {{ $accountingClassification->depth + 0.5 }}rem">
                     <div class="flex">
