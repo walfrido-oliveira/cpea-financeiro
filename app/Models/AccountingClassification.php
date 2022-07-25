@@ -23,11 +23,20 @@ class AccountingClassification extends Model
     ];
 
      /**
-     * The Accounting Control
+     * The parent
      */
     public function parent()
     {
         return $this->belongsTo(AccountingClassification::class);
+    }
+
+
+    /**
+     * The children
+     */
+    public function children()
+    {
+        return $this->hasMany(self::class, 'accounting_classification_id');
     }
 
     /**

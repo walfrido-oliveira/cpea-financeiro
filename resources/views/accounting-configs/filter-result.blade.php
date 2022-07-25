@@ -224,8 +224,8 @@
                     </button>
                 </td>
             </tr>
-            @if ($accountingClassification->parent)
-                @include('accounting-configs.classification-loop', ['accountingClassification2', $accountingClassification->parent])
+            @if (count($accountingClassification->children) > 0)
+                @include('accounting-configs.classification-loop', ['accountingClassificationChildrens' => $accountingClassification->children])
             @endif
         @endforeach
 
