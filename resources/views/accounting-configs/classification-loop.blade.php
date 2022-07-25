@@ -4,7 +4,7 @@
             <div class="flex">
                 <input class="form-checkbox accounting-classification-url mr-2" type="checkbox" name="accounting_classification[{{ $accountingClassification2->id }}]" value="{{ $accountingClassification2->id }}">
                 <a class="text-item-table" href="{{ route('accounting-classifications.edit', ['accounting_classification' => $accountingClassification2->id]) }}">
-                    {{ $accountingClassification2->classification }} - parent
+                    {{ $accountingClassification2->classification }}
                 </a>
             </div>
         </td>
