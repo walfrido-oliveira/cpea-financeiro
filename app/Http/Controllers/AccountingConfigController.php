@@ -255,12 +255,14 @@ class AccountingConfigController extends Controller
             {
                 $accountingConfig->accountingClassifications()->detach($value);
             }
+
+            return response()->json([
+                'message' => __('Configurações Apagadas com Sucesso!!'),
+                'alert-type' => 'success'
+            ]);
         }
 
-        return response()->json([
-            'message' => __('Configurações Apagadas com Sucesso!!'),
-            'alert-type' => 'success'
-        ]);
+
     }
 
     /**
