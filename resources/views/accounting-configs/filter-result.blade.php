@@ -58,7 +58,7 @@
             <tr class="point-items-{{ $accountingConfig->id }}" data-type="item-classification" data-year="{{ $accountingConfig->year }}" data-month="{{ $accountingConfig->month }}" data-classification="DRE">
                 <td style="padding-left: {{ $accountingClassification->depth + 0.5 }}rem">
                     <div class="flex">
-                        <input class="form-checkbox accounting-classification-url mr-2" type="checkbox" name="accounting_classification[{{ $accountingClassification->id }}]" value="{{ $accountingClassification->id }}">
+                        <input class="form-checkbox accounting-classification-url mr-2" data-id="{{$accountingConfig->id }}"  type="checkbox" name="accounting_classification[{{ $accountingClassification->id }}]" value="{{ $accountingClassification->id }}">
                         <a class="text-item-table" href="{{ route('accounting-classifications.edit', ['accounting_classification' => $accountingClassification->id]) }}">
                             {{ $accountingClassification->classification }}
                         </a>
@@ -109,7 +109,7 @@
             <tr class="point-items-{{ $accountingConfig->id }}" data-type="item-classification" data-year="{{ $accountingConfig->year }}" data-month="{{ $accountingConfig->month }}" data-classification="Retiradas Gerenciais">
                 <td style="padding-left: {{ $accountingClassification->depth + 0.5 }}rem">
                     <div class="flex">
-                        <input class="form-checkbox accounting-classification-url mr-2" type="checkbox" name="accounting_classification[{{ $accountingClassification->id }}]" value="{{ $accountingClassification->id }}">
+                        <input class="form-checkbox accounting-classification-url mr-2" data-id="{{$accountingConfig->id }}"  type="checkbox" name="accounting_classification[{{ $accountingClassification->id }}]" value="{{ $accountingClassification->id }}">
                         <a class="text-item-table" href="{{ route('accounting-classifications.edit', ['accounting_classification' => $accountingClassification->id]) }}">
                             {{ $accountingClassification->classification }}
                         </a>
@@ -160,7 +160,7 @@
             <tr class="point-items-{{ $accountingConfig->id }}" data-type="item-classification" data-year="{{ $accountingConfig->year }}" data-month="{{ $accountingConfig->month }}" data-classification="Resultado do Exercicio">
                 <td style="padding-left: {{ $accountingClassification->depth + 0.5 }}rem">
                     <div class="flex">
-                        <input class="form-checkbox accounting-classification-url mr-2" type="checkbox" name="accounting_classification[{{ $accountingClassification->id }}]" value="{{ $accountingClassification->id }}">
+                        <input class="form-checkbox accounting-classification-url mr-2" data-id="{{$accountingConfig->id }}"  type="checkbox" name="accounting_classification[{{ $accountingClassification->id }}]" value="{{ $accountingClassification->id }}">
                         <a class="text-item-table" href="{{ route('accounting-classifications.edit', ['accounting_classification' => $accountingClassification->id]) }}">
                             {{ $accountingClassification->classification }}
                         </a>
@@ -211,7 +211,7 @@
             <tr class="point-items-{{ $accountingConfig->id }}" data-type="item-classification" data-year="{{ $accountingConfig->year }}" data-month="{{ $accountingConfig->month }}" data-classification="DRE Ajustável">
                 <td style="padding-left: {{ $accountingClassification->depth + 0.5 }}rem">
                     <div class="flex">
-                        <input class="form-checkbox accounting-classification-url mr-2" type="checkbox" name="accounting_classification[{{ $accountingClassification->id }}]" value="{{ $accountingClassification->id }}">
+                        <input class="form-checkbox accounting-classification-url mr-2" data-id="{{$accountingConfig->id }}"  type="checkbox" name="accounting_classification[{{ $accountingClassification->id }}]" value="{{ $accountingClassification->id }}">
                         <a class="text-item-table" href="{{ route('accounting-classifications.edit', ['accounting_classification' => $accountingClassification->id]) }}">
                             {{ $accountingClassification->classification }}
                         </a>
@@ -262,7 +262,7 @@
             <tr class="point-items-{{ $accountingConfig->id }}" data-type="item-formula" data-year="{{ $accountingConfig->year }}" data-month="{{ $accountingConfig->month }}">
                 <td style="padding-left: 3.5rem!important;">
                     <div class="flex">
-                        <input class="form-checkbox formula-url mr-2" type="checkbox" name="formula[{{ $formula->id }}]" value="{{ $formula->id }}">
+                        <input class="form-checkbox formula-url mr-2" data-id="{{$accountingConfig->id }}"  type="checkbox" name="formula[{{ $formula->id }}]" value="{{ $formula->id }}">
                         <a class="text-item-table" href="{{ route('formulas.edit', ['formula' => $formula->id]) }}">
                             {{ $formula->accountingClassification->classification }}
                         </a>

@@ -280,6 +280,7 @@
             let method = 'DELETE';
 
             let formula = Array.from(document.querySelectorAll("input.formula-url:checked")).map(o => o.value);
+            let id = "{{ count($accountingConfigs) > 0 ? $accountingConfigs[0]->id : 0 }}";
 
             ajax.open("POST", url);
 
@@ -300,6 +301,7 @@
             data.append('_token', token);
             data.append('_method', method);
             data.append('formula', formula);
+            data.append('id', id);
 
             ajax.send(data);
         }
@@ -316,6 +318,7 @@
 
             let accounting_classification = Array.from(document.querySelectorAll(
                 "input.accounting-classification-url:checked")).map(o => o.value);
+            let id = "{{ count($accountingConfigs) > 0 ? $accountingConfigs[0]->id : 0 }}";
 
             ajax.open("POST", url);
 
@@ -336,6 +339,7 @@
             data.append('_token', token);
             data.append('_method', method);
             data.append('accounting_classification', accounting_classification);
+            data.append('id', id);
 
             ajax.send(data);
         }
