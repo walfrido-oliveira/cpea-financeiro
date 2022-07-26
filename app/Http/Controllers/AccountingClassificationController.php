@@ -21,7 +21,8 @@ class AccountingClassificationController extends Controller
             'classification' => ['required', 'string'],
             'type_classification' => ['required', Rule::in(AccountingClassification::getTypesClassifications())],
             'unity' => ['nullable', Rule::in(AccountingClassification::getUnitys())],
-            'accounting_classification_id' => ['nullable', 'exists:accounting_classifications,id']
+            'accounting_classification_id' => ['nullable', 'exists:accounting_classifications,id'],
+            'order' => ['string', 'max:45', 'nullable']
         ]);
     }
 
@@ -78,6 +79,7 @@ class AccountingClassificationController extends Controller
             'visible' => isset($input['visible']) ? true : false,
             'color' => $input['color'],
             'accounting_classification_id' => $input['accounting_classification_id'],
+            'order' => $input['order'],
             'unity' => $input['unity']
         ]);
 
@@ -143,6 +145,7 @@ class AccountingClassificationController extends Controller
             'visible' => isset($input['visible']) ? true : false,
             'color' => $input['color'],
             'accounting_classification_id' => $input['accounting_classification_id'],
+            'order' => $input['order'],
             'unity' => $input['unity']
         ]);
 

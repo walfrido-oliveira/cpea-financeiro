@@ -54,7 +54,9 @@
             <td style="padding-left: 3.5rem !important;" class="font-bold">Observações</td>
             <td style="padding-left: 3.5rem !important;" class="font-bold">Ação</td>
         </tr>
-        @foreach ($accountingConfig->accountingClassifications()->where('type_classification', 'DRE')->where('accounting_classifications.accounting_classification_id', null)->orderBy("accounting_classifications.id")->get() as $accountingClassification)
+        @foreach ($accountingConfig->accountingClassifications()->where('type_classification', 'DRE')
+        ->where('accounting_classifications.accounting_classification_id', null)
+        ->orderBy("accounting_classifications.order")->get() as $accountingClassification)
             <tr class="point-items-{{ $accountingConfig->id }}" data-type="item-classification" data-year="{{ $accountingConfig->year }}" data-month="{{ $accountingConfig->month }}" data-classification="DRE">
                 <td style="padding-left: {{ $accountingClassification->depth + 0.5 }}rem">
                     <div class="flex">
@@ -80,9 +82,9 @@
                     </button>
                 </td>
             </tr>
-            @if (count($accountingClassification->children) > 0)
-                @include('accounting-configs.classification-loop', ['accountingClassificationChildrens' => $accountingClassification->children, 'type' => 'DRE'])
-            @endif
+            @include('accounting-configs.classification-loop', ['accountingClassificationChildrens' => $accountingClassification->children()->whereHas('accountingConfigs', function($q) use($accountingConfig) {
+                $q->where('accounting_classification_accounting_config.accounting_config_id', $accountingConfig->id);
+            })->orderBy('order')->get(), 'type' => 'DRE'])
         @endforeach
 
         <tr class="point-items-{{ $accountingConfig->id }} active" data-type="classification" data-year="{{ $accountingConfig->year }}" data-month="{{ $accountingConfig->month }}">
@@ -105,7 +107,10 @@
             <td style="padding-left: 3.5rem !important;" class="font-bold">Observações</td>
             <td style="padding-left: 3.5rem !important;" class="font-bold">Ação</td>
         </tr>
-        @foreach ($accountingConfig->accountingClassifications()->where('type_classification', 'RETIRADAS GERENCIAIS')->where('accounting_classifications.accounting_classification_id', null)->orderBy("accounting_classifications.id")->get() as $accountingClassification)
+        @foreach ($accountingConfig->accountingClassifications()
+        ->where('type_classification', 'RETIRADAS GERENCIAIS')
+        ->where('accounting_classifications.accounting_classification_id', null)
+        ->orderBy("accounting_classifications.order")->get() as $accountingClassification)
             <tr class="point-items-{{ $accountingConfig->id }}" data-type="item-classification" data-year="{{ $accountingConfig->year }}" data-month="{{ $accountingConfig->month }}" data-classification="Retiradas Gerenciais">
                 <td style="padding-left: {{ $accountingClassification->depth + 0.5 }}rem">
                     <div class="flex">
@@ -131,9 +136,9 @@
                     </button>
                 </td>
             </tr>
-            @if (count($accountingClassification->children) > 0)
-                @include('accounting-configs.classification-loop', ['accountingClassificationChildrens' => $accountingClassification->children, 'type' => 'Retiradas Gerenciais'])
-            @endif
+            @include('accounting-configs.classification-loop', ['accountingClassificationChildrens' => $accountingClassification->children()->whereHas('accountingConfigs', function($q) use($accountingConfig) {
+                $q->where('accounting_classification_accounting_config.accounting_config_id', $accountingConfig->id);
+            })->orderBy('order')->get(), 'type' => 'Retiradas Gerenciais'])
         @endforeach
 
         <tr class="point-items-{{ $accountingConfig->id }} active" data-type="classification" data-year="{{ $accountingConfig->year }}" data-month="{{ $accountingConfig->month }}">
@@ -156,7 +161,10 @@
             <td style="padding-left: 3.5rem !important;" class="font-bold">Observações</td>
             <td style="padding-left: 3.5rem !important;" class="font-bold">Ação</td>
         </tr>
-        @foreach ($accountingConfig->accountingClassifications()->where('type_classification', 'RESULTADOS DO EXERCICIO')->where('accounting_classifications.accounting_classification_id', null)->orderBy("accounting_classifications.id")->get() as $accountingClassification)
+        @foreach ($accountingConfig->accountingClassifications()
+        ->where('type_classification', 'RESULTADOS DO EXERCICIO')
+        ->where('accounting_classifications.accounting_classification_id', null)
+        ->orderBy("accounting_classifications.order")->get() as $accountingClassification)
             <tr class="point-items-{{ $accountingConfig->id }}" data-type="item-classification" data-year="{{ $accountingConfig->year }}" data-month="{{ $accountingConfig->month }}" data-classification="Resultado do Exercicio">
                 <td style="padding-left: {{ $accountingClassification->depth + 0.5 }}rem">
                     <div class="flex">
@@ -182,9 +190,9 @@
                     </button>
                 </td>
             </tr>
-            @if (count($accountingClassification->children) > 0)
-                @include('accounting-configs.classification-loop', ['accountingClassificationChildrens' => $accountingClassification->children, 'type' => 'Resultado do Exercicio'])
-            @endif
+            @include('accounting-configs.classification-loop', ['accountingClassificationChildrens' => $accountingClassification->children()->whereHas('accountingConfigs', function($q) use($accountingConfig) {
+                $q->where('accounting_classification_accounting_config.accounting_config_id', $accountingConfig->id);
+            })->orderBy('order')->get(), 'type' => 'Resultado do Exercicio'])
         @endforeach
 
         <tr class="point-items-{{ $accountingConfig->id }} active" data-type="classification" data-year="{{ $accountingConfig->year }}" data-month="{{ $accountingConfig->month }}">
@@ -207,7 +215,9 @@
             <td style="padding-left: 3.5rem !important;" class="font-bold">Observações</td>
             <td style="padding-left: 3.5rem !important;" class="font-bold">Ação</td>
         </tr>
-        @foreach ($accountingConfig->accountingClassifications()->where('type_classification', 'DRE AJUSTÁVEL')->where('accounting_classifications.accounting_classification_id', null)->orderBy("accounting_classifications.id")->get() as $accountingClassification)
+        @foreach ($accountingConfig->accountingClassifications()->where('type_classification', 'DRE AJUSTÁVEL')
+        ->where('accounting_classifications.accounting_classification_id', null)
+        ->orderBy("accounting_classifications.order")->get() as $accountingClassification)
             <tr class="point-items-{{ $accountingConfig->id }}" data-type="item-classification" data-year="{{ $accountingConfig->year }}" data-month="{{ $accountingConfig->month }}" data-classification="DRE Ajustável">
                 <td style="padding-left: {{ $accountingClassification->depth + 0.5 }}rem">
                     <div class="flex">
@@ -236,7 +246,7 @@
             @include('accounting-configs.classification-loop', [
                 'accountingClassificationChildrens' => $accountingClassification->children()->whereHas('accountingConfigs', function($q) use($accountingConfig) {
                         $q->where('accounting_classification_accounting_config.accounting_config_id', $accountingConfig->id);
-                    })->orderBy('classification')->get(),
+                    })->orderBy('order')->get(),
                 'type' => 'DRE Ajustável'])
         @endforeach
 
