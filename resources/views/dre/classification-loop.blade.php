@@ -59,7 +59,7 @@ padding-left: {{ $accountingClassification2->depth + 0.5 }}rem"
             @include('dre.classification-loop', [
                 'accountingClassificationChildrens' => $accountingClassification2->children()->whereHas('accountingConfigs', function($q) use($accountingConfigs) {
                     $q->where('accounting_classification_accounting_config.accounting_config_id', count($accountingConfigs) > 0 ? $accountingConfigs[0]->id : 0);
-                })->get()
+                })->orderBy('classification')->get()
             ])
         @endif
 @endforeach
