@@ -1,3 +1,6 @@
+@if (count($accountingClassificationChildrens) > 0)
+{{ dd($accountingClassificationChildrens) }}
+@endif
 @foreach ($accountingClassificationChildrens as $accountingClassification2)
     <tr class="point-items-{{ $accountingConfig->id }}" data-type="item-classification" data-year="{{ $accountingConfig->year }}" data-month="{{ $accountingConfig->month }}" data-classification="{{ $type }}">
         <td style="padding-left: {{ $accountingClassification2->depth + 0.5 }}rem">
