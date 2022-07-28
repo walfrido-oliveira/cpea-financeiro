@@ -19,7 +19,7 @@ class AccountingClassification extends Model
      */
     protected $fillable = [
         'name', 'obs', 'level', 'classification', 'type_classification', 'featured',
-        'color', 'bolder', 'accounting_classification_id', 'visible', 'unity'
+        'color', 'bolder', 'accounting_classification_id', 'visible', 'unity', 'order'
     ];
 
      /**
