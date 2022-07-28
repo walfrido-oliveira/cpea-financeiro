@@ -10,7 +10,7 @@
         </td>
         <td style="padding-left: {{ $accountingClassification2->depth + 0.5 }}rem">
             <a class="text-item-table" href="{{ route('accounting-classifications.edit', ['accounting_classification' => $accountingClassification2->id]) }}">
-                {{ $accountingClassification2->name }} - {{ $accountingClassification->order }}
+                {{ $accountingClassification2->name }}
             </a>
         </td>
         <td style="padding-left: 3.5rem!important;">
