@@ -246,7 +246,7 @@
             @include('accounting-configs.classification-loop', [
                 'accountingClassificationChildrens' => $accountingClassification->children()->whereHas('accountingConfigs', function($q) use($accountingConfig) {
                         $q->where('accounting_classification_accounting_config.accounting_config_id', $accountingConfig->id);
-                    })->orderBy('order')->get(),
+                    })->orderBy('accounting_classifications.order')->get(),
                 'type' => 'DRE Ajustável'])
         @endforeach
 
