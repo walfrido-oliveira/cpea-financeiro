@@ -444,7 +444,6 @@
             ajax.onreadystatechange = function() {
                 if (this.readyState == 4 && this.status == 200) {
                     var resp = JSON.parse(ajax.response);
-                    document.getElementById("spin_load").classList.add("hidden");
                     toastr.success(resp.message);
 
                     location.reload();
@@ -484,7 +483,6 @@
             ajax.onreadystatechange = function() {
                 if (this.readyState == 4 && this.status == 200) {
                     var resp = JSON.parse(ajax.response);
-                    document.getElementById("spin_load").classList.add("hidden");
                     toastr.success(resp.message);
 
                     location.reload();
