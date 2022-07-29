@@ -87,13 +87,11 @@
                 </td>
             @endforeach
         <tr>
-        @if (count($accountingClassification->children) > 0)
-            @include('dre.classification-loop', [
-                'accountingClassificationChildrens' => $accountingClassification->children()->whereHas('accountingConfigs', function($q) use($accountingConfigs) {
-                    $q->where('accounting_classification_accounting_config.accounting_config_id', count($accountingConfigs) > 0 ? $accountingConfigs[0]->id : 0);
-                })->orderBy('order')->get()
-            ])
-        @endif
+        @include('dre.classification-loop', [
+            'accountingClassificationChildrens' => $accountingClassification->children()->whereHas('accountingConfigs', function($q) use($accountingConfigs) {
+                $q->where('accounting_classification_accounting_config.accounting_config_id', count($accountingConfigs) > 0 ? $accountingConfigs[0]->id : 0);
+            })->orderBy('accounting_classifications.order')->get()
+        ])
     @empty
         <tr>
             <td class="text-center" colspan="5">{{ __("Nenhum resultado encontrado") }}</td>
