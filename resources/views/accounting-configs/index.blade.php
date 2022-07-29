@@ -286,6 +286,7 @@
 
             ajax.onreadystatechange = function() {
                 if (this.readyState == 4 && this.status == 200) {
+                    var resp = JSON.parse(ajax.response)
                     toastr.success(resp.message);
                     location.reload();
                 } else if (this.readyState == 4 && this.status != 200) {
@@ -321,6 +322,7 @@
 
             ajax.onreadystatechange = function() {
                 if (this.readyState == 4 && this.status == 200) {
+                    var resp = JSON.parse(ajax.response)
                     toastr.success(resp.message);
 
                     location.reload();
