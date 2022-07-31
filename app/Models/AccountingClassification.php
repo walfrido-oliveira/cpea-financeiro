@@ -224,9 +224,10 @@ class AccountingClassification extends Model
      *
      * @param int $month
      * @param int $year
+     * @param bool $sub
      * @return int
      */
-    public function getTotalClassificationDRE($month, $year)
+    public function getTotalClassificationDRE($month, $year, $sub = false)
     {
         $accountingConfig = AccountingConfig::where('month', $month)
         ->where('year', $year)
@@ -237,6 +238,12 @@ class AccountingClassification extends Model
         {
             $formula = $accountingConfig->formulas()
             ->where('accounting_classification_id', $this->id)
+            ->first();
+        }
+
+        if(!$formula && $sub)
+        {
+            $formula = Formula::where('accounting_classification_id', $this->id)
             ->first();
         }
 
@@ -251,7 +258,7 @@ class AccountingClassification extends Model
             {
                 $result = explode("&", $value2[1]);
 
-                $classification = self::where('classification', $result[0])->first();
+                $classification = self::where('classification', $result[0])->where('name', $result[1])->first();
 
                 if($classification)
                 {
