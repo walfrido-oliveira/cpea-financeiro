@@ -276,7 +276,7 @@ class AccountingClassification extends Model
                         }
                         else
                         {
-                            $sum = $classification->getTotalClassificationDRE($month, $year);
+                            $sum = $classification->getTotalClassificationDRE($month, $year, true);
                         }
                     }
                 }
