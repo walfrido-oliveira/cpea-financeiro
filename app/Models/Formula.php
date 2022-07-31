@@ -19,6 +19,11 @@ class Formula extends Model
         'conditional', 'conditional_type', 'conditional_value', 'conditional_formula'
     ];
 
+    public function getFullNameAttribute()
+    {
+        return $this->accountingClassification->description . ' = ' . $this->formula;
+    }
+
      /**
      * The Accounting Classification
      */

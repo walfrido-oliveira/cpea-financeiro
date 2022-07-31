@@ -38,14 +38,14 @@ class AccountingConfigController extends Controller
         $accountingConfigs =  AccountingConfig::filter([
             'month' => $request->has('month') ? $request->get('month') : $maxMonth,
             'year' => $request->has('year') ? $request->get('year') : $maxYear,
-        ]
+            ]
         );
 
         $ascending = $request->has('ascending') ? $request->get('ascending') : 'desc';
         $orderBy = $request->has('order_by') ? $request->get('order_by') : 'created_at';
         $months = months();
         $accountingClassifications = AccountingClassification::all()->pluck('description', 'id');
-        $formulas = Formula::all()->pluck('formula', 'id');
+        $formulas = Formula::all()->pluck('full_name', 'id');
         $accountingClassificationTypes = AccountingClassification::getTypesClassifications2();
 
         return view('accounting-configs.index',
