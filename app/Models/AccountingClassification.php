@@ -285,8 +285,8 @@ class AccountingClassification extends Model
                             $sum = $classification->getTotalClassificationDRE($month, $year, true);
                         }
                     }
+                  if($classification->unity == "%") $sum = $sum / 100;
                 }
-                if($classification->unity == "%") $sum = $sum / 100;
                 $formulaText = Str::replace($value2[0], $sum, $formulaText);
             }
 
