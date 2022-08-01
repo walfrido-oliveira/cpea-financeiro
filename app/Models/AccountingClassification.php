@@ -258,7 +258,13 @@ class AccountingClassification extends Model
             {
                 $result = explode("&", $value2[1]);
 
-                $classification = self::where('classification', $result[0])->where('name', $result[1])->first();
+                if(count($result) >= 2)
+                {
+                  $classification = self::where('classification', $result[0])->where('name', $result[1])->first();
+                }
+                else {
+                  $classification = self::where('classification', $result[0])->first();
+                }
 
                 if($classification)
                 {
