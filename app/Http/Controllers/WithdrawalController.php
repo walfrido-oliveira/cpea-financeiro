@@ -34,8 +34,6 @@ class WithdrawalController extends Controller
     public function index(Request $request)
     {
         $query = $request->all();
-        $accountingClassifications1 = AccountingClassification::where('type_classification', 'Retiradas Gerenciais')->get();
-        $accountingClassifications2 = AccountingClassification::where('type_classification', 'Resultado do Exercicio')->get();
         $months = months();
 
         $accountingClassifications = AccountingClassification::where('type_classification', 'Resultado do Exercicio')->get()->pluck('description', 'id');
@@ -44,9 +42,31 @@ class WithdrawalController extends Controller
         $year = isset($query['year']) ? $query['year'] : now()->year;
         $years = AccountingConfig::groupBy('year')->get()->pluck('year', 'year');
 
+        $accountingClassifications1 = collect([]);
+        $accountingClassifications2 = collect([]);
+        $accountingConfigs = AccountingConfig::where("year", $year)->where("month", 1)->get();
+
+        if($accountingConfigs)
+        {
+            foreach ($accountingConfigs  as $key => $accountingConfig)
+            {
+                $accountingClassifications1 = $accountingClassifications1->merge($accountingConfig->accountingClassifications()
+                ->where('type_classification', 'Retiradas Gerenciais')
+                ->where('accounting_classifications.accounting_classification_id', null)
+                ->orderBy("accounting_classifications.order")
+                ->get());
+
+                $accountingClassifications2 = $accountingClassifications2->merge($accountingConfig->accountingClassifications()
+                ->where('type_classification', 'Resultado do Exercicio')
+                ->where('accounting_classifications.accounting_classification_id', null)
+                ->orderBy("accounting_classifications.order")
+                ->get());
+            }
+        }
+
         return view('withdrawals.index',
         compact('ascending', 'orderBy', 'accountingClassifications', 'accountingClassifications1', 'months',
-                'year', 'accountingClassifications2', 'years'));
+                'year', 'accountingClassifications2', 'years', 'accountingConfigs'));
     }
 
     /**
