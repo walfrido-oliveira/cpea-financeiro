@@ -23,7 +23,7 @@ class TotalStaticCheckPointController extends Controller
         $year = isset($query['year']) ? $query['year'] : now()->year;
         $years = AccountingConfig::groupBy('year')->get()->pluck('year', 'year');
 
-        $totalStaticCheckPoints = TotalStaticCheckPoint::where('year', $year);
+        $totalStaticCheckPoints = TotalStaticCheckPoint::where('year', $year)->get();
 
         $months = months();
 

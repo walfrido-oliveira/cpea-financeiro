@@ -9,7 +9,7 @@
             </div>
             <div class="py-2 my-2 bg-white rounded-lg min-h-screen">
                 <div class="flex -mx-3 mb-6 p-3 md:flex-row flex-col w-full justify-end">
-                    <form id="search_year_form" action="{{ route('dre.index') }}" method="GET">
+                    <form id="search_year_form" action="{{ route('check-points.total-static-check-point.index') }}" method="GET">
                         <div class="w-full md:w-auto px-2 mb-6 md:mb-0">
                             <x-custom-select class="filter-field" select-class="no-nice-select" :options="$years" name="year" id="year"
                                 :value="app('request')->has('year') ? app('request')->input('year') : now()->year"/>
@@ -25,7 +25,7 @@
                         <div class="view">
                             <div class="wrapper" id="scroll_bottom">
                                 <table id="accounting_classifications_table" class="table table-responsive md:table w-full">
-                                    @include('total-static-check-point.filter-result', ['totalStaticCheckPoints' => $totalStaticCheckPoints, 'ascending' => $ascending, 'orderBy' => $orderBy])
+                                    @include('total-static-check-point.filter-result', ['totalStaticCheckPoints' => $totalStaticCheckPoints->where('type', 'Horas Projetos'), 'ascending' => $ascending, 'orderBy' => $orderBy])
                                 </table>
                             </div>
                         </div>
@@ -40,7 +40,22 @@
                         <div class="view">
                             <div class="wrapper" id="scroll_bottom">
                                 <table id="accounting_classifications_table" class="table table-responsive md:table w-full">
-                                    @include('total-static-check-point.filter-result', ['totalStaticCheckPoints' => $totalStaticCheckPoints, 'ascending' => $ascending, 'orderBy' => $orderBy])
+                                    @include('total-static-check-point.filter-result', ['totalStaticCheckPoints' => $totalStaticCheckPoints->where('type', 'Horas Administrativas'), 'ascending' => $ascending, 'orderBy' => $orderBy])
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="w-full">
+                    <h2 class="my-6 ml-3">% Custo Direto</h2>
+                    <div id="scroll_top" style="width: calc(100vw - 21rem); overflow: auto;">
+                        <div style="height: 1px;"></div>
+                    </div>
+                    <div class="flex accounting-table">
+                        <div class="view">
+                            <div class="wrapper" id="scroll_bottom">
+                                <table id="accounting_classifications_table" class="table table-responsive md:table w-full">
+                                    @include('total-static-check-point.filter-result', ['totalStaticCheckPoints' => [], 'ascending' => $ascending, 'orderBy' => $orderBy])
                                 </table>
                             </div>
                         </div>
@@ -55,7 +70,22 @@
                         <div class="view">
                             <div class="wrapper" id="scroll_bottom">
                                 <table id="accounting_classifications_table" class="table table-responsive md:table w-full">
-                                    @include('total-static-check-point.filter-result', ['totalStaticCheckPoints' => $totalStaticCheckPoints, 'ascending' => $ascending, 'orderBy' => $orderBy])
+                                    @include('total-static-check-point.filter-result', ['totalStaticCheckPoints' => [], 'ascending' => $ascending, 'orderBy' => $orderBy])
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="w-full">
+                    <h2 class="my-6 ml-3">% Total</h2>
+                    <div id="scroll_top" style="width: calc(100vw - 21rem); overflow: auto;">
+                        <div style="height: 1px;"></div>
+                    </div>
+                    <div class="flex accounting-table">
+                        <div class="view">
+                            <div class="wrapper" id="scroll_bottom">
+                                <table id="accounting_classifications_table" class="table table-responsive md:table w-full">
+                                    @include('total-static-check-point.filter-result', ['totalStaticCheckPoints' => [], 'ascending' => $ascending, 'orderBy' => $orderBy])
                                 </table>
                             </div>
                         </div>

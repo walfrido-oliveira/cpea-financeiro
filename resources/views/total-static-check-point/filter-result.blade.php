@@ -28,7 +28,7 @@
             </td>
 
             <td class="sticky-col second-col"
-            style="
+            style="left: 49px;
             @if ($accountingClassification->color)
                 color:{{ $accountingClassification->color }};
             @endif
@@ -39,29 +39,6 @@
                  {{ $accountingClassification->classification }}
             </td>
 
-            <td class="sticky-col third-col"
-            style="
-            @if ($accountingClassification->color)
-                color:{{ $accountingClassification->color }};
-            @endif
-            @if ($accountingClassification->bolder)
-                font-weight:bolder;
-            @endif
-            ">
-                -
-            </td>
-
-            <td class="sticky-col fourth-col"
-            style="
-            @if ($accountingClassification->color)
-                color:{{ $accountingClassification->color }};
-            @endif
-            @if ($accountingClassification->bolder)
-                font-weight:bolder;
-            @endif
-            ">
-                -
-            </td>
 
             @foreach ($months as $key => $month)
                 <td  style="
@@ -70,22 +47,29 @@
                 @endif
                 @if ($accountingClassification->bolder)
                     font-weight:bolder;
-                @endif
-                " title="{{ count($accountingClassification->formula) > 0 ? $accountingClassification->formula[0]->formula : '' }}">
-                    @php
-                        $totalClassificationDRE = $accountingClassification->getTotalClassificationDRE($key, $year);
-                        $decimal = $accountingClassification->unity == '%' ? 2 : 0;
-                    @endphp
-                    @if ($totalClassificationDRE > 0)
-                        {{ ($accountingClassification->unity == 'R$' ? $accountingClassification->unity  : '') .  number_format($totalClassificationDRE, $decimal, ',', '.') . ($accountingClassification->unity == '%' ? $accountingClassification->unity  : '') }}
-                    @elseif($totalClassificationDRE < 0)
-                        {{ ($accountingClassification->unity == 'R$' ? $accountingClassification->unity  : '')  . '(' . number_format($totalClassificationDRE * -1, $decimal, ',', '.') . ')' . ($accountingClassification->unity == '%' ? $accountingClassification->unity  : '') }}
-                    @else
-                        -
-                    @endif
+                @endif"
+                >
+                {{ App\Models\TotalStaticCheckPoint::where('year', $year)->where('month', $key)
+                        ->where('classification_id', $accountingClassification->classification_id)
+                        ->sum('result')
+                }}
 
                 </td>
             @endforeach
+
+            <td style="
+            @if ($accountingClassification->color)
+                color:{{ $accountingClassification->color }};
+            @endif
+            @if ($accountingClassification->bolder)
+                font-weight:bolder;
+            @endif
+            ">
+                {{ App\Models\TotalStaticCheckPoint::where('year', $year)
+                ->where('classification_id', $accountingClassification->classification_id)
+                ->sum('result')
+                }}
+            </td>
         <tr>
     @empty
         <tr>
@@ -96,12 +80,17 @@
 <tfoot>
     <tr>
         <td class="sticky-col first-col"></td>
-        <td class="sticky-col second-col">{{ __('TOTAL') }}</td>
+        <td class="sticky-col second-col" style="left: 41px;">{{ __('TOTAL') }}</td>
         @foreach ($months as $key => $month)
             <td>
-                -
+                {{ App\Models\TotalStaticCheckPoint::where('year', $year)
+                ->where('month', $key)
+                ->sum('result') }}
             </td>
         @endforeach
-        <td></td>
+        <td>
+            {{ App\Models\TotalStaticCheckPoint::where('year', $year)
+            ->sum('result') }}
+        </td>
     </tr>
 </tfoot>
