@@ -5,22 +5,23 @@ use App\Http\Controllers\DREController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\FormulaController;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\ActivityController;
 use App\Http\Controllers\CustomerController;
+use App\Http\Controllers\EmployeeController;
+use App\Http\Controllers\DirectionController;
+use App\Http\Controllers\CheckPointController;
 use App\Http\Controllers\DepartmentController;
 use App\Http\Controllers\OccupationController;
 use App\Http\Controllers\WithdrawalController;
+use App\Http\Controllers\WorkingDayController;
 use App\Http\Controllers\EmailConfigController;
 use App\Http\Controllers\TemplateEmailController;
+use App\Http\Controllers\PointManagementController;
+use App\Http\Controllers\AccountingConfigController;
 use App\Http\Controllers\AccountingControlController;
 use App\Http\Controllers\AccountingAnalyticsController;
+use App\Http\Controllers\TotalStaticCheckPointController;
 use App\Http\Controllers\AccountingClassificationController;
-use App\Http\Controllers\AccountingConfigController;
-use App\Http\Controllers\ActivityController;
-use App\Http\Controllers\CheckPointController;
-use App\Http\Controllers\DirectionController;
-use App\Http\Controllers\EmployeeController;
-use App\Http\Controllers\PointManagementController;
-use App\Http\Controllers\WorkingDayController;
 
 /*
 |--------------------------------------------------------------------------
@@ -216,6 +217,12 @@ Route::group(['middleware' => ['auth:sanctum', 'verified']], function() {
         ]);
         Route::prefix('jornada-de-trabalho')->name('working-days.')->group(function(){
             Route::post('/filter', [WorkingDayController::class, 'filter'])->name('filter');
+        });
+
+        /** STATIC */
+        Route::prefix('total-horas-estatico')->name('total-static-check-point.')->group(function(){
+        Route::get('/index', [TotalStaticCheckPointController::class, 'index'])->name('index');
+        Route::post('/filter', [TotalStaticCheckPointController::class, 'filter'])->name('filter');
         });
     });
 

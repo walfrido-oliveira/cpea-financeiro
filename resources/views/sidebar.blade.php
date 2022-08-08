@@ -119,6 +119,9 @@
                     <div class="px-0 py-0 ">
                         <a class="@if(request()->routeIs('check-points.admin')) {{ 'active' }} @endif" href="{{ route('check-points.admin') }}">Gestão de Pontos (ADMIN)</a>
                     </div>
+                    <div class="px-0 py-0 ">
+                        <a class="@if(request()->routeIs('check-points.total-static-check-point.index')) {{ 'active' }} @endif" href="{{ route('check-points.total-static-check-point.index') }}">Total Horas (Stático)</a>
+                    </div>
                 @endif
                 <div class="px-0 py-0 ">
                     <a class="@if(request()->routeIs('check-points.index')) {{ 'active' }} @endif" href="{{ route('check-points.index') }}">Gestão de Pontos</a>

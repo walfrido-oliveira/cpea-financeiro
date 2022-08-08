@@ -69,23 +69,23 @@
         </tr>
     @endforelse
 <tbody>
-    <tfoot>
-        <tr>
-            <td class="sticky-col first-col"></td>
-            <td class="sticky-col second-col">{{ __('TOTAL GERAL') }}</td>
-            @foreach ($months as $key => $month)
-                <td>
-                    @php
-                        $totalClassificationByMonthDRE = App\Models\Withdrawal::getTotalByMonth($key, $year);
-                    @endphp
-                    @if ($totalClassificationByMonthDRE > 0)
-                        {{  'R$' . number_format($totalClassificationByMonthDRE, 0, ',', '.') }}
-                    @elseif($totalClassificationByMonthDRE < 0)
-                        {{ 'R$ (' . number_format($totalClassificationByMonthDRE * -1, 0, ',', '.') . ')' }}
-                    @else
-                        -
-                    @endif
-                </td>
-            @endforeach
-        </tr>
-    </tfoot>
+<tfoot>
+    <tr>
+        <td class="sticky-col first-col"></td>
+        <td class="sticky-col second-col">{{ __('TOTAL GERAL') }}</td>
+        @foreach ($months as $key => $month)
+            <td>
+                @php
+                    $totalClassificationByMonthDRE = App\Models\Withdrawal::getTotalByMonth($key, $year);
+                @endphp
+                @if ($totalClassificationByMonthDRE > 0)
+                    {{  'R$' . number_format($totalClassificationByMonthDRE, 0, ',', '.') }}
+                @elseif($totalClassificationByMonthDRE < 0)
+                    {{ 'R$ (' . number_format($totalClassificationByMonthDRE * -1, 0, ',', '.') . ')' }}
+                @else
+                    -
+                @endif
+            </td>
+        @endforeach
+    </tr>
+</tfoot>
