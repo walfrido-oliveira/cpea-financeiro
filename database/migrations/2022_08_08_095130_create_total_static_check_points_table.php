@@ -21,6 +21,7 @@ class CreateTotalStaticCheckPointsTable extends Migration
             $table->string('classification');
             $table->integer('classification_id')->index('classification_id');
             $table->decimal('result');
+            $table->integer('order');
         });
     }
 

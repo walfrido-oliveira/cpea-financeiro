@@ -18,6 +18,11 @@ class TotalStaticCheckPoint extends Model
         'year', 'month', 'type', 'classification', 'resut', 'classification_id'
     ];
 
+    public static function getTypes()
+    {
+        return ['Horas Projetos', 'Horas Administrativas'];
+    }
+
     /**
      * Find users in dabase
      *
