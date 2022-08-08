@@ -25,7 +25,8 @@
                         <div class="view">
                             <div class="wrapper" id="scroll_bottom">
                                 <table id="accounting_classifications_table" class="table table-responsive md:table w-full">
-                                    @include('total-static-check-point.filter-result', ['totalStaticCheckPoints' => $totalStaticCheckPoints->where('type', 'Horas Projetos'), 'ascending' => $ascending, 'orderBy' => $orderBy])
+                                    @include('total-static-check-point.filter-result', ['totalStaticCheckPoints' =>  App\Models\TotalStaticCheckPoint::where('year', $year)->where('type', 'Horas Projetos')->groupBy('classification_id')->get(),
+                                    'ascending' => $ascending, 'orderBy' => $orderBy, 'type' => 'Horas Projetos'])
                                 </table>
                             </div>
                         </div>
@@ -40,7 +41,8 @@
                         <div class="view">
                             <div class="wrapper" id="scroll_bottom">
                                 <table id="accounting_classifications_table" class="table table-responsive md:table w-full">
-                                    @include('total-static-check-point.filter-result', ['totalStaticCheckPoints' => $totalStaticCheckPoints->where('type', 'Horas Administrativas'), 'ascending' => $ascending, 'orderBy' => $orderBy])
+                                    @include('total-static-check-point.filter-result', ['totalStaticCheckPoints' => App\Models\TotalStaticCheckPoint::where('year', $year)->where('type', 'Horas Administrativas')->groupBy('classification_id')->get(),
+                                    'ascending' => $ascending, 'orderBy' => $orderBy, 'type' => 'Horas Administrativas'])
                                 </table>
                             </div>
                         </div>
@@ -55,7 +57,7 @@
                         <div class="view">
                             <div class="wrapper" id="scroll_bottom">
                                 <table id="accounting_classifications_table" class="table table-responsive md:table w-full">
-                                    @include('total-static-check-point.filter-result', ['totalStaticCheckPoints' => [], 'ascending' => $ascending, 'orderBy' => $orderBy])
+                                    @include('total-static-check-point.filter-result', ['totalStaticCheckPoints' => [], 'ascending' => $ascending, 'orderBy' => $orderBy, 'type' => ''])
                                 </table>
                             </div>
                         </div>
@@ -70,7 +72,7 @@
                         <div class="view">
                             <div class="wrapper" id="scroll_bottom">
                                 <table id="accounting_classifications_table" class="table table-responsive md:table w-full">
-                                    @include('total-static-check-point.filter-result', ['totalStaticCheckPoints' => [], 'ascending' => $ascending, 'orderBy' => $orderBy])
+                                    @include('total-static-check-point.filter-result', ['totalStaticCheckPoints' => [], 'ascending' => $ascending, 'orderBy' => $orderBy, 'type' => ''])
                                 </table>
                             </div>
                         </div>
@@ -85,7 +87,7 @@
                         <div class="view">
                             <div class="wrapper" id="scroll_bottom">
                                 <table id="accounting_classifications_table" class="table table-responsive md:table w-full">
-                                    @include('total-static-check-point.filter-result', ['totalStaticCheckPoints' => [], 'ascending' => $ascending, 'orderBy' => $orderBy])
+                                    @include('total-static-check-point.filter-result', ['totalStaticCheckPoints' => [], 'ascending' => $ascending, 'orderBy' => $orderBy, 'type' => ''])
                                 </table>
                             </div>
                         </div>

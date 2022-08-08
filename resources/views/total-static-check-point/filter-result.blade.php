@@ -51,6 +51,7 @@
                 >
                 {{ App\Models\TotalStaticCheckPoint::where('year', $year)->where('month', $key)
                         ->where('classification_id', $accountingClassification->classification_id)
+                        ->where('type', $type)
                         ->sum('result')
                 }}
 
@@ -67,6 +68,7 @@
             ">
                 {{ App\Models\TotalStaticCheckPoint::where('year', $year)
                 ->where('classification_id', $accountingClassification->classification_id)
+                ->where('type', $type)
                 ->sum('result')
                 }}
             </td>
@@ -85,11 +87,13 @@
             <td>
                 {{ App\Models\TotalStaticCheckPoint::where('year', $year)
                 ->where('month', $key)
+                ->where('type', $type)
                 ->sum('result') }}
             </td>
         @endforeach
         <td>
             {{ App\Models\TotalStaticCheckPoint::where('year', $year)
+            ->where('type', $type)
             ->sum('result') }}
         </td>
     </tr>
