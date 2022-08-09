@@ -67,7 +67,7 @@ class AccountingControl extends Model
             {
                 if(!is_null($query['type']))
                 {
-                    $q->where('type',  $query['month'] );
+                    $q->where('type',  $query['type'] );
                 }
             }
 

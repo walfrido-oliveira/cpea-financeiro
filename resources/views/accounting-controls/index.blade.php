@@ -23,17 +23,23 @@
             <div class="py-2 my-2 bg-white rounded-lg min-h-screen">
                 <div class="filter-container">
                     <div class="flex -mx-3 mb-6 p-3 md:flex-row flex-col w-full">
-                        <div class="w-full md:w-1/2 px-2 mb-6 md:mb-0">
-                            <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="id">
-                                {{ __('ID') }}
+                        <div class="w-full md:w-1/3 px-2 mb-6 md:mb-0">
+                            <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="year">
+                                {{ __('Ano') }}
                             </label>
-                            <x-jet-input id="id" class="form-control block w-full filter-field" type="text" name="id" :value="app('request')->input('id')" autofocus autocomplete="id" />
+                            <x-jet-input id="year" class="form-control block w-full filter-field" type="text" name="year" :value="app('request')->input('year')" autofocus autocomplete="id" />
                         </div>
-                        <div class="w-full md:w-1/2 px-2 mb-6 md:mb-0">
+                        <div class="w-full md:w-1/3 px-2 mb-6 md:mb-0">
                             <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="month">
                                 {{ __('Mês') }}
                             </label>
-                            <x-jet-input id="month" class="form-control block w-full filter-field" type="text" name="month" :value="app('request')->input('month')" autofocus autocomplete="month" />
+                            <x-custom-select :options="$months" name="month" id="month" :value="app('request')->input('month')"/>
+                        </div>
+                        <div class="w-full md:w-1/3 px-2 mb-6 md:mb-0">
+                            <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="month">
+                                {{ __('Tipo de Arquivo') }}
+                            </label>
+                            <x-custom-select :options="$types" name="type" id="type" :value="app('request')->input('type')"/>
                         </div>
                     </div>
                 </div>
@@ -125,8 +131,9 @@
                 var token = document.querySelector('meta[name="csrf-token"]').content;
                 var method = 'POST';
                 var paginationPerPage = document.getElementById("paginate_per_page").value;
-                var id = document.getElementById("id").value;
+                var year = document.getElementById("year").value;
                 var month = document.getElementById("month").value;
+                var type = document.getElementById("type").value;
 
                 ajax.open(method, url);
 
@@ -150,8 +157,9 @@
                 data.append('paginate_per_page', paginationPerPage);
                 data.append('ascending', ascending);
                 data.append('order_by', orderBY);
-                if(id) data.append('id', id);
+                if(year) data.append('year', year);
                 if(month) data.append('month', month);
+                if(type) data.append('type', type);
 
                 ajax.send(data);
             }
@@ -168,8 +176,9 @@
                 var token = document.querySelector('meta[name="csrf-token"]').content;
                 var method = 'POST';
                 var paginationPerPage = document.getElementById("paginate_per_page").value;
-                var id = document.getElementById("id").value;
+                var year = document.getElementById("year").value;
                 var month = document.getElementById("month").value;
+                var type = document.getElementById("type").value;
 
                 ajax.open(method, url);
 
@@ -194,8 +203,9 @@
                 data.append('paginate_per_page', paginationPerPage);
                 data.append('ascending', ascending);
                 data.append('order_by', orderBY);
-                if(id) data.append('id', id);
+                if(year) data.append('year', year);
                 if(month) data.append('month', month);
+                if(type) data.append('type', type);
 
                 ajax.send(data);
             }

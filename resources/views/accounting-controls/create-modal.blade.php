@@ -58,7 +58,7 @@
                     <div class="flex flex-wrap py-2 mt-4">
                         <div class="w-full  px-3 mb-6 md:mb-0">
                             <x-jet-label for="type" value="{{ __('Tipo de Arquivo') }}" required />
-                            <x-custom-select no-filter class="mt-1" :options="$types" name="type" id="month" :value="app('request')->input('type')"/>
+                            <x-custom-select no-filter class="mt-1" :options="$types" name="type" id="type" :value="app('request')->input('type')"/>
                         </div>
                         <div class="w-full px-3 mb-6 md:mb-0">
                             <x-jet-label for="obs" value="{{ __('Observações') }}" />
