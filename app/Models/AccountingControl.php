@@ -17,8 +17,13 @@ class AccountingControl extends Model
      * @var array
      */
     protected $fillable = [
-        'month', 'year', 'obs'
+        'month', 'year', 'obs', 'type'
     ];
+
+    public static function getTypes()
+    {
+        return ['Contábil' => 'Contábil', 'Retiradas' => 'Retiradas'];
+    }
 
     /**
      * The Accounting Analytics
@@ -54,7 +59,15 @@ class AccountingControl extends Model
             {
                 if(!is_null($query['month']))
                 {
-                    $q->where('month', 'like','%' . $query['month'] . '%');
+                    $q->where('month', $query['month']);
+                }
+            }
+
+            if(isset($query['type']))
+            {
+                if(!is_null($query['type']))
+                {
+                    $q->where('type',  $query['month'] );
                 }
             }
 

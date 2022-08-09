@@ -10,6 +10,7 @@ use App\Models\AccountingControl;
 use App\Models\AccountingAnalytics;
 use PhpOffice\PhpSpreadsheet\IOFactory;
 use App\Models\AccountingClassification;
+use App\Models\Withdrawal;
 use Illuminate\Support\Facades\Validator;
 
 class AccountingControlController extends Controller
@@ -37,9 +38,10 @@ class AccountingControlController extends Controller
         $accountingControls =  AccountingControl::filter($request->all());
         $ascending = isset($query['ascending']) ? $query['ascending'] : 'desc';
         $orderBy = isset($query['order_by']) ? $query['order_by'] : 'created_at';
+        $types = AccountingControl::getTypes();
         $months = months();
 
-        return view('accounting-controls.index', compact('accountingControls', 'ascending', 'orderBy', 'months'));
+        return view('accounting-controls.index', compact('accountingControls', 'ascending', 'orderBy', 'months', 'types'));
     }
 
     /**
@@ -65,7 +67,9 @@ class AccountingControlController extends Controller
         $input = $request->all();
 
        AccountingControl::create([
+            'year' => $input['year'],
             'month' => $input['month'],
+            'type' => $input['type'],
             'obs' => $input['obs']
         ]);
 
@@ -123,7 +127,9 @@ class AccountingControlController extends Controller
         $input = $request->all();
 
         $accountingControl->update([
+            'year' => $input['year'],
             'month' => $input['month'],
+            'type' => $input['type'],
             'obs' => $input['obs']
         ]);
 
@@ -190,6 +196,7 @@ class AccountingControlController extends Controller
             'file' => 'required|mimes:xls,xlsx,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet|max:4096',
             'month' => 'required|numeric',
             'year' => 'required|numeric',
+            'type' => 'required'
         ]);
 
         if ($validator->fails())
@@ -205,6 +212,7 @@ class AccountingControlController extends Controller
             $accountingControl = AccountingControl::updateOrCreate([
                 'month' => $inputs['month'],
                 'year' => $inputs['year'],
+                'type' => $inputs['type'],
                 'obs' => $inputs['obs'],
             ]);
 
@@ -236,11 +244,25 @@ class AccountingControlController extends Controller
 
                     if($accountingClassification)
                     {
-                        AccountingAnalytics::create([
-                            'accounting_classification_id' => $accountingClassification->id,
-                            'value' => Str::replace(',', '', $value[2]),
-                            'accounting_control_id' => $accountingControl->id
-                        ]);
+                        if($inputs['type'] == 'Contábil')
+                        {
+                            AccountingAnalytics::create([
+                                'accounting_classification_id' => $accountingClassification->id,
+                                'value' => Str::replace(',', '', $value[2]),
+                                'accounting_control_id' => $accountingControl->id
+                            ]);
+                        }
+
+                        if($inputs['type'] == 'Retiradas')
+                        {
+                            Withdrawal::create([
+                                'accounting_classification_id' => $accountingClassification->id,
+                                'month' => $inputs['month'],
+                                'year' => $inputs['year'],
+                                'value' => Str::replace(',', '', $value[2]),
+                            ]);
+                        }
+
                         $totalImported++;
                     }
                 }else{
