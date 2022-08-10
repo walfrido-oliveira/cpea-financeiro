@@ -255,12 +255,18 @@ class AccountingControlController extends Controller
 
                         if($inputs['type'] == 'Retiradas')
                         {
-                            Withdrawal::create([
-                                'accounting_classification_id' => $accountingClassification->id,
-                                'month' => $inputs['month'],
-                                'year' => $inputs['year'],
-                                'value' => Str::replace(',', '', $value[2]),
-                            ]);
+                          AccountingAnalytics::create([
+                            'accounting_classification_id' => $accountingClassification->id,
+                            'value' => Str::replace(',', '', $value[2]),
+                            'accounting_control_id' => $accountingControl->id
+                          ]);
+
+                          Withdrawal::create([
+                              'accounting_classification_id' => $accountingClassification->id,
+                              'month' => $inputs['month'],
+                              'year' => $inputs['year'],
+                              'value' => Str::replace(',', '', $value[2]),
+                          ]);
                         }
 
                         $totalImported++;
