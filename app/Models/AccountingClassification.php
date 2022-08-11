@@ -264,7 +264,7 @@ class AccountingClassification extends Model
                 if(count($result) >= 2)
                 {
                   $classification = self::where('classification', $result[0])->where('name', $result[1])->first();
-                  $workingDaysType = isset($result[2]) ? $result[3] : '';
+                  $workingDaysType = isset($result[2]) ? $result[2] : '';
                 }
                 else {
                   $classification = self::where('classification', $result[0])->first();
