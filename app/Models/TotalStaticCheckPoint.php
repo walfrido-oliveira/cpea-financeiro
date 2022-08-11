@@ -107,7 +107,7 @@ class TotalStaticCheckPoint extends Model
 
             if($classification_id)
             {
-                $q->where('classification', $classification_id);
+                $q->where('classification_id', $classification_id);
             }
 
             $q->where('type', $type);
