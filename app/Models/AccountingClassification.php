@@ -281,8 +281,12 @@ class AccountingClassification extends Model
                         if($workingDaysType == '')
                         {
                             $accountingAnalytics = $accountingControl->accountingAnalytics()->where('accounting_classification_id', $classification->id)->first();
+                            $withdrawal = Withdrawal::getTotalByMonthAndClassification($month, $year, $classification->id);
                             if($accountingAnalytics)  {
                                 $sum += $accountingAnalytics->value;
+                            }
+                            else if($withdrawal) {
+                                $sum += $withdrawal;
                             }
                             else {
                                 $sum = $classification->getTotalClassificationDRE($month, $year, true);
