@@ -1,7 +1,8 @@
 <thead>
     <tr class="thead-light">
         <x-table-sort-header :orderBy="null" :ascending="null" columnName="" columnText="{{ __('') }}"/>
-        <x-table-sort-header :orderBy="$orderBy" :ascending="$ascending" columnName="month" columnText="{{ __('Mês') }}"/>
+        <x-table-sort-header :orderBy="$orderBy" :ascending="$ascending" columnName="month" columnText="{{ __('Mês/Ano') }}"/>
+        <x-table-sort-header :orderBy="$orderBy" :ascending="$ascending" columnName="type" columnText="{{ __('Tipo de Arquivo') }}"/>
         <x-table-sort-header :orderBy="$orderBy" :ascending="$ascending" columnName="obs" columnText="{{ __('Observações') }}"/>
         <x-table-sort-header :orderBy="$orderBy" :ascending="$ascending" columnName="updated_at" columnText="{{ __('Data de Modificação') }}"/>
         <th scope="col"
@@ -18,6 +19,9 @@
             </td>
             <td>
                 <a class="text-item-table text-green-600 underline" href="{{ route('accounting-controls.show', ['accounting_control' => $accountingControl->id]) }}">{{ months()[$accountingControl->month] }}/{{ $accountingControl->year }}</a>
+            </td>
+            <td>
+                <a class="text-item-table" href="{{ route('accounting-controls.show', ['accounting_control' => $accountingControl->id]) }}">{{ $accountingControl->type }}</a>
             </td>
             <td>
                 <a class="text-item-table" href="{{ route('accounting-controls.show', ['accounting_control' => $accountingControl->id]) }}">{{ $accountingControl->obs }}</a>
