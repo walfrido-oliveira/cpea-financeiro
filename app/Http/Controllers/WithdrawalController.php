@@ -57,7 +57,7 @@ class WithdrawalController extends Controller
                 ->get());
 
                 $accountingClassifications2 = $accountingClassifications2->merge($accountingConfig->accountingClassifications()
-                ->where('type_classification', 'Resultado do Exercicio')
+                ->where('type_classification', 'Resultados do Exercicio')
                 ->where('accounting_classifications.accounting_classification_id', null)
                 ->orderBy("accounting_classifications.order")
                 ->get());
