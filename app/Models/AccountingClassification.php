@@ -297,23 +297,23 @@ class AccountingClassification extends Model
                             switch ($workingDaysType)
                             {
                                 case 'CUSTOS INDIRETOS':
-                                    $sum = TotalStaticCheckPoint::getTotal($year, $month, $classification->id,
+                                    $sum = TotalStaticCheckPoint::getTotal($year, $month, $classification->classification,
                                     TotalStaticCheckPoint::getTypes()[1],
                                     TotalStaticCheckPoint::getTypes()[0]) / 100;
                                     break;
 
                                 case 'CUSTOS DIRETO':
-                                    $sum = TotalStaticCheckPoint::getTotal($year, $month, $classification->id,
+                                    $sum = TotalStaticCheckPoint::getTotal($year, $month, $classification->classification,
                                     TotalStaticCheckPoint::getTypes()[0],
                                     TotalStaticCheckPoint::getTypes()[1]) / 100;
                                     break;
 
                                 case 'TOTAL':
-                                    $result1 = TotalStaticCheckPoint::getTotal($year, $month, $classification->id,
+                                    $result1 = TotalStaticCheckPoint::getTotal($year, $month, $classification->classification,
                                     TotalStaticCheckPoint::getTypes()[1],
                                     TotalStaticCheckPoint::getTypes()[0]);
 
-                                    $result2 = TotalStaticCheckPoint::getTotal($year, $month, $classification->id,
+                                    $result2 = TotalStaticCheckPoint::getTotal($year, $month, $classification->classification,
                                     TotalStaticCheckPoint::getTypes()[0],
                                     TotalStaticCheckPoint::getTypes()[1]) / 100;
 
