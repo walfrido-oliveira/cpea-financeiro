@@ -54,18 +54,12 @@
                     @endif"
                     >
                     @php
-                        $result1 = App\Models\TotalStaticCheckPoint::where('year', $year)->where('month', $key)
-                            ->where('classification_id', $accountingClassification->classification_id)
-                            ->where('type', App\Models\TotalStaticCheckPoint::getTypes()[$id1])
-                            ->sum('result');
-
-                        $result2 = App\Models\TotalStaticCheckPoint::where('year', $year)->where('month', $key)
-                            ->where('classification_id', $accountingClassification->classification_id)
-                            ->where('type', App\Models\TotalStaticCheckPoint::getTypes()[$id2])
-                            ->sum('result');
+                        $result = App\Models\TotalStaticCheckPoint::getTotal($year, $key, $accountingClassification->classification_id,
+                                                                            App\Models\TotalStaticCheckPoint::getTypes()[$id1],
+                                                                            App\Models\TotalStaticCheckPoint::getTypes()[$id2]);
                     @endphp
-                    {{ $result1 + $result2 > 0 ? number_format(100 * ($result1 / ($result1 + $result2)),0) : 0 }}%
-                    <input type="hidden" data-row="{{ $row }}" data-column="{{ $key }}" value="{{ $result1 + $result2 > 0 ? number_format(100 * ($result1 / ($result1 + $result2)),0) : 0 }}">
+                    {{ $result  }}%
+                    <input type="hidden" data-row="{{ $row }}" data-column="{{ $key }}" value="{{ $result }}">
                 </td>
             @endforeach
 
@@ -78,18 +72,12 @@
             @endif
             ">
                 @php
-                    $result1 = App\Models\TotalStaticCheckPoint::where('year', $year)
-                        ->where('classification_id', $accountingClassification->classification_id)
-                        ->where('type', App\Models\TotalStaticCheckPoint::getTypes()[$type == 'Custo Direto' ? 0 : 1])
-                        ->sum('result');
-
-                    $result2 = App\Models\TotalStaticCheckPoint::where('year', $year)
-                        ->where('classification_id', $accountingClassification->classification_id)
-                        ->where('type', App\Models\TotalStaticCheckPoint::getTypes()[$id2])
-                        ->sum('result');
+                    $result = App\Models\TotalStaticCheckPoint::getTotal($year, null, $accountingClassification->classification_id,
+                                                                        App\Models\TotalStaticCheckPoint::getTypes()[$id1],
+                                                                        App\Models\TotalStaticCheckPoint::getTypes()[$id2]);
                 @endphp
-                {{ $result1 + $result2 > 0 ? number_format(100 * ($result1 / ($result1 + $result2)),0) : 0 }}%
-                <input type="hidden" data-row="{{ $row }}" data-column="{{ $key + 1 }}" value="{{ $result1 + $result2 > 0 ? number_format(100 * ($result1 / ($result1 + $result2)),0) : 0 }}">
+                {{ $result }}%
+                <input type="hidden" data-row="{{ $row }}" data-column="{{ $key + 1 }}" value="{{ $result }}">
             </td>
         <tr>
     @empty
@@ -105,30 +93,22 @@
         @foreach ($months as $key => $month)
             <td class="month-footer">
                 @php
-                    $result1 = App\Models\TotalStaticCheckPoint::where('year', $year)->where('month', $key)
-                        ->where('type', App\Models\TotalStaticCheckPoint::getTypes()[$type == 'Custo Direto' ? 0 : 1])
-                        ->sum('result');
-
-                    $result2 = App\Models\TotalStaticCheckPoint::where('year', $year)->where('month', $key)
-                        ->where('type', App\Models\TotalStaticCheckPoint::getTypes()[$id2])
-                        ->sum('result');
+                    $result = App\Models\TotalStaticCheckPoint::getTotal($year, $key, null,
+                                                                        App\Models\TotalStaticCheckPoint::getTypes()[$id1],
+                                                                        App\Models\TotalStaticCheckPoint::getTypes()[$id2]);
                 @endphp
-                {{ $result1 + $result2 > 0 ? number_format(100 * ($result1 / ($result1 + $result2)),0) : 0 }}%
-                <input type="hidden" data-row="{{ $key }}" data-column="{{ $key }}"  value="{{ $result1 + $result2 > 0 ? number_format(100 * ($result1 / ($result1 + $result2)),0) : 0 }}">
+                {{ $result  }}%
+                <input type="hidden" data-row="{{ $key }}" data-column="{{ $key }}"  value="{{ $result }}">
             </td>
         @endforeach
         <td class="month-total-footer">
             @php
-                $result1 = App\Models\TotalStaticCheckPoint::where('year', $year)
-                    ->where('type', App\Models\TotalStaticCheckPoint::getTypes()[$type == 'Custo Direto' ? 0 : 1])
-                    ->sum('result');
-
-                $result2 = App\Models\TotalStaticCheckPoint::where('year', $year)
-                    ->where('type', App\Models\TotalStaticCheckPoint::getTypes()[$id2])
-                    ->sum('result');
+                $result = App\Models\TotalStaticCheckPoint::getTotal($year, null, null,
+                                                                    App\Models\TotalStaticCheckPoint::getTypes()[$id1],
+                                                                    App\Models\TotalStaticCheckPoint::getTypes()[$id2]);
             @endphp
-            {{ $result1 + $result2 > 0 ? number_format(100 * ($result1 / ($result1 + $result2)),0) : 0 }}%
-            <input type="hidden" data-row="-1" data-column="{{ $key + 1 }}" value="{{ $result1 + $result2 > 0 ? number_format(100 * ($result1 / ($result1 + $result2)),0) : 0 }}">
+            {{ $result  }}%
+            <input type="hidden" data-row="-1" data-column="{{ $key + 1 }}" value="{{ $result }}">
         </td>
     </tr>
 </tfoot>

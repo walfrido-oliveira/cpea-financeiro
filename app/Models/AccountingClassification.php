@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Support\Str;
 use App\Models\AccountingConfig;
+use App\Models\TotalStaticCheckPoint;
 use Illuminate\Database\Eloquent\Model;
 use ChrisKonnertz\StringCalc\StringCalc;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -257,10 +258,13 @@ class AccountingClassification extends Model
             foreach ($matches as $value2)
             {
                 $result = explode("&", $value2[1]);
+                $workingDaysType = '';
+                $sum = 0;
 
                 if(count($result) >= 2)
                 {
                   $classification = self::where('classification', $result[0])->where('name', $result[1])->first();
+                  $workingDaysType = isset($result[2]) ? $result[3] : '';
                 }
                 else {
                   $classification = self::where('classification', $result[0])->first();
@@ -268,21 +272,50 @@ class AccountingClassification extends Model
 
                 if($classification)
                 {
-                    $sum=0;
                     $accountingControl = AccountingControl::where('month', $month)
                     ->where('year', $year)
                     ->first();
 
                     if($accountingControl)
                     {
-                        $accountingAnalytics = $accountingControl->accountingAnalytics()->where('accounting_classification_id', $classification->id)->first();
-                        if($accountingAnalytics)
+                        if($workingDaysType == '')
                         {
-                            $sum += $accountingAnalytics->value;
+                            $accountingAnalytics = $accountingControl->accountingAnalytics()->where('accounting_classification_id', $classification->id)->first();
+                            if($accountingAnalytics)  {
+                                $sum += $accountingAnalytics->value;
+                            }
+                            else {
+                                $sum = $classification->getTotalClassificationDRE($month, $year, true);
+                            }
                         }
                         else
                         {
-                            $sum = $classification->getTotalClassificationDRE($month, $year, true);
+                            switch ($workingDaysType)
+                            {
+                                case 'CUSTOS INDIRETOS':
+                                    $sum = TotalStaticCheckPoint::getTotal($year, $month, $classification->classification_id,
+                                    TotalStaticCheckPoint::getTypes()[1],
+                                    TotalStaticCheckPoint::getTypes()[0]);
+                                    break;
+
+                                case 'CUSTOS DIRETO':
+                                    $sum = TotalStaticCheckPoint::getTotal($year, $month, $classification->classification_id,
+                                    TotalStaticCheckPoint::getTypes()[0],
+                                    TotalStaticCheckPoint::getTypes()[1]);
+                                    break;
+
+                                case 'TOTAL':
+                                    $result1 = TotalStaticCheckPoint::getTotal($year, $month, $classification->classification_id,
+                                    TotalStaticCheckPoint::getTypes()[1],
+                                    TotalStaticCheckPoint::getTypes()[0]);
+
+                                    $result2 = TotalStaticCheckPoint::getTotal($year, $month, $classification->classification_id,
+                                    TotalStaticCheckPoint::getTypes()[0],
+                                    TotalStaticCheckPoint::getTypes()[1]);
+
+                                    $sum = $result1 + $result2;
+                                    break;
+                            }
                         }
                     }
                   if($classification->unity == "%") $sum = $sum / 100;

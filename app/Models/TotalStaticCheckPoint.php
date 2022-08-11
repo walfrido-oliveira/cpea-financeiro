@@ -66,4 +66,51 @@ class TotalStaticCheckPoint extends Model
 
         return $result->paginate($perPage);
     }
+
+    /**
+     * Get total
+     *
+     * @param int $year
+     * @param int $month
+     * @param int $classification_id
+     * @param string $type1
+     * @param string $type2
+     *
+     * @return double
+     */
+    public static function getTotal($year, $month, $classification_id, $type1, $type2)
+    {
+        $result1 = self::setQueryToral($year, $month, $classification_id, $type1)->sum('result');
+        $result2 = self::setQueryToral($year, $month, $classification_id, $type2)->sum('result');
+        return $result1 + $result2 > 0 ? number_format(100 * ($result1 / ($result1 + $result2)), 0) : 0;
+    }
+
+    /**
+     * @param int $year
+     * @param int $month
+     * @param int $classification_id
+     * @param string $type1
+     * @param string $type2
+     */
+    private static function setQueryToral($year, $month, $classification_id, $type)
+    {
+        return self::where(function($q) use ($year, $month, $classification_id, $type) {
+            if($year)
+            {
+                $q->where('year', $year);
+            }
+
+            if($month)
+            {
+                $q->where('month', $month);
+            }
+
+            if($classification_id)
+            {
+                $q->where('classification_id', $classification_id);
+            }
+
+            $q->where('type', $type);
+        });
+    }
 }
