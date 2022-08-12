@@ -299,13 +299,13 @@ class AccountingClassification extends Model
                                 case 'CUSTOS INDIRETOS':
                                     $sum = TotalStaticCheckPoint::getTotal($year, $month, $classification->classification,
                                     TotalStaticCheckPoint::getTypes()[1],
-                                    TotalStaticCheckPoint::getTypes()[0]) / 100;
+                                    TotalStaticCheckPoint::getTypes()[0]);
                                     break;
 
                                 case 'CUSTOS DIRETO':
                                     $sum = TotalStaticCheckPoint::getTotal($year, $month, $classification->classification,
                                     TotalStaticCheckPoint::getTypes()[0],
-                                    TotalStaticCheckPoint::getTypes()[1]) / 100;
+                                    TotalStaticCheckPoint::getTypes()[1]);
                                     break;
 
                                 case 'TOTAL':
@@ -315,7 +315,7 @@ class AccountingClassification extends Model
 
                                     $result2 = TotalStaticCheckPoint::getTotal($year, $month, $classification->classification,
                                     TotalStaticCheckPoint::getTypes()[0],
-                                    TotalStaticCheckPoint::getTypes()[1]) / 100;
+                                    TotalStaticCheckPoint::getTypes()[1]);
 
                                     $sum = $result1 + $result2;
                                     break;
@@ -331,7 +331,7 @@ class AccountingClassification extends Model
             if(Str::contains($formulaText, '0/0')) return 0;
             $result = $stringCalc->calculate($formulaText);
 
-            return $this->unity == 'R$' ? round($result, 0, PHP_ROUND_HALF_UP) : $result;
+            return $this->unity == 'R$' && !$sub  ? round($result, 0, PHP_ROUND_HALF_UP) : $result;
         }
         return 0;
     }

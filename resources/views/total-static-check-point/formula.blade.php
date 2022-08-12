@@ -58,8 +58,8 @@
                                                                             App\Models\TotalStaticCheckPoint::getTypes()[$id1],
                                                                             App\Models\TotalStaticCheckPoint::getTypes()[$id2]);
                     @endphp
-                    {{ $result  }}%
-                    <input type="hidden" data-row="{{ $row }}" data-column="{{ $key }}" value="{{ $result }}">
+                    {{ $result * 100  }}%
+                    <input type="hidden" data-row="{{ $row }}" data-column="{{ $key }}" value="{{ $result * 100 }}">
                 </td>
             @endforeach
 
@@ -76,8 +76,8 @@
                                                                         App\Models\TotalStaticCheckPoint::getTypes()[$id1],
                                                                         App\Models\TotalStaticCheckPoint::getTypes()[$id2]);
                 @endphp
-                {{ $result }}%
-                <input type="hidden" data-row="{{ $row }}" data-column="{{ $key + 1 }}" value="{{ $result }}">
+                {{ $result * 100 }}%
+                <input type="hidden" data-row="{{ $row }}" data-column="{{ $key + 1 }}" value="{{ $result * 100 }}">
             </td>
         <tr>
     @empty
@@ -97,8 +97,8 @@
                                                                         App\Models\TotalStaticCheckPoint::getTypes()[$id1],
                                                                         App\Models\TotalStaticCheckPoint::getTypes()[$id2]);
                 @endphp
-                {{ $result  }}%
-                <input type="hidden" data-row="{{ $key }}" data-column="{{ $key }}"  value="{{ $result }}">
+                {{ $result * 100  }}%
+                <input type="hidden" data-row="{{ $key }}" data-column="{{ $key }}"  value="{{ $result * 100 }}">
             </td>
         @endforeach
         <td class="month-total-footer">
