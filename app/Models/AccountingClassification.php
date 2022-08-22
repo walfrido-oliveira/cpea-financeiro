@@ -322,7 +322,7 @@ class AccountingClassification extends Model
                             }
                         }
                     }
-                  if($classification->unity == "%") $sum = $sum / 100;
+                    if($classification->unity == "%") $sum = $sum / 100;
                 }
                 $formulaText = Str::replace($value2[0], $sum, $formulaText);
             }
