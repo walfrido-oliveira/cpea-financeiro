@@ -120,7 +120,7 @@ class AccountingConfigController extends Controller
                 'year' => $input['year']
             ]);
         } else {
-            $result = AccountingConfig::where('month', $input['month'])->where('year', $input['year']);
+            $result = AccountingConfig::where('month', $input['month'])->where('year', $input['year'])->first();
         }
 
         if($input['retiradas_gerenciais'] == 'true')
