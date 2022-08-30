@@ -329,7 +329,13 @@ class AccountingClassification extends Model
 
             $stringCalc = new StringCalc();
             if(Str::contains($formulaText, '0/0')) return 0;
-            $result = $stringCalc->calculate($formulaText);
+
+            try {
+                $result = $stringCalc->calculate($formulaText);
+            } catch (\Throwable $th) {
+               dd($formula);
+            }
+
 
             return $this->unity == 'R$' && !$sub  ? round($result, 0, PHP_ROUND_HALF_UP) : $result;
         }

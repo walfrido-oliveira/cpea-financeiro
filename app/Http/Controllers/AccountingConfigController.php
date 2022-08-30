@@ -119,61 +119,59 @@ class AccountingConfigController extends Controller
                 'month' => $input['month'],
                 'year' => $input['year']
             ]);
-
-            if($input['retiradas_gerenciais'] == 'true')
-            {
-
-                foreach ($accountingConfigRef->accountingClassifications()->where('type_classification', 'Retiradas Gerenciais')->get() as $accountingClassification)
-                {
-                    $result->accountingClassifications()->attach($accountingClassification->id);
-                }
-            }
-
-            if($input['resultado_exercicio'] == 'true')
-            {
-
-                foreach ($accountingConfigRef->accountingClassifications()->where('type_classification', 'Resultado do Exercício')->get() as $accountingClassification)
-                {
-                    $result->accountingClassifications()->attach($accountingClassification->id);
-                }
-            }
-
-            if($input['dre'] == 'true')
-            {
-
-                foreach ($accountingConfigRef->accountingClassifications()->where('type_classification', 'DRE')->get() as $accountingClassification)
-                {
-                    $result->accountingClassifications()->attach($accountingClassification->id);
-                }
-            }
-
-            if($input['dre_ajustavel'] == 'true')
-            {
-
-                foreach ($accountingConfigRef->accountingClassifications()->where('type_classification', 'DRE Ajustável')->get() as $accountingClassification)
-                {
-                    $result->accountingClassifications()->attach($accountingClassification->id);
-                }
-            }
-
-            if($input['formula'] == 'true')
-            {
-                foreach ($accountingConfigRef->formulas as $formula)
-                {
-                    $result->formulas()->attach($formula->id);
-                }
-            }
-
-            return response()->json([
-                'message' => __('Configuração duplicada com sucesso!'),
-                'alert-type' => 'success'
-            ]);
         } else {
-            return response()->json([
-                'message' => __('Essa configuração já foi adicionada'),
-                'alert-type' => 'error'
-            ]);
+            $result = AccountingConfig::where('month', $input['month'])->where('year', $input['year']);
         }
+
+        if($input['retiradas_gerenciais'] == 'true')
+        {
+
+            foreach ($accountingConfigRef->accountingClassifications()->where('type_classification', 'Retiradas Gerenciais')->get() as $accountingClassification)
+            {
+                $result->accountingClassifications()->attach($accountingClassification->id);
+            }
+        }
+
+        if($input['resultado_exercicio'] == 'true')
+        {
+
+            foreach ($accountingConfigRef->accountingClassifications()->where('type_classification', 'Resultado do Exercício')->get() as $accountingClassification)
+            {
+                $result->accountingClassifications()->attach($accountingClassification->id);
+            }
+        }
+
+        if($input['dre'] == 'true')
+        {
+
+            foreach ($accountingConfigRef->accountingClassifications()->where('type_classification', 'DRE')->get() as $accountingClassification)
+            {
+                $result->accountingClassifications()->attach($accountingClassification->id);
+            }
+        }
+
+        if($input['dre_ajustavel'] == 'true')
+        {
+
+            foreach ($accountingConfigRef->accountingClassifications()->where('type_classification', 'DRE Ajustável')->get() as $accountingClassification)
+            {
+                $result->accountingClassifications()->attach($accountingClassification->id);
+            }
+        }
+
+        if($input['formula'] == 'true')
+        {
+            foreach ($accountingConfigRef->formulas as $formula)
+            {
+                $result->formulas()->attach($formula->id);
+            }
+        }
+
+        return response()->json([
+            'message' => __('Configuração duplicada com sucesso!'),
+            'alert-type' => 'success'
+        ]);
+
 
     }
 
