@@ -125,7 +125,6 @@ class AccountingConfigController extends Controller
 
         if($input['retiradas_gerenciais'] == 'true')
         {
-
             foreach ($accountingConfigRef->accountingClassifications()->where('type_classification', 'Retiradas Gerenciais')->get() as $accountingClassification)
             {
                 $result->accountingClassifications()->attach($accountingClassification->id);
@@ -134,8 +133,7 @@ class AccountingConfigController extends Controller
 
         if($input['resultado_exercicio'] == 'true')
         {
-
-            foreach ($accountingConfigRef->accountingClassifications()->where('type_classification', 'Resultado do Exercício')->get() as $accountingClassification)
+            foreach ($accountingConfigRef->accountingClassifications()->where('type_classification', 'Resultados do Exercício')->get() as $accountingClassification)
             {
                 $result->accountingClassifications()->attach($accountingClassification->id);
             }
@@ -143,7 +141,6 @@ class AccountingConfigController extends Controller
 
         if($input['dre'] == 'true')
         {
-
             foreach ($accountingConfigRef->accountingClassifications()->where('type_classification', 'DRE')->get() as $accountingClassification)
             {
                 $result->accountingClassifications()->attach($accountingClassification->id);
@@ -152,7 +149,6 @@ class AccountingConfigController extends Controller
 
         if($input['dre_ajustavel'] == 'true')
         {
-
             foreach ($accountingConfigRef->accountingClassifications()->where('type_classification', 'DRE Ajustável')->get() as $accountingClassification)
             {
                 $result->accountingClassifications()->attach($accountingClassification->id);
