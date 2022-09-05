@@ -333,7 +333,7 @@ class AccountingClassification extends Model
             try {
                 $result = $stringCalc->calculate($formulaText);
             } catch (\Throwable $th) {
-               dd($formula);
+                abort(500 , "Erro ao calcular formula $formula->id: $formulaText");
             }
 
 
