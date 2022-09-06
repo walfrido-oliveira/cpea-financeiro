@@ -403,6 +403,9 @@
                     document.getElementById("spin_load").classList.add("hidden");
                     toastr.success(resp.message);
 
+                    var modal = document.getElementById("accounting_config_duplicate_modal");
+                    modal.classList.add("hidden");
+
                     location.reload();
                 } else if (this.readyState == 4 && this.status != 200) {
                     document.getElementById("spin_load").classList.add("hidden");
