@@ -218,9 +218,12 @@ class AccountingClassification extends Model
         ->where('year', $year)
         ->first();
 
-        foreach ($accountingConfig->accountingClassifications as $accountingClassification)
+        if($accountingConfig)
         {
-            $total += $accountingClassification->getTotalClassificationWithdrawal($month, $year);
+            foreach ($accountingConfig->accountingClassifications as $accountingClassification)
+            {
+                $total += $accountingClassification->getTotalClassificationWithdrawal($month, $year);
+            }
         }
         return $total;
     }
