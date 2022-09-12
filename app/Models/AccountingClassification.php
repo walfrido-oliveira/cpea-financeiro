@@ -189,16 +189,10 @@ class AccountingClassification extends Model
 
                 if($classification)
                 {
-                    $sum=0;
-                    $withdrawals = Withdrawal::where('accounting_classification_id', $classification->id)
+                    $sum = Withdrawal::where('accounting_classification_id', $classification->id)
                     ->where('month', $month)
                     ->where('year', $year)
-                    ->get();
-
-                    foreach ($withdrawals as $withdrawal)
-                    {
-                        $sum += $withdrawal->value;
-                    }
+                    ->sum('value');
                 }
                 $formulaText = Str::replace($value2[0], $sum, $formulaText);
             }
@@ -220,10 +214,11 @@ class AccountingClassification extends Model
     public static function getTotalClassificationByMonthWithdrawal($month, $year)
     {
         $total = 0;
-        $accountingClassifications = self::where('type_classification', 'Retiradas Gerenciais')
-        ->where('unity', 'R$')
-        ->get();
-        foreach ($accountingClassifications as $accountingClassification)
+        $accountingConfig = AccountingConfig::where('month', $month)
+        ->where('year', $year)
+        ->first();
+
+        foreach ($accountingConfig->accountingClassifications as $accountingClassification)
         {
             $total += $accountingClassification->getTotalClassificationWithdrawal($month, $year);
         }
