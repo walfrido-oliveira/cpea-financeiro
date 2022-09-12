@@ -160,9 +160,19 @@ class AccountingClassification extends Model
      */
     public function getTotalClassificationWithdrawal($month, $year)
     {
-        $formula = Formula::where('accounting_classification_id', $this->id)
-        ->where('type_classification', 'Retiradas Gerenciais')
+        $accountingConfig = AccountingConfig::where('month', $month)
+        ->where('year', $year)
         ->first();
+
+        $formula = null;
+        if($accountingConfig)
+        {
+            $formula = $accountingConfig->formulas()
+            ->where('accounting_classification_id', $this->id)
+            ->first();
+        }
+
+        $formula = Formula::where('accounting_classification_id', $this->id)->first();
 
         if($formula)
         {
