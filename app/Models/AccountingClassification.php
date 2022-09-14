@@ -183,7 +183,7 @@ class AccountingClassification extends Model
             {
                 $result = explode("&", $value2[1]);
 
-                $classification = self::where('classification', $result[0])->first();
+                $classification = self::where('classification', $result[0])->where('name', $result[1])->first();
 
                 if($classification)
                 {
@@ -193,14 +193,14 @@ class AccountingClassification extends Model
                     ->first();
                     if($withdrawal) {
                       $sum = $withdrawal->value;
-                    } else {
+                    } elseif($classification->type_classification == 'RETIRADAS GERENCIAIS') {
                       $sum = $classification->getTotalClassificationWithdrawal($month, $year);
                     }
                 }
                 $formulaText = Str::replace($value2[0], $sum, $formulaText);
             }
             $stringCalc = new StringCalc();
-            if(Str::contains($formulaText, '0/0')) return 0;
+            if(Str::contains($formulaText, '/0')) return 0;
             $result = $stringCalc->calculate($formulaText);
             return $this->unity == 'R$' ? round($result, 0, PHP_ROUND_HALF_UP) : $result;
         }
@@ -223,7 +223,7 @@ class AccountingClassification extends Model
 
         if($accountingConfig)
         {
-            foreach ($accountingConfig->accountingClassifications as $accountingClassification)
+            foreach ($accountingConfig->accountingClassifications()->where('type_classification', 'RETIRADAS GERENCIAIS')->get() as $accountingClassification)
             {
                 $total += $accountingClassification->getTotalClassificationWithdrawal($month, $year);
             }
