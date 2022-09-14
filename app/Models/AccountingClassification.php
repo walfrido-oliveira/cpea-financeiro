@@ -172,8 +172,6 @@ class AccountingClassification extends Model
             ->first();
         }
 
-        $formula = Formula::where('accounting_classification_id', $this->id)->first();
-
         if($formula)
         {
             $re = '/{(.*?)}/m';
@@ -199,7 +197,7 @@ class AccountingClassification extends Model
             $stringCalc = new StringCalc();
             if(Str::contains($formulaText, '0/0')) return 0;
             $result = $stringCalc->calculate($formulaText);
-            return $this->unity == 'R$' ? (int) $result : $result;
+            return $this->unity == 'R$' ? round($result, 0, PHP_ROUND_HALF_UP) : $result;
         }
         return 0;
     }
