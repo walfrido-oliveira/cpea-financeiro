@@ -187,10 +187,15 @@ class AccountingClassification extends Model
 
                 if($classification)
                 {
-                    $sum = Withdrawal::where('accounting_classification_id', $classification->id)
+                    $withdrawal = Withdrawal::where('accounting_classification_id', $classification->id)
                     ->where('month', $month)
                     ->where('year', $year)
-                    ->sum('value');
+                    ->first();
+                    if($withdrawal) {
+                      $sum = $withdrawal->value;
+                    } else {
+                      $sum = $classification->getTotalClassificationWithdrawal($month, $year);
+                    }
                 }
                 $formulaText = Str::replace($value2[0], $sum, $formulaText);
             }
