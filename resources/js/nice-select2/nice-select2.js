@@ -180,7 +180,7 @@ NiceSelect.prototype._renderItems = function() {
 NiceSelect.prototype._renderItem = function(option) {
   var el = document.createElement("li");
   el.setAttribute("data-value", option.data.value);
-  el.setAttribute("title", option.option.data.text);
+  el.setAttribute("title", option.data.text);
 
   var classList = [
     "option",

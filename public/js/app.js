@@ -5132,7 +5132,7 @@ NiceSelect.prototype._renderItem = function (option) {
 
   var el = document.createElement("li");
   el.setAttribute("data-value", option.data.value);
-  el.setAttribute("title", option.option.data.text);
+  el.setAttribute("title", option.data.text);
   var classList = ["option", option.attributes.selected ? "selected" : null, option.attributes.disabled ? "disabled" : null];
 
   (_el$classList = el.classList).add.apply(_el$classList, classList);
