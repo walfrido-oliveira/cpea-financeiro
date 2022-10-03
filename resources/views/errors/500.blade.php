@@ -2,4 +2,4 @@
 
 @section('title', __('Server Error'))
 @section('code', '500')
-@section('message', {!! $exception->getMessage() !!})
+@section('message', $exception->getMessage())
