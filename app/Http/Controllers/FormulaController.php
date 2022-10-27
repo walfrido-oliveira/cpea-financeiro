@@ -78,15 +78,6 @@ class FormulaController extends Controller
             'conditional_formula' => $input['conditional_formula'],
         ]);
 
-        /*foreach ($input['months'] as $value)
-        {
-            if(!$value) continue;
-            MonthFormula::create([
-                'formula_id' => $formula->id,
-                'month' => $value
-            ]);
-        }*/
-
         $resp = [
             'message' => __('Formula Cadastrada com Sucesso!'),
             'alert-type' => 'success'
@@ -157,20 +148,6 @@ class FormulaController extends Controller
             'conditional_value' => $input['conditional_value'],
             'conditional_formula' => $input['conditional_formula'],
         ]);
-
-        /*foreach ($formula->months as $value)
-        {
-           $value->delete();
-        }
-
-        foreach ($input['months'] as $value)
-        {
-            if(!$value) continue;
-            MonthFormula::create([
-                'formula_id' => $formula->id,
-                'month' => $value
-            ]);
-        }*/
 
         $resp = [
             'message' => __('Formula Atualizada com Sucesso!'),

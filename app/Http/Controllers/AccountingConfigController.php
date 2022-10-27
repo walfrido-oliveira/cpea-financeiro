@@ -486,17 +486,19 @@ class AccountingConfigController extends Controller
         if ($key == 0) continue;
 
         try {
-            $formula = Formula::create([
+            $formula = Formula::updateOrCreate([
                 'accounting_classification_id' => $value[0],
                 'type_classification' => $value[1],
                 'formula' => $value[2],
                 'obs' => $value[3],
             ]);
+
+            $accountingConfig->formulas()->attach($formula->id);
+
         } catch (\Throwable $th) {
             //throw $th;
         }
 
-        $accountingConfig->formulas()->attach($formula->id);
     }
 
     return response()->json([
