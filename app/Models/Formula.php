@@ -21,7 +21,7 @@ class Formula extends Model
 
     public function getFullNameAttribute()
     {
-        return $this->accountingClassification->description . ' = ' . $this->formula;
+        return ($this->accountingClassification ? $this->accountingClassification->description : '') . ' = ' . $this->formula;
     }
 
      /**
