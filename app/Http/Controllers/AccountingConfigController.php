@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Formula;
 use Illuminate\Http\Request;
 use App\Models\AccountingConfig;
+use PhpOffice\PhpSpreadsheet\IOFactory;
 use App\Models\AccountingClassification;
-use App\Models\Formula;
+use Illuminate\Support\Facades\Validator;
 
 class AccountingConfigController extends Controller
 {
@@ -443,4 +445,63 @@ class AccountingConfigController extends Controller
                 ])->render(),
             ]);
     }
+
+    /**
+   * Import formulas
+   *
+   * @param  Request  $request
+   * @param int $year
+   * @param int $month
+   * @return \Illuminate\Http\Response
+   */
+  public function importFormula(Request $request, $year, $month)
+  {
+    $validator = Validator::make(
+        $request->all(),
+        [
+          'file' => 'required|mimes:xls,xlsx|max:4096',
+        ]
+      );
+
+    if ($validator->fails()) {
+    return response()->json([
+        'message' => implode("<br>", $validator->messages()->all()),
+        'alert-type' => 'error'
+    ], 403);
+    }
+
+    $accountingConfig = AccountingConfig::where('month', $month)->where('year', $year)->first();
+
+    if(!$accountingConfig) return response()->json([
+        'message' => "ano/mês não encontrado",
+        'alert-type' => 'error'
+    ], 403);
+
+    $spreadsheet = IOFactory::load($request->file->path());
+    $worksheet = $spreadsheet->getActiveSheet();
+    $rows = $worksheet->toArray();
+
+    foreach ($rows as $key => $value)
+    {
+        if ($key == 0) continue;
+
+        try {
+            $formula = Formula::create([
+                'accounting_classification_id' => $value[0],
+                'type_classification' => $value[1],
+                'formula' => $value[2],
+                'obs' => $value[3],
+            ]);
+        } catch (\Throwable $th) {
+            //throw $th;
+        }
+
+        $accountingConfig->formulas()->attach($formula->id);
+    }
+
+    return response()->json([
+        'message' => __('Formulas importadas com Sucesso!!'),
+        'alert-type' => 'success'
+    ]);
+  }
 }

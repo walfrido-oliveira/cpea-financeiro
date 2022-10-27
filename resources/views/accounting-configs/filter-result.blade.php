@@ -265,18 +265,21 @@
         </tr>
 
         <tr class="point-items-{{ $accountingConfig->id }}" data-type="item-formula" data-year="{{ $accountingConfig->year }}" data-month="{{ $accountingConfig->month }}" data-classification="Resultado do Exercicio">
-            <td style="padding-left: 3.5rem !important;" class="font-bold">Classificação</td>
+            <td style="padding-left: 3.5rem !important;" class="font-bold">
+                <input class="form-checkbox formula-select-all mr-2" data-type="item-formula" data-id="{{$accountingConfig->id }}"  type="checkbox" data-year="{{ $accountingConfig->year }}" data-month="{{ $accountingConfig->month }}">
+                Classificação
+            </td>
             <td style="padding-left: 3.5rem !important;" class="font-bold">Fórmula</td>
             <td style="padding-left: 3.5rem !important;" class="font-bold">Observações</td>
             <td style="padding-left: 3.5rem !important;" class="font-bold">Ação</td>
         </tr>
         @foreach ($accountingConfig->formulas as $formula)
-            <tr class="point-items-{{ $accountingConfig->id }}" data-type="item-formula" data-year="{{ $accountingConfig->year }}" data-month="{{ $accountingConfig->month }}">
+            <tr class="point-items-{{ $accountingConfig->id }}" data-id="{{$accountingConfig->id }}" data-type="item-formula" data-year="{{ $accountingConfig->year }}" data-month="{{ $accountingConfig->month }}">
                 <td style="padding-left: 3.5rem!important;">
                     <div class="flex">
                         <input class="form-checkbox formula-url mr-2" data-id="{{$accountingConfig->id }}"  type="checkbox" name="formula[{{ $formula->id }}]" value="{{ $formula->id }}">
                         <a class="text-item-table" href="{{ route('formulas.edit', ['formula' => $formula->id]) }}">
-                            {{ $formula->accountingClassification->classification }}
+                            {{ $formula->accountingClassification ? $formula->accountingClassification->classification : '' }}
                         </a>
                     </div>
                 </td>

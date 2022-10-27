@@ -232,6 +232,7 @@ Route::group(['middleware' => ['auth:sanctum', 'verified']], function() {
         Route::post('/store', [AccountingConfigController::class, 'store'])->name('store');
         Route::post('/duplicate', [AccountingConfigController::class, 'duplicate'])->name('duplicate');
         Route::post('/filter', [AccountingConfigController::class, 'filter'])->name('filter');
+        Route::post('/import-formula/{year}/{month}', [AccountingConfigController::class, 'importFormula'])->name('import-formula');
         Route::post('/add-classificacao/{year}/{month}', [AccountingConfigController::class, 'addClassification'])->name('add-Classification');
         Route::post('/add-formula/{year}/{month}', [AccountingConfigController::class, 'addFormula'])->name('add-formula');
         Route::delete('/delete-classificacao/{classification}/{config}', [AccountingConfigController::class, 'deleteClassification'])->name('delete-classification');

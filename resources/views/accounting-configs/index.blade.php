@@ -3,7 +3,7 @@
         <div class="md:max-w-6xl lg:max-w-full mx-auto px-4">
 
             <div class="flex md:flex-row flex-col">
-                <div class="w-full flex items-center">
+                <div class="w-1/3 flex items-center">
                     <h1>{{ __('Configurações de Retirada') }}</h1>
                 </div>
                 <div class="w-full flex justify-end">
@@ -11,20 +11,19 @@
                         <button id="btn_delete" type="button" class="btn-outline-danger">{{ __('Apagar') }}</button>
                     </div>
                     <div class="m-2 ">
-                        <button id="btn_duplicate" type="button"
-                            class="btn-outline-info">{{ __('+ Duplicar') }}</button>
+                        <button id="btn_duplicate" type="button" class="btn-outline-info">{{ __('+ Duplicar') }}</button>
                     </div>
                     <div class="m-2 ">
-                        <button id="btn_add_classification" type="button"
-                            class="btn-outline-info">{{ __('+ Classificação') }}</button>
+                        <button id="btn_add_classification" type="button" class="btn-outline-info">{{ __('+ Classificação') }}</button>
                     </div>
                     <div class="m-2 ">
-                        <button id="btn_add_formula" type="button"
-                            class="btn-outline-info">{{ __('+ Formula') }}</button>
+                        <button id="btn_add_formula" type="button" class="btn-outline-info">{{ __('+ Formula') }}</button>
                     </div>
                     <div class="m-2 ">
-                        <button id="btn_add_config" type="button"
-                            class="btn-outline-info">{{ __('+ Mês/Ano') }}</button>
+                        <button id="btn_add_config" type="button" class="btn-outline-info">{{ __('+ Mês/Ano') }}</button>
+                    </div>
+                    <div class="m-2 ">
+                        <button type="button" id="btn_import_formula" type="button" class="btn-outline-info">{{ __('Importar Formula') }}</button>
                     </div>
                 </div>
             </div>
@@ -70,8 +69,15 @@
     @include('accounting-configs.duplicate-modal')
     @include('accounting-configs.add-classification-modal')
     @include('accounting-configs.add-formula-modal')
+    @include('accounting-configs.import-formula-modal')
 
     <x-spin-load />
+
+    <x-modal title="{{ __('Excluir Configuração') }}"
+    msg="{{ __('Deseja realmente apagar esse otem?') }}"
+    confirm="{{ __('Sim') }}" cancel="{{ __('Não') }}" id="delete_accounting_config_modal"
+    method="DELETE"
+    redirect-url="{{ route('accounting-configs.index') }}"/>
 
 
     <script>
@@ -202,6 +208,12 @@
             modal.classList.add("block");
         });
 
+        document.getElementById("btn_import_formula").addEventListener("click", function() {
+            var modal = document.getElementById("import_formula_modal");
+            modal.classList.remove("hidden");
+            modal.classList.add("block");
+        });
+
         document.getElementById("accounting_config_cancel_modal").addEventListener("click", function(e) {
             var modal = document.getElementById("accounting_config_modal");
             modal.classList.add("hidden");
@@ -219,6 +231,11 @@
 
         document.getElementById("add_formula_cancel_modal").addEventListener("click", function(e) {
             var modal = document.getElementById("add_formula_modal");
+            modal.classList.add("hidden");
+        });
+
+        document.getElementById("import_formula_cancel_modal").addEventListener("click", function(e) {
+            var modal = document.getElementById("import_formula_modal");
             modal.classList.add("hidden");
         });
 
@@ -508,6 +525,44 @@
             ajax.send(data);
 
         });
+
+        document.getElementById("import_formula_confirm_modal").addEventListener("click", function(e) {
+            document.getElementById("spin_load").classList.remove("hidden");
+
+            let ajax = new XMLHttpRequest();
+            let token = document.querySelector('meta[name="csrf-token"]').content;
+            let method = 'POST';
+            let month = document.querySelector("#import_formula_modal #month").value;
+            let year = document.querySelector("#import_formula_modal #year").value;
+            let files = document.querySelector("#import_formula_modal #file").files;
+            let url = "{!! route('accounting-configs.import-formula', ['month' => '#1', 'year' => '#2']) !!}".replace('#1', month).replace('#2', year);
+
+            ajax.open(method, url);
+
+            ajax.onreadystatechange = function() {
+                if (this.readyState == 4 && this.status == 200) {
+                    var resp = JSON.parse(ajax.response);
+                    toastr.success(resp.message);
+
+                    location.reload();
+                } else if (this.readyState == 4 && this.status != 200) {
+                    document.getElementById("spin_load").classList.add("hidden");
+                    toastr.error("{!! __('Um erro ocorreu ao solicitar a consulta') !!}");
+                }
+            }
+
+            var data = new FormData();
+            data.append('_token', token);
+            data.append('_method', method);
+            data.append('month', month);
+            data.append('year', year);
+            data.append('formula_id', formula_id);
+            data.append('all_formulas', all_formulas);
+            data.append('file', files[0]);
+
+            ajax.send(data);
+
+        });
     </script>
 
     <script>
@@ -637,6 +692,20 @@
 
             eventsDeleteCallback();
             eventsFilterCallback();
+        });
+
+        document.querySelectorAll(".formula-select-all").forEach(item => {
+            item.addEventListener("click", function() {
+                if (this.checked == true){
+                    document.querySelectorAll(`input[type='checkbox'][data-id='${this.dataset.id}']`).forEach(item2 => {
+                        item2.checked = true;
+                    });
+                } else {
+                    document.querySelectorAll(`input[type='checkbox'][data-id='${this.dataset.id}']`).forEach(item2 => {
+                        item2.checked = false;
+                    });
+                }
+            });
         });
     </script>
 
