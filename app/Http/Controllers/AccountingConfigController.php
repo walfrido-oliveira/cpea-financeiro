@@ -493,7 +493,9 @@ class AccountingConfigController extends Controller
                 'obs' => $value[3],
             ]);
 
-            $accountingConfig->formulas()->attach($formula->id);
+            if(!$accountingConfig->formulas()->where('formula_id', $formula->id)->exists()) {
+                $accountingConfig->formulas()->attach($formula->id);
+            }
 
         } catch (\Throwable $th) {
             //throw $th;
