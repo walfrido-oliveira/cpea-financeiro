@@ -28,7 +28,8 @@ class EmployeeController extends Controller
             'occupation_type' => ['required', 'string', 'in:ADMINISTRATIVO,COMERCIAL,PROJETO'],
             'employee_id' => ['required', 'string'],
             'admitted_at' => ['required', 'date'],
-            'working_day_id' => ['required', 'exists:working_days,id']
+            'working_day_id' => ['required', 'exists:working_days,id'],
+            'hour_cost' => ['nullable', 'numeric']
         ]);
 
     }
@@ -87,6 +88,7 @@ class EmployeeController extends Controller
             'employee_id' => $input['employee_id'],
             'admitted_at' => $input['admitted_at'],
             'working_day_id' => $input['working_day_id'],
+            'hour_cost' => $input['hour_cost'],
         ]);
 
         $resp = [
@@ -153,6 +155,7 @@ class EmployeeController extends Controller
             'employee_id' => $input['employee_id'],
             'admitted_at' => $input['admitted_at'],
             'working_day_id' => $input['working_day_id'],
+            'hour_cost' => $input['hour_cost'],
         ]);
 
         $resp = [

@@ -23,7 +23,8 @@ class Employee extends Model
         'occupation_type',
         'employee_id',
         'admitted_at',
-        'working_day_id'
+        'working_day_id',
+        'hour_cost'
     ];
 
     /**

@@ -70,6 +70,13 @@
                             <x-custom-select :options="$departments" name="department_id" id="department_id" required :value="$employee->department_id"/>
                         </div>
                     </div>
+
+                    <div class="flex flex-wrap mx-4 px-3 py-2 mt-4">
+                        <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
+                            <x-jet-label for="hour_cost" value="{{ __('Custo Hora') }}" required/>
+                            <x-jet-input id="hour_cost" class="form-control block mt-1 w-full" type="number" name="hour_cost" step="any" required autofocus autocomplete="hour_cost" :value="$employee->hour_cost"/>
+                        </div>
+                    </div>
                 </div>
             </form>
         </div>

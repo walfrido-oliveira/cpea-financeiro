@@ -30,7 +30,7 @@
                         </div>
                         <div class="w-full md:w-1/3 px-3 mb-6 md:mb-0">
                             <x-jet-label for="admitted_at" value="{{ __('Data de Amissão') }}" required/>
-                            <x-jet-input id="admitted_at" class="form-control block mt-1 w-full" type="date" name="admitted_at" maxlength="255" required autofocus autocomplete="admitted_at" placeholder="{{ __('Data de Amissão') }}"/>
+                            <x-jet-input id="admitted_at" class="form-control block mt-1 w-full" type="date" name="admitted_at" required autofocus autocomplete="admitted_at" placeholder="{{ __('Data de Amissão') }}"/>
                         </div>
                         <div class="w-full md:w-1/3 px-3 mb-6 md:mb-0">
                             <x-jet-label for="working_day_id" value="{{ __('Jornada de Trabalho') }}" required/>
@@ -71,6 +71,12 @@
                         </div>
                     </div>
 
+                    <div class="flex flex-wrap mx-4 px-3 py-2 mt-4">
+                        <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
+                            <x-jet-label for="hour_cost" value="{{ __('Custo Hora') }}" required/>
+                            <x-jet-input id="hour_cost" class="form-control block mt-1 w-full" type="number" name="hour_cost" step="any" required autofocus autocomplete="hour_cost"/>
+                        </div>
+                    </div>
                 </div>
             </form>
         </div>
