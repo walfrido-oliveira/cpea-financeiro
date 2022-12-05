@@ -29,8 +29,8 @@ class EmployeeController extends Controller
             'occupation_id' => ['required', 'exists:occupations,id'],
             'direction_id' => ['required', 'exists:directions,id'],
             'department_id' => ['required', 'exists:departments,id'],
-            'user_id' => ['required', 'exists:users,id'],
-            'manager_id' => ['required', 'exists:users,id'],
+            'name' => ['required', 'string', 'max:255'],
+            'manager_id' => ['required', 'exists:employees,id'],
             'occupation_type_id' => ['required', 'string', 'exists:occupation_types,id'],
             'employee_id' => ['required', 'string'],
             'admitted_at' => ['required', 'date'],
@@ -67,12 +67,12 @@ class EmployeeController extends Controller
         $occupations  = Occupation::all()->pluck('name', 'id');
         $directions = Direction::all()->pluck('name', 'id');
         $departments = Department::all()->pluck('name', 'id');
-        $users = User::all()->pluck('name', 'id');
+        $employees = Employee::all()->pluck('name', 'id');
         $occupationTypes = OccupationType::all()->pluck('name', 'id');
         $workingDays = WorkingDay::all()->pluck('full_description', 'id');
         $workRegimes = WorkRegime::all()->pluck('name', 'id');
 
-        return view('employees.create', compact('occupations', 'directions', 'departments', 'users', 'occupationTypes', 'workingDays', 'workRegimes'));
+        return view('employees.create', compact('occupations', 'directions', 'departments', 'employees', 'occupationTypes', 'workingDays', 'workRegimes'));
     }
 
     /**
@@ -91,7 +91,7 @@ class EmployeeController extends Controller
             'occupation_id' => $input['occupation_id'],
             'direction_id' => $input['direction_id'],
             'department_id' => $input['department_id'],
-            'user_id' => $input['user_id'],
+            'name' => $input['name'],
             'manager_id' => $input['manager_id'],
             'occupation_type_id' => $input['occupation_type_id'],
             'employee_id' => $input['employee_id'],
@@ -134,12 +134,12 @@ class EmployeeController extends Controller
         $occupations  = Occupation::all()->pluck('name', 'id');
         $directions = Direction::all()->pluck('name', 'id');
         $departments = Department::all()->pluck('name', 'id');
-        $users = User::all()->pluck('name', 'id');
+        $employees = Employee::all()->pluck('name', 'id');
         $occupationTypes = OccupationType::all()->pluck('name', 'id');
         $workingDays = WorkingDay::all()->pluck('full_description', 'id');
         $workRegimes = WorkRegime::all()->pluck('name', 'id');
 
-        return view('employees.edit', compact('employee', 'occupations', 'directions', 'departments', 'users', 'occupationTypes', 'workingDays', 'workRegimes'));
+        return view('employees.edit', compact('employee', 'occupations', 'directions', 'departments', 'employees', 'occupationTypes', 'workingDays', 'workRegimes'));
     }
 
     /**
@@ -161,7 +161,7 @@ class EmployeeController extends Controller
             'occupation_id' => $input['occupation_id'],
             'direction_id' => $input['direction_id'],
             'department_id' => $input['department_id'],
-            'user_id' => $input['user_id'],
+            'name' => $input['name'],
             'manager_id' => $input['manager_id'],
             'occupation_type_id' => $input['occupation_type_id'],
             'employee_id' => $input['employee_id'],
@@ -256,7 +256,6 @@ class EmployeeController extends Controller
             {
                 if($key < 1) continue;
 
-                //$employee = Employee::where('employee_id', $value[2])->first();
                 $workRegime = WorkRegime::where('name', $value[0])->first();
                 $departament = Department::where('name', $value[4])->first();
                 $occupation = Occupation::where('name', $value[5])->first();
@@ -293,6 +292,7 @@ class EmployeeController extends Controller
                 $date = explode("/", $value[1]);
 
                 $validator = Validator::make([
+                    'name' => $value[3],
                     'work_regime_id' => $workRegime ? $workRegime->id : null,
                     'admitted_at' => \Carbon\Carbon::create($date[2], $date[1], $date[0]),
                     'employee_id' => $value[2],
@@ -303,6 +303,7 @@ class EmployeeController extends Controller
                     'hour_cost' => Str::replace(",", "", $value[24]),
                 ],
                 [
+                    'name' => ['string', 'max:255', 'required'],
                     'occupation_id' => ['required', 'exists:occupations,id'],
                     'department_id' => ['required', 'exists:departments,id'],
                     'occupation_type_id' => ['required', 'exists:occupation_types,id'],
@@ -320,9 +321,14 @@ class EmployeeController extends Controller
 
                 if (!$validator->fails())
                 {
-                    Employee::updateOrCreate([
+                    $employee = Employee::firstOrCreate([
+                        'employee_id' => $value[2],
+                    ]);
+                   // dd(\Carbon\Carbon::create($date[2] * 100, $date[1], $date[0])->format("Y-m-d"));
+                    $employee->update([
+                        'name' => $value[3],
                         'work_regime_id' => $workRegime ? $workRegime->id : null,
-                        'admitted_at' => \Carbon\Carbon::create($date[2], $date[1], $date[0]),
+                        'admitted_at' => \Carbon\Carbon::create($date[2] , $date[1], $date[0])->format("Y-m-d"),
                         'employee_id' => $value[2],
                         'department_id' => $departament ? $departament->id : null,
                         'occupation_id' => $occupation ? $occupation->id : null,

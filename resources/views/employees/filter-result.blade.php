@@ -3,9 +3,6 @@
         <x-table-sort-header :orderBy="null" :ascending="null" columnName="" columnText="{{ __('') }}"/>
         <x-table-sort-header :orderBy="$orderBy" :ascending="$ascending" columnName="employee_id" columnText="{{ __('Matrícula') }}"/>
         <x-table-sort-header :orderBy="$orderBy" :ascending="$ascending" columnName="user_id" columnText="{{ __('Colaborador') }}"/>
-        <x-table-sort-header :orderBy="$orderBy" :ascending="$ascending" columnName="users.email" columnText="{{ __('Email') }}"/>
-        <x-table-sort-header :orderBy="$orderBy" :ascending="$ascending" columnName="users.role" columnText="{{ __('Nível') }}"/>
-        <x-table-sort-header :orderBy="$orderBy" :ascending="$ascending" columnName="users.status" columnText="{{ __('Status') }}"/>
         <x-table-sort-header :orderBy="$orderBy" :ascending="$ascending" columnName="manager_id" columnText="{{ __('Gestor Imediato') }}"/>
         <th scope="col"
             class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
@@ -23,38 +20,11 @@
                 <a class="text-item-table" href="{{ route('employees.show', ['employee' => $employee->id]) }}">{{ $employee->employee_id }}</a>
             </td>
             <td>
-                <a class="text-item-table" href="{{ route('employees.show', ['employee' => $employee->id]) }}">{{ $employee->user ? $employee->user->full_name : '-' }}</a>
+                <a class="text-item-table" href="{{ route('employees.show', ['employee' => $employee->id]) }}">{{ $employee->name }}</a>
             </td>
             <td>
-                <a class="text-item-table" href="{{ route('employees.show', ['employee' => $employee->id]) }}">{{ $employee->user ? $employee->user->email : '-' }}</a>
+                <a class="text-item-table" href="{{ route('employees.show', ['employee' => $employee->id]) }}">{{ $employee->manager ? $employee->manager->name : '-' }}</a>
             </td>
-            @if ($employee->user)
-                @php
-                    $roles = $employee->user->roles->pluck("name")->all();
-                    $rolesResult = [];
-                    foreach ($roles as $key => $value)
-                    {
-                        $rolesResult[ $key ] = __($value);
-                    }
-                @endphp
-            @endif
-
-            <td>
-                <a class="text-item-table" href="{{ route('employees.show', ['employee' => $employee->id]) }}">
-                    {{ $employee->user ? implode(", ", $rolesResult) : '-' }}
-                </a>
-            </td>
-            <td>
-                @if ($employee->user)
-                    <span class="w-24 py-1 @if($employee->user->status == "active") badge-success @elseif($employee->user->status == 'inactive') badge-danger @endif" >
-                        {{ __($employee->user->status) }}
-                    </span>
-                @endif
-            </td>
-            <td>
-                <a class="text-item-table" href="{{ route('employees.show', ['employee' => $employee->id]) }}">{{ $employee->manager ? $employee->manager->full_name : '-' }}</a>
-            </td>
-
             <td>
                 <a class="btn-transition-warning" href="{{ route('employees.edit', ['employee' => $employee->id]) }}">
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">

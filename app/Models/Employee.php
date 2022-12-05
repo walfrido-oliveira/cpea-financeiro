@@ -18,7 +18,7 @@ class Employee extends Model
         'occupation_id',
         'direction_id',
         'department_id',
-        'user_id',
+        'name',
         'manager_id',
         'occupation_type_id',
         'employee_id',
@@ -38,13 +38,6 @@ class Employee extends Model
         'admitted_at' => 'date',
     ];
 
-    /**
-     * The user
-     */
-    public function user()
-    {
-        return $this->belongsTo(User::class);
-    }
 
     /**
      * The work regime
@@ -67,7 +60,7 @@ class Employee extends Model
      */
     public function manager()
     {
-        return $this->belongsTo(User::class, 'manager_id', 'id');
+        return $this->belongsTo(Employee::class, 'manager_id', 'id');
     }
 
     /**
