@@ -7,6 +7,13 @@
                     <h1>{{ __('Colaborador') }}</h1>
                 </div>
                 <div class="w-full flex justify-end">
+                    <form action="{{ route('accounting-controls.import') }}" method="POST">
+                        @csrf
+                        @method("POST")
+                        <div class="m-2 ">
+                            <button id="import" type="button" class="btn-outline-info">{{ __('Importar') }}</button>
+                        </div>
+                    </form>
                     <div class="m-2 ">
                         <a class="btn-outline-info" href="{{ route('employees.create') }}" >{{ __('Cadastrar') }}</a>
                     </div>
@@ -45,6 +52,10 @@
         </div>
     </div>
 
+    @include('employees.create-modal')
+
+    <x-spin-load />
+
     <x-modal title="{{ __('Excluir Colaborador') }}"
              msg="{{ __('Deseja realmente apagar esse Colaborador?') }}"
              confirm="{{ __('Sim') }}" cancel="{{ __('Não') }}" id="delete_employee_modal"
@@ -52,6 +63,53 @@
              redirect-url="{{ route('employees.index') }}"/>
 
     <script>
+        document.getElementById("import").addEventListener("click", function() {
+            var modal = document.getElementById("import_modal");
+            modal.classList.remove("hidden");
+            modal.classList.add("block");
+        });
+
+        document.getElementById("import_cancel_modal").addEventListener("click", function(e) {
+            var modal = document.getElementById("import_modal");
+            modal.classList.add("hidden");
+        });
+
+        document.getElementById("import_confirm_modal").addEventListener("click", function(e) {
+            document.getElementById("spin_load").classList.remove("hidden");
+
+            let ajax = new XMLHttpRequest();
+            let url = "{!! route('employees.import') !!}";
+            let token = document.querySelector('meta[name="csrf-token"]').content;
+            let method = 'POST';
+            let file = document.getElementById("file")
+            let files = file.files;
+
+            ajax.open(method, url);
+
+            ajax.onreadystatechange = function() {
+                if (this.readyState == 4 && this.status == 200) {
+                    var resp = JSON.parse(ajax.response);
+                    document.getElementById("spin_load").classList.add("hidden");
+                    toastr.success(resp.message);
+                    file.value='';
+
+                    location.reload();
+                } else if(this.readyState == 4 && this.status != 200) {
+                    document.getElementById("spin_load").classList.add("hidden");
+                    toastr.error("{!! __('Um erro ocorreu ao solicitar a consulta') !!}");
+                    file.value = '';
+                }
+            }
+
+            var data = new FormData();
+            data.append('_token', token);
+            data.append('_method', method);
+            data.append('file', files[0]);
+
+            ajax.send(data);
+
+        });
+
         window.addEventListener("load", function() {
             var filterCallback = function (event) {
                 var ajax = new XMLHttpRequest();

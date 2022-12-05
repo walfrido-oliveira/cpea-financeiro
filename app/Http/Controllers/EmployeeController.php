@@ -2,13 +2,19 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Department;
-use App\Models\Direction;
-use App\Models\Employee;
-use App\Models\Occupation;
 use App\Models\User;
+use App\Models\Employee;
+use App\Models\Direction;
+use App\Models\Department;
+use App\Models\Occupation;
 use App\Models\WorkingDay;
+use App\Models\WorkRegime;
+use Illuminate\Support\Str;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
+use App\Models\OccupationType;
+use PhpOffice\PhpSpreadsheet\IOFactory;
+use Illuminate\Support\Facades\Validator;
 
 class EmployeeController extends Controller
 {
@@ -25,11 +31,13 @@ class EmployeeController extends Controller
             'department_id' => ['required', 'exists:departments,id'],
             'user_id' => ['required', 'exists:users,id'],
             'manager_id' => ['required', 'exists:users,id'],
-            'occupation_type' => ['required', 'string', 'in:ADMINISTRATIVO,COMERCIAL,PROJETO'],
+            'occupation_type_id' => ['required', 'string', 'exists:occupation_types,id'],
             'employee_id' => ['required', 'string'],
             'admitted_at' => ['required', 'date'],
             'working_day_id' => ['required', 'exists:working_days,id'],
-            'hour_cost' => ['nullable', 'numeric']
+            'hour_cost' => ['nullable', 'numeric'],
+            'month_cost' => ['nullable', 'numeric'],
+            'work_regime_id' => ['nullable', 'exists:work_regimes,id'],
         ]);
 
     }
@@ -60,10 +68,11 @@ class EmployeeController extends Controller
         $directions = Direction::all()->pluck('name', 'id');
         $departments = Department::all()->pluck('name', 'id');
         $users = User::all()->pluck('name', 'id');
-        $occupationTypes = ['ADMINISTRATIVO' => 'ADMINISTRATIVO', 'COMERCIAL' => 'COMERCIAL', 'PROJETO' => 'PROJETO'];
+        $occupationTypes = OccupationType::all()->pluck('name', 'id');
         $workingDays = WorkingDay::all()->pluck('full_description', 'id');
+        $workRegimes = WorkRegime::all()->pluck('name', 'id');
 
-        return view('employees.create', compact('occupations', 'directions', 'departments', 'users', 'occupationTypes', 'workingDays'));
+        return view('employees.create', compact('occupations', 'directions', 'departments', 'users', 'occupationTypes', 'workingDays', 'workRegimes'));
     }
 
     /**
@@ -84,11 +93,13 @@ class EmployeeController extends Controller
             'department_id' => $input['department_id'],
             'user_id' => $input['user_id'],
             'manager_id' => $input['manager_id'],
-            'occupation_type' => $input['occupation_type'],
+            'occupation_type_id' => $input['occupation_type_id'],
             'employee_id' => $input['employee_id'],
             'admitted_at' => $input['admitted_at'],
             'working_day_id' => $input['working_day_id'],
             'hour_cost' => $input['hour_cost'],
+            'month_cost' => $input['month_cost'],
+            'work_regime_id' => $input['work_regime_id'],
         ]);
 
         $resp = [
@@ -124,10 +135,11 @@ class EmployeeController extends Controller
         $directions = Direction::all()->pluck('name', 'id');
         $departments = Department::all()->pluck('name', 'id');
         $users = User::all()->pluck('name', 'id');
-        $occupationTypes = ['ADMINISTRATIVO' => 'ADMINISTRATIVO', 'COMERCIAL' => 'COMERCIAL', 'PROJETO' => 'PROJETO'];
+        $occupationTypes = OccupationType::all()->pluck('name', 'id');
         $workingDays = WorkingDay::all()->pluck('full_description', 'id');
+        $workRegimes = WorkRegime::all()->pluck('name', 'id');
 
-        return view('employees.edit', compact('employee', 'occupations', 'directions', 'departments', 'users', 'occupationTypes', 'workingDays'));
+        return view('employees.edit', compact('employee', 'occupations', 'directions', 'departments', 'users', 'occupationTypes', 'workingDays', 'workRegimes'));
     }
 
     /**
@@ -151,11 +163,13 @@ class EmployeeController extends Controller
             'department_id' => $input['department_id'],
             'user_id' => $input['user_id'],
             'manager_id' => $input['manager_id'],
-            'occupation_type' => $input['occupation_type'],
+            'occupation_type_id' => $input['occupation_type_id'],
             'employee_id' => $input['employee_id'],
             'admitted_at' => $input['admitted_at'],
             'working_day_id' => $input['working_day_id'],
             'hour_cost' => $input['hour_cost'],
+            'month_cost' => $input['month_cost'],
+            'work_regime_id' => $input['work_regime_id'],
         ]);
 
         $resp = [
@@ -207,5 +221,133 @@ class EmployeeController extends Controller
                 'paginate_per_page' => $paginatePerPage,
                 ])->render(),
             ]);
+    }
+
+
+    /**
+     * Import Resource
+     *
+     * * @param  Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function import(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'file' => 'required|mimes:xls,xlsx,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet|max:4096',
+        ]);
+
+        if ($validator->fails())
+        {
+            return response()->json($validator->messages(), Response::HTTP_BAD_REQUEST);
+        }
+
+        $inputs = $request->all();
+
+        if($request->file)
+        {
+
+            $spreadsheet = IOFactory::load($request->file->path());
+            $worksheet = $spreadsheet->getActiveSheet();
+            $rows = $worksheet->toArray();
+            $notImport = [];
+            $totalImported=0;
+
+            foreach($rows as $key => $value)
+            {
+                if($key < 1) continue;
+
+                //$employee = Employee::where('employee_id', $value[2])->first();
+                $workRegime = WorkRegime::where('name', $value[0])->first();
+                $departament = Department::where('name', $value[4])->first();
+                $occupation = Occupation::where('name', $value[5])->first();
+                $occupationType = OccupationType::where('name', $value[22])->first();
+
+                if(!$workRegime)
+                {
+                    $workRegime = WorkRegime::create([
+                        'name' => $value[0]
+                    ]);
+                }
+
+                if(!$departament)
+                {
+                    Department::create([
+                        'name' => $value[4]
+                    ]);
+                }
+
+                if(!$occupation)
+                {
+                    $occupation = Occupation::create([
+                        'name' => $value[5]
+                    ]);
+                }
+
+                if(!$occupationType)
+                {
+                    $occupationType = OccupationType::create([
+                        'name' => $value[22]
+                    ]);
+                }
+
+                $date = explode("/", $value[1]);
+
+                $validator = Validator::make([
+                    'work_regime_id' => $workRegime ? $workRegime->id : null,
+                    'admitted_at' => \Carbon\Carbon::create($date[2], $date[1], $date[0]),
+                    'employee_id' => $value[2],
+                    'department_id' => $departament ? $departament->id : null,
+                    'occupation_id' => $occupation ? $occupation->id : null,
+                    'month_cost' => Str::replace(",", "", $value[21]),
+                    'occupation_type_id' => $occupationType ? $occupationType->id : null,
+                    'hour_cost' => Str::replace(",", "", $value[24]),
+                ],
+                [
+                    'occupation_id' => ['required', 'exists:occupations,id'],
+                    'department_id' => ['required', 'exists:departments,id'],
+                    'occupation_type_id' => ['required', 'exists:occupation_types,id'],
+                    'employee_id' => ['required'],
+                    'admitted_at' => ['required', 'date'],
+                    'hour_cost' => ['nullable', 'numeric'],
+                    'month_cost' => ['nullable', 'numeric'],
+                    'work_regime_id' => ['nullable', 'exists:work_regimes,id'],
+                ]);
+
+                if ($validator->fails())
+                {
+                    return response()->json($validator->messages(), Response::HTTP_BAD_REQUEST);
+                }
+
+                if (!$validator->fails())
+                {
+                    Employee::updateOrCreate([
+                        'work_regime_id' => $workRegime ? $workRegime->id : null,
+                        'admitted_at' => \Carbon\Carbon::create($date[2], $date[1], $date[0]),
+                        'employee_id' => $value[2],
+                        'department_id' => $departament ? $departament->id : null,
+                        'occupation_id' => $occupation ? $occupation->id : null,
+                        'month_cost' => Str::replace(",", "", $value[21]),
+                        'occupation_type_id' => $occupationType ? $occupationType->id : null,
+                        'hour_cost' => Str::replace(",", "", $value[24]),
+                    ]);
+
+                    $totalImported++;
+                }else{
+                  $notImport[] = $value[0];
+                }
+            }
+
+            return response()->json([
+                'message' => __('Arquivo importado com sucesso!'),
+                'alert-type' => 'success',
+                'not_imported' => $notImport,
+                'total_imported' =>  $totalImported
+            ]);
+        }
+
+        return response()->json([
+            'message' => __('Arquivo não importado!'),
+            'alert-type' => 'error'
+        ]);
     }
 }

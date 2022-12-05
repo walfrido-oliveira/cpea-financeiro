@@ -24,15 +24,23 @@
 
                 <div class="py-2 my-2 bg-white rounded-lg min-h-screen">
                     <div class="flex flex-wrap mx-4 px-3 py-2 mt-4">
-                        <div class="w-full md:w-1/3 px-3 mb-6 md:mb-0">
+                        <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
                             <x-jet-label for="employee_id" value="{{ __('Matrícula') }}" required/>
                             <x-jet-input id="employee_id" class="form-control block mt-1 w-full" type="text" name="employee_id" maxlength="255" required autofocus autocomplete="employee_id" placeholder="{{ __('Matrícula') }}"/>
                         </div>
-                        <div class="w-full md:w-1/3 px-3 mb-6 md:mb-0">
+                        <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
+                            <x-jet-label for="work_regime_id" value="{{ __('Regime') }}" required/>
+                            <x-custom-select :options="$workRegimes" name="work_regime_id" id="work_regime_id" required :value="old('work_regime_id')"/>
+                        </div>
+
+                    </div>
+
+                    <div class="flex flex-wrap mx-4 px-3 py-2 mt-4">
+                        <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
                             <x-jet-label for="admitted_at" value="{{ __('Data de Amissão') }}" required/>
                             <x-jet-input id="admitted_at" class="form-control block mt-1 w-full" type="date" name="admitted_at" required autofocus autocomplete="admitted_at" placeholder="{{ __('Data de Amissão') }}"/>
                         </div>
-                        <div class="w-full md:w-1/3 px-3 mb-6 md:mb-0">
+                        <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
                             <x-jet-label for="working_day_id" value="{{ __('Jornada de Trabalho') }}" required/>
                             <x-custom-select class="mt-1" :options="$workingDays" name="working_day_id" id="working_day_id" required :value="old('working_day_id')"/>
                         </div>
@@ -41,7 +49,7 @@
                     <div class="flex flex-wrap mx-4 px-3 py-2 mt-4">
                         <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
                             <x-jet-label for="user_id" value="{{ __('Usuário') }}" required/>
-                            <x-custom-select :options="$users" name="user_id" id="user_id" required :value="old('Usuário')"/>
+                            <x-custom-select :options="$users" name="user_id" id="user_id" required :value="old('user_id')"/>
                         </div>
                         <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
                             <x-jet-label for="manager_id" value="{{ __('Gestor Imediato') }}" required/>
@@ -55,8 +63,8 @@
                             <x-custom-select :options="$occupations" name="occupation_id" id="occupation_id" required :value="old('occupation_id')"/>
                         </div>
                         <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
-                            <x-jet-label for="occupation_type" value="{{ __('Tipo') }}" required/>
-                            <x-custom-select :options="$occupationTypes" name="occupation_type" id="occupation_type" required :value="old('occupation_type')"/>
+                            <x-jet-label for="occupation_type_id" value="{{ __('Tipo') }}" required/>
+                            <x-custom-select :options="$occupationTypes" name="occupation_type_id" id="occupation_type" required :value="old('occupation_type_id')"/>
                         </div>
                     </div>
 
@@ -72,6 +80,10 @@
                     </div>
 
                     <div class="flex flex-wrap mx-4 px-3 py-2 mt-4">
+                        <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
+                            <x-jet-label for="month_cost" value="{{ __('Custo Mês') }}" required/>
+                            <x-jet-input id="month_cost" class="form-control block mt-1 w-full" type="number" name="month_cost" step="any" required autofocus autocomplete="month_cost"/>
+                        </div>
                         <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
                             <x-jet-label for="hour_cost" value="{{ __('Custo Hora') }}" required/>
                             <x-jet-input id="hour_cost" class="form-control block mt-1 w-full" type="number" name="hour_cost" step="any" required autofocus autocomplete="hour_cost"/>

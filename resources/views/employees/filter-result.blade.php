@@ -23,29 +23,36 @@
                 <a class="text-item-table" href="{{ route('employees.show', ['employee' => $employee->id]) }}">{{ $employee->employee_id }}</a>
             </td>
             <td>
-                <a class="text-item-table" href="{{ route('employees.show', ['employee' => $employee->id]) }}">{{ $employee->user->full_name }}</a>
+                <a class="text-item-table" href="{{ route('employees.show', ['employee' => $employee->id]) }}">{{ $employee->user ? $employee->user->full_name : '-' }}</a>
             </td>
             <td>
-                <a class="text-item-table" href="{{ route('employees.show', ['employee' => $employee->id]) }}">{{ $employee->user->email }}</a>
+                <a class="text-item-table" href="{{ route('employees.show', ['employee' => $employee->id]) }}">{{ $employee->user ? $employee->user->email : '-' }}</a>
             </td>
-            @php
-                $roles = $employee->user->roles->pluck("name")->all();
-                $rolesResult = [];
-                foreach ($roles as $key => $value)
-                {
-                    $rolesResult[ $key ] = __($value);
-                }
-            @endphp
+            @if ($employee->user)
+                @php
+                    $roles = $employee->user->roles->pluck("name")->all();
+                    $rolesResult = [];
+                    foreach ($roles as $key => $value)
+                    {
+                        $rolesResult[ $key ] = __($value);
+                    }
+                @endphp
+            @endif
+
             <td>
-                <a class="text-item-table" href="{{ route('employees.show', ['employee' => $employee->id]) }}">{{ implode(", ", $rolesResult) }}</a>
+                <a class="text-item-table" href="{{ route('employees.show', ['employee' => $employee->id]) }}">
+                    {{ $employee->user ? implode(", ", $rolesResult) : '-' }}
+                </a>
             </td>
             <td>
-                <span class="w-24 py-1 @if($employee->user->status == "active") badge-success @elseif($employee->user->status == 'inactive') badge-danger @endif" >
-                    {{ __($employee->user->status) }}
-                </span>
+                @if ($employee->user)
+                    <span class="w-24 py-1 @if($employee->user->status == "active") badge-success @elseif($employee->user->status == 'inactive') badge-danger @endif" >
+                        {{ __($employee->user->status) }}
+                    </span>
+                @endif
             </td>
             <td>
-                <a class="text-item-table" href="{{ route('employees.show', ['employee' => $employee->id]) }}">{{ $employee->manager->full_name }}</a>
+                <a class="text-item-table" href="{{ route('employees.show', ['employee' => $employee->id]) }}">{{ $employee->manager ? $employee->manager->full_name : '-' }}</a>
             </td>
 
             <td>

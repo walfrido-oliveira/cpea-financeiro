@@ -110,7 +110,6 @@
             var data = new FormData();
             data.append('_token', token);
             data.append('_method', method);
-            data.append('_method', method);
             data.append('file', files[0]);
             data.append('month', month);
             data.append('year', year);

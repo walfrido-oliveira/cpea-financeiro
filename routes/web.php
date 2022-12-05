@@ -90,6 +90,7 @@ Route::group(['middleware' => ['auth:sanctum', 'verified']], function() {
 
     Route::prefix('colacoradores')->name('employees.')->group(function(){
         Route::post('/filter', [EmployeeController::class, 'filter'])->name('filter');
+        Route::post('/import', [EmployeeController::class, 'import'])->name('import');
     });
 
     /** DIRECTION */

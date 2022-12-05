@@ -20,11 +20,13 @@ class Employee extends Model
         'department_id',
         'user_id',
         'manager_id',
-        'occupation_type',
+        'occupation_type_id',
         'employee_id',
         'admitted_at',
         'working_day_id',
-        'hour_cost'
+        'hour_cost',
+        'month_cost',
+        'work_regime_id'
     ];
 
     /**
@@ -42,6 +44,22 @@ class Employee extends Model
     public function user()
     {
         return $this->belongsTo(User::class);
+    }
+
+    /**
+     * The work regime
+     */
+    public function workRegime()
+    {
+        return $this->belongsTo(WorkRegime::class);
+    }
+
+    /**
+     * The occupation type
+     */
+    public function occupationType()
+    {
+        return $this->belongsTo(OccupationType::class);
     }
 
     /**
