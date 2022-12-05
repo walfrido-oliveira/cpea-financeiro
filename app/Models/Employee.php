@@ -38,6 +38,59 @@ class Employee extends Model
         'admitted_at' => 'date',
     ];
 
+     /**
+     * Write code on Method
+     *
+     * @return response()
+     */
+    public static function boot() {
+
+        parent::boot();
+
+        /**
+         * Write code on Method
+         *
+         * @return response()
+         */
+        self::created(function($employee) {
+            EmployeeLog::create([
+                'user_id' => auth()->user()->id,
+                'employee_id' => $employee->id,
+                'name' => 'hour_cost',
+                'value' => $employee->hour_cost
+            ]);
+
+            EmployeeLog::create([
+                'user_id' => auth()->user()->id,
+                'employee_id' => $employee->id,
+                'name' => 'month_cost',
+                'value' => $employee->month_cost
+            ]);
+        });
+
+        /**
+         * Write code on Method
+         *
+         * @return response()
+         */
+        self::updated(function($employee) {
+            EmployeeLog::create([
+                'user_id' => auth()->user()->id,
+                'employee_id' => $employee->id,
+                'name' => 'hour_cost',
+                'value' => $employee->hour_cost
+            ]);
+
+            EmployeeLog::create([
+                'user_id' => auth()->user()->id,
+                'employee_id' => $employee->id,
+                'name' => 'month_cost',
+                'value' => $employee->month_cost
+            ]);
+        });
+
+    }
+
 
     /**
      * The work regime

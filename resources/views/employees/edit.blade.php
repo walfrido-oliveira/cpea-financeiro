@@ -82,16 +82,62 @@
                         <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
                             <x-jet-label for="month_cost" value="{{ __('Custo Mês') }}" required/>
                             <x-jet-input id="month_cost" class="form-control block mt-1 w-full" type="number" name="month_cost" step="any" required autofocus autocomplete="month_cost" :value="$employee->month_cost"/>
+                            <small><a href="#" class="show_logs" data-name="month_cost">Histórico de alterações</a></small>
                         </div>
                         <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
                             <x-jet-label for="hour_cost" value="{{ __('Custo Hora') }}" required/>
                             <x-jet-input id="hour_cost" class="form-control block mt-1 w-full" type="number" name="hour_cost" step="any" required autofocus autocomplete="hour_cost" :value="$employee->hour_cost"/>
+                            <small><a href="#" class="show_logs" data-name="hour_cost">Histórico de alterações</a></small>
                         </div>
                     </div>
                 </div>
             </form>
         </div>
     </div>
+
+    <div id="logs_container_modal">
+
+    </div>
+
+    <x-spin-load />
+
+    <script>
+        document.querySelectorAll(".show_logs").forEach(item => {
+            item.addEventListener("click", function() {
+                document.getElementById("spin_load").classList.remove("hidden");
+
+                let name = item.dataset.name;
+                let ajax = new XMLHttpRequest();
+                let url = "{!! route('employees.log', ['employee_id' => $employee->id, 'name' => '#']) !!}".replace("#", name);
+                let token = document.querySelector('meta[name="csrf-token"]').content;
+                let method = 'POST';
+
+                ajax.open(method, url);
+
+                ajax.onreadystatechange = function() {
+                    if (this.readyState == 4 && this.status == 200) {
+                        var resp = JSON.parse(ajax.response);
+                        document.getElementById("logs_container_modal").classList.remove("hidden");
+                        document.getElementById("spin_load").classList.add("hidden");
+                        document.getElementById("logs_container_modal").innerHTML = resp.modal;
+                        document.getElementById("logs_container_modal").addEventListener("click", function() {
+                            document.getElementById("logs_container_modal").classList.add("hidden");
+                        });
+                    } else if(this.readyState == 4 && this.status != 200) {
+                        document.getElementById("spin_load").classList.add("hidden");
+                        toastr.error("{!! __('Um erro ocorreu ao solicitar a consulta') !!}");
+                    }
+                }
+
+                var data = new FormData();
+                data.append('_token', token);
+                data.append('_method', method);
+
+                ajax.send(data);
+
+            });
+        });
+    </script>
 
 
 </x-app-layout>

@@ -15,6 +15,7 @@ use App\Http\Controllers\OccupationController;
 use App\Http\Controllers\WithdrawalController;
 use App\Http\Controllers\WorkingDayController;
 use App\Http\Controllers\EmailConfigController;
+use App\Http\Controllers\EmployeeLogController;
 use App\Http\Controllers\TemplateEmailController;
 use App\Http\Controllers\PointManagementController;
 use App\Http\Controllers\AccountingConfigController;
@@ -90,6 +91,7 @@ Route::group(['middleware' => ['auth:sanctum', 'verified']], function() {
 
     Route::prefix('colacoradores')->name('employees.')->group(function(){
         Route::post('/filter', [EmployeeController::class, 'filter'])->name('filter');
+        Route::post('/log/{employee_id}/{name}', [EmployeeLogController::class, 'listLog'])->name('log');
         Route::post('/import', [EmployeeController::class, 'import'])->name('import');
     });
 

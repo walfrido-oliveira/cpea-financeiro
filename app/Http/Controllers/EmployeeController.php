@@ -9,6 +9,7 @@ use App\Models\Department;
 use App\Models\Occupation;
 use App\Models\WorkingDay;
 use App\Models\WorkRegime;
+use App\Models\EmployeeLog;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -321,20 +322,33 @@ class EmployeeController extends Controller
 
                 if (!$validator->fails())
                 {
-                    $employee = Employee::firstOrCreate([
-                        'employee_id' => $value[2],
-                    ]);
-                    $employee->update([
-                        'name' => $value[3],
-                        'work_regime_id' => $workRegime ? $workRegime->id : null,
-                        'admitted_at' => \Carbon\Carbon::create($date[2] , $date[1], $date[0])->format("Y-m-d"),
-                        'employee_id' => $value[2],
-                        'department_id' => $departament ? $departament->id : null,
-                        'occupation_id' => $occupation ? $occupation->id : null,
-                        'month_cost' => Str::replace([",", " "], "", $value[21]),
-                        'occupation_type_id' => $occupationType ? $occupationType->id : null,
-                        'hour_cost' => Str::replace([",", " "], "", $value[24]),
-                    ]);
+                    $employee = Employee::where("employee_id", $value[2])->first();
+
+                    if($employee) {
+                        $employee->update([
+                            'name' => $value[3],
+                            'work_regime_id' => $workRegime ? $workRegime->id : null,
+                            'admitted_at' => \Carbon\Carbon::create($date[2] , $date[1], $date[0])->format("Y-m-d"),
+                            'employee_id' => $value[2],
+                            'department_id' => $departament ? $departament->id : null,
+                            'occupation_id' => $occupation ? $occupation->id : null,
+                            'month_cost' => Str::replace([",", " "], "", $value[21]),
+                            'occupation_type_id' => $occupationType ? $occupationType->id : null,
+                            'hour_cost' => Str::replace([",", " "], "", $value[24]),
+                        ]);
+                    } else {
+                        Employee::create([
+                            'name' => $value[3],
+                            'work_regime_id' => $workRegime ? $workRegime->id : null,
+                            'admitted_at' => \Carbon\Carbon::create($date[2] , $date[1], $date[0])->format("Y-m-d"),
+                            'employee_id' => $value[2],
+                            'department_id' => $departament ? $departament->id : null,
+                            'occupation_id' => $occupation ? $occupation->id : null,
+                            'month_cost' => Str::replace([",", " "], "", $value[21]),
+                            'occupation_type_id' => $occupationType ? $occupationType->id : null,
+                            'hour_cost' => Str::replace([",", " "], "", $value[24]),
+                        ]);
+                    }
 
                     $totalImported++;
                 }else{
@@ -355,4 +369,5 @@ class EmployeeController extends Controller
             'alert-type' => 'error'
         ]);
     }
+
 }

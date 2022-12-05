@@ -129,12 +129,12 @@
     <script>
         function eventsDeleteCallback() {
             document.querySelectorAll('.delete-accounting-classification').forEach(item => {
-            item.addEventListener("click", function() {
-                var modal = document.getElementById("delete_accounting_classification_modal");
-                modal.classList.remove("hidden");
-                modal.classList.add("block");
-            })
-        });
+                item.addEventListener("click", function() {
+                    var modal = document.getElementById("delete_accounting_classification_modal");
+                    modal.classList.remove("hidden");
+                    modal.classList.add("block");
+                })
+            });
         }
 
         eventsDeleteCallback();
