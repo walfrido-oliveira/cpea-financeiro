@@ -270,7 +270,7 @@ class EmployeeController extends Controller
 
                 if(!$departament)
                 {
-                    Department::create([
+                    $departament = Department::create([
                         'name' => $value[4]
                     ]);
                 }
@@ -298,9 +298,9 @@ class EmployeeController extends Controller
                     'employee_id' => $value[2],
                     'department_id' => $departament ? $departament->id : null,
                     'occupation_id' => $occupation ? $occupation->id : null,
-                    'month_cost' => Str::replace(",", "", $value[21]),
+                    'month_cost' => Str::replace([",", " "], "", $value[21]),
                     'occupation_type_id' => $occupationType ? $occupationType->id : null,
-                    'hour_cost' => Str::replace(",", "", $value[24]),
+                    'hour_cost' => Str::replace([",", " "], "", $value[24]),
                 ],
                 [
                     'name' => ['string', 'max:255', 'required'],
@@ -324,7 +324,6 @@ class EmployeeController extends Controller
                     $employee = Employee::firstOrCreate([
                         'employee_id' => $value[2],
                     ]);
-                   // dd(\Carbon\Carbon::create($date[2] * 100, $date[1], $date[0])->format("Y-m-d"));
                     $employee->update([
                         'name' => $value[3],
                         'work_regime_id' => $workRegime ? $workRegime->id : null,
@@ -332,9 +331,9 @@ class EmployeeController extends Controller
                         'employee_id' => $value[2],
                         'department_id' => $departament ? $departament->id : null,
                         'occupation_id' => $occupation ? $occupation->id : null,
-                        'month_cost' => Str::replace(",", "", $value[21]),
+                        'month_cost' => Str::replace([",", " "], "", $value[21]),
                         'occupation_type_id' => $occupationType ? $occupationType->id : null,
-                        'hour_cost' => Str::replace(",", "", $value[24]),
+                        'hour_cost' => Str::replace([",", " "], "", $value[24]),
                     ]);
 
                     $totalImported++;
