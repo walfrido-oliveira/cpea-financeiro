@@ -63,7 +63,7 @@
                         </div>
                         <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
                             <x-jet-label for="occupation_type_id" value="{{ __('Tipo') }}" required/>
-                            <x-custom-select :options="$occupationTypes" name="occupation_type_id" id="occupation_type_id" required :value="$employee->occupation_type"/>
+                            <x-custom-select :options="$occupationTypes" name="occupation_type_id" id="occupation_type_id" required :value="$employee->occupation_type_id"/>
                         </div>
                     </div>
 
