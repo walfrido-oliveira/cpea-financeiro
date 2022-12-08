@@ -11,483 +11,463 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class AccountingClassification extends Model
 {
-    use HasFactory;
+  use HasFactory;
 
-     /**
-     * The attributes that are mass assignable.
-     *
-     * @var array
-     */
-    protected $fillable = [
-        'name', 'obs', 'level', 'classification', 'type_classification', 'featured',
-        'color', 'bolder', 'accounting_classification_id', 'visible', 'unity', 'order'
+  /**
+   * The attributes that are mass assignable.
+   *
+   * @var array
+   */
+  protected $fillable = [
+    'name', 'obs', 'level', 'classification', 'type_classification', 'featured',
+    'color', 'bolder', 'accounting_classification_id', 'visible', 'unity', 'order'
+  ];
+
+  /**
+   * The parent
+   */
+  public function parent()
+  {
+    return $this->belongsTo(self::class);
+  }
+
+  /**
+   * Configs
+   */
+  public function accountingConfigs()
+  {
+    return $this->belongsToMany(AccountingConfig::class);
+  }
+
+
+  /**
+   * The children
+   */
+  public function children()
+  {
+    return $this->hasMany(self::class, 'accounting_classification_id');
+  }
+
+  /**
+   * The Formula
+   */
+  public function formula()
+  {
+    return $this->hasMany(Formula::class);
+  }
+
+  /**
+   * Returns the depth of an Instance
+   * @param $idToFind
+   * @return int
+   */
+  public static function DepthHelper($idToFind)
+  {
+    return AccountingClassification::GetParentHelper($idToFind);
+  }
+
+  // Recursive Helper function
+  public static function  GetParentHelper($id, $depth = 0)
+  {
+    $model = AccountingClassification::find($id);
+
+    if ($model) {
+      if ($model->accounting_classification_id != null) {
+        $depth++;
+
+        return AccountingClassification::GetParentHelper($model->accounting_classification_id, $depth);
+      } else {
+        return $depth;
+      }
+    }
+  }
+
+  /**
+   * Get the depth of this instance from the top-level instance.
+   */
+  public function getDepthAttribute()
+  {
+    return AccountingClassification::DepthHelper($this->id);
+  }
+
+  /**
+   * Get types
+   *
+   * @return Array
+   */
+  public static function getTypesClassifications()
+  {
+    return ['DRE', 'RETIRADAS GERENCIAIS', 'RESULTADOS DO EXERCICIO', 'DRE AJUSTÁVEL'];
+  }
+
+  /**
+   * Get types
+   *
+   * @return Array
+   */
+  public static function getTypesClassifications2()
+  {
+    return [
+      'DRE' => 'DRE',
+      'RETIRADAS GERENCIAIS' => 'Retiradas Gerenciais',
+      'RESULTADOS DO EXERCICIO' => 'Resultado do Exercicio',
+      'DRE AJUSTÁVEL' => 'DRE Ajustável',
     ];
+  }
 
-     /**
-     * The parent
-     */
-    public function parent()
-    {
-        return $this->belongsTo(self::class);
+  /**
+   * Get types
+   *
+   * @return Array
+   */
+  public static function getUnitys()
+  {
+    return ['R$', '%'];
+  }
+
+  /**
+   * Get types
+   *
+   * @return Array
+   */
+  public static function getUnitys2()
+  {
+    return [
+      'R$' => 'R$',
+      '%' => '%',
+    ];
+  }
+
+  public function getDescriptionAttribute()
+  {
+    return $this->classification . '-' . $this->name;
+  }
+
+  /**
+   * Get calc name
+   *
+   * @return string
+   */
+  public function getCalcNameAttribute()
+  {
+    return '{' . $this->classification . '&' . $this->name . '}';
+  }
+
+  /**
+   * Get total by classification
+   *
+   * @param int $month
+   * @param int $year
+   * @return int
+   */
+  public function getTotalClassificationWithdrawal($month, $year)
+  {
+    $accountingConfig = AccountingConfig::where('month', $month)
+      ->where('year', $year)
+      ->first();
+
+    $formula = null;
+    if ($accountingConfig) {
+      $formula = $accountingConfig->formulas()
+        ->where('accounting_classification_id', $this->id)
+        ->first();
     }
 
-    /**
-     * Configs
-     */
-    public function accountingConfigs()
-    {
-        return $this->belongsToMany(AccountingConfig::class);
+    if ($formula) {
+      $re = '/{(.*?)}/m';
+      $formulaText = $formula->formula;
+      preg_match_all($re, $formulaText, $matches, PREG_SET_ORDER, 0);
+      $sum = 0;
+
+      foreach ($matches as $value2) {
+        $result = explode("&", $value2[1]);
+
+        $classification = self::where('classification', $result[0])->where('name', $result[1])->first();
+
+        if ($classification) {
+          $withdrawal = Withdrawal::where('accounting_classification_id', $classification->id)
+            ->where('month', $month)
+            ->where('year', $year)
+            ->first();
+          if ($withdrawal) {
+            $sum = $withdrawal->value;
+          } elseif ($classification->type_classification == 'RETIRADAS GERENCIAIS') {
+            $sum = $classification->getTotalClassificationWithdrawal($month, $year);
+          }
+        }
+        $formulaText = Str::replace($value2[0], $sum, $formulaText);
+      }
+      $stringCalc = new StringCalc();
+      if (Str::contains($formulaText, '/0')) return 0;
+      $result = $stringCalc->calculate($formulaText);
+      return $this->unity == 'R$' ? round($result, 0, PHP_ROUND_HALF_UP) : $result;
+    }
+    return 0;
+  }
+
+  /**
+   * Get total by classification by month
+   *
+   * @param int $month
+   * @param int $year
+   * @return int
+   */
+  public static function getTotalClassificationByMonthWithdrawal($month, $year)
+  {
+    $total = 0;
+    $accountingConfig = AccountingConfig::where('month', $month)
+      ->where('year', $year)
+      ->first();
+
+    if ($accountingConfig) {
+      foreach ($accountingConfig->accountingClassifications()->where('type_classification', 'RETIRADAS GERENCIAIS')->get() as $accountingClassification) {
+        $total += $accountingClassification->getTotalClassificationWithdrawal($month, $year);
+      }
+    }
+    return $total;
+  }
+
+  /**
+   * Get total by classification
+   *
+   * @param int $month
+   * @param int $year
+   * @param bool $sub
+   * @return int
+   */
+  public function getTotalClassificationDRE($month, $year, $sub = false)
+  {
+    $accountingConfig = AccountingConfig::where('month', $month)
+      ->where('year', $year)
+      ->first();
+
+    $formula = null;
+    if ($accountingConfig) {
+      $formula = $accountingConfig->formulas()
+        ->where('accounting_classification_id', $this->id)
+        ->first();
     }
 
-
-    /**
-     * The children
-     */
-    public function children()
-    {
-        return $this->hasMany(self::class, 'accounting_classification_id');
+    if (!$formula && $sub) {
+      $formula = Formula::where('accounting_classification_id', $this->id)
+        ->first();
     }
 
-    /**
-     * The Formula
-     */
-    public function formula()
-    {
-        return $this->hasMany(Formula::class);
-    }
+    if ($formula) {
+      $re = '/{(.*?)}/m';
+      $formulaText = $this->checkCondicionalDRE($formula, $month, $year) ? $formula->formula : $formula->conditional_formula;
+      preg_match_all($re, $formulaText, $matches, PREG_SET_ORDER, 0);
+      $sum = 0;
 
-    /**
-     * Returns the depth of an Instance
-     * @param $idToFind
-     * @return int
-     */
-    public static function DepthHelper($idToFind)
-    {
-        return AccountingClassification::GetParentHelper($idToFind);
-    }
+      foreach ($matches as $value2) {
+        $result = explode("&", $value2[1]);
+        $workingDaysType = '';
+        $sum = 0;
 
-    // Recursive Helper function
-    public static function  GetParentHelper($id, $depth = 0)
-    {
-        $model = AccountingClassification::find($id);
-
-        if ($model->accounting_classification_id != null) {
-            $depth++;
-
-            return AccountingClassification::GetParentHelper($model->accounting_classification_id, $depth);
+        if (count($result) >= 2) {
+          $classification = self::where('classification', $result[0])->where('name', $result[1])->first();
+          $workingDaysType = isset($result[2]) ? $result[2] : '';
         } else {
-            return $depth;
+          $classification = self::where('classification', $result[0])->first();
         }
-    }
 
-    /**
-     * Get the depth of this instance from the top-level instance.
-     */
-    public function getDepthAttribute()
-    {
-        return AccountingClassification::DepthHelper($this->id);
-    }
-
-    /**
-     * Get types
-     *
-     * @return Array
-     */
-    public static function getTypesClassifications()
-    {
-        return ['DRE', 'RETIRADAS GERENCIAIS', 'RESULTADOS DO EXERCICIO', 'DRE AJUSTÁVEL'];
-    }
-
-    /**
-     * Get types
-     *
-     * @return Array
-     */
-    public static function getTypesClassifications2()
-    {
-        return [
-            'DRE' => 'DRE',
-            'RETIRADAS GERENCIAIS' => 'Retiradas Gerenciais',
-            'RESULTADOS DO EXERCICIO' => 'Resultado do Exercicio',
-            'DRE AJUSTÁVEL' => 'DRE Ajustável',
-        ];
-    }
-
-    /**
-     * Get types
-     *
-     * @return Array
-     */
-    public static function getUnitys()
-    {
-        return ['R$', '%'];
-    }
-
-    /**
-     * Get types
-     *
-     * @return Array
-     */
-    public static function getUnitys2()
-    {
-        return [
-            'R$' => 'R$',
-            '%' => '%',
-        ];
-    }
-
-    public function getDescriptionAttribute()
-    {
-        return $this->classification . '-' . $this->name;
-    }
-
-    /**
-     * Get calc name
-     *
-     * @return string
-     */
-    public function getCalcNameAttribute()
-    {
-        return '{' . $this->classification . '&' . $this->name . '}';
-    }
-
-    /**
-     * Get total by classification
-     *
-     * @param int $month
-     * @param int $year
-     * @return int
-     */
-    public function getTotalClassificationWithdrawal($month, $year)
-    {
-        $accountingConfig = AccountingConfig::where('month', $month)
-        ->where('year', $year)
-        ->first();
-
-        $formula = null;
-        if($accountingConfig)
-        {
-            $formula = $accountingConfig->formulas()
-            ->where('accounting_classification_id', $this->id)
+        if ($classification) {
+          $accountingControl = AccountingControl::where('month', $month)
+            ->where('year', $year)
             ->first();
-        }
 
-        if($formula)
-        {
-            $re = '/{(.*?)}/m';
-            $formulaText = $formula->formula;
-            preg_match_all($re, $formulaText, $matches, PREG_SET_ORDER, 0);
-            $sum = 0;
+          if ($accountingControl) {
+            if ($workingDaysType == '') {
+              $accountingAnalytics = $accountingControl->accountingAnalytics()->where('accounting_classification_id', $classification->id)->first();
+              $withdrawal = Withdrawal::getTotalByMonthAndClassification($month, $year, $classification->id);
+              if ($accountingAnalytics) {
+                $sum += $accountingAnalytics->value;
+              } else if ($withdrawal) {
+                $sum += $withdrawal;
+              } else {
+                $sum = $classification->getTotalClassificationDRE($month, $year, true);
+              }
+            } else {
+              switch ($workingDaysType) {
+                case 'CUSTOS INDIRETOS':
+                  $sum = TotalStaticCheckPoint::getTotal(
+                    $year,
+                    $month,
+                    $classification->classification,
+                    TotalStaticCheckPoint::getTypes()[1],
+                    TotalStaticCheckPoint::getTypes()[0]
+                  );
+                  break;
 
-            foreach ($matches as $value2)
-            {
-                $result = explode("&", $value2[1]);
+                case 'CUSTOS DIRETO':
+                  $sum = TotalStaticCheckPoint::getTotal(
+                    $year,
+                    $month,
+                    $classification->classification,
+                    TotalStaticCheckPoint::getTypes()[0],
+                    TotalStaticCheckPoint::getTypes()[1]
+                  );
+                  break;
 
-                $classification = self::where('classification', $result[0])->where('name', $result[1])->first();
+                case 'TOTAL':
+                  $result1 = TotalStaticCheckPoint::getTotal(
+                    $year,
+                    $month,
+                    $classification->classification,
+                    TotalStaticCheckPoint::getTypes()[1],
+                    TotalStaticCheckPoint::getTypes()[0]
+                  );
 
-                if($classification)
-                {
-                    $withdrawal = Withdrawal::where('accounting_classification_id', $classification->id)
-                    ->where('month', $month)
-                    ->where('year', $year)
-                    ->first();
-                    if($withdrawal) {
-                      $sum = $withdrawal->value;
-                    } elseif($classification->type_classification == 'RETIRADAS GERENCIAIS') {
-                      $sum = $classification->getTotalClassificationWithdrawal($month, $year);
-                    }
-                }
-                $formulaText = Str::replace($value2[0], $sum, $formulaText);
+                  $result2 = TotalStaticCheckPoint::getTotal(
+                    $year,
+                    $month,
+                    $classification->classification,
+                    TotalStaticCheckPoint::getTypes()[0],
+                    TotalStaticCheckPoint::getTypes()[1]
+                  );
+
+                  $sum = $result1 + $result2;
+                  break;
+              }
             }
-            $stringCalc = new StringCalc();
-            if(Str::contains($formulaText, '/0')) return 0;
-            $result = $stringCalc->calculate($formulaText);
-            return $this->unity == 'R$' ? round($result, 0, PHP_ROUND_HALF_UP) : $result;
+          }
+          if ($classification->unity == "%") $sum = $sum / 100;
         }
-        return 0;
+        $formulaText = Str::replace($value2[0], $sum, $formulaText);
+      }
+
+      $stringCalc = new StringCalc();
+      if (Str::contains($formulaText, '0/0')) return 0;
+
+      try {
+        $result = $stringCalc->calculate($formulaText);
+      } catch (\Throwable $th) {
+        abort(500, "Erro ao calcular formula $formula->id: $formulaText");
+      }
+
+
+      return $this->unity == 'R$' && !$sub  ? round($result, 0, PHP_ROUND_HALF_UP) : $result;
     }
+    return 0;
+  }
 
-    /**
-     * Get total by classification by month
-     *
-     * @param int $month
-     * @param int $year
-     * @return int
-     */
-    public static function getTotalClassificationByMonthWithdrawal($month, $year)
-    {
-        $total = 0;
-        $accountingConfig = AccountingConfig::where('month', $month)
-        ->where('year', $year)
-        ->first();
+  /**
+   * Get total by classification
+   *
+   * @param App\Modeles\Formula
+   * @param int $month
+   * @param int $year
+   * @return bool
+   */
+  public function checkCondicionalDRE($formula, $month, $year)
+  {
+    if ($formula) {
+      if (!$formula->conditional) return true;
 
-        if($accountingConfig)
-        {
-            foreach ($accountingConfig->accountingClassifications()->where('type_classification', 'RETIRADAS GERENCIAIS')->get() as $accountingClassification)
-            {
-                $total += $accountingClassification->getTotalClassificationWithdrawal($month, $year);
-            }
-        }
-        return $total;
-    }
+      $re = '/{(.*?)}/m';
+      $formulaText = $formula->conditional;
+      preg_match_all($re, $formulaText, $matches, PREG_SET_ORDER, 0);
+      $sum = 0;
 
-    /**
-     * Get total by classification
-     *
-     * @param int $month
-     * @param int $year
-     * @param bool $sub
-     * @return int
-     */
-    public function getTotalClassificationDRE($month, $year, $sub = false)
-    {
-        $accountingConfig = AccountingConfig::where('month', $month)
-        ->where('year', $year)
-        ->first();
+      foreach ($matches as $value2) {
+        $result = explode("&", $value2[1]);
 
-        $formula = null;
-        if($accountingConfig)
-        {
-            $formula = $accountingConfig->formulas()
-            ->where('accounting_classification_id', $this->id)
+        $classification = self::where('classification', $result[0])->first();
+
+        if ($classification) {
+          $sum = 0;
+          $accountingControl = AccountingControl::where('month', $month)
+            ->where('year', $year)
             ->first();
-        }
 
-        if(!$formula && $sub)
-        {
-            $formula = Formula::where('accounting_classification_id', $this->id)
-            ->first();
-        }
-
-        if($formula)
-        {
-            $re = '/{(.*?)}/m';
-            $formulaText = $this->checkCondicionalDRE($formula, $month, $year) ? $formula->formula : $formula->conditional_formula;
-            preg_match_all($re, $formulaText, $matches, PREG_SET_ORDER, 0);
-            $sum = 0;
-
-            foreach ($matches as $value2)
-            {
-                $result = explode("&", $value2[1]);
-                $workingDaysType = '';
-                $sum = 0;
-
-                if(count($result) >= 2)
-                {
-                  $classification = self::where('classification', $result[0])->where('name', $result[1])->first();
-                  $workingDaysType = isset($result[2]) ? $result[2] : '';
-                }
-                else {
-                  $classification = self::where('classification', $result[0])->first();
-                }
-
-                if($classification)
-                {
-                    $accountingControl = AccountingControl::where('month', $month)
-                    ->where('year', $year)
-                    ->first();
-
-                    if($accountingControl)
-                    {
-                        if($workingDaysType == '')
-                        {
-                            $accountingAnalytics = $accountingControl->accountingAnalytics()->where('accounting_classification_id', $classification->id)->first();
-                            $withdrawal = Withdrawal::getTotalByMonthAndClassification($month, $year, $classification->id);
-                            if($accountingAnalytics)  {
-                                $sum += $accountingAnalytics->value;
-                            }
-                            else if($withdrawal) {
-                                $sum += $withdrawal;
-                            }
-                            else {
-                                $sum = $classification->getTotalClassificationDRE($month, $year, true);
-                            }
-                        }
-                        else
-                        {
-                            switch ($workingDaysType)
-                            {
-                                case 'CUSTOS INDIRETOS':
-                                    $sum = TotalStaticCheckPoint::getTotal($year, $month, $classification->classification,
-                                    TotalStaticCheckPoint::getTypes()[1],
-                                    TotalStaticCheckPoint::getTypes()[0]);
-                                    break;
-
-                                case 'CUSTOS DIRETO':
-                                    $sum = TotalStaticCheckPoint::getTotal($year, $month, $classification->classification,
-                                    TotalStaticCheckPoint::getTypes()[0],
-                                    TotalStaticCheckPoint::getTypes()[1]);
-                                    break;
-
-                                case 'TOTAL':
-                                    $result1 = TotalStaticCheckPoint::getTotal($year, $month, $classification->classification,
-                                    TotalStaticCheckPoint::getTypes()[1],
-                                    TotalStaticCheckPoint::getTypes()[0]);
-
-                                    $result2 = TotalStaticCheckPoint::getTotal($year, $month, $classification->classification,
-                                    TotalStaticCheckPoint::getTypes()[0],
-                                    TotalStaticCheckPoint::getTypes()[1]);
-
-                                    $sum = $result1 + $result2;
-                                    break;
-                            }
-                        }
-                    }
-                    if($classification->unity == "%") $sum = $sum / 100;
-                }
-                $formulaText = Str::replace($value2[0], $sum, $formulaText);
+          if ($accountingControl) {
+            $accountingAnalytics = $accountingControl->accountingAnalytics()->where('accounting_classification_id', $classification->id)->first();
+            if ($accountingAnalytics) {
+              $sum += $accountingAnalytics->value;
+            } else {
+              $sum = $classification->getTotalClassificationDRE($month, $year);
             }
-
-            $stringCalc = new StringCalc();
-            if(Str::contains($formulaText, '0/0')) return 0;
-
-            try {
-                $result = $stringCalc->calculate($formulaText);
-            } catch (\Throwable $th) {
-                abort(500 , "Erro ao calcular formula $formula->id: $formulaText");
-            }
-
-
-            return $this->unity == 'R$' && !$sub  ? round($result, 0, PHP_ROUND_HALF_UP) : $result;
+          }
         }
-        return 0;
+        if ($classification->unity == "%") $sum = $sum / 100;
+        $formulaText = Str::replace($value2[0], $sum, $formulaText);
+      }
+      $stringCalc = new StringCalc();
+      if (Str::contains($formulaText, '0/0')) return 0;
+      $result = $stringCalc->calculate($formulaText);
+
+      return Formula::conditionalCalc($formula->conditional_type, $result, $formula->conditional_value);
+    }
+    return true;
+  }
+
+  /**
+   * Get total by classification by month
+   *
+   * @param int $month
+   * @param int $year
+   * @return int
+   */
+  public static function getTotalClassificationByMonthDRE($month, $year)
+  {
+    $total = 0;
+    $accountingClassifications = self::where('type_classification', 'DRE Ajustável')
+      ->where('unity', 'R$')
+      ->get();
+    foreach ($accountingClassifications as $accountingClassification) {
+      $total += $accountingClassification->getTotalClassificationDRE($month, $year);
     }
 
-    /**
-     * Get total by classification
-     *
-     * @param App\Modeles\Formula
-     * @param int $month
-     * @param int $year
-     * @return bool
-     */
-    public function checkCondicionalDRE($formula, $month, $year)
-    {
-        if($formula)
-        {
-            if(!$formula->conditional) return true;
+    return $total;
+  }
 
-            $re = '/{(.*?)}/m';
-            $formulaText = $formula->conditional;
-            preg_match_all($re, $formulaText, $matches, PREG_SET_ORDER, 0);
-            $sum = 0;
+  /**
+   * Find users in dabase
+   *
+   * @param Array
+   *
+   * @return object
+   */
+  public static function filter($query)
+  {
+    $perPage = isset($query['paginate_per_page']) ? $query['paginate_per_page'] : DEFAULT_PAGINATE_PER_PAGE;
+    $ascending = isset($query['ascending']) ? $query['ascending'] : DEFAULT_ASCENDING;
+    $orderBy = isset($query['order_by']) ? $query['order_by'] : DEFAULT_ORDER_BY_COLUMN;
 
-            foreach ($matches as $value2)
-            {
-                $result = explode("&", $value2[1]);
-
-                $classification = self::where('classification', $result[0])->first();
-
-                if($classification)
-                {
-                    $sum=0;
-                    $accountingControl = AccountingControl::where('month', $month)
-                    ->where('year', $year)
-                    ->first();
-
-                    if($accountingControl)
-                    {
-                        $accountingAnalytics = $accountingControl->accountingAnalytics()->where('accounting_classification_id', $classification->id)->first();
-                        if($accountingAnalytics)
-                        {
-                            $sum += $accountingAnalytics->value;
-                        }
-                        else
-                        {
-                            $sum = $classification->getTotalClassificationDRE($month, $year);
-                        }
-                    }
-                }
-                if($classification->unity == "%") $sum = $sum / 100;
-                $formulaText = Str::replace($value2[0], $sum, $formulaText);
-            }
-            $stringCalc = new StringCalc();
-            if(Str::contains($formulaText, '0/0')) return 0;
-            $result = $stringCalc->calculate($formulaText);
-
-            return Formula::conditionalCalc($formula->conditional_type, $result, $formula->conditional_value) ;
+    $result = self::where(function ($q) use ($query) {
+      if (isset($query['id'])) {
+        if (!is_null($query['id'])) {
+          $q->where('id', $query['id']);
         }
-        return true;
-    }
+      }
 
-     /**
-     * Get total by classification by month
-     *
-     * @param int $month
-     * @param int $year
-     * @return int
-     */
-    public static function getTotalClassificationByMonthDRE($month, $year)
-    {
-        $total = 0;
-        $accountingClassifications = self::where('type_classification', 'DRE Ajustável')
-        ->where('unity', 'R$')
-        ->get();
-        foreach ($accountingClassifications as $accountingClassification)
-        {
-            $total += $accountingClassification->getTotalClassificationDRE($month, $year);
+      if (isset($query['name'])) {
+        if (!is_null($query['name'])) {
+          $q->where('name', 'like', '%' . $query['name'] . '%');
         }
+      }
 
-        return $total;
-    }
+      if (isset($query['level'])) {
+        if (!is_null($query['level'])) {
+          $q->where('level', $query['level']);
+        }
+      }
 
-    /**
-     * Find users in dabase
-     *
-     * @param Array
-     *
-     * @return object
-     */
-    public static function filter($query)
-    {
-        $perPage = isset($query['paginate_per_page']) ? $query['paginate_per_page'] : DEFAULT_PAGINATE_PER_PAGE;
-        $ascending = isset($query['ascending']) ? $query['ascending'] : DEFAULT_ASCENDING;
-        $orderBy = isset($query['order_by']) ? $query['order_by'] : DEFAULT_ORDER_BY_COLUMN;
+      if (isset($query['classification'])) {
+        if (!is_null($query['classification'])) {
+          $q->where('classification', 'like', '%' . $query['classification'] . '%');
+        }
+      }
 
-        $result = self::where(function($q) use ($query) {
-            if(isset($query['id']))
-            {
-                if(!is_null($query['id']))
-                {
-                    $q->where('id', $query['id']);
-                }
-            }
+      if (isset($query['type_classification'])) {
+        if (!is_null($query['type_classification'])) {
+          $q->where('type_classification', $query['type_classification']);
+        }
+      }
+    });
 
-            if(isset($query['name']))
-            {
-                if(!is_null($query['name']))
-                {
-                    $q->where('name', 'like','%' . $query['name'] . '%');
-                }
-            }
+    $result->orderBy($orderBy, $ascending);
 
-            if(isset($query['level']))
-            {
-                if(!is_null($query['level']))
-                {
-                    $q->where('level', $query['level']);
-                }
-            }
-
-            if(isset($query['classification']))
-            {
-                if(!is_null($query['classification']))
-                {
-                    $q->where('classification', 'like','%' . $query['classification'] . '%');
-                }
-            }
-
-            if(isset($query['type_classification']))
-            {
-                if(!is_null($query['type_classification']))
-                {
-                    $q->where('type_classification', $query['type_classification']);
-                }
-            }
-        });
-
-        $result->orderBy($orderBy, $ascending);
-
-        return $result->paginate($perPage);
-    }
+    return $result->paginate($perPage);
+  }
 }
