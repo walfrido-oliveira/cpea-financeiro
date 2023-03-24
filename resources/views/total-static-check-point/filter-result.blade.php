@@ -49,7 +49,7 @@
                     font-weight:bolder;
                 @endif"
                 >
-                {{ number_format_i18n( App\Models\TotalStaticCheckPoint::where('year', $year)->where('month', $key)
+                {{ number_format( App\Models\TotalStaticCheckPoint::where('year', $year)->where('month', $key)
                 ->where('classification_id', $accountingClassification->classification_id)
                 ->where('type', $type)
                 ->sum('result'), 2 )
@@ -66,7 +66,7 @@
                 font-weight:bolder;
             @endif
             ">
-                {{ number_format_i18n(App\Models\TotalStaticCheckPoint::where('year', $year)
+                {{ number_format(App\Models\TotalStaticCheckPoint::where('year', $year)
                 ->where('classification_id', $accountingClassification->classification_id)
                 ->where('type', $type)
                 ->sum('result'), 2)
