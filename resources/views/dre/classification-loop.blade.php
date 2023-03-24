@@ -2,42 +2,42 @@
     <tr @if ($accountingClassification2->featured) class="featured" @endif>
         <td class="sticky-col first-col"
             style="
-@if ($accountingClassification2->color) color:{{ $accountingClassification2->color }}; @endif
-@if ($accountingClassification2->bolder) font-weight:bolder; @endif
-padding-left: {{ $accountingClassification2->depth + 0.5 }}rem"
+                @if ($accountingClassification2->color) color:{{ $accountingClassification2->color }}; @endif
+                @if ($accountingClassification2->bolder) font-weight:bolder; @endif
+                padding-left: {{ $accountingClassification2->depth + 0.5 }}rem"
             title="{{ $accountingClassification2->classification }}">
             {{ $accountingClassification2->name }}
         </td>
 
         <td class="sticky-col second-col"
             style="
-@if ($accountingClassification2->color) color:{{ $accountingClassification2->color }}; @endif
-@if ($accountingClassification2->bolder) font-weight:bolder; @endif
-">
+                @if ($accountingClassification2->color) color:{{ $accountingClassification2->color }}; @endif
+                @if ($accountingClassification2->bolder) font-weight:bolder; @endif
+        ">
             -
         </td>
 
         <td class="sticky-col third-col"
             style="
-@if ($accountingClassification2->color) color:{{ $accountingClassification2->color }}; @endif
-@if ($accountingClassification2->bolder) font-weight:bolder; @endif
-">
+                    @if ($accountingClassification2->color) color:{{ $accountingClassification2->color }}; @endif
+                    @if ($accountingClassification2->bolder) font-weight:bolder; @endif
+        ">
             -
         </td>
 
         <td class="sticky-col fourth-col"
             style="
-@if ($accountingClassification2->color) color:{{ $accountingClassification2->color }}; @endif
-@if ($accountingClassification2->bolder) font-weight:bolder; @endif
-">
+                    @if ($accountingClassification2->color) color:{{ $accountingClassification2->color }}; @endif
+                    @if ($accountingClassification2->bolder) font-weight:bolder; @endif
+                ">
             -
         </td>
 
         @foreach ($months as $key => $month)
             <td style="
-    @if ($accountingClassification2->color) color:{{ $accountingClassification2->color }}; @endif
-    @if ($accountingClassification2->bolder) font-weight:bolder; @endif
-    "
+                        @if ($accountingClassification2->color) color:{{ $accountingClassification2->color }}; @endif
+                        @if ($accountingClassification2->bolder) font-weight:bolder; @endif
+                    "
                 title="{{ count($accountingClassification2->formula) > 0 ? $accountingClassification2->formula[0]->formula : '' }}">
                 @php
                     $totalClassificationDRE = $accountingClassification2->getTotalClassificationDRE($key, $year);
