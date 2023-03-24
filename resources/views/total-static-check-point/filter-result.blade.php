@@ -52,7 +52,7 @@
                 {{ number_format( App\Models\TotalStaticCheckPoint::where('year', $year)->where('month', $key)
                 ->where('classification_id', $accountingClassification->classification_id)
                 ->where('type', $type)
-                ->sum('result'), 2 )
+                ->sum('result'), 2, ",", ".")
                 }}
 
                 </td>
@@ -69,7 +69,7 @@
                 {{ number_format(App\Models\TotalStaticCheckPoint::where('year', $year)
                 ->where('classification_id', $accountingClassification->classification_id)
                 ->where('type', $type)
-                ->sum('result'), 2)
+                ->sum('result'), 2, ",", ".")
                 }}
             </td>
         <tr>
@@ -88,13 +88,13 @@
                 {{ number_format(App\Models\TotalStaticCheckPoint::where('year', $year)
                 ->where('month', $key)
                 ->where('type', $type)
-                ->sum('result'), 2) }}
+                ->sum('result'), 2, ",", ".") }}
             </td>
         @endforeach
         <td>
             {{ number_format(App\Models\TotalStaticCheckPoint::where('year', $year)
             ->where('type', $type)
-            ->sum('result'), 2) }}
+            ->sum('result'), 2, ",", ".") }}
         </td>
     </tr>
 </tfoot>
