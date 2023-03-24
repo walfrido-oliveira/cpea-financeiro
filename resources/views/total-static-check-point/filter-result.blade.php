@@ -85,16 +85,16 @@
         <td class="sticky-col second-col" style="left: 41px;">{{ __('TOTAL') }}</td>
         @foreach ($months as $key => $month)
             <td>
-                {{ App\Models\TotalStaticCheckPoint::where('year', $year)
+                {{ number_format(App\Models\TotalStaticCheckPoint::where('year', $year)
                 ->where('month', $key)
                 ->where('type', $type)
-                ->sum('result') }}
+                ->sum('result'), 2) }}
             </td>
         @endforeach
         <td>
-            {{ App\Models\TotalStaticCheckPoint::where('year', $year)
+            {{ number_format(App\Models\TotalStaticCheckPoint::where('year', $year)
             ->where('type', $type)
-            ->sum('result') }}
+            ->sum('result'), 2) }}
         </td>
     </tr>
 </tfoot>
