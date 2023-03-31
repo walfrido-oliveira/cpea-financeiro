@@ -82,7 +82,7 @@ class TotalStaticCheckPoint extends Model
     {
         $result1 = self::setQueryToral($year, $month, $classification_id, $type1)->sum('result');
         $result2 = self::setQueryToral($year, $month, $classification_id, $type2)->sum('result');
-        return $result1 + $result2 > 0 ? round(($result1 / ($result1 + $result2)), 4, PHP_ROUND_HALF_UP)  : 0;
+        return $result1 + $result2 > 0 ? $result1 / ($result1 + $result2) : 0;//$result1 + $result2 > 0 ? round(($result1 / ($result1 + $result2)), 4, PHP_ROUND_HALF_UP)  : 0;
     }
 
     /**

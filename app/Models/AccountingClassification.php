@@ -346,7 +346,7 @@ class AccountingClassification extends Model
       }
 
 
-      return $this->unity == 'R$' && !$sub  ? round($result, 0, PHP_ROUND_HALF_UP) : $result;
+      return  $result;//$this->unity == 'R$' && !$sub  ? round($result, 0, PHP_ROUND_HALF_UP) : $result;
     }
     return 0;
   }
