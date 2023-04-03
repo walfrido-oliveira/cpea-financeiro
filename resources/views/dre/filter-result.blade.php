@@ -11,55 +11,25 @@
 </thead>
 <tbody id="withdrawals_table_content">
     @forelse ($accountingClassifications as $key => $accountingClassification)
-        <tr @if ( $accountingClassification->featured)
-                class="featured"
-            @endif
-        >
+        <tr @if ( $accountingClassification->featured) class="featured" @endif>
             <td class="sticky-col first-col"
-            style="
-            @if ($accountingClassification->color)
-                color:{{ $accountingClassification->color }};
-            @endif
-            @if ($accountingClassification->bolder)
-                font-weight:bolder;
-            @endif
-            padding-left: {{ $accountingClassification->depth + 0.5 }}rem" title="{{ $accountingClassification->classification }}">
+            style="@if ($accountingClassification->color) color:{{ $accountingClassification->color }}; @endif
+                  @if ($accountingClassification->bolder) font-weight:bolder; @endif
+                  padding-left: {{ $accountingClassification->depth + 0.5 }}rem"
+                  title="{{ $accountingClassification->classification }}">
                  {{ $accountingClassification->name }}
             </td>
 
-            <td class="sticky-col second-col"
-            style="
-            @if ($accountingClassification->color)
-                color:{{ $accountingClassification->color }};
-            @endif
-            @if ($accountingClassification->bolder)
-                font-weight:bolder;
-            @endif
-            ">
+            <td class="sticky-col second-col" style="@if ($accountingClassification->color) color:{{ $accountingClassification->color }}; @endif @if ($accountingClassification->bolder) font-weight:bolder; @endif">
                 -
             </td>
 
             <td class="sticky-col third-col"
-            style="
-            @if ($accountingClassification->color)
-                color:{{ $accountingClassification->color }};
-            @endif
-            @if ($accountingClassification->bolder)
-                font-weight:bolder;
-            @endif
-            ">
+            style=" @if ($accountingClassification->color) color:{{ $accountingClassification->color }}; @endif @if ($accountingClassification->bolder) font-weight:bolder; @endif">
                 -
             </td>
 
-            <td class="sticky-col fourth-col"
-            style="
-            @if ($accountingClassification->color)
-                color:{{ $accountingClassification->color }};
-            @endif
-            @if ($accountingClassification->bolder)
-                font-weight:bolder;
-            @endif
-            ">
+            <td class="sticky-col fourth-col" style="@if ($accountingClassification->color) color:{{ $accountingClassification->color }};  @endif @if ($accountingClassification->bolder) font-weight:bolder; @endif ">
                 -
             </td>
 
@@ -89,7 +59,6 @@
                             -
                         @endif
                     </a>
-
                 </td>
             @endforeach
         <tr>
