@@ -36,25 +36,25 @@
         @foreach ($months as $key => $month)
             <td style="@if ($accountingClassification2->color) color:{{ $accountingClassification2->color }}; @endif @if ($accountingClassification2->bolder) font-weight:bolder; @endif"
                 title="{{ count($accountingClassification2->formula) > 0 ? $accountingClassification2->formula[0]->formula : '' }}">
-                <a href="#" class="edit-dre" data-id="{{ $accountingClassification->id }}" data-month="{{ $key }}" data-year="{{ $year }}" data-value="">
-                    @if(count(App\Models\Dre::where("accounting_classification_id", $accountingClassification->id)->
+                <a href="#" class="edit-dre" data-id="{{ $accountingClassification2->id }}" data-month="{{ $key }}" data-year="{{ $year }}" data-value="">
+                    @if(count(App\Models\Dre::where("accounting_classification_id", $accountingClassification2->id)->
                                    where("month", $key)->where("year", $year)->get()))
                         @php
-                            $totalClassificationDRE = App\Models\Dre::where("accounting_classification_id", $accountingClassification->id)->
+                            $totalClassificationDRE = App\Models\Dre::where("accounting_classification_id", $accountingClassification2->id)->
                                                                     where("month", $key)->where("year", $year)->latest('created_at')->first()->value;
                         @endphp
                     @else
                         @php
-                            $totalClassificationDRE = $accountingClassification->getTotalClassificationDRE($key, $year);
+                            $totalClassificationDRE = $accountingClassification2->getTotalClassificationDRE($key, $year);
                         @endphp
                     @endif
 
-                    @php $decimal = $accountingClassification->unity == '%' ? 2 : 0; @endphp
+                    @php $decimal = $accountingClassification2->unity == '%' ? 2 : 0; @endphp
 
                     @if ($totalClassificationDRE > 0)
-                        {{ ($accountingClassification->unity == 'R$' ? $accountingClassification->unity  : '') .  number_format($totalClassificationDRE, $decimal, ',', '.') . ($accountingClassification->unity == '%' ? $accountingClassification->unity  : '') }}
+                        {{ ($accountingClassification2->unity == 'R$' ? $accountingClassification2->unity  : '') .  number_format($totalClassificationDRE, $decimal, ',', '.') . ($accountingClassification2->unity == '%' ? $accountingClassification2->unity  : '') }}
                     @elseif($totalClassificationDRE < 0)
-                        {{ ($accountingClassification->unity == 'R$' ? $accountingClassification->unity  : '')  . '(' . number_format($totalClassificationDRE * -1, $decimal, ',', '.') . ')' . ($accountingClassification->unity == '%' ? $accountingClassification->unity  : '') }}
+                        {{ ($accountingClassification2->unity == 'R$' ? $accountingClassification2->unity  : '')  . '(' . number_format($totalClassificationDRE * -1, $decimal, ',', '.') . ')' . ($accountingClassification2->unity == '%' ? $accountingClassification2->unity  : '') }}
                     @else
                         -
                     @endif
