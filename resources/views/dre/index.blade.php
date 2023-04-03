@@ -33,6 +33,7 @@
     </div>
 
     <x-spin-load />
+    @include('dre.edit-modal')
 
     <script>
         window.addEventListener("load", function() {
@@ -54,6 +55,75 @@
                 document.getElementById("search_year_form").submit();
             });
         });
+    </script>
+
+    <script>
+        function eventsEditCallback() {
+            document.querySelectorAll('.edit-dre').forEach(item => {
+                item.addEventListener("click", function(e) {
+                    e.preventDefault();
+
+                    var modal = document.getElementById("dre_modal");
+                    modal.classList.remove("hidden");
+                    modal.classList.add("block");
+
+                    document.querySelector("#dre_modal #value").value = "";
+                    document.querySelector("#dre_modal #justification").value = "";
+                    document.querySelector("#dre_modal #accounting_classification_id").value = this.dataset.id;
+                    document.querySelector("#dre_modal #month").value = this.dataset.month;
+                    document.querySelector("#dre_modal #year").value = this.dataset.year;
+                });
+            });
+        }
+
+        document.getElementById("dre_cancel_modal").addEventListener("click", function(e) {
+            var modal = document.getElementById("dre_modal");
+            modal.classList.add("hidden");
+        });
+
+        document.getElementById("dre_confirm_modal").addEventListener("click", function(e) {
+            document.getElementById("spin_load").classList.remove("hidden");
+
+            let ajax = new XMLHttpRequest();
+            let token = document.querySelector('meta[name="csrf-token"]').content;
+            let method = 'POST';
+            let value = document.querySelector("#dre_modal #value").value;
+            let justification = document.querySelector("#dre_modal #justification").value
+            let accounting_classification_id = document.querySelector("#dre_modal #accounting_classification_id").value
+            let month = document.querySelector("#dre_modal #month").value
+            let year = document.querySelector("#dre_modal #year").value
+            let url = "{!! route('dre.create') !!}";
+
+            ajax.open("POST", url);
+
+            ajax.onreadystatechange = function() {
+                if (this.readyState == 4 && this.status == 200) {
+                    var resp = JSON.parse(ajax.response);
+                    document.getElementById("spin_load").classList.add("hidden");
+                    toastr.success(resp.message);
+
+                    location.reload();
+                } else if(this.readyState == 4 && this.status != 200) {
+                    document.getElementById("spin_load").classList.add("hidden");
+                    toastr.error("{!! __('Um erro ocorreu ao solicitar a consulta') !!}");
+                }
+            }
+
+            var data = new FormData();
+            data.append('_token', token);
+            data.append('_method', method);
+            data.append('value', value);
+            data.append('justification', justification);
+            data.append('month', month);
+            data.append('year', year);
+            data.append('accounting_classification_id', accounting_classification_id);
+
+            ajax.send(data);
+
+        });
+
+        eventsEditCallback();
+
     </script>
 
 </x-app-layout>

@@ -189,6 +189,7 @@ Route::group(['middleware' => ['auth:sanctum', 'verified']], function() {
     /** DRE */
     Route::prefix('dre')->name('dre.')->group(function(){
         Route::get('/', [DREController::class, 'index'])->name('index');
+        Route::post('/create', [DREController::class, 'create'])->name('create');
     });
 
     /** Check Point */

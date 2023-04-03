@@ -2,8 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Dre;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use App\Models\AccountingConfig;
+use Illuminate\Support\Facades\Validator;
 
 class DREController extends Controller
 {
@@ -40,5 +43,42 @@ class DREController extends Controller
 
         return view('dre.index',
         compact('ascending', 'orderBy', 'accountingClassifications', 'months', 'year', 'years', 'accountingConfigs'));
+    }
+
+     /**
+     * Create the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function create(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'value' => ['required', 'numeric'],
+            'justification' => ['required', 'string'],
+            'month' => ['required'],
+            'year' => ['required'],
+            'accounting_classification_id' => ['required', 'exists:accounting_classifications,id']
+        ]);
+
+        if ($validator->fails())
+        {
+            return response()->json($validator->messages(), Response::HTTP_BAD_REQUEST);
+        }
+
+        $input = $request->all();
+
+        $dre = Dre::create([
+            'value' => $input['value'],
+            'justification' => $input['justification'],
+            'year' => $input['year'],
+            'month' => $input['month'],
+            'accounting_classification_id' => $input['accounting_classification_id'],
+        ]);
+
+        return response()->json([
+            'message' => __('Valores atualizados com sucesso!'),
+            'alert-type' => 'success'
+        ]);
     }
 }
