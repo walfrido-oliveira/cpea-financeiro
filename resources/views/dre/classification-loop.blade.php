@@ -50,7 +50,7 @@
                 <a href="#" class="edit-dre inline-flex" data-id="{{ $accountingClassification2->id }}" data-month="{{ $key }}" data-year="{{ $year }}"
                     data-value="{{ $dre ? $dre->value : null }}" data-justification="{{ $dre ? $dre->justification : null }}" data-destroy="{{ $dre ? true : false }}" data-dre="{{ $dre ? $dre->id : null }}"
                     style="@if($dre) text-decoration:underline; text-decoration-style: dotted; @endif"
-                    title="@if($dre) {{ $dre->justification }} @else {{ $accountingClassification2->formula[0]->formula }} @endif">
+                    title="@if($dre) {{ $dre->justification }} @else {{ $accountingClassification2->formula ? $accountingClassification2->formula[0]->formula : null }} @endif">
                     @if ($totalClassificationDRE > 0)
                         {{ ($accountingClassification2->unity == 'R$' ? $accountingClassification2->unity  : '') .  number_format($totalClassificationDRE, $decimal, ',', '.') . ($accountingClassification2->unity == '%' ? $accountingClassification2->unity  : '') }}
                     @elseif($totalClassificationDRE < 0)
