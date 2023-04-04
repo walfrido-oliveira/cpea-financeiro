@@ -63,6 +63,7 @@
         window.addEventListener("load", function() {
             document.getElementById("year").addEventListener("change", function() {
                 document.getElementById("search_year_form").submit();
+                document.getElementById("spin_load").classList.remove("hidden");
             });
 
             document.getElementById("spin_load").classList.add("hidden");
