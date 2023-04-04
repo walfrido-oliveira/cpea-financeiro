@@ -71,6 +71,14 @@ class AccountingControl extends Model
                 }
             }
 
+            if(isset($query['year']))
+            {
+                if(!is_null($query['year']))
+                {
+                    $q->where('year',  $query['year'] );
+                }
+            }
+
         });
 
         $result->orderBy($orderBy, $ascending);
