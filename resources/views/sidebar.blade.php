@@ -73,7 +73,7 @@
             <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 inline" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                 <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3m0 0v3m0-3h3m-3 0H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z" />
             </svg>
-            Contabilidade
+            Importações de Bases
         </a>
 
         <a class="@if(request()->routeIs('withdrawals.index')) {{ 'active' }} @endif" href="{{ route('withdrawals.index') }}">
@@ -104,36 +104,12 @@
             Fórmulas
         </a>
 
-        <div class="relative" x-data="{ openCheckPoint: {{ request()->routeIs('check-points.*') ? 'true' : 'false' }} }">
-            <button @click="openCheckPoint = !openCheckPoint" class="submenu">
-              <svg xmlns="http://www.w3.org/2000/svg" class="inline h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 12a4 4 0 10-8 0 4 4 0 008 0zm0 0v1.5a2.5 2.5 0 005 0V12a9 9 0 10-9 9m4.5-1.206a8.959 8.959 0 01-4.5 1.207" />
-              </svg>
-              <span>Controle de Ponto</span>
-              <svg fill="currentColor" viewBox="0 0 20 20" :class="{'rotate-180': openCheckPoint, 'rotate-0': !openCheckPoint}" class="inline w-4 h-4 mt-1 ml-1 transition-transform duration-200 transform md:-mt-1 text-white">
-                  <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"></path>
-              </svg>
-            </button>
-            <div x-show="openCheckPoint" x-transition:enter="transition ease-out duration-100" x-transition:enter-start="transform opacity-0 scale-95" x-transition:enter-end="transform opacity-100 scale-100" x-transition:leave="transition ease-in duration-75" x-transition:leave-start="transform opacity-100 scale-100" x-transition:leave-end="transform opacity-0 scale-95" class="relative right-0 w-full origin-top-right">
-                @if (auth()->user()->roles->values()->get(0)->name == 'admin')
-                    <div class="px-0 py-0 ">
-                        <a class="@if(request()->routeIs('check-points.admin')) {{ 'active' }} @endif" href="{{ route('check-points.admin') }}">Gestão de Pontos (ADMIN)</a>
-                    </div>
-                    <div class="px-0 py-0 ">
-                        <a class="@if(request()->routeIs('check-points.total-static-check-point.index')) {{ 'active' }} @endif" href="{{ route('check-points.total-static-check-point.index') }}">Total Horas (Stático)</a>
-                    </div>
-                @endif
-                <div class="px-0 py-0 ">
-                    <a class="@if(request()->routeIs('check-points.index')) {{ 'active' }} @endif" href="{{ route('check-points.index') }}">Gestão de Pontos</a>
-                </div>
-                <div class="px-0 py-0 ">
-                  <a class="@if(request()->routeIs('check-points.activities.index')) {{ 'active' }} @endif" href="{{ route('check-points.activities.index') }}">Atividades</a>
-                </div>
-                <div class="px-0 py-0 ">
-                    <a class="@if(request()->routeIs('check-points.working-days.index')) {{ 'active' }} @endif" href="{{ route('check-points.working-days.index') }}">Jornada de Trabalho</a>
-                </div>
-            </div>
-        </div>
+        <a class="@if(request()->routeIs('check-points.total-static-check-point.index')) {{ 'active' }} @endif" href="{{ route('check-points.total-static-check-point.index') }}">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 inline" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3m0 0v3m0-3h3m-3 0H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z" />
+            </svg>
+            Horas Totais
+        </a>
 
         <div class="relative" x-data="{ openConfig: {{ request()->routeIs('config.emails.*') ? 'true' : 'false' }} }">
           <button @click="openConfig = !openConfig" class="submenu">

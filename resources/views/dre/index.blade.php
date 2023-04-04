@@ -1,3 +1,8 @@
+<x-spin-load />
+<script>
+    document.getElementById("spin_load").classList.remove("hidden");
+</script>
+
 <x-app-layout>
     <div class="py-6 index-dre">
         <div class="md:max-w-6xl lg:max-w-full mx-auto px-4">
@@ -38,7 +43,6 @@
              method="DELETE"
              redirect-url="{{ route('dre.index') }}"/>
 
-    <x-spin-load />
     @include('dre.edit-modal')
 
     <script>
@@ -60,6 +64,8 @@
             document.getElementById("year").addEventListener("change", function() {
                 document.getElementById("search_year_form").submit();
             });
+
+            document.getElementById("spin_load").classList.add("hidden");
         });
     </script>
 
