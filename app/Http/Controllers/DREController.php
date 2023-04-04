@@ -81,4 +81,22 @@ class DREController extends Controller
             'alert-type' => 'success'
         ]);
     }
+
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function destroy($id)
+    {
+        $dre = Dre::findOrFail($id);
+
+        $dre->delete();
+
+        return response()->json([
+            'message' => __('DRE apagado com Sucesso!!'),
+            'alert-type' => 'success'
+        ]);
+    }
 }

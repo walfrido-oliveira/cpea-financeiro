@@ -32,6 +32,12 @@
         </div>
     </div>
 
+    <x-modal title="{{ __('Excluir Dre') }}"
+             msg="{{ __('Deseja realmente apagar esse Dre?') }}"
+             confirm="{{ __('Sim') }}" cancel="{{ __('Não') }}" id="delete_dre_modal"
+             method="DELETE"
+             redirect-url="{{ route('dre.index') }}"/>
+
     <x-spin-load />
     @include('dre.edit-modal')
 
@@ -72,6 +78,31 @@
                     document.querySelector("#dre_modal #accounting_classification_id").value = this.dataset.id;
                     document.querySelector("#dre_modal #month").value = this.dataset.month;
                     document.querySelector("#dre_modal #year").value = this.dataset.year;
+                    document.querySelector("#dre_modal #value").value = this.dataset.value;
+                    document.querySelector("#dre_modal #justification").value = this.dataset.justification;
+
+                    var deleteDre = document.querySelector("#dre_modal #dre_delete");
+
+                    if(!this.dataset.destroy) {
+                        deleteDre.classList.add("hidden");
+                    } else {
+                        deleteDre.dataset.url = deleteDre.dataset.url.replace("#", this.dataset.dre);
+                    }
+                });
+            });
+        }
+
+        function eventsDeleteCallback() {
+            document.querySelectorAll('#dre_delete').forEach(item => {
+                item.addEventListener("click", function() {
+                    var modalDre = document.getElementById("dre_modal");
+                    modalDre.classList.add("hidden");
+
+                    var url = this.dataset.url;
+                    var modal = document.getElementById("delete_dre_modal");
+                    modal.dataset.url = url;
+                    modal.classList.remove("hidden");
+                    modal.classList.add("block");
                 });
             });
         }
@@ -123,6 +154,7 @@
         });
 
         eventsEditCallback();
+        eventsDeleteCallback();
 
     </script>
 
