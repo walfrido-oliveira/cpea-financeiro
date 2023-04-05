@@ -13,7 +13,8 @@
     @forelse ($accountingClassifications as $key => $accountingClassification)
         <tr @if ( $accountingClassification->featured) class="featured" @endif>
             <td class="sticky-col first-col"
-            style="@if ($accountingClassification->color) color:{{ $accountingClassification->color }}; @endif
+            style="white-space: nowrap;
+                  @if ($accountingClassification->color) color:{{ $accountingClassification->color }}; @endif
                   @if ($accountingClassification->bolder) font-weight:bolder; @endif
                   padding-left: {{ $accountingClassification->depth + 0.5 }}rem"
                   title="{{ $accountingClassification->classification }}">
@@ -75,7 +76,8 @@
             @include('dre.classification-loop', [
                 'accountingClassificationChildrens' => $accountingClassification->children()->whereHas('accountingConfigs', function($q) use($accountingConfigs) {
                     $q->where('accounting_classification_accounting_config.accounting_config_id', count($accountingConfigs) > 0 ? $accountingConfigs[0]->id : 0)
-                    ->where('type_classification', 'DRE Ajustável');
+                      ->where('visible', true)
+                      ->where('type_classification', 'DRE Ajustável');
                 })->orderBy('accounting_classifications.order')->get()
             ])
         @endif

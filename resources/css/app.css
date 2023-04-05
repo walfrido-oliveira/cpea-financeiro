@@ -446,10 +446,10 @@ input:read-only {
 }
 
 .accounting-table table tr td {
-    padding: 0.5rem;
+    padding: 0.4rem;
     vertical-align: top;
     border-top: 1px solid #dee2e6;
-    font-size: 14px;
+    font-size: 12px;
 }
 
 .accounting-table table tr.featured .sticky-col {
@@ -465,19 +465,19 @@ input:read-only {
 }
 
 .accounting-table table .second-col {
-    left: 120px;
+    left: 255px;
 }
 
 .accounting-table table .third-col {
-    left: 231px;
+    left: 362px;
 }
 
 .accounting-table table .fourth-col {
-    left: 298px;
+    left: 439px;
 }
 
 .accounting-table table .fifth-col {
-    left: 480px;
+    left: 405px;
 }
 
 .checkpoint-table td.header {

@@ -1,7 +1,7 @@
 @foreach ($accountingClassificationChildrens as $accountingClassification2)
     <tr @if ($accountingClassification2->featured) class="featured" @endif>
         <td class="sticky-col first-col"
-            style="
+            style="white-space: nowrap;
                 @if ($accountingClassification2->color) color:{{ $accountingClassification2->color }}; @endif
                 @if ($accountingClassification2->bolder) font-weight:bolder; @endif
                 padding-left: {{ $accountingClassification2->depth + 0.5 }}rem"
@@ -75,7 +75,8 @@
             @include('dre.classification-loop', [
                 'accountingClassificationChildrens' => $accountingClassification2->children()->whereHas('accountingConfigs', function($q) use($accountingConfigs) {
                     $q->where('accounting_classification_accounting_config.accounting_config_id', count($accountingConfigs) > 0 ? $accountingConfigs[0]->id : 0)
-                    ->where('type_classification', 'DRE Ajustável');
+                      ->where('type_classification', 'DRE Ajustável')
+                      ->where('visible', true);
                 })->orderBy('accounting_classifications.order')->get()
             ])
         @endif

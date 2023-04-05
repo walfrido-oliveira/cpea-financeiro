@@ -34,6 +34,7 @@ class DREController extends Controller
                 $accountingClassifications = $accountingClassifications->merge($accountingConfig->accountingClassifications()
                 ->where('type_classification', 'DRE Ajustável')
                 ->where('accounting_classifications.accounting_classification_id', null)
+                ->where('visible', true)
                 ->orderBy("accounting_classifications.order")
                 ->get());
             }
