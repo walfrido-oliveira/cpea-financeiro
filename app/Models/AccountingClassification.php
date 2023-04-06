@@ -280,6 +280,9 @@ class AccountingClassification extends Model
             ->where('year', $year)
             ->first();
 
+          $dre = Dre::where("accounting_classification_id", $classification->id)->where("month", $month)->where("year", $year)->latest('created_at')->first();
+          if($dre) return $dre->value;
+
           if ($accountingControl) {
             if ($workingDaysType == '') {
               $accountingAnalytics = $accountingControl->accountingAnalytics()->where('accounting_classification_id', $classification->id)->first();
