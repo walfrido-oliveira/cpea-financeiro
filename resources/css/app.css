@@ -495,3 +495,6 @@ input:read-only {
     visibility: visible;
     opacity:1;
 }
+
+input[type='file'] {
+}

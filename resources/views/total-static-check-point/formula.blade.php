@@ -58,7 +58,7 @@
                                                                             App\Models\TotalStaticCheckPoint::getTypes()[$id1],
                                                                             App\Models\TotalStaticCheckPoint::getTypes()[$id2]);
                     @endphp
-                    {{ $result * 100  }}%
+                    {{ number_format($result * 100, 0)  }}%
                     <input type="hidden" data-row="{{ $row }}" data-column="{{ $key }}" value="{{ $result * 100 }}">
                 </td>
             @endforeach
@@ -76,7 +76,7 @@
                                                                         App\Models\TotalStaticCheckPoint::getTypes()[$id1],
                                                                         App\Models\TotalStaticCheckPoint::getTypes()[$id2]);
                 @endphp
-                {{ $result * 100 }}%
+                {{ number_format($result * 100, 0)  }}%
                 <input type="hidden" data-row="{{ $row }}" data-column="{{ $key + 1 }}" value="{{ $result * 100 }}">
             </td>
         <tr>
@@ -97,7 +97,7 @@
                                                                         App\Models\TotalStaticCheckPoint::getTypes()[$id1],
                                                                         App\Models\TotalStaticCheckPoint::getTypes()[$id2]);
                 @endphp
-                {{ $result * 100  }}%
+                {{ number_format($result * 100, 0)  }}%
                 <input type="hidden" data-row="{{ $key }}" data-column="{{ $key }}"  value="{{ $result * 100 }}">
             </td>
         @endforeach
@@ -107,7 +107,7 @@
                                                                     App\Models\TotalStaticCheckPoint::getTypes()[$id1],
                                                                     App\Models\TotalStaticCheckPoint::getTypes()[$id2]);
             @endphp
-            {{ $result  }}%
+            {{ number_format($result, 0)  }}%
             <input type="hidden" data-row="-1" data-column="{{ $key + 1 }}" value="{{ $result }}">
         </td>
     </tr>

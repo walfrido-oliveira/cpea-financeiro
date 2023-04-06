@@ -88,26 +88,25 @@
     document.querySelectorAll(".total .month").forEach(element => {
         const a = document.querySelector(`.type_direto .month input[data-row='${element.dataset.row}'][data-column='${element.dataset.column}']`);
         const b = document.querySelector(`.type_indireto .month input[data-row='${element.dataset.row}'][data-column='${element.dataset.column}']`);
-        element.innerHTML  = (parseFloat(a.value) + parseFloat(b.value)) + '%';
+        element.innerHTML  = (parseFloat(a.value) + parseFloat(b.value)).toFixed(0) + '%';
     });
 
     document.querySelectorAll(".total .month-total").forEach(element => {
         const a = document.querySelector(`.type_direto .month-total input[data-row='${element.dataset.row}'][data-column='${element.dataset.column}']`);
         const b = document.querySelector(`.type_indireto .month-total input[data-row='${element.dataset.row}'][data-column='${element.dataset.column}']`);
-        element.innerHTML  = (parseFloat(a.value) + parseFloat(b.value)) + '%';
+        element.innerHTML  = (parseFloat(a.value) + parseFloat(b.value)).toFixed(0) + '%';
     });
 
     document.querySelectorAll(".total .month-footer").forEach(element => {
-        console.log(element);
         const a = document.querySelector(`.type_direto .month-footer input[data-row='${element.dataset.row}'][data-column='${element.dataset.column}']`);
         const b = document.querySelector(`.type_indireto .month-footer input[data-row='${element.dataset.row}'][data-column='${element.dataset.column}']`);
-        element.innerHTML  = (parseFloat(a.value) + parseFloat(b.value)) + '%';
+        element.innerHTML  = (parseFloat(a.value) + parseFloat(b.value)).toFixed(0) + '%';
 
     });
 
     document.querySelectorAll(".total .month-total-footer").forEach(element => {
         const a = document.querySelector(`.type_direto .month-total-footer input[data-row='${element.dataset.row}'][data-column='${element.dataset.column}']`);
         const b = document.querySelector(`.type_indireto .month-total-footer input[data-row='${element.dataset.row}'][data-column='${element.dataset.column}']`);
-        element.innerHTML  = (parseFloat(a.value) + parseFloat(b.value)) + '%';
+        element.innerHTML  = (parseFloat(a.value) + parseFloat(b.value)).toFixed(0) + '%';
     });
 </script>

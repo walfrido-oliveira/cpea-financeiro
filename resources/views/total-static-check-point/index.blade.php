@@ -1,10 +1,19 @@
 <x-app-layout>
-    <div class="py-6 index-dre">
+    <div class="py-6 index-check_point">
         <div class="md:max-w-6xl lg:max-w-full mx-auto px-4">
 
             <div class="flex md:flex-row flex-col">
                 <div class="w-full flex items-center">
                     <h1>{{ __('Total de horas') }}</h1>
+                </div>
+                <div class="w-full flex justify-end">
+                    <form action="{{ route('check-points.total-static-check-point.import') }}" method="POST">
+                        @csrf
+                        @method("POST")
+                        <div class="m-2 ">
+                            <button id="import" type="button" class="btn-outline-info">{{ __('Importar') }}</button>
+                        </div>
+                    </form>
                 </div>
             </div>
             <div class="py-2 my-2 bg-white rounded-lg min-h-screen">
@@ -100,7 +109,85 @@
         </div>
     </div>
 
+    @include('total-static-check-point.import-modal')
+    @include('total-static-check-point.edit-modal')
+
     <x-spin-load />
+
+    <script>
+        function eventsEditCallback() {
+            document.querySelectorAll('.edit-check-point').forEach(item => {
+                item.addEventListener("click", function(e) {
+                    e.preventDefault();
+
+                    var modal = document.getElementById("check_point_modal");
+                    modal.classList.remove("hidden");
+                    modal.classList.add("block");
+
+                    document.querySelector("#check_point_modal #result").value = "";
+                    document.querySelector("#check_point_modal #justification").value = "";
+                    document.querySelector("#check_point_modal #static_id").value = this.dataset.id;
+                    document.querySelector("#check_point_modal #month").value = this.dataset.month;
+                    document.querySelector("#check_point_modal #year").value = this.dataset.year;
+                    document.querySelector("#check_point_modal #type").value = this.dataset.type;
+
+                });
+            });
+        }
+
+        document.getElementById("check_point_cancel_modal").addEventListener("click", function(e) {
+            var modal = document.getElementById("check_point_modal");
+            modal.classList.add("hidden");
+        });
+
+        document.getElementById("check_point_confirm_modal").addEventListener("click", function(e) {
+            document.getElementById("spin_load").classList.remove("hidden");
+
+            let ajax = new XMLHttpRequest();
+            let token = document.querySelector('meta[name="csrf-token"]').content;
+            let method = 'POST';
+
+            let result = document.querySelector("#check_point_modal #result").value;
+            let justification = document.querySelector("#check_point_modal #justification").value;
+            let id = document.querySelector("#check_point_modal #static_id").value;
+            let month = document.querySelector("#check_point_modal #month").value;
+            let year = document.querySelector("#check_point_modal #year").value;
+            let type = document.querySelector("#check_point_modal #type").value;
+
+            let url = "{!! route('check-points.total-static-check-point.edit', ['id' => '#']) !!}".replace('#', id);
+
+            ajax.open("POST", url);
+
+            ajax.onreadystatechange = function() {
+                if (this.readyState == 4 && this.status == 200) {
+                    var resp = JSON.parse(ajax.response);
+                    document.getElementById("spin_load").classList.add("hidden");
+                    toastr.success(resp.message);
+
+                    location.reload();
+                } else if(this.readyState == 4 && this.status != 200) {
+                    document.getElementById("spin_load").classList.add("hidden");
+                    toastr.error("{!! __('Um erro ocorreu ao solicitar a consulta') !!}");
+                }
+            }
+
+            var data = new FormData();
+            data.append('_token', token);
+            data.append('_method', method);
+            data.append('result', result);
+            data.append('justification', justification);
+            data.append('id', id);
+            data.append('year', year);
+            data.append('month', month);
+            data.append('type', type);
+
+            ajax.send(data);
+
+        });
+
+        eventsEditCallback();
+
+    </script>
 
     <script>
         window.addEventListener("load", function() {
@@ -122,6 +209,56 @@
                 document.getElementById("search_year_form").submit();
             });
         });
+    </script>
+
+    <script>
+        document.getElementById("import").addEventListener("click", function() {
+            var modal = document.getElementById("import_modal");
+            modal.classList.remove("hidden");
+            modal.classList.add("block");
+        });
+
+        document.getElementById("import_cancel_modal").addEventListener("click", function(e) {
+            var modal = document.getElementById("import_modal");
+            modal.classList.add("hidden");
+        });
+
+        document.getElementById("import_confirm_modal").addEventListener("click", function(e) {
+            document.getElementById("spin_load").classList.remove("hidden");
+
+            let ajax = new XMLHttpRequest();
+            let url = "{!! route('check-points.total-static-check-point.import') !!}";
+            let token = document.querySelector('meta[name="csrf-token"]').content;
+            let method = 'POST';
+            let file = document.getElementById("file")
+            let files = file.files;
+
+            ajax.open(method, url);
+
+            ajax.onreadystatechange = function() {
+                if (this.readyState == 4 && this.status == 200) {
+                    var resp = JSON.parse(ajax.response);
+                    document.getElementById("spin_load").classList.add("hidden");
+                    toastr.success(resp.message);
+                    file.value='';
+
+                    location.reload();
+                } else if(this.readyState == 4 && this.status != 200) {
+                    document.getElementById("spin_load").classList.add("hidden");
+                    toastr.error("{!! __('Um erro ocorreu ao solicitar a consulta') !!}");
+                    file.value = '';
+                }
+            }
+
+            var data = new FormData();
+            data.append('_token', token);
+            data.append('_method', method);
+            data.append('file', files[0]);
+
+            ajax.send(data);
+
+        });
+
     </script>
 
 </x-app-layout>

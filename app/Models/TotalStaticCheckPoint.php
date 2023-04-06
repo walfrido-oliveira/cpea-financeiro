@@ -15,7 +15,7 @@ class TotalStaticCheckPoint extends Model
      * @var array
      */
     protected $fillable = [
-        'year', 'month', 'type', 'classification', 'resut', 'classification_id'
+        'year', 'month', 'type', 'classification', 'result', 'classification_id', 'justification'
     ];
 
     public static function getTypes()

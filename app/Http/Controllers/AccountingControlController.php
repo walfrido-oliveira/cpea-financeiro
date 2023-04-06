@@ -246,27 +246,36 @@ class AccountingControlController extends Controller
                     {
                         if($inputs['type'] == 'Contábil')
                         {
-                            AccountingAnalytics::create([
+                            $accountingAnalytics = AccountingAnalytics::firstOrCreate([
                                 'accounting_classification_id' => $accountingClassification->id,
-                                'value' => Str::replace(',', '', $value[2]),
                                 'accounting_control_id' => $accountingControl->id
+                            ]);
+
+                            $accountingAnalytics->update([
+                                'value' => Str::replace(',', '', $value[2]),
                             ]);
                         }
 
                         if($inputs['type'] == 'Retiradas')
                         {
-                          AccountingAnalytics::create([
-                            'accounting_classification_id' => $accountingClassification->id,
-                            'value' => Str::replace(',', '', $value[2]),
-                            'accounting_control_id' => $accountingControl->id
-                          ]);
+                            $accountingAnalytics = AccountingAnalytics::firstOrCreate([
+                                'accounting_classification_id' => $accountingClassification->id,
+                                'accounting_control_id' => $accountingControl->id
+                            ]);
 
-                          Withdrawal::create([
-                              'accounting_classification_id' => $accountingClassification->id,
-                              'month' => $inputs['month'],
-                              'year' => $inputs['year'],
-                              'value' => Str::replace(',', '', $value[2]),
-                          ]);
+                            $accountingAnalytics->update([
+                                'value' => Str::replace(',', '', $value[2]),
+                            ]);
+
+                            $withDrawal = Withdrawal::firstOrCreate([
+                                'accounting_classification_id' => $accountingClassification->id,
+                                'month' => $inputs['month'],
+                                'year' => $inputs['year'],
+                            ]);
+
+                            $withDrawal->update([
+                                'value' => Str::replace(',', '', $value[2]),
+                            ]);
                         }
 
                         $totalImported++;
