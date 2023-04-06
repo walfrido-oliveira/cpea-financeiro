@@ -281,12 +281,12 @@ class AccountingClassification extends Model
             ->first();
 
           $dre = Dre::where("accounting_classification_id", $classification->id)->where("month", $month)->where("year", $year)->latest('created_at')->first();
-          if($dre) return $dre->value;
 
-          if ($accountingControl) {
+          if ($accountingControl && !$dre) {
             if ($workingDaysType == '') {
               $accountingAnalytics = $accountingControl->accountingAnalytics()->where('accounting_classification_id', $classification->id)->first();
               $withdrawal = Withdrawal::getTotalByMonthAndClassification($month, $year, $classification->id);
+
               if ($accountingAnalytics) {
                 $sum += $accountingAnalytics->value;
               } else if ($withdrawal) {
@@ -294,6 +294,7 @@ class AccountingClassification extends Model
               } else {
                 $sum = $classification->getTotalClassificationDRE($month, $year, true);
               }
+
             } else {
               switch ($workingDaysType) {
                 case 'CUSTOS INDIRETOS':
@@ -337,7 +338,10 @@ class AccountingClassification extends Model
                   break;
               }
             }
+          } else if($dre) {
+            $sum = $dre->value;
           }
+
           if ($classification->unity == "%") $sum = $sum / 100;
         }
         $formulaText = Str::replace($value2[0], $sum, $formulaText);
