@@ -16,7 +16,7 @@ class Withdrawal extends Model
      * @var array
      */
     protected $fillable = [
-        'accounting_classification_id', 'month', 'year', 'value'
+        'accounting_classification_id', 'month', 'year', 'value', 'justification'
     ];
 
     /**

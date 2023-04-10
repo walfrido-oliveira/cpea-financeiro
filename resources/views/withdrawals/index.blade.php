@@ -48,7 +48,8 @@
         </div>
     </div>
 
-    @include('withdrawals.create-modal')
+     @include('withdrawals.edit-modal')
+
     <x-spin-load />
 
     <x-modal title="{{ __('Excluir Retiradas Gerenciais') }}"
@@ -56,6 +57,78 @@
              confirm="{{ __('Sim') }}" cancel="{{ __('Não') }}" id="delete_accounting_classification_modal"
              method="DELETE"
              redirect-url="{{ route('withdrawals.index') }}"/>
+
+    <script>
+        function eventsEditCallback() {
+            document.querySelectorAll('.edit-withdrawal').forEach(item => {
+                item.addEventListener("click", function(e) {
+                    e.preventDefault();
+
+                    var modal = document.getElementById("withdrawal_modal");
+                    modal.classList.remove("hidden");
+                    modal.classList.add("block");
+
+                    document.querySelector("#withdrawal_modal #value").value = "";
+                    document.querySelector("#withdrawal_modal #justification").value = "";
+                    document.querySelector("#withdrawal_modal #accounting_classification_id").value = this.dataset.id;
+                    document.querySelector("#withdrawal_modal #month").value = this.dataset.month;
+                    document.querySelector("#withdrawal_modal #year").value = this.dataset.year;
+
+                });
+            });
+        }
+
+        document.getElementById("withdrawal_cancel_modal").addEventListener("click", function(e) {
+            var modal = document.getElementById("withdrawal_modal");
+            modal.classList.add("hidden");
+        });
+
+        document.getElementById("withdrawal_confirm_modal").addEventListener("click", function(e) {
+            document.getElementById("spin_load").classList.remove("hidden");
+
+            let ajax = new XMLHttpRequest();
+            let token = document.querySelector('meta[name="csrf-token"]').content;
+            let method = 'PUT';
+
+            let value = document.querySelector("#withdrawal_modal #value").value;
+            let justification = document.querySelector("#withdrawal_modal #justification").value;
+            let id = document.querySelector("#withdrawal_modal #accounting_classification_id").value;
+            let month = document.querySelector("#withdrawal_modal #month").value;
+            let year = document.querySelector("#withdrawal_modal #year").value;
+
+            let url = "{!! route('withdrawals.update', ['withdrawal' => '#']) !!}".replace('#', id);
+
+            ajax.open("POST", url);
+
+            ajax.onreadystatechange = function() {
+                if (this.readyState == 4 && this.status == 200) {
+                    var resp = JSON.parse(ajax.response);
+                    document.getElementById("spin_load").classList.add("hidden");
+                    toastr.success(resp.message);
+
+                    location.reload();
+                } else if(this.readyState == 4 && this.status != 200) {
+                    document.getElementById("spin_load").classList.add("hidden");
+                    toastr.error("{!! __('Um erro ocorreu ao solicitar a consulta') !!}");
+                }
+            }
+
+            var data = new FormData();
+            data.append('_token', token);
+            data.append('_method', method);
+            data.append('value', value);
+            data.append('justification', justification);
+            data.append('id', id);
+            data.append('year', year);
+            data.append('month', month);
+
+            ajax.send(data);
+
+        });
+
+        eventsEditCallback();
+
+    </script>
 
     <script>
         window.addEventListener("load", function() {
@@ -92,7 +165,7 @@
     </script>
 
     <script>
-        document.getElementById("btn_withdrawal_add").addEventListener("click", function() {
+        /*document.getElementById("btn_withdrawal_add").addEventListener("click", function() {
             var modal = document.getElementById("withdrawal_modal");
             modal.classList.remove("hidden");
             modal.classList.add("block");
@@ -140,7 +213,7 @@
 
             ajax.send(data);
 
-        });
+        });*/
 
     </script>
 

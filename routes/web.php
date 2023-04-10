@@ -229,7 +229,7 @@ Route::group(['middleware' => ['auth:sanctum', 'verified']], function() {
         Route::get('/index', [TotalStaticCheckPointController::class, 'index'])->name('index');
         Route::post('/filter', [TotalStaticCheckPointController::class, 'filter'])->name('filter');
         Route::post('/import', [TotalStaticCheckPointController::class, 'import'])->name('import');
-        Route::post('/edit/{id}', [TotalStaticCheckPointController::class, 'edit'])->name('edit');
+        Route::post('/update/{id}', [TotalStaticCheckPointController::class, 'update'])->name('update');
         });
     });
 

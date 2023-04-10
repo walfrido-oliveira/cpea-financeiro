@@ -154,7 +154,7 @@
             let year = document.querySelector("#check_point_modal #year").value;
             let type = document.querySelector("#check_point_modal #type").value;
 
-            let url = "{!! route('check-points.total-static-check-point.edit', ['id' => '#']) !!}".replace('#', id);
+            let url = "{!! route('check-points.total-static-check-point.update', ['id' => '#']) !!}".replace('#', id);
 
             ajax.open("POST", url);
 

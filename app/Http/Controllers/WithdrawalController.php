@@ -149,25 +149,41 @@ class WithdrawalController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $withdrawal = Withdrawal::findOrFail($id);
+        $validator = Validator::make($request->all(), [
+            'value' => ['required', 'numeric'],
+            'justification' => ['required', 'string'],
+            'id' => ['required'],
+            'month' => ['required'],
+            'year' => ['required'],
+        ]);
 
-        $this->validating($request);
+        if ($validator->fails())
+        {
+            return response()->json($validator->messages(), Response::HTTP_BAD_REQUEST);
+        }
 
         $input = $request->all();
 
-        $withdrawal->update([
-            'accounting_classification_id' => $input['accounting_classification_id'],
-            'month' => $input['month'],
-            'year' => $input['year'],
-            'value' => $input['value']
-        ]);
+        $withdrawal = Withdrawal::where('year', $input['year'])
+        ->where('month',$input['month'])
+        ->where('accounting_classification_id', $id)->first();
 
-        $resp = [
-            'message' => __('Retirada Atualizada com Sucesso!'),
-            'alert-type' => 'success'
-        ];
+        if($withdrawal) {
+            $withdrawal->update([
+                'value' => $input['value'],
+                'justification' => $input['justification']
+            ]);
 
-        return redirect()->route('withdrawals.index')->with($resp);
+            return response()->json([
+                'message' => __('Valores atualizados com sucesso!'),
+                'alert-type' => 'success'
+            ]);
+        } else {
+            return response()->json([
+                'message' => __('Lançamento não encontrado.'),
+                'alert-type' => 'success'
+            ]);
+        }
     }
 
     /**

@@ -43,7 +43,7 @@ class TotalStaticCheckPointController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function edit(Request $request, $id)
+    public function update(Request $request, $id)
     {
         $validator = Validator::make($request->all(), [
             'result' => ['required', 'numeric'],
@@ -63,7 +63,7 @@ class TotalStaticCheckPointController extends Controller
 
         $totalStaticCheckPoint = TotalStaticCheckPoint::where('year', $input['year'])
         ->where('month',$input['month'])
-        ->where('classification_id', $input['id'])
+        ->where('classification_id', $id)
         ->where('type', $input['type'])->first();
 
         if($totalStaticCheckPoint) {
