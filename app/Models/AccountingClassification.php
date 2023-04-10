@@ -112,6 +112,8 @@ class AccountingClassification extends Model
       'RETIRADAS GERENCIAIS' => 'Retiradas Gerenciais',
       'RESULTADOS DO EXERCICIO' => 'Resultado do Exercicio',
       'DRE AJUSTÁVEL' => 'DRE Ajustável',
+      'RL' => 'RL',
+      'NSR' => 'NSR'
     ];
   }
 
@@ -229,18 +231,9 @@ class AccountingClassification extends Model
 
   public function getEspecialFomulas($year, $type)
   {
-    $accountingConfig = AccountingConfig::where('month', 1)
-    ->where('year', $year)
-    ->first();
-
-    $formula = null;
-    if ($accountingConfig) {
-        $formula = $accountingConfig->formulas()
-        ->where('accounting_classification_id', $this->id)
-        ->where('formula', 'like', '%ACUMULADO%')
-        ->where('formula', 'like', "%$type%")
+    $formula = Formula::where('accounting_classification_id', $this->id)
+        ->where('type_classification', $type)
         ->first();
-    }
 
     if ($formula) {
         $re = '/{(.*?)}/m';
