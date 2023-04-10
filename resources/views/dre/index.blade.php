@@ -47,6 +47,19 @@
 
     <script>
         window.addEventListener("load", function() {
+            document.querySelectorAll(".total").forEach(item => {
+                var sum = 0;
+                var id = item.dataset.id;
+                document.querySelectorAll(`.accounting-classification-${id}`).forEach(value => {
+                    sum += parseFloat(value.value);
+                });
+                item.innerHTML = parseFloat(sum).toFixed(0);
+            });
+        });
+    </script>
+
+    <script>
+        window.addEventListener("load", function() {
             document.querySelector("#scroll_top div").style.width = document.querySelector("#accounting_classifications_table").clientWidth + 'px';
         });
         var wrapper1 = document.getElementById('scroll_top');

@@ -15,7 +15,7 @@
                       @if ($accountingClassification->bolder) font-weight:bolder; @endif ">
                 {{ $accountingClassification->classification }}
             </td>
-            <td class="sticky-col second-col" style="left: 100px; @if ($accountingClassification->color) color:{{ $accountingClassification->color }}; @endif
+            <td class="sticky-col second-col" style="left: 114px; @if ($accountingClassification->color) color:{{ $accountingClassification->color }}; @endif
                                                       @if ($accountingClassification->bolder) font-weight:bolder; @endif">
                 {{ $accountingClassification->name }}
             </td>

@@ -227,6 +227,50 @@ class AccountingClassification extends Model
     return $total;
   }
 
+  public function getEspecialFomulas($year, $type)
+  {
+    $accountingConfig = AccountingConfig::where('month', 1)
+    ->where('year', $year)
+    ->first();
+
+    $formula = null;
+    if ($accountingConfig) {
+        $formula = $accountingConfig->formulas()
+        ->where('accounting_classification_id', $this->id)
+        ->where('formula', 'like', '%ACUMULADO%')
+        ->where('formula', 'like', "%$type%")
+        ->first();
+    }
+
+    if ($formula) {
+        $re = '/{(.*?)}/m';
+        $formulaText = $formula->formula;
+        preg_match_all($re, $formulaText, $matches, PREG_SET_ORDER, 0);
+        $sum = 0;
+
+        foreach ($matches as $value2) {
+          $result = explode("&", $value2[1]);
+          $classification = self::where('classification', $result[0])->where('name', $result[1])->first();
+          $sum = $classification->getTotal($year);
+          $formulaText = Str::replace($value2[0], $sum, $formulaText);
+        }
+
+        $stringCalc = new StringCalc();
+        if (Str::contains($formulaText, '0/0')) return 0;
+
+        try {
+            $result = $stringCalc->calculate($formulaText);
+        } catch (\Throwable $th) {
+            abort(500, "Erro ao calcular formula $formula->id: $formulaText");
+        }
+
+
+        return  $result;
+    }
+
+    return 0;
+  }
+
   /**
    * Get total by classification
    *
@@ -252,10 +296,7 @@ class AccountingClassification extends Model
 
     if($dre) return $dre->value;
 
-    if (!$formula && $sub) {
-      $formula = Formula::where('accounting_classification_id', $this->id)
-        ->first();
-    }
+    if (!$formula && $sub) $formula = Formula::where('accounting_classification_id', $this->id)->first();
 
     if ($formula) {
       $re = '/{(.*?)}/m';
@@ -360,6 +401,19 @@ class AccountingClassification extends Model
       return  $result;//$this->unity == 'R$' && !$sub  ? round($result, 0, PHP_ROUND_HALF_UP) : $result;
     }
     return 0;
+  }
+
+
+  public function getTotal($year)
+  {
+    $sum = 0;
+
+    foreach (months() as $key => $month)
+    {
+        $sum += $this->getTotalClassificationDRE($key, $year);
+    }
+
+    return $sum;
   }
 
   /**

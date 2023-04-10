@@ -21,21 +21,33 @@
                  {{ $accountingClassification->name }}
             </td>
 
-            <td class="sticky-col second-col" style="@if ($accountingClassification->color) color:{{ $accountingClassification->color }}; @endif @if ($accountingClassification->bolder) font-weight:bolder; @endif">
+            <td class="sticky-col second-col total" data-id="{{ $accountingClassification->id }}"
+                style="text-align: center; @if ($accountingClassification->color) color:{{ $accountingClassification->color }};@endif
+                       @if ($accountingClassification->bolder) font-weight:bolder; @endif">
                 -
             </td>
 
-            <td class="sticky-col third-col"
-            style=" @if ($accountingClassification->color) color:{{ $accountingClassification->color }}; @endif @if ($accountingClassification->bolder) font-weight:bolder; @endif">
-                -
+            <td class="sticky-col third-col rl"
+                style=" @if ($accountingClassification->color) color:{{ $accountingClassification->color }}; @endif
+                        @if ($accountingClassification->bolder) font-weight:bolder; @endif">
+                @php
+                    $result = $accountingClassification->getEspecialFomulas($year, 'RL');
+                @endphp
+                {{ $result > 0 ? number_format($result, 0) . '%' : '-' }}
             </td>
 
-            <td class="sticky-col fourth-col" style="@if ($accountingClassification->color) color:{{ $accountingClassification->color }};  @endif @if ($accountingClassification->bolder) font-weight:bolder; @endif ">
-                -
+            <td class="sticky-col fourth-col nsr"
+                style="@if ($accountingClassification->color) color:{{ $accountingClassification->color }};@endif
+                       @if ($accountingClassification->bolder) font-weight:bolder; @endif ">
+                @php
+                    $result = $accountingClassification->getEspecialFomulas($year, 'NSR');
+                @endphp
+                {{ $result > 0 ? number_format($result, 0) . '%' : '-' }}
             </td>
 
             @foreach ($months as $key => $month)
-                <td  style="@if ($accountingClassification->color) color:{{ $accountingClassification->color }}; @endif @if ($accountingClassification->bolder) font-weight:bolder; @endif">
+                <td  style="@if ($accountingClassification->color) color:{{ $accountingClassification->color }}; @endif
+                            @if ($accountingClassification->bolder) font-weight:bolder; @endif">
                     @php
                         $dre = App\Models\Dre::where("accounting_classification_id", $accountingClassification->id)->where("month", $key)->where("year", $year)->latest('created_at')->first();
                     @endphp
@@ -68,6 +80,7 @@
                                 <path stroke-linecap="round" stroke-linejoin="round" d="M9.879 7.519c1.171-1.025 3.071-1.025 4.242 0 1.172 1.025 1.172 2.687 0 3.712-.203.179-.43.326-.67.442-.745.361-1.45.999-1.45 1.827v.75M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-9 5.25h.008v.008H12v-.008z" />
                             </svg>
                         @endif
+                        <input type="hidden" class="accounting-classification-{{ $accountingClassification->id }}" value="{{ $totalClassificationDRE }}">
                     </a>
                 </td>
             @endforeach
