@@ -19,6 +19,10 @@
                             <x-custom-select class="filter-field" select-class="no-nice-select" :options="$years" name="year" id="year"
                                 :value="app('request')->has('year') ? app('request')->input('year') : now()->year"/>
                         </div>
+                        <div class="w-full md:w-auto px-2 mb-6 md:mb-0">
+                            <x-custom-select class="filter-field" select-class="no-nice-select" :options="months()" name="month" id="month"
+                                :value="app('request')->has('month') ? app('request')->input('month') : now()->month"/>
+                        </div>
                     </form>
                 </div>
                 <div id="scroll_top" style="width: calc(100vw - 21rem); overflow: auto;">
@@ -89,6 +93,11 @@
         window.addEventListener("load", function() {
             document.getElementById("year").addEventListener("change", function() {
                 document.getElementById("search_year_form").submit();
+                document.getElementById("spin_load").classList.remove("hidden");
+            });
+
+            document.getElementById("month").addEventListener("change", function() {
+                document.getElementById("search_month_form").submit();
                 document.getElementById("spin_load").classList.remove("hidden");
             });
 

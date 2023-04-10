@@ -257,8 +257,6 @@ class AccountingConfigController extends Controller
                 'alert-type' => 'success'
             ]);
         }
-
-
     }
 
     /**
