@@ -25,7 +25,7 @@
                 {{ $accountingClassification->classification }}
             </td>
             <td class="sticky-col second-col"
-            style="
+            style="left: 100px;
             @if ($accountingClassification->color)
                 color:{{ $accountingClassification->color }};
             @endif
