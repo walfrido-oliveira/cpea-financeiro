@@ -19,7 +19,7 @@
             style="text-align: center; @if ($accountingClassification2->color) color:{{ $accountingClassification2->color }}; @endif
                    @if ($accountingClassification2->bolder) font-weight:bolder; @endif">
             @php
-                $result = $accountingClassification->getEspecialFomulas($year, 'RL');
+                $result = $accountingClassification2->getEspecialFomulas($year, 'RL');
             @endphp
             {{ $result > 0 ? number_format($result, 0) . '%' : '-' }}
         </td>
@@ -28,7 +28,7 @@
             style="text-align: center; @if ($accountingClassification2->color) color:{{ $accountingClassification2->color }}; @endif
                    @if ($accountingClassification2->bolder) font-weight:bolder; @endif">
             @php
-                $result = $accountingClassification->getEspecialFomulas($year, 'NSR');
+                $result = $accountingClassification2->getEspecialFomulas($year, 'NSR');
             @endphp
             {{ $result > 0 ? number_format($result, 0) . '%' : '-' }}
         </td>
