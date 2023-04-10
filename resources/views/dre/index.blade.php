@@ -20,7 +20,7 @@
                                 :value="app('request')->has('year') ? app('request')->input('year') : now()->year"/>
                         </div>
                         <div class="w-1/2 px-2 mb-6 md:mb-0">
-                            <x-custom-select class="filter-field" select-class="no-nice-select" :options="months()" name="month" id="month"
+                            <x-custom-select class="" select-class="no-nice-select" :options="months()" name="month" id="month"
                                 :value="app('request')->has('month') ? app('request')->input('month') : now()->month"/>
                         </div>
                     </form>
