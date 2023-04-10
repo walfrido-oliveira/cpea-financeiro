@@ -11,17 +11,17 @@
 
         <td class="sticky-col second-col total" data-id="{{ $accountingClassification2->id }}" data-unity="{{ $accountingClassification2->unity }}"
             style="text-align: center; @if ($accountingClassification2->color) color:{{ $accountingClassification2->color }}; @endif
-                   @if ($accountingClassification2->bolder) font-weight:bolder; @endif">
+                                       @if ($accountingClassification2->bolder) font-weight:bolder; @endif">
             -
         </td>
 
         <td class="sticky-col third-col rl"
             style="text-align: center; @if ($accountingClassification2->color) color:{{ $accountingClassification2->color }}; @endif
-                   @if ($accountingClassification2->bolder) font-weight:bolder; @endif">
+                                       @if ($accountingClassification2->bolder) font-weight:bolder; @endif">
             @php
                 $result = $accountingClassification2->getEspecialFomulas($year, 'RL');
             @endphp
-            {{ $result > 0 ? number_format($result, 0) . '%' : '-' }}
+            {{ $result == 0 ? '-' : number_format($result, 2) . '%' }}
         </td>
 
         <td class="sticky-col fourth-col nsr"
