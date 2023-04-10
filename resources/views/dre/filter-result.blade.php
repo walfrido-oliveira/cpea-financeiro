@@ -28,7 +28,7 @@
             </td>
 
             <td class="sticky-col third-col rl"
-                style=" @if ($accountingClassification->color) color:{{ $accountingClassification->color }}; @endif
+                style="text-align: center;  @if ($accountingClassification->color) color:{{ $accountingClassification->color }}; @endif
                         @if ($accountingClassification->bolder) font-weight:bolder; @endif">
                 @php
                     $result = $accountingClassification->getEspecialFomulas($year, 'RL');
@@ -37,7 +37,7 @@
             </td>
 
             <td class="sticky-col fourth-col nsr"
-                style="@if ($accountingClassification->color) color:{{ $accountingClassification->color }};@endif
+                style="text-align: center; @if ($accountingClassification->color) color:{{ $accountingClassification->color }};@endif
                        @if ($accountingClassification->bolder) font-weight:bolder; @endif ">
                 @php
                     $result = $accountingClassification->getEspecialFomulas($year, 'NSR');

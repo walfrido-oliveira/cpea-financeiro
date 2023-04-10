@@ -10,13 +10,13 @@
         </td>
 
         <td class="sticky-col second-col total" data-id="{{ $accountingClassification2->id }}"
-            style="@if ($accountingClassification2->color) color:{{ $accountingClassification2->color }}; @endif
+            style="text-align: center; @if ($accountingClassification2->color) color:{{ $accountingClassification2->color }}; @endif
                    @if ($accountingClassification2->bolder) font-weight:bolder; @endif">
             -
         </td>
 
         <td class="sticky-col third-col rl"
-            style="@if ($accountingClassification2->color) color:{{ $accountingClassification2->color }}; @endif
+            style="text-align: center; @if ($accountingClassification2->color) color:{{ $accountingClassification2->color }}; @endif
                    @if ($accountingClassification2->bolder) font-weight:bolder; @endif">
             @php
                 $result = $accountingClassification->getEspecialFomulas($year, 'RL');
@@ -25,7 +25,7 @@
         </td>
 
         <td class="sticky-col fourth-col nsr"
-            style="@if ($accountingClassification2->color) color:{{ $accountingClassification2->color }}; @endif
+            style="text-align: center; @if ($accountingClassification2->color) color:{{ $accountingClassification2->color }}; @endif
                    @if ($accountingClassification2->bolder) font-weight:bolder; @endif">
             @php
                 $result = $accountingClassification->getEspecialFomulas($year, 'NSR');
