@@ -9,7 +9,7 @@
             {{ $accountingClassification2->name }}
         </td>
 
-        <td class="sticky-col second-col total"
+        <td class="sticky-col second-col total" data-id="{{ $accountingClassification->id }}"
             style="@if ($accountingClassification2->color) color:{{ $accountingClassification2->color }}; @endif
                    @if ($accountingClassification2->bolder) font-weight:bolder; @endif">
             -
@@ -18,13 +18,19 @@
         <td class="sticky-col third-col rl"
             style="@if ($accountingClassification2->color) color:{{ $accountingClassification2->color }}; @endif
                    @if ($accountingClassification2->bolder) font-weight:bolder; @endif">
-            -
+            @php
+                $result = $accountingClassification->getEspecialFomulas($year, 'RL');
+            @endphp
+            {{ $result > 0 ? number_format($result, 0) . '%' : '-' }}
         </td>
 
         <td class="sticky-col fourth-col nsr"
             style="@if ($accountingClassification2->color) color:{{ $accountingClassification2->color }}; @endif
                    @if ($accountingClassification2->bolder) font-weight:bolder; @endif">
-            -
+            @php
+                $result = $accountingClassification->getEspecialFomulas($year, 'NSR');
+            @endphp
+            {{ $result > 0 ? number_format($result, 0) . '%' : '-' }}
         </td>
 
         @foreach ($months as $key => $month)
