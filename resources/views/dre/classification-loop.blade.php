@@ -9,7 +9,7 @@
             {{ $accountingClassification2->name }}
         </td>
 
-        <td class="sticky-col second-col total" data-id="{{ $accountingClassification->id }}"
+        <td class="sticky-col second-col total" data-id="{{ $accountingClassification2->id }}"
             style="@if ($accountingClassification2->color) color:{{ $accountingClassification2->color }}; @endif
                    @if ($accountingClassification2->bolder) font-weight:bolder; @endif">
             -
