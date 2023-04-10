@@ -21,7 +21,7 @@
                  {{ $accountingClassification->name }}
             </td>
 
-            <td class="sticky-col second-col total" data-id="{{ $accountingClassification->id }}"
+            <td class="sticky-col second-col total" data-id="{{ $accountingClassification->id }}" data-unity="{{ $accountingClassification->unity }}"
                 style="text-align: center; @if ($accountingClassification->color) color:{{ $accountingClassification->color }};@endif
                        @if ($accountingClassification->bolder) font-weight:bolder; @endif">
                 -

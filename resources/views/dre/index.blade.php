@@ -50,10 +50,23 @@
             document.querySelectorAll(".total").forEach(item => {
                 var sum = 0;
                 var id = item.dataset.id;
+                var unity = item.dataset.unity;
+
                 document.querySelectorAll(`.accounting-classification-${id}`).forEach(value => {
                     sum += parseFloat(value.value);
                 });
-                item.innerHTML = parseFloat(sum).toFixed(0);
+
+                if(unity != '%') {
+                    let currencyFormatted = new Intl.NumberFormat('pt-BR', {
+                        style: 'currency',
+                        currency: 'BRL',
+                    });
+
+                    item.innerHTML = currencyFormatted.format(parseFloat(sum).toFixed(0));
+                } else {
+                    item.innerHTML = parseFloat(sum).toFixed(0) + '%';
+                }
+
             });
         });
     </script>
