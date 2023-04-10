@@ -289,6 +289,7 @@ class AccountingClassification extends Model
     if ($accountingConfig) {
       $formula = $accountingConfig->formulas()
         ->where('accounting_classification_id', $this->id)
+        ->whereNot('formula', 'like', '%ACUMULADO%')
         ->first();
     }
 
