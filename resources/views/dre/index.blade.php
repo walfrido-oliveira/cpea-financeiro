@@ -15,11 +15,11 @@
             <div class="py-2 my-2 bg-white rounded-lg min-h-screen">
                 <div class="flex -mx-3 mb-6 p-3 md:flex-row flex-col w-full justify-end">
                     <form id="search_year_form" action="{{ route('dre.index') }}" method="GET">
-                        <div class="w-full md:w-auto px-2 mb-6 md:mb-0">
+                        <div class="w-1/2 md:w-auto px-2 mb-6 md:mb-0">
                             <x-custom-select class="filter-field" select-class="no-nice-select" :options="$years" name="year" id="year"
                                 :value="app('request')->has('year') ? app('request')->input('year') : now()->year"/>
                         </div>
-                        <div class="w-full md:w-auto px-2 mb-6 md:mb-0">
+                        <div class="w-1/2 md:w-auto px-2 mb-6 md:mb-0">
                             <x-custom-select class="filter-field" select-class="no-nice-select" :options="months()" name="month" id="month"
                                 :value="app('request')->has('month') ? app('request')->input('month') : now()->month"/>
                         </div>
@@ -97,7 +97,7 @@
             });
 
             document.getElementById("month").addEventListener("change", function() {
-                document.getElementById("search_month_form").submit();
+                document.getElementById("search_year_form").submit();
                 document.getElementById("spin_load").classList.remove("hidden");
             });
 
