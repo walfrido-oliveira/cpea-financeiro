@@ -3269,6 +3269,9 @@ input:read-only {
     display: block;
     margin-top: 0.25rem;
 }
+.multiple-options {
+    width: 88% !important;
+}
 [class^='point-items-'] {
     opacity: 0;
     visibility: collapse;

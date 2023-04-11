@@ -352,6 +352,10 @@ input:read-only {
     @apply mt-1;
 }
 
+.multiple-options {
+    width: 88% !important;
+}
+
 [class^='point-items-'] {
     opacity: 0;
     visibility: collapse;
