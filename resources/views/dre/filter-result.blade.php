@@ -4,9 +4,9 @@
         <x-table-sort-header :orderBy="$orderBy" :ascending="$ascending" columnName="" columnText="{!! __('Acumulado') . '<br>' . '(' . $year . ')' !!}" class="sticky-col second-col text-center"/>
             <x-table-sort-header :orderBy="$orderBy" :ascending="$ascending" columnName="" columnText="{{ __('(%) R.L')  }}" class="sticky-col third-col"/>
             <x-table-sort-header :orderBy="$orderBy" :ascending="$ascending" columnName="" columnText="{{ __('(%) N.S.R.')  }}" class="sticky-col fourth-col"/>
-            @foreach (isset($_GET['month']) ? [$_GET['month'] => $_GET['month']] : $months as $key => $month)
-            <x-table-sort-header :orderBy="$orderBy" :ascending="$ascending" columnName="{{ $month . '/' . $year }}" columnText="{{ $month . '/' . $year }}"/>
-        @endforeach
+            @foreach ($months as $key => $month)
+                <x-table-sort-header :orderBy="$orderBy" :ascending="$ascending" columnName="{{ $month . '/' . $year }}" columnText="{{ $month . '/' . $year }}"/>
+            @endforeach
     </tr>
 </thead>
 <tbody id="withdrawals_table_content">
@@ -45,7 +45,7 @@
                 {{ $result > 0 ? number_format($result, 0) . '%' : '-' }}
             </td>
 
-            @foreach (isset($_GET['month']) ? [$_GET['month'] => $_GET['month']] : $months as $key => $month)
+            @foreach ($months as $key => $month)
                 <td  style="@if ($accountingClassification->color) color:{{ $accountingClassification->color }}; @endif
                             @if ($accountingClassification->bolder) font-weight:bolder; @endif">
                     @php

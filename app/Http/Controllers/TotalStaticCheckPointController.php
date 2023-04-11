@@ -6,6 +6,7 @@ use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use App\Models\AccountingConfig;
+use App\Models\AccountingControl;
 use App\Models\TotalStaticCheckPoint;
 use PhpOffice\PhpSpreadsheet\IOFactory;
 use App\Models\AccountingClassification;
@@ -66,11 +67,28 @@ class TotalStaticCheckPointController extends Controller
         ->where('classification_id', $id)
         ->where('type', $input['type'])->first();
 
+        $accountControl = AccountingControl::where('year', $input['year'])
+        ->where('month',$input['month'])
+        ->where('type', $input['type'])->first();
+
+        $accountingClassification = AccountingClassification::where("classification", $id);
+        if($accountingClassification && $accountControl) {
+            $accountAnalytics = $accountControl->accountingAnalytics()->where("accounting_classification_id", $accountingClassification->id);
+            if($accountAnalytics) {
+                $accountAnalytics->update([
+                    'value' => $input['result'],
+                    'justification' => $input['justification'],
+                ]);
+            }
+        }
+
         if($totalStaticCheckPoint) {
             $totalStaticCheckPoint->update([
                 'result' => $input['result'],
                 'justification' => $input['justification']
             ]);
+
+
 
             return response()->json([
                 'message' => __('Valores atualizados com sucesso!'),
@@ -82,89 +100,5 @@ class TotalStaticCheckPointController extends Controller
                 'alert-type' => 'success'
             ]);
         }
-    }
-
-    /**
-     * Import Resource
-     *
-     * * @param  Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function import(Request $request)
-    {
-        $validator = Validator::make($request->all(), [
-            'file' => 'required|mimes:xls,xlsx,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet|max:4096',
-        ]);
-
-        if ($validator->fails())
-        {
-            return response()->json($validator->messages(), Response::HTTP_BAD_REQUEST);
-        }
-
-        if($request->file)
-        {
-
-            $spreadsheet = IOFactory::load($request->file->path());
-            $worksheet = $spreadsheet->getActiveSheet();
-            $rows = $worksheet->toArray();
-            $notImport = [];
-            $totalImported=0;
-
-            foreach($rows as $key => $value)
-            {
-                if($key < 1) continue;
-                if(!$value[0]) continue;
-
-                $validator = Validator::make([
-                    'year' => $value[0],
-                    'month' => $value[1],
-                    'type' => $value[2],
-                    'classification' => $value[3],
-                    'classification_id' => $value[4],
-                    'result' => Str::replace(',', '', $value[5])
-                ],
-                [
-                    'year' => ['required'],
-                    'month' => ['required'],
-                    'type' => ['required'],
-                    'classification' => ['required'],
-                    'classification_id' => ['required'],
-                    'result' => ['required'],
-                ]);
-
-                if (!$validator->fails())
-                {
-                    $totalStaticCheckPoint = TotalStaticCheckPoint::firstOrCreate([
-                        'year' => $value[0],
-                        'month' => $value[1],
-                        'type' => $value[2],
-                        'classification' => $value[3],
-                        'classification_id' => $value[4],
-                    ]);
-
-                    $totalStaticCheckPoint->update([
-                        'result' => Str::replace(',', '', $value[5]),
-                    ]);
-
-                    //dd(Str::replace(',', '', $value[5]));
-
-                    $totalImported++;
-                }else{
-                  $notImport[] = $value[0];
-                }
-            }
-
-            return response()->json([
-                'message' => __('Arquivo importado com sucesso!'),
-                'alert-type' => 'success',
-                'not_imported' => $notImport,
-                'total_imported' =>  $totalImported
-            ]);
-        }
-
-        return response()->json([
-            'message' => __('Arquivo não importado!'),
-            'alert-type' => 'error'
-        ]);
     }
 }

@@ -33,7 +33,7 @@
             {{ $result > 0 ? number_format($result, 0) . '%' : '-' }}
         </td>
 
-        @foreach (isset($_GET['month']) ? [$_GET['month'] => $_GET['month']] : $months as $key => $month)
+        @foreach ($months as $key => $month)
             <td  style="@if ($accountingClassification2->color) color:{{ $accountingClassification2->color }}; @endif
                         @if ($accountingClassification2->bolder) font-weight:bolder; @endif">
                 @php

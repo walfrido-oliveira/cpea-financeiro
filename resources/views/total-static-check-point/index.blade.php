@@ -6,15 +6,6 @@
                 <div class="w-full flex items-center">
                     <h1>{{ __('Total de horas') }}</h1>
                 </div>
-                <div class="w-full flex justify-end">
-                    <form action="{{ route('check-points.total-static-check-point.import') }}" method="POST">
-                        @csrf
-                        @method("POST")
-                        <div class="m-2 ">
-                            <button id="import" type="button" class="btn-outline-info">{{ __('Importar') }}</button>
-                        </div>
-                    </form>
-                </div>
             </div>
             <div class="py-2 my-2 bg-white rounded-lg min-h-screen">
                 <div class="flex -mx-3 mb-6 p-3 md:flex-row flex-col w-full justify-end">

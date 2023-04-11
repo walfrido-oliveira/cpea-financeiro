@@ -27,7 +27,9 @@
                 <input type="hidden" id="accounting_analytics_justification_{{ $key }}" value="{{ $analytics->justification }}">
                 <input type="hidden" id="accounting_analytics_id_{{ $key }}" value="{{ $analytics->id }}">
                 <a @if($analytics->justification) style="border-bottom: dotted 1px #000000 !important; color: #000000 !important;" title="{{ $analytics->justification }}" @endif
-                    class="text-item-table" href="{{ route('accounting-analytics.show', ['accounting_analytics' => $analytics->id]) }}">R${{ number_format ($analytics->value, 2, ',', '.')  }}</a>
+                    class="text-item-table" href="{{ route('accounting-analytics.show', ['accounting_analytics' => $analytics->id]) }}">
+                    @if($analytics->accountingControl->type != 'Horas Totais')R$@endif{{ number_format ($analytics->value, 2, ',', '.')  }}
+                </a>
             </td>
             <td>
                 <button class="btn-transition-warning edit-accounting-analytics" data-id="{{ $key }}">

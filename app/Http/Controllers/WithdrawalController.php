@@ -6,24 +6,12 @@ use App\Models\Withdrawal;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use App\Models\AccountingConfig;
+use App\Models\AccountingControl;
 use App\Models\AccountingClassification;
 use Illuminate\Support\Facades\Validator;
 
 class WithdrawalController extends Controller
 {
-     /**
-     * Validate fields
-     *
-     * @param  \Illuminate\Http\Request  $request
-     */
-    private function validating(Request $request)
-    {
-        $request->validate([
-            'accounting_classification_id' => ['required', 'exists:accounting_classifications,id'],
-            'month' => ['required', 'string'],
-            'value' => ['required', 'numeric']
-        ]);
-    }
 
      /**
     * Display a listing of the user.
@@ -167,6 +155,21 @@ class WithdrawalController extends Controller
         $withdrawal = Withdrawal::where('year', $input['year'])
         ->where('month',$input['month'])
         ->where('accounting_classification_id', $id)->first();
+
+        $accountControl = AccountingControl::where('year', $input['year'])
+        ->where('month',$input['month'])
+        ->where('type', $input['type'])->first();
+
+        $accountingClassification = AccountingClassification::where("classification", $id);
+        if($accountingClassification && $accountControl) {
+            $accountAnalytics = $accountControl->accountingAnalytics()->where("accounting_classification_id", $accountingClassification->id);
+            if($accountAnalytics) {
+                $accountAnalytics->update([
+                    'value' => $input['result'],
+                    'justification' => $input['justification'],
+                ]);
+            }
+        }
 
         if($withdrawal) {
             $withdrawal->update([

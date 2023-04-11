@@ -22,7 +22,12 @@ class AccountingControl extends Model
 
     public static function getTypes()
     {
-        return ['Contábil' => 'Contábil', 'Retiradas' => 'Retiradas'];
+        return [
+            'Contábil' => 'Contábil',
+            'Retiradas' => 'Retiradas',
+            "Horas Totais Projeto" => "Horas Totais Projeto",
+            "Horas Totais Administrativo" => "Horas Totais Administrativo",
+        ];
     }
 
     /**

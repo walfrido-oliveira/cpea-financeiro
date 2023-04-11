@@ -10,6 +10,7 @@ use App\Models\AccountingControl;
 use App\Models\AccountingAnalytics;
 use PhpOffice\PhpSpreadsheet\IOFactory;
 use App\Models\AccountingClassification;
+use App\Models\TotalStaticCheckPoint;
 use App\Models\Withdrawal;
 use Illuminate\Support\Facades\Validator;
 
@@ -244,29 +245,17 @@ class AccountingControlController extends Controller
 
                     if($accountingClassification)
                     {
-                        if($inputs['type'] == 'Contábil')
-                        {
-                            $accountingAnalytics = AccountingAnalytics::firstOrCreate([
-                                'accounting_classification_id' => $accountingClassification->id,
-                                'accounting_control_id' => $accountingControl->id
-                            ]);
+                        $accountingAnalytics = AccountingAnalytics::firstOrCreate([
+                            'accounting_classification_id' => $accountingClassification->id,
+                            'accounting_control_id' => $accountingControl->id
+                        ]);
 
-                            $accountingAnalytics->update([
-                                'value' => Str::replace(',', '', $value[2]),
-                            ]);
-                        }
+                        $accountingAnalytics->update([
+                            'value' => Str::replace(',', '', $value[2]),
+                        ]);
 
                         if($inputs['type'] == 'Retiradas')
                         {
-                            $accountingAnalytics = AccountingAnalytics::firstOrCreate([
-                                'accounting_classification_id' => $accountingClassification->id,
-                                'accounting_control_id' => $accountingControl->id
-                            ]);
-
-                            $accountingAnalytics->update([
-                                'value' => Str::replace(',', '', $value[2]),
-                            ]);
-
                             $withDrawal = Withdrawal::firstOrCreate([
                                 'accounting_classification_id' => $accountingClassification->id,
                                 'month' => $inputs['month'],
@@ -275,6 +264,19 @@ class AccountingControlController extends Controller
 
                             $withDrawal->update([
                                 'value' => Str::replace(',', '', $value[2]),
+                            ]);
+                        }
+
+                        if($inputs['type'] == 'Horas Totais Projeto' || $inputs['type'] == 'Horas Totais Administrativo')
+                        {
+                            $totalStatickCheckPoint = TotalStaticCheckPoint::firstOrCreate([
+                                'classification_id' => $accountingClassification->classification,
+                                'month' => $inputs['month'],
+                                'year' => $inputs['year'],
+                            ]);
+
+                            $totalStatickCheckPoint->update([
+                                'result' => Str::replace(',', '', $value[2]),
                             ]);
                         }
 

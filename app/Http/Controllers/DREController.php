@@ -39,8 +39,15 @@ class DREController extends Controller
                 ->get());
             }
         }
-
         $months = months();
+        if(isset($_GET['month'])) {
+            $months = [];
+            //dd($_GET['month']);
+            //array_shift($_GET['month']);
+            foreach ($_GET['month'] as $key => $value) {
+                $months[$value] = months()[$value];
+            }
+        }
 
         return view('dre.index',
         compact('ascending', 'orderBy', 'accountingClassifications', 'months', 'year', 'years', 'accountingConfigs'));
