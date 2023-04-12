@@ -40,7 +40,7 @@ class DREController extends Controller
             }
         }
         $months = [];
-        if(isset($_GET['month'])) {
+        if(isset($_GET['month']) && is_array($_GET['month'])) {
             $months = [];
             foreach ($_GET['month'] as $key => $value) {
                 if($value != "") $months[$value] = months()[$value];
