@@ -43,12 +43,19 @@ class DREController extends Controller
         if(isset($_GET['month']) && is_array($_GET['month'])) {
             $months = [];
             foreach ($_GET['month'] as $key => $value) {
+                if($value == -1) {
+                    $months = months();
+                    break;
+                }
                 if($value != "") $months[$value] = months()[$value];
             }
         }
 
+        $monthsArr = months();
+        $monthsArr[-1] = "Todos";
+
         return view('dre.index',
-        compact('ascending', 'orderBy', 'accountingClassifications', 'months', 'year', 'years', 'accountingConfigs'));
+        compact('ascending', 'orderBy', 'accountingClassifications', 'months', 'year', 'years', 'accountingConfigs', 'monthsArr'));
     }
 
      /**

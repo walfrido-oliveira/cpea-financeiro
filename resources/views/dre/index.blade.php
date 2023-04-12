@@ -22,7 +22,7 @@
                         </div>
                         <div class="w-1/3 px-2 mb-6 md:mb-0">
                             <x-jet-label for="month" value="{{ __('Mês') }}"/>
-                            <x-custom-multi-select multiple :options="months()" name="month[]" id="month" :value="$months" select-class="form-input" class="" no-filter="no-filter"/>
+                            <x-custom-multi-select multiple :options="$monthsArr" name="month[]" id="month" :value="$months" select-class="form-input" class="" no-filter="no-filter"/>
                         </div>
                     </form>
                 </div>
