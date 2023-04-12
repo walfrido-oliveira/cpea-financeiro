@@ -14,7 +14,7 @@
             </div>
             <div class="py-2 my-2 bg-white rounded-lg min-h-screen">
                 <div class="flex -mx-3 mb-6 p-3 md:flex-row flex-col w-full justify-end">
-                    <form class="w-1/3 flex justify-end" id="search_year_form" action="{{ route('dre.index') }}" method="GET">
+                    <form class="w-1/3 flex justify-end items-end" id="search_year_form" action="{{ route('dre.index') }}" method="GET">
                         <div class="w-1/2 px-2 mb-6 md:mb-0">
                             <x-jet-label for="year" value="{{ __('Ano') }}"/>
                             <x-custom-select class="filter-field" select-class="no-nice-select" :options="$years" name="year" id="year"
@@ -22,7 +22,10 @@
                         </div>
                         <div class="w-1/3 px-2 mb-6 md:mb-0">
                             <x-jet-label for="month" value="{{ __('Mês') }}"/>
-                            <x-custom-multi-select multiple :options="$monthsArr" name="month[]" id="month" :value="$months" select-class="form-input" class="" no-filter="no-filter"/>
+                            <x-custom-multi-select multiple :options="$monthsArr" name="month[]" id="month" :value="[]" select-class="form-input" class="" no-filter="no-filter"/>
+                        </div>
+                        <div class="w-1/3 px-2 mb-6 md:mb-0">
+                            <button id="search" type="button" class="btn-outline-info">{{ __('Buscar') }}</button>
                         </div>
                     </form>
                 </div>
@@ -69,7 +72,6 @@
                     item.innerHTML = currencyFormatted.format(parseFloat(sum).toFixed(0));
                     item.innerHTML = item.innerHTML.replace("&nbsp;", "");
                 }
-
             });
         });
     </script>
@@ -90,16 +92,10 @@
 
     <script>
         window.addEventListener("load", function() {
-            document.getElementById("year").addEventListener("change", function() {
+            document.getElementById("search").addEventListener("click", function() {
                 document.getElementById("search_year_form").submit();
                 document.getElementById("spin_load").classList.remove("hidden");
             });
-
-            document.getElementById("month").addEventListener("change", function() {
-                document.getElementById("search_year_form").submit();
-                document.getElementById("spin_load").classList.remove("hidden");
-            });
-
             document.getElementById("spin_load").classList.add("hidden");
         });
     </script>
