@@ -66,7 +66,7 @@
                         style: 'currency',
                         currency: 'BRL',
                     });
-                    item.innerHTML = currencyFormatted.format(parseFloat(sum));
+                    item.innerHTML = currencyFormatted.format(parseFloat(sum).toFixed(0));
                 }
 
             });
