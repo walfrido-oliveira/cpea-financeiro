@@ -163,7 +163,7 @@ class DREController extends Controller
         if ($total > 0) {
             $result =  number_format($total, 2, ',', '.') . '%';
         } elseif($total < 0) {
-            $result = number_format($total * -1, 2, ',', '.') . '%';
+            $result = '(' . number_format($total * -1, 2, ',', '.') . ')' . '%';
         }
 
         return response()->json($result);
@@ -186,7 +186,7 @@ class DREController extends Controller
         if ($total > 0) {
             $result =  number_format($total, 2, ',', '.') . '%';
         } elseif($total < 0) {
-            $result = number_format($total * -1, 2, ',', '.') . '%';
+            $result = '(' . number_format($total * -1, 2, ',', '.') . ')' . '%';
         }
 
         return response()->json($result);
