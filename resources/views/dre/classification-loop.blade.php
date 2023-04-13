@@ -17,27 +17,23 @@
 
         <td class="sticky-col third-col rl"
             style="text-align: center; @if ($accountingClassification2->color) color:{{ $accountingClassification2->color }}; @endif
-                                       @if ($accountingClassification2->bolder) font-weight:bolder; @endif">
-            @php
-                $result = $accountingClassification2->getEspecialFomulas($year, 'RL');
-            @endphp
-            {{ $result == 0 ? '-' : number_format($result, 2) . '%' }}
+                                       @if ($accountingClassification2->bolder) font-weight:bolder; @endif"
+            data-id="{{ $accountingClassification->id }}" data-year="{{ $year }}" data-month="{{ $key }}">
+            -
         </td>
 
         <td class="sticky-col fourth-col nsr"
             style="text-align: center; @if ($accountingClassification2->color) color:{{ $accountingClassification2->color }}; @endif
-                                       @if ($accountingClassification2->bolder) font-weight:bolder; @endif">
-            @php
-                $result = $accountingClassification2->getEspecialFomulas($year, 'NSR');
-            @endphp
-            {{ $result > 0 ? number_format($result, 0) . '%' : '-' }}
+                                       @if ($accountingClassification2->bolder) font-weight:bolder; @endif"
+            data-id="{{ $accountingClassification->id }}" data-year="{{ $year }}" data-month="{{ $key }}">
+            -
         </td>
 
         @foreach ($months as $key => $month)
-            <td  style="@if ($accountingClassification2->color) color:{{ $accountingClassification2->color }}; @endif
+            <td style="@if ($accountingClassification2->color) color:{{ $accountingClassification2->color }}; @endif
                         @if ($accountingClassification2->bolder) font-weight:bolder; @endif"
-                 data-id="{{ $accountingClassification2->id }}" data-year="{{ $year }}" data-month="{{ $key }}"
-                 class="total-classification">
+                data-id="{{ $accountingClassification2->id }}" data-year="{{ $year }}" data-month="{{ $key }}"
+                class="total-classification">
                 -
             </td>
         @endforeach
