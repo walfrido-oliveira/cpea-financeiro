@@ -30,14 +30,14 @@
             <td class="sticky-col third-col rl"
                 style="text-align: center;  @if ($accountingClassification->color) color:{{ $accountingClassification->color }}; @endif
                                             @if ($accountingClassification->bolder) font-weight:bolder; @endif"
-                data-id="{{ $accountingClassification->id }}" data-year="{{ $year }}" data-month="{{ $key }}">
+                data-id="{{ $accountingClassification->id }}" data-year="{{ $year }}">
                 -
             </td>
 
             <td class="sticky-col fourth-col nsr"
                 style="text-align: center; @if ($accountingClassification->color) color:{{ $accountingClassification->color }};@endif
                                            @if ($accountingClassification->bolder) font-weight:bolder; @endif "
-                data-id="{{ $accountingClassification->id }}" data-year="{{ $year }}" data-month="{{ $key }}">
+                data-id="{{ $accountingClassification->id }}" data-year="{{ $year }}">
                 -
             </td>
 

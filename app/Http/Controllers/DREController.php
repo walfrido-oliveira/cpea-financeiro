@@ -158,7 +158,7 @@ class DREController extends Controller
         $year = $inputs['year'];
         $accountingClassification = AccountingClassification::findOrFail($inputs['id']);
         $result = $accountingClassification->getEspecialFomulas($year, 'RL');
-        $result = $result > 0 ? number_format($result, 0) . '%' : '-';
+        //$result = $result > 0 ? number_format($result, 0) . '%' : '-';
         return response()->json($result);
     }
 
@@ -174,7 +174,7 @@ class DREController extends Controller
         $year = $inputs['year'];
         $accountingClassification = AccountingClassification::findOrFail($inputs['id']);
         $result = $accountingClassification->getEspecialFomulas($year, 'NSR');
-        $result = $result > 0 ? number_format($result, 0) . '%' : '-';
+        //$result = $result > 0 ? number_format($result, 0) . '%' : '-';
         return response()->json($result);
     }
 }

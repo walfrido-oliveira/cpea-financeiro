@@ -77,7 +77,7 @@
                 }).catch(err => {
                     console.log(err);
                 });
-
+                console.log(index);
                 if(index == (document.querySelectorAll(".total-classification").length - 1)) getAmount();
             });
 
