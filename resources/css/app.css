@@ -502,3 +502,9 @@ input:read-only {
 
 input[type='file'] {
 }
+
+
+.disablecel {
+    background: #b8b9b9 !important;
+    pointer-events: none !important;
+}

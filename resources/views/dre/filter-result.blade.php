@@ -21,21 +21,21 @@
                  {{ $accountingClassification->name }}
             </td>
 
-            <td class="sticky-col second-col amount" data-id="{{ $accountingClassification->id }}" data-unity="{{ $accountingClassification->unity }}"
+            <td class="sticky-col second-col amount disablecel" data-id="{{ $accountingClassification->id }}" data-unity="{{ $accountingClassification->unity }}"
                 style="text-align: center; @if ($accountingClassification->color) color:{{ $accountingClassification->color }};@endif
                        @if ($accountingClassification->bolder) font-weight:bolder; @endif"
                 data-id="{{ $accountingClassification->id }}" data-year="{{ $year }}">
                 -
             </td>
 
-            <td class="sticky-col third-col rl"
+            <td class="sticky-col third-col rl disablecel"
                 style="text-align: center;  @if ($accountingClassification->color) color:{{ $accountingClassification->color }}; @endif
                                             @if ($accountingClassification->bolder) font-weight:bolder; @endif"
                 data-id="{{ $accountingClassification->id }}" data-year="{{ $year }}">
                 -
             </td>
 
-            <td class="sticky-col fourth-col nsr"
+            <td class="sticky-col fourth-col nsr disablecel"
                 style="text-align: center; @if ($accountingClassification->color) color:{{ $accountingClassification->color }};@endif
                                            @if ($accountingClassification->bolder) font-weight:bolder; @endif "
                 data-id="{{ $accountingClassification->id }}" data-year="{{ $year }}">

@@ -81,9 +81,8 @@
                             item.innerHTML = data;
                             eventsEditCallback();
                             eventsDeleteCallback();
-
                             array.push(data);
-
+                            item.classList.remove("disablecel");
                         }).catch(status, err => {
                             console.log(err);
                         })
@@ -116,6 +115,7 @@
                     .then(res => res.text())
                     .then(data => {
                         item.innerHTML = JSON.parse(data);
+                        item.classList.remove("disablecel");
                     }).catch(err => {
                         console.log(err);
                     });
@@ -139,6 +139,7 @@
                     .then(res => res.text())
                     .then(data => {
                         item.innerHTML = JSON.parse(data);
+                        item.classList.remove("disablecel");
                     }).catch(err => {
                         console.log(err);
                     });
@@ -162,6 +163,7 @@
                     .then(res => res.text())
                     .then(data => {
                         item.innerHTML = JSON.parse(data);
+                        item.classList.remove("disablecel");
                     }).catch(err => {
                         console.log(err);
                     });

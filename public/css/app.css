@@ -3488,6 +3488,10 @@ input:read-only {
 }
 input[type='file'] {
 }
+.disablecel {
+    background: #b8b9b9 !important;
+    pointer-events: none !important;
+}
 .hover\:border-gray-300:hover {
 	--tw-border-opacity: 1;
 	border-color: rgba(209, 213, 219, var(--tw-border-opacity));

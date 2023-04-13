@@ -9,21 +9,21 @@
             {{ $accountingClassification2->name }}
         </td>
 
-        <td class="sticky-col second-col amount" data-id="{{ $accountingClassification2->id }}" data-unity="{{ $accountingClassification2->unity }}"
+        <td class="sticky-col second-col amount disablecel" data-id="{{ $accountingClassification2->id }}" data-unity="{{ $accountingClassification2->unity }}"
             style="text-align: center; @if ($accountingClassification2->color) color:{{ $accountingClassification2->color }}; @endif
                                        @if ($accountingClassification2->bolder) font-weight:bolder; @endif"
             data-id="{{ $accountingClassification->id }}" data-year="{{ $year }}">
             -
         </td>
 
-        <td class="sticky-col third-col rl"
+        <td class="sticky-col third-col rl disablecel"
             style="text-align: center; @if ($accountingClassification2->color) color:{{ $accountingClassification2->color }}; @endif
                                        @if ($accountingClassification2->bolder) font-weight:bolder; @endif"
             data-id="{{ $accountingClassification2->id }}" data-year="{{ $year }}">
             -
         </td>
 
-        <td class="sticky-col fourth-col nsr"
+        <td class="sticky-col fourth-col nsr disablecel"
             style="text-align: center; @if ($accountingClassification2->color) color:{{ $accountingClassification2->color }}; @endif
                                        @if ($accountingClassification2->bolder) font-weight:bolder; @endif"
             data-id="{{ $accountingClassification2->id }}" data-year="{{ $year }}">
@@ -34,7 +34,7 @@
             <td style="@if ($accountingClassification2->color) color:{{ $accountingClassification2->color }}; @endif
                         @if ($accountingClassification2->bolder) font-weight:bolder; @endif"
                 data-id="{{ $accountingClassification2->id }}" data-year="{{ $year }}" data-month="{{ $key }}"
-                class="total-classification">
+                class="total-classification disablecel">
                 -
             </td>
         @endforeach
