@@ -55,7 +55,7 @@
 
     <script>
         window.addEventListener("load", function() {
-            document.querySelectorAll(".total-classification").forEach(item => {
+            document.querySelectorAll(".total-classification").forEach((item, index) => {
                 const dataForm = new FormData();
                 const token = document.querySelector('meta[name="csrf-token"]').content;
 
@@ -77,6 +77,8 @@
                 }).catch(err => {
                     console.log(err);
                 });
+
+                if(index == (document.querySelectorAll(".total-classification").length - 1)) getAmount();
             });
 
             document.querySelectorAll(".rl").forEach(item => {
@@ -120,7 +122,6 @@
                     console.log(err);
                 });
             });
-            getAmount();
         });
 
         function getAmount() {
