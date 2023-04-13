@@ -55,92 +55,118 @@
 
     <script>
         window.addEventListener("load", function() {
-            document.querySelectorAll(".total-classification").forEach((item) => {
-                const dataForm = new FormData();
-                const token = document.querySelector('meta[name="csrf-token"]').content;
 
-                dataForm.append('id', item.dataset.id);
-                dataForm.append('month', item.dataset.month);
-                dataForm.append('year', item.dataset.year);
-                dataForm.append('_method', 'POST');
-                dataForm.append('_token', token);
+            let array = new Array;
+            var fetches = [];
 
-                fetch('{{ route('dre.total') }}', {
-                    method: 'POST',
-                    body: dataForm
-                })
-                .then(res => res.text())
-                .then(data => {
-                    item.innerHTML = data;
-                    eventsEditCallback();
-                    eventsDeleteCallback();
-                }).catch(err => {
-                    console.log(err);
+            function getTotal() {
+
+                document.querySelectorAll(".total-classification").forEach((item) => {
+                    const dataForm = new FormData();
+                    const token = document.querySelector('meta[name="csrf-token"]').content;
+
+                    dataForm.append('id', item.dataset.id);
+                    dataForm.append('month', item.dataset.month);
+                    dataForm.append('year', item.dataset.year);
+                    dataForm.append('_method', 'POST');
+                    dataForm.append('_token', token);
+
+                    fetches.push(
+                        fetch('{{ route('dre.total') }}', {
+                            method: 'POST',
+                            body: dataForm
+                        })
+                        .then(res => res.text())
+                        .then(data => {
+                            item.innerHTML = data;
+                            eventsEditCallback();
+                            eventsDeleteCallback();
+
+                            array.push(data);
+
+                        }).catch(status, err => {
+                            console.log(err);
+                        })
+                    );
                 });
+            }
+
+            getTotal();
+
+            Promise.all(fetches).then(function() {
+                getAmount();
+                getRL();
+                getNSR();
             });
 
-            document.querySelectorAll(".rl").forEach(item => {
-                const dataForm = new FormData();
-                const token = document.querySelector('meta[name="csrf-token"]').content;
+            function getRL() {
+                document.querySelectorAll(".rl").forEach(item => {
+                    const dataForm = new FormData();
+                    const token = document.querySelector('meta[name="csrf-token"]').content;
 
-                dataForm.append('id', item.dataset.id);
-                dataForm.append('year', item.dataset.year);
-                dataForm.append('_method', 'POST');
-                dataForm.append('_token', token);
+                    dataForm.append('id', item.dataset.id);
+                    dataForm.append('year', item.dataset.year);
+                    dataForm.append('_method', 'POST');
+                    dataForm.append('_token', token);
 
-                fetch('{{ route('dre.rl') }}', {
-                    method: 'POST',
-                    body: dataForm
-                })
-                .then(res => res.text())
-                .then(data => {
-                    item.innerHTML = JSON.parse(data);
-                }).catch(err => {
-                    console.log(err);
+                    fetch('{{ route('dre.rl') }}', {
+                        method: 'POST',
+                        body: dataForm
+                    })
+                    .then(res => res.text())
+                    .then(data => {
+                        item.innerHTML = JSON.parse(data);
+                    }).catch(err => {
+                        console.log(err);
+                    });
                 });
-            });
+            }
 
-            document.querySelectorAll(".nsr").forEach(item => {
-                const dataForm = new FormData();
-                const token = document.querySelector('meta[name="csrf-token"]').content;
+            function getNSR() {
+                document.querySelectorAll(".nsr").forEach(item => {
+                    const dataForm = new FormData();
+                    const token = document.querySelector('meta[name="csrf-token"]').content;
 
-                dataForm.append('id', item.dataset.id);
-                dataForm.append('year', item.dataset.year);
-                dataForm.append('_method', 'POST');
-                dataForm.append('_token', token);
+                    dataForm.append('id', item.dataset.id);
+                    dataForm.append('year', item.dataset.year);
+                    dataForm.append('_method', 'POST');
+                    dataForm.append('_token', token);
 
-                fetch('{{ route('dre.nsr') }}', {
-                    method: 'POST',
-                    body: dataForm
-                })
-                .then(res => res.text())
-                .then(data => {
-                    item.innerHTML = JSON.parse(data);
-                }).catch(err => {
-                    console.log(err);
+                    fetch('{{ route('dre.nsr') }}', {
+                        method: 'POST',
+                        body: dataForm
+                    })
+                    .then(res => res.text())
+                    .then(data => {
+                        item.innerHTML = JSON.parse(data);
+                    }).catch(err => {
+                        console.log(err);
+                    });
                 });
-            });
+            }
 
-            document.querySelectorAll(".amount").forEach(item => {
-                const dataForm = new FormData();
-                const token = document.querySelector('meta[name="csrf-token"]').content;
+            function getAmount() {
+                document.querySelectorAll(".amount").forEach(item => {
+                    const dataForm = new FormData();
+                    const token = document.querySelector('meta[name="csrf-token"]').content;
 
-                dataForm.append('id', item.dataset.id);
-                dataForm.append('year', item.dataset.year);
-                dataForm.append('_method', 'POST');
-                dataForm.append('_token', token);
+                    dataForm.append('id', item.dataset.id);
+                    dataForm.append('year', item.dataset.year);
+                    dataForm.append('_method', 'POST');
+                    dataForm.append('_token', token);
 
-                fetch('{{ route('dre.amount') }}', {
-                    method: 'POST',
-                    body: dataForm
-                })
-                .then(res => res.text())
-                .then(data => {
-                    item.innerHTML = JSON.parse(data);
-                }).catch(err => {
-                    console.log(err);
+                    fetch('{{ route('dre.amount') }}', {
+                        method: 'POST',
+                        body: dataForm
+                    })
+                    .then(res => res.text())
+                    .then(data => {
+                        item.innerHTML = JSON.parse(data);
+                    }).catch(err => {
+                        console.log(err);
+                    });
                 });
-            });
+            }
         });
     </script>
 
