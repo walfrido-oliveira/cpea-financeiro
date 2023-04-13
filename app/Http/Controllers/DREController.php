@@ -145,4 +145,36 @@ class DREController extends Controller
 
         return view('dre.total-classification', compact('accountingClassification', 'dre', 'month', 'year', 'result', 'total'));
     }
+
+    /**
+     * get total RL
+     *
+     * @param  Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function totalRL(Request $request)
+    {
+        $inputs = $request->all();
+        $year = $inputs['year'];
+        $accountingClassification = AccountingClassification::findOrFail($inputs['id']);
+        $result = $accountingClassification->getEspecialFomulas($year, 'RL');
+        $result = $result > 0 ? number_format($result, 0) . '%' : '-';
+        return response()->json($result);
+    }
+
+    /**
+     * get total NSR
+     *
+     * @param  Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function totalNSR(Request $request)
+    {
+        $inputs = $request->all();
+        $year = $inputs['year'];
+        $accountingClassification = AccountingClassification::findOrFail($inputs['id']);
+        $result = $accountingClassification->getEspecialFomulas($year, 'NSR');
+        $result = $result > 0 ? number_format($result, 0) . '%' : '-';
+        return response()->json($result);
+    }
 }

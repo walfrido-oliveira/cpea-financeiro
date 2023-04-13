@@ -29,20 +29,16 @@
 
             <td class="sticky-col third-col rl"
                 style="text-align: center;  @if ($accountingClassification->color) color:{{ $accountingClassification->color }}; @endif
-                                            @if ($accountingClassification->bolder) font-weight:bolder; @endif">
-                @php
-                    $result = $accountingClassification->getEspecialFomulas($year, 'RL');
-                @endphp
-                {{ $result > 0 ? number_format($result, 0) . '%' : '-' }}
+                                            @if ($accountingClassification->bolder) font-weight:bolder; @endif"
+                data-id="{{ $accountingClassification->id }}" data-year="{{ $year }}" data-month="{{ $key }}">
+                -
             </td>
 
             <td class="sticky-col fourth-col nsr"
                 style="text-align: center; @if ($accountingClassification->color) color:{{ $accountingClassification->color }};@endif
-                                           @if ($accountingClassification->bolder) font-weight:bolder; @endif ">
-                @php
-                    $result = $accountingClassification->getEspecialFomulas($year, 'NSR');
-                @endphp
-                {{ $result > 0 ? number_format($result, 0) . '%' : '-' }}
+                                           @if ($accountingClassification->bolder) font-weight:bolder; @endif "
+                data-id="{{ $accountingClassification->id }}" data-year="{{ $year }}" data-month="{{ $key }}">
+                -
             </td>
 
             @foreach ($months as $key => $month)
