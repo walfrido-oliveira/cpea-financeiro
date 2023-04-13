@@ -157,8 +157,14 @@ class DREController extends Controller
         $inputs = $request->all();
         $year = $inputs['year'];
         $accountingClassification = AccountingClassification::findOrFail($inputs['id']);
-        $result = $accountingClassification->getEspecialFomulas($year, 'RL');
-        $result = $result != 0 ? number_format($result, 0) . '%' : '-';
+        $total = $accountingClassification->getEspecialFomulas($year, 'RL');
+
+        if ($total > 0) {
+            $result =  number_format($total, 2, ',', '.') . '%';
+        } elseif($total < 0) {
+            $result = '(' . number_format($total * -1, 2, ',', '.') . ')' . '%';
+        }
+
         return response()->json($result);
     }
 
@@ -173,8 +179,36 @@ class DREController extends Controller
         $inputs = $request->all();
         $year = $inputs['year'];
         $accountingClassification = AccountingClassification::findOrFail($inputs['id']);
-        $result = $accountingClassification->getEspecialFomulas($year, 'NSR');
-        $result = $result != 0 ? number_format($result, 0) . '%' : '-';
+        $total = $accountingClassification->getEspecialFomulas($year, 'NSR');
+
+        if ($total > 0) {
+            $result =  number_format($total, 2, ',', '.') . '%';
+        } elseif($total < 0) {
+            $result = '(' . number_format($total * -1, 2, ',', '.') . ')' . '%';
+        }
+
+        return response()->json($result);
+    }
+
+    /**
+     * get amount
+     *
+     * @param  Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function amount(Request $request)
+    {
+        $inputs = $request->all();
+        $year = $inputs['year'];
+        $accountingClassification = AccountingClassification::findOrFail($inputs['id']);
+        $total = $accountingClassification->getTotal($year);
+
+        if ($total > 0) {
+            $result =  'R$' .  number_format($total, 0, ',', '.');
+        } elseif($total < 0) {
+            $result = 'R$'  . '(' . number_format($total * -1, 0, ',', '.') . ')';
+        }
+
         return response()->json($result);
     }
 }

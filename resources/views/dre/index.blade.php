@@ -122,28 +122,28 @@
                     console.log(err);
                 });
             });
-        });
 
-        function getAmount() {
-            document.querySelectorAll(".total").forEach(item => {
-                var sum = 0;
-                var id = item.dataset.id;
-                var unity = item.dataset.unity;
+            document.querySelectorAll(".amount").forEach(item => {
+                const dataForm = new FormData();
+                const token = document.querySelector('meta[name="csrf-token"]').content;
 
-                document.querySelectorAll(`.accounting-classification-${id}`).forEach(value => {
-                    sum += parseFloat(value.value);
+                dataForm.append('id', item.dataset.id);
+                dataForm.append('year', item.dataset.year);
+                dataForm.append('_method', 'POST');
+                dataForm.append('_token', token);
+
+                fetch('{{ route('dre.amount') }}', {
+                    method: 'POST',
+                    body: dataForm
+                })
+                .then(res => res.text())
+                .then(data => {
+                    item.innerHTML = JSON.parse(data);
+                }).catch(err => {
+                    console.log(err);
                 });
-
-                if(unity != '%') {
-                    let currencyFormatted = new Intl.NumberFormat('pt-BR', {
-                        style: 'currency',
-                        currency: 'BRL',
-                    });
-                    item.innerHTML = currencyFormatted.format(parseFloat(sum).toFixed(0));
-                    item.innerHTML = item.innerHTML.replace("&nbsp;", "");
-                }
             });
-        }
+        });
     </script>
 
     <script>

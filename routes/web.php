@@ -193,6 +193,7 @@ Route::group(['middleware' => ['auth:sanctum', 'verified']], function() {
         Route::post('/total', [DREController::class, 'total'])->name('total');
         Route::post('/nsr', [DREController::class, 'totalNSR'])->name('nsr');
         Route::post('/rl', [DREController::class, 'totalRL'])->name('rl');
+        Route::post('/amount', [DREController::class, 'amount'])->name('amount');
         Route::delete('/destroy/{dre}', [DREController::class, 'destroy'])->name('destroy');
     });
 
