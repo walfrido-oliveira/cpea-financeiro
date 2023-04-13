@@ -158,6 +158,7 @@ class DREController extends Controller
         $year = $inputs['year'];
         $accountingClassification = AccountingClassification::findOrFail($inputs['id']);
         $total = $accountingClassification->getEspecialFomulas($year, 'RL');
+        $result = "-";
 
         if ($total > 0) {
             $result =  number_format($total, 2, ',', '.') . '%';
@@ -180,6 +181,7 @@ class DREController extends Controller
         $year = $inputs['year'];
         $accountingClassification = AccountingClassification::findOrFail($inputs['id']);
         $total = $accountingClassification->getEspecialFomulas($year, 'NSR');
+        $result = "-";
 
         if ($total > 0) {
             $result =  number_format($total, 2, ',', '.') . '%';
@@ -202,6 +204,7 @@ class DREController extends Controller
         $year = $inputs['year'];
         $accountingClassification = AccountingClassification::findOrFail($inputs['id']);
         $total = $accountingClassification->getTotal($year);
+        $result = "-";
 
         if ($total > 0) {
             $result =  'R$' .  number_format($total, 0, ',', '.');
