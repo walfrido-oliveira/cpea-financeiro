@@ -190,6 +190,7 @@ Route::group(['middleware' => ['auth:sanctum', 'verified']], function() {
     Route::prefix('dre')->name('dre.')->group(function(){
         Route::get('/', [DREController::class, 'index'])->name('index');
         Route::post('/create', [DREController::class, 'create'])->name('create');
+        Route::post('/total', [DREController::class, 'total'])->name('total');
         Route::delete('/destroy/{dre}', [DREController::class, 'destroy'])->name('destroy');
     });
 

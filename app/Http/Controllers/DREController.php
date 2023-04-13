@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\AccountingClassification;
 use App\Models\Dre;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -81,7 +82,7 @@ class DREController extends Controller
 
         $input = $request->all();
 
-        $dre = Dre::create([
+        Dre::create([
             'value' => $input['value'],
             'justification' => $input['justification'],
             'year' => $input['year'],
@@ -111,5 +112,37 @@ class DREController extends Controller
             'message' => __('DRE apagado com Sucesso!!'),
             'alert-type' => 'success'
         ]);
+    }
+
+    /**
+     * get total
+     *
+     * @param  Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function total(Request $request)
+    {
+        $inputs = $request->all();
+        $month =  $inputs['month'];
+        $year = $inputs['year'];
+
+        $dre = Dre::where("accounting_classification_id", $inputs['id'])->where("month", $month)->where("year", $year)->latest('created_at')->first();
+        $accountingClassification = AccountingClassification::findOrFail($inputs['id']);
+        $result = "-";
+        $decimal = $accountingClassification->unity == '%' ? 2 : 0;
+
+        if($dre){
+            $total = $dre->value;
+        } else {
+            $total = $accountingClassification->getTotalClassificationDRE($month, $year);
+        }
+
+        if ($total > 0) {
+            $result =  ($accountingClassification->unity == 'R$' ? $accountingClassification->unity  : '') .  number_format($total, $decimal, ',', '.') . ($accountingClassification->unity == '%' ? $accountingClassification->unity  : '');
+        } elseif($total < 0) {
+            $result = ($accountingClassification->unity == 'R$' ? $accountingClassification->unity  : '')  . '(' . number_format($total * -1, $decimal, ',', '.') . ')' . ($accountingClassification->unity == '%' ? $accountingClassification->unity  : '');
+        }
+
+        return view('dre.total-classification', compact('accountingClassification', 'dre', 'month', 'year', 'result', 'total'));
     }
 }

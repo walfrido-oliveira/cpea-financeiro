@@ -55,6 +55,34 @@
 
     <script>
         window.addEventListener("load", function() {
+            document.querySelectorAll(".total-classification").forEach(item => {
+                const dataForm = new FormData();
+                const token = document.querySelector('meta[name="csrf-token"]').content;
+
+                dataForm.append('id', item.dataset.id);
+                dataForm.append('month', item.dataset.month);
+                dataForm.append('year', item.dataset.year);
+                dataForm.append('_method', 'POST');
+                dataForm.append('_token', token);
+
+                fetch('{{ route('dre.total') }}', {
+                    method: 'POST',
+                    body: dataForm
+                })
+                .then(res => res.text())
+                .then(data => {
+                    item.innerHTML = data;
+                    eventsEditCallback();
+                    eventsDeleteCallback();
+                }).catch(err => {
+                    console.log(err);
+                });
+            });
+        });
+    </script>
+
+    <script>
+        window.addEventListener("load", function() {
             document.querySelectorAll(".total").forEach(item => {
                 var sum = 0;
                 var id = item.dataset.id;
