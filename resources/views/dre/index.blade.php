@@ -66,6 +66,9 @@
 
                     dataForm.append('id', item.dataset.id);
                     dataForm.append('year', item.dataset.year);
+                    @foreach($months as $key => $month)
+                        dataForm.append('months[{!! $key !!}]', '{!! $month !!}');
+                    @endforeach
                     dataForm.append('_method', 'POST');
                     dataForm.append('_token', token);
 

@@ -146,11 +146,11 @@ class DREController extends Controller
     public function total(Request $request)
     {
         $inputs = $request->all();
-        //$month =  $inputs['month'];
+        $months =  $inputs['months'];
         $year = $inputs['year'];
         $results = [];
 
-        foreach (months() as $key => $month) {
+        foreach ($months as $key => $month) {
             $dre = Dre::where("accounting_classification_id", $inputs['id'])->where("month", $key)->where("year", $year)->latest('created_at')->first();
             $accountingClassification = AccountingClassification::findOrFail($inputs['id']);
             $result = "-";
