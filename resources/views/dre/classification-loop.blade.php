@@ -35,7 +35,7 @@
             <td style="@if ($accountingClassification2->color) color:{{ $accountingClassification2->color }}; @endif
                         @if ($accountingClassification2->bolder) font-weight:bolder; @endif"
                 data-id="{{ $accountingClassification2->id }}" data-year="{{ $year }}" data-month="{{ $key }}"
-                class="disablecel">
+                class="disablecel total-classification-result">
                 -
             </td>
         @endforeach
