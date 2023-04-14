@@ -172,6 +172,7 @@ class AccountingClassification extends Model
     if ($accountingConfig) {
       $formula = $accountingConfig->formulas()
         ->where('accounting_classification_id', $this->id)
+        ->whereNotIn('type_classification', ['RL', 'NSR'])
         ->first();
     }
 
@@ -282,7 +283,7 @@ class AccountingClassification extends Model
     if ($accountingConfig) {
       $formula = $accountingConfig->formulas()
         ->where('accounting_classification_id', $this->id)
-        ->where('formula', 'not like', '%ACUMULADO%')
+        ->whereNotIn('type_classification', ['RL', 'NSR'])
         ->first();
     }
 
