@@ -1,7 +1,7 @@
 <a href="#" class="edit-dre inline-flex" data-id="{{ $accountingClassification->id }}" data-month="{{ $month }}" data-year="{{ $year }}"
-    data-value="{{ $dre ? $dre->value : null }}" data-justification="{{ $dre ? $dre->justification : null }}" data-destroy="{{ $dre ? true : false }}" data-dre="{{ $dre ? $dre->id : null }}"
-    style="@if($dre) text-decoration:underline; text-decoration-style: dotted; @endif"
-    title="@if($dre) {{ $dre->justification }} @else {{ count($accountingClassification->formula) ? $accountingClassification->formula[0]->formula : null }} @endif">
+   data-value="{{ $dre ? $dre->value : null }}" data-justification="{{ $dre ? $dre->justification : null }}" data-destroy="{{ $dre ? true : false }}" data-dre="{{ $dre ? $dre->id : null }}"
+   style="@if($dre) text-decoration:underline; text-decoration-style: dotted; @endif"
+   title="@if($dre) {{ $dre->justification }} @else {{ count($accountingClassification->formula) ? $accountingClassification->formula[0]->formula : null }} @endif">
 
     {{ $result }}
 

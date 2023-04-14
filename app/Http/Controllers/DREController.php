@@ -41,14 +41,20 @@ class DREController extends Controller
             }
         }
         $months = [];
+        $routeMonthParams = "";
+
         if(isset($_GET['month']) && is_array($_GET['month'])) {
             $months = [];
             foreach ($_GET['month'] as $key => $value) {
                 if($value == -1) {
                     $months = months();
+                    $routeMonthParams = "&month[]=-1";
                     break;
                 }
-                if($value != "") $months[$value] = months()[$value];
+                if($value != "") {
+                    $months[$value] = months()[$value];
+                    $routeMonthParams .= "&month[]=$value";
+                }
             }
         }
 
@@ -56,7 +62,7 @@ class DREController extends Controller
         $monthsArr[-1] = "Todos";
 
         return view('dre.index',
-        compact('ascending', 'orderBy', 'accountingClassifications', 'months', 'year', 'years', 'accountingConfigs', 'monthsArr'));
+        compact('ascending', 'orderBy', 'accountingClassifications', 'months', 'year', 'years', 'accountingConfigs', 'monthsArr', 'routeMonthParams'));
     }
 
      /**
@@ -82,16 +88,33 @@ class DREController extends Controller
 
         $input = $request->all();
 
-        Dre::create([
-            'value' => $input['value'],
-            'justification' => $input['justification'],
+        $dre = Dre::firstOrCreate([
             'year' => $input['year'],
             'month' => $input['month'],
             'accounting_classification_id' => $input['accounting_classification_id'],
         ]);
 
+        $dre->update([
+            'value' => $input['value'],
+            'justification' => $input['justification'],
+        ]);
+
+        $accountingClassification = AccountingClassification::findOrFail($input['accounting_classification_id']);
+        $month = $input['month'];
+        $year = $input['year'];
+        $result = "-";
+        $total = $input['value'];
+        $decimal = $accountingClassification->unity == '%' ? 2 : 0;
+
+        if ($total > 0) {
+            $result =  ($accountingClassification->unity == 'R$' ? $accountingClassification->unity  : '') .  number_format($total, $decimal, ',', '.') . ($accountingClassification->unity == '%' ? $accountingClassification->unity  : '');
+        } elseif($total < 0) {
+            $result = ($accountingClassification->unity == 'R$' ? $accountingClassification->unity  : '')  . '(' . number_format($total * -1, $decimal, ',', '.') . ')' . ($accountingClassification->unity == '%' ? $accountingClassification->unity  : '');
+        }
+
         return response()->json([
             'message' => __('Valores atualizados com sucesso!'),
+            'renderized' => view('dre.total-classification', compact('accountingClassification', 'dre', 'month', 'year', 'result', 'total'))->render(),
             'alert-type' => 'success'
         ]);
     }

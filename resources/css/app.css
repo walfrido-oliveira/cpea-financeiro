@@ -503,8 +503,16 @@ input:read-only {
 input[type='file'] {
 }
 
-
 .disablecel {
     background: #b8b9b9 !important;
     pointer-events: none !important;
+}
+
+#accounting_classifications_table tr td {
+    transition: 500ms;
+}
+
+#accounting_classifications_table tr:hover td {
+    background-color: rgb(0, 94, 16);
+    color: #FFF;
 }

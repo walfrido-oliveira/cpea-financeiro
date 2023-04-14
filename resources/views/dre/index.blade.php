@@ -44,12 +44,11 @@
             </div>
         </div>
     </div>
-
     <x-modal title="{{ __('Excluir Dre') }}"
              msg="{{ __('Deseja realmente apagar esse Dre?') }}"
              confirm="{{ __('Sim') }}" cancel="{{ __('Não') }}" id="delete_dre_modal"
              method="DELETE"
-             redirect-url="{{ route('dre.index') }}"/>
+             redirect-url="{{ route('dre.index')  }}?year={{ $year }}{!! $routeMonthParams !!}"/>
 
     @include('dre.edit-modal')
 
@@ -79,10 +78,13 @@
                         .then(res => res.text())
                         .then(data => {
                             item.innerHTML = data;
-                            eventsEditCallback();
-                            eventsDeleteCallback();
                             array.push(data);
                             item.classList.remove("disablecel");
+                            item.querySelector("a").addEventListener("click", function(e) {
+                                e.preventDefault();
+                                editDre(this);
+                                //deleteDre(this);
+                            });
                         }).catch(status, err => {
                             console.log(err);
                         })
@@ -197,48 +199,42 @@
     </script>
 
     <script>
-        function eventsEditCallback() {
-            document.querySelectorAll('.edit-dre').forEach(item => {
-                item.addEventListener("click", function(e) {
-                    e.preventDefault();
+        function editDre(elem) {
+            var modal = document.getElementById("dre_modal");
+            modal.classList.remove("hidden");
+            modal.classList.add("block");
 
-                    var modal = document.getElementById("dre_modal");
-                    modal.classList.remove("hidden");
-                    modal.classList.add("block");
+            document.querySelector("#dre_modal #value").value = "";
+            document.querySelector("#dre_modal #justification").value = "";
+            document.querySelector("#dre_modal #accounting_classification_id").value = elem.dataset.id;
+            document.querySelector("#dre_modal #month").value = elem.dataset.month;
+            document.querySelector("#dre_modal #year").value = elem.dataset.year;
+            document.querySelector("#dre_modal #value").value = elem.dataset.value;
+            document.querySelector("#dre_modal #justification").value = elem.dataset.justification;
+            var deleteDre = document.querySelector("#dre_modal #dre_delete");
 
-                    document.querySelector("#dre_modal #value").value = "";
-                    document.querySelector("#dre_modal #justification").value = "";
-                    document.querySelector("#dre_modal #accounting_classification_id").value = this.dataset.id;
-                    document.querySelector("#dre_modal #month").value = this.dataset.month;
-                    document.querySelector("#dre_modal #year").value = this.dataset.year;
-                    document.querySelector("#dre_modal #value").value = this.dataset.value;
-                    document.querySelector("#dre_modal #justification").value = this.dataset.justification;
-
-                    var deleteDre = document.querySelector("#dre_modal #dre_delete");
-
-                    if(!this.dataset.destroy) {
-                        deleteDre.classList.add("hidden");
-                    } else {
-                        deleteDre.dataset.url = deleteDre.dataset.url.replace("#", this.dataset.dre);
-                    }
-                });
-            });
+            if(elem.dataset.destroy != 1) {
+                deleteDre.classList.add("hidden");
+            } else {
+                deleteDre.dataset.url = deleteDre.dataset.url.replace("#", elem.dataset.dre);
+                deleteDre.classList.remove("hidden");
+            }
         }
 
-        function eventsDeleteCallback() {
-            document.querySelectorAll('#dre_delete').forEach(item => {
-                item.addEventListener("click", function() {
-                    var modalDre = document.getElementById("dre_modal");
-                    modalDre.classList.add("hidden");
+        function deleteDre(elem) {
+            var modalDre = document.getElementById("dre_modal");
+            modalDre.classList.add("hidden");
 
-                    var url = this.dataset.url;
-                    var modal = document.getElementById("delete_dre_modal");
-                    modal.dataset.url = url;
-                    modal.classList.remove("hidden");
-                    modal.classList.add("block");
-                });
-            });
+            var url = elem.dataset.url;
+            var modal = document.getElementById("delete_dre_modal");
+            modal.dataset.url = url;
+            modal.classList.remove("hidden");
+            modal.classList.add("block");
         }
+
+        document.querySelector("#dre_modal #dre_delete").addEventListener("click", function(e) {
+            deleteDre(this);
+        });
 
         document.getElementById("dre_cancel_modal").addEventListener("click", function(e) {
             var modal = document.getElementById("dre_modal");
@@ -266,7 +262,17 @@
                     document.getElementById("spin_load").classList.add("hidden");
                     toastr.success(resp.message);
 
-                    location.reload();
+                    const totalClassification = document.querySelector(`.total-classification[data-month='${month}'][data-year='${year}'][data-id='${accounting_classification_id}']`);
+                    totalClassification.innerHTML = resp.renderized;
+
+                    totalClassification.querySelector("a").addEventListener("click", function(e) {
+                        e.preventDefault();
+                        editDre(this);
+                    });
+
+                    var modal = document.getElementById("dre_modal");
+                    modal.classList.add("hidden");
+
                 } else if(this.readyState == 4 && this.status != 200) {
                     document.getElementById("spin_load").classList.add("hidden");
                     toastr.error("{!! __('Um erro ocorreu ao solicitar a consulta') !!}");
@@ -285,9 +291,6 @@
             ajax.send(data);
 
         });
-
-        eventsEditCallback();
-        eventsDeleteCallback();
 
     </script>
 
