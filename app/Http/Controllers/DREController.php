@@ -151,7 +151,7 @@ class DREController extends Controller
         $results = [];
 
         foreach (months() as $key => $month) {
-            $dre = Dre::where("accounting_classification_id", $inputs['id'])->where("month", $month)->where("year", $year)->latest('created_at')->first();
+            $dre = Dre::where("accounting_classification_id", $inputs['id'])->where("month", $key)->where("year", $year)->latest('created_at')->first();
             $accountingClassification = AccountingClassification::findOrFail($inputs['id']);
             $result = "-";
             $decimal = $accountingClassification->unity == '%' ? 2 : 0;
@@ -159,7 +159,7 @@ class DREController extends Controller
             if($dre){
                 $total = $dre->value;
             } else {
-                $total = $accountingClassification->getTotalClassificationDRE($month, $year);
+                $total = $accountingClassification->getTotalClassificationDRE($key, $year);
             }
 
             if ($total > 0) {
