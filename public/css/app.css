@@ -3497,7 +3497,7 @@ input[type='file'] {
 }
 #accounting_classifications_table tr:hover td {
     background-color: rgb(0, 94, 16);
-    color: #FFF;
+    color: #FFF !important;
 }
 .hover\:border-gray-300:hover {
 	--tw-border-opacity: 1;
