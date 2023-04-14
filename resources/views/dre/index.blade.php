@@ -65,7 +65,6 @@
                     const token = document.querySelector('meta[name="csrf-token"]').content;
 
                     dataForm.append('id', item.dataset.id);
-                    dataForm.append('month', item.dataset.month);
                     dataForm.append('year', item.dataset.year);
                     dataForm.append('_method', 'POST');
                     dataForm.append('_token', token);
@@ -77,14 +76,15 @@
                         })
                         .then(res => res.text())
                         .then(data => {
-                            item.innerHTML = data;
-                            array.push(data);
-                            item.classList.remove("disablecel");
-                            item.querySelector("a").addEventListener("click", function(e) {
+                            item.querySelectorAll(".total-classification-result").forEach(item2 => {
+                                item2.innerHTML = JSON.parse(data)[item2.dataset.month];
+                                item2.classList.remove("disablecel");
+                                item2.querySelector("a").addEventListener("click", function(e) {
                                 e.preventDefault();
                                 editDre(this);
-                                //deleteDre(this);
                             });
+                            });
+                            array.push(data);
                         }).catch(status, err => {
                             console.log(err);
                         })

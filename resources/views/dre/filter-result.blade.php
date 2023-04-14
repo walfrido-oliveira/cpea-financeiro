@@ -11,7 +11,8 @@
 </thead>
 <tbody id="withdrawals_table_content">
     @forelse ($accountingClassifications as $key => $accountingClassification)
-        <tr @if ( $accountingClassification->featured) class="featured" @endif>
+        <tr class="@if ( $accountingClassification->featured) featured @endif total-classification"
+            data-id="{{ $accountingClassification->id }}" data-year="{{ $year }}">
             <td class="sticky-col first-col"
             style="white-space: nowrap;
                   @if ($accountingClassification->color) color:{{ $accountingClassification->color }}; @endif
@@ -45,8 +46,8 @@
             @foreach ($months as $key => $month)
                 <td  style="@if ($accountingClassification->color) color:{{ $accountingClassification->color }}; @endif
                             @if ($accountingClassification->bolder) font-weight:bolder; @endif"
-                     data-id="{{ $accountingClassification->id }}" data-year="{{ $year }}" data-month="{{ $key }}"
-                     class="total-classification disablecel">
+                     data-id="{{ $accountingClassification->id }}" data-year="{{ $year }}" data-month="{{ $month }}"
+                     class="disablecel total-classification-result">
                     -
                 </td>
             @endforeach

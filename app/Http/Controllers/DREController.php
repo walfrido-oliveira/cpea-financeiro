@@ -146,27 +146,33 @@ class DREController extends Controller
     public function total(Request $request)
     {
         $inputs = $request->all();
-        $month =  $inputs['month'];
+        //$month =  $inputs['month'];
         $year = $inputs['year'];
+        $results = [];
 
-        $dre = Dre::where("accounting_classification_id", $inputs['id'])->where("month", $month)->where("year", $year)->latest('created_at')->first();
-        $accountingClassification = AccountingClassification::findOrFail($inputs['id']);
-        $result = "-";
-        $decimal = $accountingClassification->unity == '%' ? 2 : 0;
+        foreach (months() as $key => $month) {
+            $dre = Dre::where("accounting_classification_id", $inputs['id'])->where("month", $month)->where("year", $year)->latest('created_at')->first();
+            $accountingClassification = AccountingClassification::findOrFail($inputs['id']);
+            $result = "-";
+            $decimal = $accountingClassification->unity == '%' ? 2 : 0;
 
-        if($dre){
-            $total = $dre->value;
-        } else {
-            $total = $accountingClassification->getTotalClassificationDRE($month, $year);
+            if($dre){
+                $total = $dre->value;
+            } else {
+                $total = $accountingClassification->getTotalClassificationDRE($month, $year);
+            }
+
+            if ($total > 0) {
+                $result =  ($accountingClassification->unity == 'R$' ? $accountingClassification->unity  : '') .  number_format($total, $decimal, ',', '.') . ($accountingClassification->unity == '%' ? $accountingClassification->unity  : '');
+            } elseif($total < 0) {
+                $result = ($accountingClassification->unity == 'R$' ? $accountingClassification->unity  : '')  . '(' . number_format($total * -1, $decimal, ',', '.') . ')' . ($accountingClassification->unity == '%' ? $accountingClassification->unity  : '');
+            }
+
+            $results[$month] = view('dre.total-classification', compact('accountingClassification', 'dre', 'month', 'year', 'result', 'total'))->render();
         }
 
-        if ($total > 0) {
-            $result =  ($accountingClassification->unity == 'R$' ? $accountingClassification->unity  : '') .  number_format($total, $decimal, ',', '.') . ($accountingClassification->unity == '%' ? $accountingClassification->unity  : '');
-        } elseif($total < 0) {
-            $result = ($accountingClassification->unity == 'R$' ? $accountingClassification->unity  : '')  . '(' . number_format($total * -1, $decimal, ',', '.') . ')' . ($accountingClassification->unity == '%' ? $accountingClassification->unity  : '');
-        }
 
-        return view('dre.total-classification', compact('accountingClassification', 'dre', 'month', 'year', 'result', 'total'));
+        return response()->json($results);
     }
 
     /**
