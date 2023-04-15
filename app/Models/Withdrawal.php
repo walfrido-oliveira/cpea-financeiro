@@ -60,13 +60,8 @@ class Withdrawal extends Model
         ->where('year', $year)
         ->where('accounting_classification_id', $classification)
         ->first();
-        $sum = 0;
 
-        foreach ($result as $value)
-        {
-            $sum += $value->value;
-        }
-        return $sum;
+        return $result->value;
     }
 
 
