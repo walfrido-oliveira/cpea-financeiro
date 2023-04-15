@@ -59,9 +59,14 @@ class Withdrawal extends Model
         $result = self::where('month', $month)
         ->where('year', $year)
         ->where('accounting_classification_id', $classification)
-        ->first();
+        ->get();
+        $sum = 0;
 
-        return $result->value;
+        foreach ($result as $value)
+        {
+            $sum += $value->value;
+        }
+        return $sum;
     }
 
 
