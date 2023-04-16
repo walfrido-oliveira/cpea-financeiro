@@ -94,17 +94,19 @@ class DREController extends Controller
             'accounting_classification_id' => $input['accounting_classification_id'],
         ]);
 
+
         $dre->update([
             'value' => $input['value'],
             'justification' => $input['justification'],
         ]);
 
         $accountingClassification = AccountingClassification::findOrFail($input['accounting_classification_id']);
-        $month = $input['month'];
+        $month = months()[$input['month']];
         $year = $input['year'];
         $result = "-";
         $total = $input['value'];
         $decimal = $accountingClassification->unity == '%' ? 2 : 0;
+        $key = $input['month'];
 
         if ($total > 0) {
             $result =  ($accountingClassification->unity == 'R$' ? $accountingClassification->unity  : '') .  number_format($total, $decimal, ',', '.') . ($accountingClassification->unity == '%' ? $accountingClassification->unity  : '');
@@ -114,7 +116,7 @@ class DREController extends Controller
 
         return response()->json([
             'message' => __('Valores atualizados com sucesso!'),
-            'renderized' => view('dre.total-classification', compact('accountingClassification', 'dre', 'month', 'year', 'result', 'total'))->render(),
+            'renderized' => view('dre.total-classification', compact('accountingClassification', 'dre', 'month', 'year', 'result', 'total', 'key'))->render(),
             'alert-type' => 'success'
         ]);
     }
@@ -168,7 +170,7 @@ class DREController extends Controller
                 $result = ($accountingClassification->unity == 'R$' ? $accountingClassification->unity  : '')  . '(' . number_format($total * -1, $decimal, ',', '.') . ')' . ($accountingClassification->unity == '%' ? $accountingClassification->unity  : '');
             }
 
-            $results[$month] = view('dre.total-classification', compact('accountingClassification', 'dre', 'month', 'year', 'result', 'total'))->render();
+            $results[$month] = view('dre.total-classification', compact('accountingClassification', 'dre', 'month', 'year', 'result', 'total', 'key'))->render();
         }
 
 

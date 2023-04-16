@@ -158,7 +158,7 @@
         document.querySelector("#dre_modal #value").value = "";
         document.querySelector("#dre_modal #justification").value = "";
         document.querySelector("#dre_modal #accounting_classification_id").value = elem.dataset.id;
-        document.querySelector("#dre_modal #month").value = elem.dataset.month;
+        document.querySelector("#dre_modal #month").value = elem.dataset.monthkey;
         document.querySelector("#dre_modal #year").value = elem.dataset.year;
         document.querySelector("#dre_modal #value").value = elem.dataset.value;
         document.querySelector("#dre_modal #justification").value = elem.dataset.justification;
@@ -215,8 +215,8 @@
                 toastr.success(resp.message);
 
                 const totalClassification = document.querySelector(
-                    `.total-classification-result[data-month='${month}'][data-year='${year}'][data-id='${accounting_classification_id}']`
-                    );
+                    `.total-classification-result[data-monthkey='${month}'][data-year='${year}'][data-id='${accounting_classification_id}']`
+                );
                 totalClassification.innerHTML = resp.renderized;
 
                 totalClassification.querySelector("a").addEventListener("click", function(e) {

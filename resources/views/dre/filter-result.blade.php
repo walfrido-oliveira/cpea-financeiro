@@ -46,7 +46,7 @@
             @foreach ($months as $key => $month)
                 <td  style="@if ($accountingClassification->color) color:{{ $accountingClassification->color }}; @endif
                             @if ($accountingClassification->bolder) font-weight:bolder; @endif"
-                     data-id="{{ $accountingClassification->id }}" data-year="{{ $year }}" data-month="{{ $month }}"
+                     data-id="{{ $accountingClassification->id }}" data-year="{{ $year }}" data-month="{{ $month }}" data-monthkey="{{ $key }}"
                      class="disablecel total-classification-result">
                     -
                 </td>
