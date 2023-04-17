@@ -30,6 +30,8 @@
             </td>
 
             <td class="sticky-col third-col rl disablecel"
+                @php $formula = App\Models\Formula::where("accounting_classification_id", $accountingClassification2->id)->where("type_classification", "RL")->first() @endphp
+                title="{{ $formula ? $formula->formula : "" }}"
                 style="text-align: center;  @if ($accountingClassification->color) color:{{ $accountingClassification->color }}; @endif
                                             @if ($accountingClassification->bolder) font-weight:bolder; @endif"
                 data-id="{{ $accountingClassification->id }}" data-year="{{ $year }}">
@@ -37,6 +39,8 @@
             </td>
 
             <td class="sticky-col fourth-col nsr disablecel"
+                @php $formula = App\Models\Formula::where("accounting_classification_id", $accountingClassification2->id)->where("type_classification", "NSR")->first() @endphp
+                title="{{ $formula ? $formula->formula : "" }}"
                 style="text-align: center; @if ($accountingClassification->color) color:{{ $accountingClassification->color }};@endif
                                            @if ($accountingClassification->bolder) font-weight:bolder; @endif "
                 data-id="{{ $accountingClassification->id }}" data-year="{{ $year }}">
@@ -44,10 +48,10 @@
             </td>
 
             @foreach ($months as $key => $month)
-                <td  style="@if ($accountingClassification->color) color:{{ $accountingClassification->color }}; @endif
+                <td style="@if ($accountingClassification->color) color:{{ $accountingClassification->color }}; @endif
                             @if ($accountingClassification->bolder) font-weight:bolder; @endif"
-                     data-id="{{ $accountingClassification->id }}" data-year="{{ $year }}" data-month="{{ $month }}" data-monthkey="{{ $key }}"
-                     class="disablecel total-classification-result">
+                    data-id="{{ $accountingClassification->id }}" data-year="{{ $year }}" data-month="{{ $month }}" data-monthkey="{{ $key }}"
+                    class="disablecel total-classification-result">
                     -
                 </td>
             @endforeach
