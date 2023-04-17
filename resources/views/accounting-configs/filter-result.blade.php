@@ -3,7 +3,7 @@
         @if (($index > 0 && $accountingConfigs[$index]->year !=
               $accountingConfigs[$index - 1]->year) || $index == 0)
             <tr>
-                <td colspan="4" class="bg-gray-100 font-bold">
+                <td colspan="6" class="bg-gray-100 font-bold">
                     <button type="button" class="show-accounting-config" data-point="{{ $accountingConfig->id }}" data-type="year" data-year="{{ $accountingConfig->year }}" data-month="{{ $accountingConfig->month }}">
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 inline minus  text-blue-400" viewBox="0 0 20 20" fill="currentColor">
                             <path fill-rule="evenodd" d="M5 10a1 1 0 011-1h8a1 1 0 110 2H6a1 1 0 01-1-1z" clip-rule="evenodd" />
@@ -20,7 +20,7 @@
         @if (($index > 0 && $accountingConfigs[$index]->month !=
               $accountingConfigs[$index - 1]->month) || $index == 0)
             <tr class="point-items-{{ $accountingConfig->id }} active" data-type="month" data-year="{{ $accountingConfig->year }}" data-month="{{ $accountingConfig->month }}">
-                <td colspan="4" class="bg-gray-100 font-bold" style="padding-left: 2rem !important">
+                <td colspan="6" class="bg-gray-100 font-bold" style="padding-left: 2rem !important">
                     <button type="button" class="show-accounting-config" data-point="{{ $accountingConfig->id }}" data-type="month" data-year="{{ $accountingConfig->year }}" data-month="{{ $accountingConfig->month }}">
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 inline minus  text-blue-400" viewBox="0 0 20 20" fill="currentColor">
                             <path fill-rule="evenodd" d="M5 10a1 1 0 011-1h8a1 1 0 110 2H6a1 1 0 01-1-1z" clip-rule="evenodd" />
@@ -35,7 +35,7 @@
         @endif
 
         <tr class="point-items-{{ $accountingConfig->id }} active" data-type="classification" data-year="{{ $accountingConfig->year }}" data-month="{{ $accountingConfig->month }}">
-            <td colspan="4" class="text-white font-bold" style="padding-left: 3.5rem !important; background-color: rgb(0, 94, 16)">
+            <td colspan="6" class="text-white font-bold" style="padding-left: 3.5rem !important; background-color: rgb(0, 94, 16)">
                 <button type="button" class="show-accounting-config" data-point="{{ $accountingConfig->id }}" data-year="{{ $accountingConfig->year }}" data-month="{{ $accountingConfig->month }}" data-type="classification" data-classification="DRE">
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 inline minus hidden text-white" viewBox="0 0 20 20" fill="currentColor">
                         <path fill-rule="evenodd" d="M5 10a1 1 0 011-1h8a1 1 0 110 2H6a1 1 0 01-1-1z" clip-rule="evenodd" />
@@ -88,7 +88,7 @@
         @endforeach
 
         <tr class="point-items-{{ $accountingConfig->id }} active" data-type="classification" data-year="{{ $accountingConfig->year }}" data-month="{{ $accountingConfig->month }}">
-            <td colspan="4" class="text-white font-bold" style="padding-left: 3.5rem !important; background-color: rgb(0, 94, 16)">
+            <td colspan="6" class="text-white font-bold" style="padding-left: 3.5rem !important; background-color: rgb(0, 94, 16)">
                 <button type="button" class="show-accounting-config" data-point="{{ $accountingConfig->id }}" data-type="classification" data-year="{{ $accountingConfig->year }}" data-month="{{ $accountingConfig->month }}" data-classification="Retiradas Gerenciais">
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 inline minus hidden text-white" viewBox="0 0 20 20" fill="currentColor">
                         <path fill-rule="evenodd" d="M5 10a1 1 0 011-1h8a1 1 0 110 2H6a1 1 0 01-1-1z" clip-rule="evenodd" />
@@ -142,7 +142,7 @@
         @endforeach
 
         <tr class="point-items-{{ $accountingConfig->id }} active" data-type="classification" data-year="{{ $accountingConfig->year }}" data-month="{{ $accountingConfig->month }}">
-            <td colspan="4" class="text-white font-bold" style="padding-left: 3.5rem !important; background-color: rgb(0, 94, 16)">
+            <td colspan="6" class="text-white font-bold" style="padding-left: 3.5rem !important; background-color: rgb(0, 94, 16)">
                 <button type="button" class="show-accounting-config" data-point="{{ $accountingConfig->id }}" data-type="classification" data-year="{{ $accountingConfig->year }}" data-month="{{ $accountingConfig->month }}" data-classification="Resultado do Exercicio">
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 inline minus hidden text-white" viewBox="0 0 20 20" fill="currentColor">
                         <path fill-rule="evenodd" d="M5 10a1 1 0 011-1h8a1 1 0 110 2H6a1 1 0 01-1-1z" clip-rule="evenodd" />
@@ -196,7 +196,7 @@
         @endforeach
 
         <tr class="point-items-{{ $accountingConfig->id }} active" data-type="classification" data-year="{{ $accountingConfig->year }}" data-month="{{ $accountingConfig->month }}">
-            <td colspan="4" class="text-white font-bold" style="padding-left: 3.5rem !important; background-color: rgb(0, 94, 16)">
+            <td colspan="6" class="text-white font-bold" style="padding-left: 3.5rem !important; background-color: rgb(0, 94, 16)">
                 <button type="button" class="show-accounting-config" data-point="{{ $accountingConfig->id }}" data-type="classification" data-year="{{ $accountingConfig->year }}" data-month="{{ $accountingConfig->month }}" data-classification="DRE Ajustável">
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 inline minus hidden text-white" viewBox="0 0 20 20" fill="currentColor">
                         <path fill-rule="evenodd" d="M5 10a1 1 0 011-1h8a1 1 0 110 2H6a1 1 0 01-1-1z" clip-rule="evenodd" />
@@ -251,7 +251,7 @@
         @endforeach
 
         <tr class="point-items-{{ $accountingConfig->id }} active" data-type="classification" data-year="{{ $accountingConfig->year }}" data-month="{{ $accountingConfig->month }}">
-            <td colspan="4" class="text-white font-bold" style="padding-left: 3.5rem !important; background-color: rgb(0, 94, 16)">
+            <td colspan="6" class="text-white font-bold" style="padding-left: 3.5rem !important; background-color: rgb(0, 94, 16)">
                 <button type="button" class="show-accounting-config" data-point="{{ $accountingConfig->id }}" data-type="formula" data-year="{{ $accountingConfig->year }}" data-month="{{ $accountingConfig->month }}">
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 inline minus hidden text-white" viewBox="0 0 20 20" fill="currentColor">
                         <path fill-rule="evenodd" d="M5 10a1 1 0 011-1h8a1 1 0 110 2H6a1 1 0 01-1-1z" clip-rule="evenodd" />
@@ -269,8 +269,10 @@
                 <input class="form-checkbox formula-select-all mr-2" data-type="item-formula" data-id="{{$accountingConfig->id }}"  type="checkbox" data-year="{{ $accountingConfig->year }}" data-month="{{ $accountingConfig->month }}">
                 Classificação
             </td>
+            <td style="padding-left: 3.5rem !important;" class="font-bold">Descrição da Classificação</td>
+            <td style="padding-left: 3.5rem !important;" class="font-bold">ID Fórmula</td>
             <td style="padding-left: 3.5rem !important;" class="font-bold">Fórmula</td>
-            <td style="padding-left: 3.5rem !important;" class="font-bold">Observações</td>
+            <td style="padding-left: 3.5rem !important;" class="font-bold">DT/HR</td>
             <td style="padding-left: 3.5rem !important;" class="font-bold">Ação</td>
         </tr>
         @foreach ($accountingConfig->formulas as $formula)
@@ -279,15 +281,21 @@
                     <div class="flex">
                         <input class="form-checkbox formula-url mr-2" data-id="{{$accountingConfig->id }}"  type="checkbox" name="formula[{{ $formula->id }}]" value="{{ $formula->id }}">
                         <a class="text-item-table" href="{{ route('formulas.edit', ['formula' => $formula->id]) }}">
-                            {{ $formula->accountingClassification ? $formula->accountingClassification->classification : '' }}
+                            {{ $formula->accountingClassification->classification }}
                         </a>
                     </div>
                 </td>
                 <td style="padding-left: 3.5rem !important;">
+                    <a class="text-item-table" href="{{ route('formulas.edit', ['formula' => $formula->id]) }}">{{ $formula->accountingClassification->name }}</a>
+                </td>
+                <td style="padding-left: 3.5rem !important;">
+                    <a class="text-item-table" href="{{ route('formulas.edit', ['formula' => $formula->id]) }}">{{ $formula->id }}</a>
+                </td>
+                <td style="padding-left: 3.5rem !important;">
                     <a class="text-item-table" href="{{ route('formulas.edit', ['formula' => $formula->id]) }}">{{ $formula->formula }}</a>
                 </td>
-                <td style="padding-left: 3.5rem!important;">
-                    {{ $formula->obs }}
+                <td style="padding-left: 3.5rem !important;">
+                    <a class="text-item-table" href="{{ route('formulas.edit', ['formula' => $formula->id]) }}">{{ $formula->pivot->updated_at ? $formula->pivot->updated_at->format("d/m/Y H:i") : '' }}</a>
                 </td>
                 <td style="padding-left: 3.5rem!important;">
                     <button type="button" class="delete-accounting-configs" data-url="{{ route('accounting-configs.delete-formula', ['formula' => $formula->id, 'config' => $accountingConfig->id]) }}">

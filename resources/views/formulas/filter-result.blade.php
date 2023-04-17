@@ -1,8 +1,11 @@
 <thead>
     <tr class="thead-light">
         <x-table-sort-header :orderBy="null" :ascending="null" columnName="" columnText="{{ __('') }}"/>
+        <x-table-sort-header :orderBy="$orderBy" :ascending="$ascending" columnName="id" columnText="{{ __('ID') }}"/>
         <x-table-sort-header :orderBy="$orderBy" :ascending="$ascending" columnName="accounting_classification_id" columnText="{{ __('Classificação') }}"/>
         <x-table-sort-header :orderBy="$orderBy" :ascending="$ascending" columnName="formula" columnText="{{ __('Fórmula') }}"/>
+        <x-table-sort-header :orderBy="$orderBy" :ascending="$ascending" columnName="created_at" columnText="{{ __('Data/Hora de Criação') }}"/>
+        <x-table-sort-header :orderBy="$orderBy" :ascending="$ascending" columnName="updated_at" columnText="{{ __('Data/Hora de Modificação') }}"/>
         <th scope="col"
             class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
             Ações
@@ -15,12 +18,15 @@
             <td>
                 <input class="form-checkbox formulas-url" type="checkbox" name="formulas[{{ $formula->id }}]" value="{!! route('formulas.destroy', ['formula' => $formula->id]) !!}">
             </td>
+            <td>{{ $formula->id }}</td>
             <td>
-                <a class="text-item-table text-green-600 underline" href="{{ route('formulas.show', ['formula' => $formula->accounting_classification_id]) }}">{{ $formula->accountingClassification->description }}</a>
+                <a class="text-item-table text-green-600 underline" href="{{ route('formulas.show', ['formula' => $formula->accounting_classification_id]) }}">
+                    {{ $formula->accountingClassification ? $formula->accountingClassification->description : '' }}
+                </a>
             </td>
-            <td>
-                {{ $formula->formula  }}
-            </td>
+            <td>{{ $formula->formula }}</td>
+            <td>{{ $formula->created_at->format('d/m/Y H:i') }}</td>
+            <td>{{ $formula->updated_at->format('d/m/Y H:i') }}</td>
             <td>
                 <a class="btn-transition-warning" href="{{ route('formulas.edit', ['formula' => $formula->id]) }}">
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">

@@ -21,6 +21,12 @@
                     <div class="flex -mx-3 mb-6 p-3 md:flex-row flex-col w-full">
                         <div class="w-full md:w-1/2 px-2 mb-6 md:mb-0">
                             <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="accounting_classification_id">
+                                {{ __('ID') }}
+                            </label>
+                            <x-jet-input id="id" class="form-control block w-full filter-field" type="text" name="id" :value="app('request')->input('id')" autofocus autocomplete="id" />
+                        </div>
+                        <div class="w-full md:w-1/2 px-2 mb-6 md:mb-0">
+                            <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="accounting_classification_id">
                                 {{ __('Classificação') }}
                             </label>
                             <x-custom-select class="filter-field" :options="$accountingClassifications" name="accounting_classification_id" id="accounting_classification_id" :value="app('request')->input('accounting_classification_id')"/>
@@ -61,6 +67,7 @@
                 var paginationPerPage = document.getElementById("paginate_per_page").value;
                 var accountingClassification = document.getElementById("accounting_classification_id").value;
                 var formula = document.getElementById("formula").value;
+                var id = document.getElementById("id").value;
 
                 ajax.open(method, url);
 
@@ -85,6 +92,7 @@
                 data.append('ascending', ascending);
                 data.append('order_by', orderBY);
                 if(formula) data.append('formula', formula);
+                if(id) data.append('id', id);
                 if(accountingClassification) data.append('accounting_classification_id', accountingClassification);
 
                 ajax.send(data);
@@ -104,6 +112,7 @@
                 var paginationPerPage = document.getElementById("paginate_per_page").value;
                 var accountingClassification = document.getElementById("accounting_classification_id").value;
                 var formula = document.getElementById("formula").value;
+                var id = document.getElementById("id").value;
 
                 ajax.open(method, url);
 
@@ -129,6 +138,7 @@
                 data.append('ascending', ascending);
                 data.append('order_by', orderBY);
                 if(formula) data.append('formula', formula);
+                if(id) data.append('id', id);
                 if(accountingClassification) data.append('accounting_classification_id', accountingClassification);
 
                 ajax.send(data);

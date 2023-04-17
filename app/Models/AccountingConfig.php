@@ -31,7 +31,7 @@ class AccountingConfig extends Model
      */
     public function formulas()
     {
-        return $this->belongsToMany(Formula::class);
+        return $this->belongsToMany(Formula::class)->withTimestamps();
     }
 
     /**
