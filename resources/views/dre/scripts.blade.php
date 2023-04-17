@@ -1,46 +1,19 @@
 <script>
+    let array = new Array;
+    var fetches = [];
+
     window.addEventListener("load", function() {
+        getTotal();
+        Promise.all(fetches).then(function() {
+            getAmount();
+            getRL();
+            getNSR();
+        });
+    });
 
-        let array = new Array;
-        var fetches = [];
-
-        function getTotal() {
-
-            document.querySelectorAll(".total-classification").forEach((item) => {
-                const dataForm = new FormData();
-                const token = document.querySelector('meta[name="csrf-token"]').content;
-
-                dataForm.append('id', item.dataset.id);
-                dataForm.append('year', item.dataset.year);
-                @foreach ($months as $key => $month)
-                    dataForm.append('months[{!! $key !!}]', '{!! $month !!}');
-                @endforeach
-                dataForm.append('_method', 'POST');
-                dataForm.append('_token', token);
-
-                fetches.push(
-                    fetch('{{ route('dre.total') }}', {
-                        method: 'POST',
-                        body: dataForm
-                    })
-                    .then(res => res.text())
-                    .then(data => {
-                        item.querySelectorAll(".total-classification-result").forEach(item2 => {
-                            item2.innerHTML = JSON.parse(data)[item2.dataset.month];
-                            item2.classList.remove("disablecel");
-                            item2.querySelector("a").addEventListener("click", function(
-                                e) {
-                                e.preventDefault();
-                                editDre(this);
-                            });
-                        });
-                        array.push(data);
-                    }).catch(status, err => {
-                        console.log(err);
-                    })
-                );
-            });
-        }
+    function reload() {
+        fetches = [];
+        array = new Array;
 
         getTotal();
 
@@ -49,79 +22,117 @@
             getRL();
             getNSR();
         });
+    }
 
-        function getRL() {
-            document.querySelectorAll(".rl").forEach(item => {
-                const dataForm = new FormData();
-                const token = document.querySelector('meta[name="csrf-token"]').content;
+    function getTotal() {
 
-                dataForm.append('id', item.dataset.id);
-                dataForm.append('year', item.dataset.year);
-                dataForm.append('_method', 'POST');
-                dataForm.append('_token', token);
+        document.querySelectorAll(".total-classification").forEach((item) => {
+            const dataForm = new FormData();
+            const token = document.querySelector('meta[name="csrf-token"]').content;
 
-                fetch('{{ route('dre.rl') }}', {
-                        method: 'POST',
-                        body: dataForm
-                    })
-                    .then(res => res.text())
-                    .then(data => {
-                        item.innerHTML = JSON.parse(data);
-                        item.classList.remove("disablecel");
-                    }).catch(err => {
-                        console.log(err);
+            dataForm.append('id', item.dataset.id);
+            dataForm.append('year', item.dataset.year);
+            @foreach ($months as $key => $month)
+                dataForm.append('months[{!! $key !!}]', '{!! $month !!}');
+            @endforeach
+            dataForm.append('_method', 'POST');
+            dataForm.append('_token', token);
+
+            fetches.push(
+                fetch('{{ route('dre.total') }}', {
+                    method: 'POST',
+                    body: dataForm
+                })
+                .then(res => res.text())
+                .then(data => {
+                    item.querySelectorAll(".total-classification-result").forEach(item2 => {
+                        item2.innerHTML = JSON.parse(data)[item2.dataset.month];
+                        item2.classList.remove("disablecel");
+                        item2.querySelector("a").addEventListener("click", function(
+                            e) {
+                            e.preventDefault();
+                            editDre(this);
+                        });
                     });
-            });
-        }
+                    array.push(data);
+                }).catch(status, err => {
+                    console.log(err);
+                })
+            );
+        });
+    }
 
-        function getNSR() {
-            document.querySelectorAll(".nsr").forEach(item => {
-                const dataForm = new FormData();
-                const token = document.querySelector('meta[name="csrf-token"]').content;
+    function getRL() {
+        document.querySelectorAll(".rl").forEach(item => {
+            const dataForm = new FormData();
+            const token = document.querySelector('meta[name="csrf-token"]').content;
 
-                dataForm.append('id', item.dataset.id);
-                dataForm.append('year', item.dataset.year);
-                dataForm.append('_method', 'POST');
-                dataForm.append('_token', token);
+            dataForm.append('id', item.dataset.id);
+            dataForm.append('year', item.dataset.year);
+            dataForm.append('_method', 'POST');
+            dataForm.append('_token', token);
 
-                fetch('{{ route('dre.nsr') }}', {
-                        method: 'POST',
-                        body: dataForm
-                    })
-                    .then(res => res.text())
-                    .then(data => {
-                        item.innerHTML = JSON.parse(data);
-                        item.classList.remove("disablecel");
-                    }).catch(err => {
-                        console.log(err);
-                    });
-            });
-        }
+            fetch('{{ route('dre.rl') }}', {
+                    method: 'POST',
+                    body: dataForm
+                })
+                .then(res => res.text())
+                .then(data => {
+                    item.innerHTML = JSON.parse(data);
+                    item.classList.remove("disablecel");
+                }).catch(err => {
+                    console.log(err);
+                });
+        });
+    }
 
-        function getAmount() {
-            document.querySelectorAll(".amount").forEach(item => {
-                const dataForm = new FormData();
-                const token = document.querySelector('meta[name="csrf-token"]').content;
+    function getNSR() {
+        document.querySelectorAll(".nsr").forEach(item => {
+            const dataForm = new FormData();
+            const token = document.querySelector('meta[name="csrf-token"]').content;
 
-                dataForm.append('id', item.dataset.id);
-                dataForm.append('year', item.dataset.year);
-                dataForm.append('_method', 'POST');
-                dataForm.append('_token', token);
+            dataForm.append('id', item.dataset.id);
+            dataForm.append('year', item.dataset.year);
+            dataForm.append('_method', 'POST');
+            dataForm.append('_token', token);
 
-                fetch('{{ route('dre.amount') }}', {
-                        method: 'POST',
-                        body: dataForm
-                    })
-                    .then(res => res.text())
-                    .then(data => {
-                        item.innerHTML = JSON.parse(data);
-                        item.classList.remove("disablecel");
-                    }).catch(err => {
-                        console.log(err);
-                    });
-            });
-        }
-    });
+            fetch('{{ route('dre.nsr') }}', {
+                    method: 'POST',
+                    body: dataForm
+                })
+                .then(res => res.text())
+                .then(data => {
+                    item.innerHTML = JSON.parse(data);
+                    item.classList.remove("disablecel");
+                }).catch(err => {
+                    console.log(err);
+                });
+        });
+    }
+
+    function getAmount() {
+        document.querySelectorAll(".amount").forEach(item => {
+            const dataForm = new FormData();
+            const token = document.querySelector('meta[name="csrf-token"]').content;
+
+            dataForm.append('id', item.dataset.id);
+            dataForm.append('year', item.dataset.year);
+            dataForm.append('_method', 'POST');
+            dataForm.append('_token', token);
+
+            fetch('{{ route('dre.amount') }}', {
+                    method: 'POST',
+                    body: dataForm
+                })
+                .then(res => res.text())
+                .then(data => {
+                    item.innerHTML = JSON.parse(data);
+                    item.classList.remove("disablecel");
+                }).catch(err => {
+                    console.log(err);
+                });
+        });
+    }
 </script>
 
 <script>
@@ -227,6 +238,7 @@
                 var modal = document.getElementById("dre_modal");
                 modal.classList.add("hidden");
 
+                reload();
             } else if (this.readyState == 4 && this.status != 200) {
                 document.getElementById("spin_load").classList.add("hidden");
                 toastr.error("{!! __('Um erro ocorreu ao solicitar a consulta') !!}");
