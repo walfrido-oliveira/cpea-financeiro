@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Support\Str;
 use App\Models\AccountingConfig;
 use App\Models\TotalStaticCheckPoint;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Database\Eloquent\Model;
 use ChrisKonnertz\StringCalc\StringCalc;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -321,14 +322,16 @@ class AccountingClassification extends Model
           if ($accountingControl && !$dre) {
             if ($workingDaysType == '') {
               $accountingAnalytics = $accountingControl->accountingAnalytics()->where('accounting_classification_id', $classification->id)->first();
-              $withdrawal = Withdrawal::getTotalByMonthAndClassification($month, $year, $classification->id);
+              if(!Cache::has("withdrawal-$classification->id")) Cache::put("with-drawal-$classification->id", Withdrawal::getTotalByMonthAndClassification($month, $year, $classification->id), 60);
+              $withdrawal = Cache::get("with-drawal-$classification->id", );
 
               if ($accountingAnalytics) {
                 $sum += $accountingAnalytics->value;
               } else if ($withdrawal) {
                 $sum += $withdrawal;
               } else {
-                $sum = $classification->getTotalClassificationDRE($month, $year, true);
+                if(!Cache::has("total-classification-dre-$classification->id")) Cache::put("total-classification-dre-$classification->id", $classification->getTotalClassificationDRE($month, $year, true), 60);
+                $sum = Cache::get("total-classification-dre-$classification->id");
               }
 
             } else {
