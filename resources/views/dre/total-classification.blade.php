@@ -1,8 +1,15 @@
+@php
+    $formula = App\Models\AccountingConfig::where("year", $year)->where("month", $key)->first()->formulas()
+    ->where('accounting_classification_id', $accountingClassification->id)
+    ->whereNotIn('type_classification', ['RL', 'NSR'])
+    ->first();
+@endphp
+
 <a href="#" class="edit-dre inline-flex" data-id="{{ $accountingClassification->id }}" data-month="{{ $month }}" data-year="{{ $year }}"
    data-monthkey="{{ $key }}"
    data-value="{{ $dre ? $dre->value : null }}" data-justification="{{ $dre ? $dre->justification : null }}" data-destroy="{{ $dre ? true : false }}" data-dre="{{ $dre ? $dre->id : null }}"
    style="@if($dre) text-decoration:underline; text-decoration-style: dotted; @endif"
-   title="@if($dre) {{ $dre->justification }} @else {{ count($accountingClassification->formula) ? $accountingClassification->formula[0]->formula : null }} @endif">
+   title="@if($dre) {{ $dre->justification }} @else {{ "[$accountingClassification->id]-$accountingClassification->classification-$accountingClassification->name =" }}  {{ $formula  ? $formula ->formula : null }} @endif">
 
     {{ $result }}
 

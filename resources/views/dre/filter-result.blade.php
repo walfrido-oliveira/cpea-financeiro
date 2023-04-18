@@ -31,7 +31,7 @@
 
             <td class="sticky-col third-col rl disablecel"
                 @php $formula = App\Models\Formula::where("accounting_classification_id", $accountingClassification->id)->where("type_classification", "RL")->first() @endphp
-                title="{{ $formula ? $formula->formula : "" }}"
+                title="{{ "[$accountingClassification->id]-$accountingClassification->classification-$accountingClassification->name =" }}{{ $formula ? $formula->formula : "" }}"
                 style="text-align: center;  @if ($accountingClassification->color) color:{{ $accountingClassification->color }}; @endif
                                             @if ($accountingClassification->bolder) font-weight:bolder; @endif"
                 data-id="{{ $accountingClassification->id }}" data-year="{{ $year }}">
@@ -40,7 +40,7 @@
 
             <td class="sticky-col fourth-col nsr disablecel"
                 @php $formula = App\Models\Formula::where("accounting_classification_id", $accountingClassification->id)->where("type_classification", "NSR")->first() @endphp
-                title="{{ $formula ? $formula->formula : "" }}"
+                title="{{ "[$accountingClassification->id]-$accountingClassification->classification-$accountingClassification->name =" }}{{ $formula ? $formula->formula : "" }}"
                 style="text-align: center; @if ($accountingClassification->color) color:{{ $accountingClassification->color }};@endif
                                            @if ($accountingClassification->bolder) font-weight:bolder; @endif "
                 data-id="{{ $accountingClassification->id }}" data-year="{{ $year }}">
