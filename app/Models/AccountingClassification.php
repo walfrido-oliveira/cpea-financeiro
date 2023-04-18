@@ -246,7 +246,8 @@ class AccountingClassification extends Model
         foreach ($matches as $value2) {
           $result = explode("&", $value2[1]);
           $classification = self::where('classification', $result[0])->where('name', $result[1])->first();
-          $sum = $classification->getTotal($year);
+          if(!Cache::has("total-dre-$classification->id")) Cache::put("total-dre-$classification->id", $classification->getTotal($year), 60);
+          $sum = Cache::get("total-dre-$classification->id");
           $formulaText = Str::replace($value2[0], $sum, $formulaText);
         }
 
@@ -292,7 +293,9 @@ class AccountingClassification extends Model
 
     if($dre) return $dre->value;
 
-    if (!$formula && $sub) $formula = Formula::where('accounting_classification_id', $this->id)->first();
+    if (!$formula && $sub) $formula = Formula::where('accounting_classification_id', $this->id)
+    ->whereNotIn('type_classification', ['RL', 'NSR'])
+    ->first();
 
     if ($formula) {
       $re = '/{(.*?)}/m';
@@ -322,8 +325,8 @@ class AccountingClassification extends Model
           if ($accountingControl && !$dre) {
             if ($workingDaysType == '') {
               $accountingAnalytics = $accountingControl->accountingAnalytics()->where('accounting_classification_id', $classification->id)->first();
-              if(!Cache::has("withdrawal-$classification->id")) Cache::put("with-drawal-$classification->id", Withdrawal::getTotalByMonthAndClassification($month, $year, $classification->id), 60);
-              $withdrawal = Cache::get("with-drawal-$classification->id", );
+              if(!Cache::has("withdrawal-$classification->id")) Cache::put("withdrawal-$classification->id", Withdrawal::getTotalByMonthAndClassification($month, $year, $classification->id), 60);
+              $withdrawal = Cache::get("withdrawal-$classification->id");
 
               if ($accountingAnalytics) {
                 $sum += $accountingAnalytics->value;
@@ -337,41 +340,25 @@ class AccountingClassification extends Model
             } else {
               switch ($workingDaysType) {
                 case 'CUSTOS INDIRETOS':
-                  $sum = TotalStaticCheckPoint::getTotal(
-                    $year,
-                    $month,
-                    $classification->classification,
-                    TotalStaticCheckPoint::getTypes()[1],
-                    TotalStaticCheckPoint::getTypes()[0]
-                  );
+                  if(!Cache::has("custos-indiretos-$classification->id")) Cache::put("custos-indiretos-$classification->id",
+                  TotalStaticCheckPoint::getTotal($year, $month, $classification->classification, TotalStaticCheckPoint::getTypes()[1], TotalStaticCheckPoint::getTypes()[0]), 60);
+                  $sum = Cache::get("custos-indiretos-$classification->id");
                   break;
 
                 case 'CUSTOS DIRETO':
-                  $sum = TotalStaticCheckPoint::getTotal(
-                    $year,
-                    $month,
-                    $classification->classification,
-                    TotalStaticCheckPoint::getTypes()[0],
-                    TotalStaticCheckPoint::getTypes()[1]
-                  );
+                  if(!Cache::has("custos-direto-$classification->id")) Cache::put("custos-direto-$classification->id",
+                  TotalStaticCheckPoint::getTotal($year, $month, $classification->classification, TotalStaticCheckPoint::getTypes()[0], TotalStaticCheckPoint::getTypes()[1]), 60);
+                  $sum = Cache::get("custos-direto-$classification->id");
                   break;
 
                 case 'TOTAL':
-                  $result1 = TotalStaticCheckPoint::getTotal(
-                    $year,
-                    $month,
-                    $classification->classification,
-                    TotalStaticCheckPoint::getTypes()[1],
-                    TotalStaticCheckPoint::getTypes()[0]
-                  );
+                  if(!Cache::has("total-01-$classification->id")) Cache::put("total-01-$classification->id",
+                  TotalStaticCheckPoint::getTotal($year, $month, $classification->classification, TotalStaticCheckPoint::getTypes()[1], TotalStaticCheckPoint::getTypes()[0]), 60);
+                  $result1 = Cache::get("total-01-$classification->id");
 
-                  $result2 = TotalStaticCheckPoint::getTotal(
-                    $year,
-                    $month,
-                    $classification->classification,
-                    TotalStaticCheckPoint::getTypes()[0],
-                    TotalStaticCheckPoint::getTypes()[1]
-                  );
+                  if(!Cache::has("total-02-$classification->id")) Cache::put("total-02-$classification->id",
+                  TotalStaticCheckPoint::getTotal($year, $month, $classification->classification, TotalStaticCheckPoint::getTypes()[0], TotalStaticCheckPoint::getTypes()[1]), 60);
+                  $result2 = Cache::get("total-02-$classification->id");
 
                   $sum = $result1 + $result2;
                   break;
