@@ -11,7 +11,7 @@
         </td>
 
         <td class="sticky-col second-col amount disablecel" data-id="{{ $accountingClassification2->id }}" data-unity="{{ $accountingClassification2->unity }}"
-            style="text-align: center; @if ($accountingClassification2->color) color:{{ $accountingClassification2->color }}; @endif
+            style="@if ($accountingClassification2->color) color:{{ $accountingClassification2->color }}; @endif
                                        @if ($accountingClassification2->bolder) font-weight:bolder; @endif"
             data-id="{{ $accountingClassification->id }}" data-year="{{ $year }}">
             -
@@ -20,7 +20,7 @@
         <td class="sticky-col third-col rl disablecel"
             @php $formula = App\Models\Formula::where("accounting_classification_id", $accountingClassification2->id)->where("type_classification", "RL")->first() @endphp
             title="{{ "[$accountingClassification2->id]-$accountingClassification2->classification-$accountingClassification2->name =" }}{{ $formula ? $formula->formula : "" }}"
-            style="text-align: center; @if ($accountingClassification2->color) color:{{ $accountingClassification2->color }}; @endif
+            style="@if ($accountingClassification2->color) color:{{ $accountingClassification2->color }}; @endif
                                        @if ($accountingClassification2->bolder) font-weight:bolder; @endif"
             data-id="{{ $accountingClassification2->id }}" data-year="{{ $year }}">
             -
