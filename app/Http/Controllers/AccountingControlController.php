@@ -266,7 +266,7 @@ class AccountingControlController extends Controller
                             ]);
                         }
 
-                        if($inputs['type'] == 'Horas Totais Projeto' || $inputs['type'] == 'Horas Totais Administrativo')
+                        if($inputs['type'] == 'Horas Projetos' || $inputs['type'] == 'Horas Administrativas')
                         {
                             $totalStatickCheckPoint = TotalStaticCheckPoint::firstOrCreate([
                                 'classification_id' => $accountingClassification->classification,
