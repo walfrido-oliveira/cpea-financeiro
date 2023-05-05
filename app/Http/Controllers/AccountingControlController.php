@@ -273,6 +273,7 @@ class AccountingControlController extends Controller
                                 'classification_id' => $accountingClassification->classification,
                                 'month' => $inputs['month'],
                                 'year' => $inputs['year'],
+                                'type' => $inputs['type'],
                             ]);
 
                             $totalStatickCheckPoint->update([
