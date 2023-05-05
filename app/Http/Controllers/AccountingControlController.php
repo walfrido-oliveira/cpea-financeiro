@@ -270,6 +270,7 @@ class AccountingControlController extends Controller
                         {
                             $totalStatickCheckPoint = TotalStaticCheckPoint::firstOrCreate([
                                 'classification_id' => $accountingClassification->classification,
+                                'classification' => $accountingClassification->name,
                                 'month' => $inputs['month'],
                                 'year' => $inputs['year'],
                                 'type' => $inputs['type'],
