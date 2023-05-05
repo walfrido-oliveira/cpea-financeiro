@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use stdClass;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;

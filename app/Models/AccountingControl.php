@@ -25,8 +25,8 @@ class AccountingControl extends Model
         return [
             'Contábil' => 'Contábil',
             'Retiradas' => 'Retiradas',
-            "Horas Totais Projeto" => "Horas Totais Projeto",
-            "Horas Totais Administrativo" => "Horas Totais Administrativo",
+            "Horas Projetos" => "Horas Projetos",
+            "Horas Administrativas" => "Horas Administrativas",
         ];
     }
 
