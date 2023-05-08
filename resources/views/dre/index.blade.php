@@ -3,6 +3,21 @@
     document.getElementById("spin_load").classList.remove("hidden");
 </script>
 
+<style>
+   .multiple-options {
+        max-height: 18px !important;
+    }
+
+    .nice-select.has-multiple .multiple-options span.current {
+        margin-top: -4px !important;
+    }
+
+    .current button {
+        position: relative;
+        top: 3px;
+    }
+</style>
+
 <x-app-layout>
     <div class="py-6 index-dre">
         <div class="md:max-w-6xl lg:max-w-full mx-auto px-4">
@@ -44,6 +59,7 @@
             </div>
         </div>
     </div>
+
     <x-modal title="{{ __('Excluir Dre') }}"
              msg="{{ __('Deseja realmente apagar esse Dre?') }}"
              confirm="{{ __('Sim') }}" cancel="{{ __('Não') }}" id="delete_dre_modal"
