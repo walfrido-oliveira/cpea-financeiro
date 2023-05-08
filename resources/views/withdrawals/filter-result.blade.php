@@ -72,19 +72,9 @@
     <tfoot>
         <tr>
             <td class="sticky-col first-col"></td>
-            <td class="sticky-col second-col">{{ __('TOTAL GERAL') }}</td>
+            <td class="sticky-col second-col"></td>
             @foreach ($months as $key => $month)
                 <td>
-                    @php
-                        $totalClassificationByMonthDRE = App\Models\AccountingClassification::getTotalClassificationByMonthWithdrawal($key, $year);
-                    @endphp
-                    @if ($totalClassificationByMonthDRE > 0)
-                        {{  'R$' . number_format($totalClassificationByMonthDRE, 0, ',', '.') }}
-                    @elseif($totalClassificationByMonthDRE < 0)
-                        {{ 'R$ (' . number_format($totalClassificationByMonthDRE * -1, 0, ',', '.') . ')' }}
-                    @else
-                        -
-                    @endif
                 </td>
             @endforeach
         </tr>
