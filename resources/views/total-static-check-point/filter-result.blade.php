@@ -30,11 +30,7 @@
                 >
 
                     @php
-                        $checkPoint = App\Models\TotalStaticCheckPoint::where('year', $year)
-                            ->where('month', $key)
-                            ->where('classification_id', $accountingClassification->classification)
-                            ->where('type', $type)
-                            ->first();
+                        $checkPoint = $accountingClassification;
 
                     @endphp
                     <a href="#" class="edit-check-point"
