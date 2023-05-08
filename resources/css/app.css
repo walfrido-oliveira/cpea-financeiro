@@ -466,27 +466,33 @@ input:read-only {
 
 .accounting-table table .first-col {
     left: 0px;
+    z-index: 1;
 }
 
 .accounting-table table .second-col {
     left: 255px;
+    z-index: 2;
 }
 
 .accounting-table table .third-col {
     left: 362px;
+    z-index: 3;
 }
 
 .accounting-table table .fourth-col {
     left: 439px;
+    z-index: 4;
 }
 
 .accounting-table table .fifth-col {
     left: 405px;
+    z-index: 5;
 }
 
 .checkpoint-table td.header {
     background-color: #005e10;
     color: #FFF;
+    z-index: 6;
 }
 
 .edit-dre svg {

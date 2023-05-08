@@ -111,7 +111,7 @@
     }
 
     function getAmount() {
-        document.querySelectorAll(".amount").forEach(item => {
+        document.querySelectorAll(".amount[data-unity='R$']").forEach(item => {
             const dataForm = new FormData();
             const token = document.querySelector('meta[name="csrf-token"]').content;
 
