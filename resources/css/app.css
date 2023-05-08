@@ -445,7 +445,6 @@ input:read-only {
 .accounting-table table .sticky-col {
     position: -webkit-sticky;
     position: sticky;
-    background-color: hsla(0,0%,76.9%,.16);
     border-top: 2px solid #dee2e6;
 }
 

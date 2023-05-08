@@ -1788,10 +1788,6 @@ select {
 	--tw-bg-opacity: 1;
 	background-color: rgba(6, 78, 59, var(--tw-bg-opacity));
 }
-.bg-red-300 {
-	--tw-bg-opacity: 1;
-	background-color: rgba(252, 165, 165, var(--tw-bg-opacity));
-}
 .bg-blue-100 {
 	--tw-bg-opacity: 1;
 	background-color: rgba(219, 234, 254, var(--tw-bg-opacity));
@@ -3447,7 +3443,6 @@ input:read-only {
 }
 .accounting-table table .sticky-col {
     position: sticky;
-    background-color: hsla(0,0%,76.9%,.16);
     border-top: 2px solid #dee2e6;
 }
 .accounting-table table tr td {
