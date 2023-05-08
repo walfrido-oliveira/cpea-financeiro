@@ -252,7 +252,7 @@
 
         <tr class="point-items-{{ $accountingConfig->id }} active" data-type="classification" data-year="{{ $accountingConfig->year }}" data-month="{{ $accountingConfig->month }}">
             <td colspan="6" class="text-white font-bold" style="padding-left: 3.5rem !important; background-color: rgb(0, 94, 16)">
-                <button type="button" class="show-accounting-config" data-point="{{ $accountingConfig->id }}" data-type="formula" data-year="{{ $accountingConfig->year }}" data-month="{{ $accountingConfig->month }}">
+                <button type="button" class="show-accounting-config inline-flex" data-point="{{ $accountingConfig->id }}" data-type="formula" data-year="{{ $accountingConfig->year }}" data-month="{{ $accountingConfig->month }}">
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 inline minus hidden text-white" viewBox="0 0 20 20" fill="currentColor">
                         <path fill-rule="evenodd" d="M5 10a1 1 0 011-1h8a1 1 0 110 2H6a1 1 0 01-1-1z" clip-rule="evenodd" />
                     </svg>
@@ -261,10 +261,28 @@
                     </svg>
                     {{ "Formulas" }} ({{ $accountingConfig->formulas()->count() }})
                 </button>
+                <div class="inline-block" style="width: 90%">
+                    <div class="w-full flex justify-end" x-data="{ open: false }">
+                        <div class="pr-4 flex">
+                            <button @click="open = !open" id="nav-toggle" class="w-full block btn-transition-secondary">
+                              <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                              </svg>
+                            </button>
+                        </div>
+                        <!--Search-->
+                        <div :class="{'block': open, 'hidden': !open}" class="w-full block" id="search-content">
+                            <div class="container mx-auto">
+                                <input id="search_formula" name="q" type="search" placeholder="Buscar..." autofocus="autofocus" class="filter-field w-full form-control no-border"
+                                style="color: #fff; background-color: transparent; border-color: #fff;">
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </td>
         </tr>
 
-        <tr class="point-items-{{ $accountingConfig->id }}" data-type="item-formula" data-year="{{ $accountingConfig->year }}" data-month="{{ $accountingConfig->month }}" data-classification="Resultado do Exercicio">
+        <tr class="point-items-{{ $accountingConfig->id }} header-formula" data-type="item-formula" data-year="{{ $accountingConfig->year }}" data-month="{{ $accountingConfig->month }}" data-classification="Resultado do Exercicio">
             <td style="padding-left: 3.5rem !important;" class="font-bold">
                 <input class="form-checkbox formula-select-all mr-2" data-type="item-formula" data-id="{{$accountingConfig->id }}"  type="checkbox" data-year="{{ $accountingConfig->year }}" data-month="{{ $accountingConfig->month }}">
                 Classificação

@@ -79,6 +79,17 @@
     method="DELETE"
     redirect-url="{{ route('accounting-configs.index') }}"/>
 
+    <script>
+        document.querySelector("#search_formula").addEventListener("keyup", function() {
+            document.querySelectorAll("tr[data-type='item-formula']:not(.header-formula)").forEach(item => {
+                console.log(item.innerHTML);
+                if(!item.innerHTML.includes(this.value)) item.classList.add("hidden");
+                if(item.innerHTML.includes(this.value)) item.classList.remove("hidden");
+                if(this.value == '') item.classList.remove("hidden");
+            });
+        });
+    </script>
+
 
     <script>
         document.getElementById("year").addEventListener("change", function() {
@@ -650,10 +661,6 @@
             }
 
             function eventsFilterCallback() {
-                document.querySelectorAll('.filter-field').forEach(item => {
-                    item.addEventListener('change', filterCallback, false);
-                    item.addEventListener('keyup', filterCallback, false);
-                });
                 document.querySelectorAll("#accounting_configs_table thead [data-name]").forEach(item => {
                     item.addEventListener("click", orderByCallback, false);
                 });
