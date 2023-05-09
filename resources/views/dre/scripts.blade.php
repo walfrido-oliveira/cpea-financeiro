@@ -257,4 +257,32 @@
         ajax.send(data);
 
     });
+
+    document.querySelector("#scroll_bottom").addEventListener("scroll", function() {
+        const first = document.querySelector("th.first-col");
+        const second = document.querySelector("th.second-col");
+        const third = document.querySelector("th.third-col");
+        const fourth = document.querySelector("th.fourth-col ");
+
+        const firstWidth = parseInt(first.offsetWidth);
+        const secondWidth = parseInt(second.offsetWidth);
+        const thirdWidth = parseInt(third.offsetWidth);
+        const fourthWIdth = parseInt(fourth.offsetWidth);
+
+        second.style.left = `${firstWidth}px`;
+        third.style.left = `${firstWidth + secondWidth}px`;
+        fourth.style.left = `${firstWidth + secondWidth + thirdWidth}px`;
+
+        document.querySelectorAll("tbody .second-col").forEach(item => {
+            item.style.left = `${firstWidth}px`;
+        });
+
+        document.querySelectorAll("tbody .third-col").forEach(item => {
+            item.style.left = `${firstWidth + secondWidth + 1}px`;
+        });
+
+        document.querySelectorAll("tbody .fourth-col").forEach(item => {
+            item.style.left = `${firstWidth + secondWidth + thirdWidth}px`;
+        });
+    });
 </script>

@@ -3441,6 +3441,9 @@ input:read-only {
 .accounting-table .wrapper::-webkit-scrollbar-thumb:hover {
     background: #555;
 }
+.accounting-table .table .thead-light th {
+    background-color: #f6f6f6;
+}
 .accounting-table table .sticky-col {
     position: sticky;
     border-top: 2px solid #dee2e6;
@@ -3454,28 +3457,31 @@ input:read-only {
 .accounting-table table tr.featured .sticky-col {
     background-color: #edf4ee;
 }
+.accounting-table table tbody .sticky-col {
+    background-color: #fff;
+}
 .accounting-table table tfoot .sticky-col {
     background-color: #005e10;
 }
 .accounting-table table .first-col {
     left: 0px;
-    z-index: 1;
+    z-index: 10;
 }
 .accounting-table table .second-col {
     left: 255px;
-    z-index: 2;
+    z-index: 9;
 }
 .accounting-table table .third-col {
     left: 362px;
-    z-index: 3;
+    z-index: 8;
 }
 .accounting-table table .fourth-col {
     left: 439px;
-    z-index: 4;
+    z-index: 7;
 }
 .accounting-table table .fifth-col {
     left: 405px;
-    z-index: 5;
+    z-index: 6;
 }
 .checkpoint-table td.header {
     background-color: #005e10;
