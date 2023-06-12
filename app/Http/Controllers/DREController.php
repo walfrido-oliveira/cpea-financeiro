@@ -74,7 +74,7 @@ class DREController extends Controller
     public function create(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'value' => ['required', 'numeric'],
+            'value' => ['nullable', 'numeric'],
             'justification' => ['required', 'string'],
             'month' => ['required'],
             'year' => ['required'],
@@ -158,10 +158,10 @@ class DREController extends Controller
             $result = "-";
             $decimal = $accountingClassification->unity == '%' ? 2 : 0;
 
+            $total = $accountingClassification->getTotalClassificationDRE($key, $year);
+
             if($dre){
-                $total = $dre->value;
-            } else {
-                $total = $accountingClassification->getTotalClassificationDRE($key, $year);
+                $total = $dre->value ? $dre->value : $total;
             }
 
             if ($total > 0) {

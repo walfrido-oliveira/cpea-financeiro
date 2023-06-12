@@ -69,4 +69,5 @@
     @include('dre.edit-modal')
     @include('dre.scripts')
 
+
 </x-app-layout>

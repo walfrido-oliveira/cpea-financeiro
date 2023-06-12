@@ -18,7 +18,7 @@ class CreateDRESTable extends Migration
             $table->foreignId('accounting_classification_id')->nullable()->constrained()->onDelete('cascade');
             $table->integer("month");
             $table->integer("year");
-            $table->decimal('value', 10, 2);
+            $table->decimal('value', 10, 2)->nullable();
             $table->string('justification');
             $table->timestamps();
         });
