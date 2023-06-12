@@ -529,3 +529,14 @@ input[type='file'] {
     background-color: rgb(0, 94, 16);
     color: #FFF !important;
 }
+
+.comment-dre svg {
+    visibility: hidden;
+    opacity: 0;
+    transition: visibility 0.3s linear,opacity 0.3s linear;
+}
+
+.comment-dre:hover svg {
+    visibility: visible;
+    opacity: 1;
+}

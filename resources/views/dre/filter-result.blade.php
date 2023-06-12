@@ -15,6 +15,7 @@
             data-id="{{ $accountingClassification->id }}" data-year="{{ $year }}">
             <td class="sticky-col first-col"
             style="white-space: nowrap;
+                  @if ($accountingClassification2->featured_color) background-color: {{ $accountingClassification2->featured_color }}; @endif
                   @if ($accountingClassification->color) color:{{ $accountingClassification->color }}; @endif
                   @if ($accountingClassification->bolder) font-weight:bolder; @endif
                   padding-left: {{ $accountingClassification->depth + 0.5 }}rem"

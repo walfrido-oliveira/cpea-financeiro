@@ -92,6 +92,12 @@
                                 <x-jet-input id="color" class="form-control block mt-1 w-full" type="color" name="color"  placeholder="{{ __('Cor') }}" :value="$accountingClassification->color" />
                             </label>
                         </div>
+                        <div class="w-full md:w-1/12 px-3 mb-6 md:mb-0">
+                            <label for="featured_color" class="flex items-center">
+                                <span class="ml-2 text-sm text-gray-600">{{ __('Cor do destaque') }}</span>
+                                <x-jet-input id="featured_color" class="form-control block mt-1 w-full" type="color" name="featured_color"   :value="$accountingClassification->featured_color" />
+                            </label>
+                        </div>
                         <div class="w-full md:w-auto px-3 mb-6 md:mb-0">
                             <label for="bolder" class="flex items-center">
                                 <input id="bolder" type="checkbox" class="form-checkbox" name="bolder" @if ($accountingClassification->bolder)
