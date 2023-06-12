@@ -173,7 +173,6 @@ class DREController extends Controller
             $results[$month] = view('dre.total-classification', compact('accountingClassification', 'dre', 'month', 'year', 'result', 'total', 'key'))->render();
         }
 
-
         return response()->json($results);
     }
 
@@ -237,8 +236,9 @@ class DREController extends Controller
     {
         $inputs = $request->all();
         $year = $inputs['year'];
+        $months = $inputs['months'];
         $accountingClassification = AccountingClassification::findOrFail($inputs['id']);
-        $total = $accountingClassification->getTotal($year);
+        $total = $accountingClassification->getTotal($year, $months);
         $result = "-";
 
         if ($total > 0) {

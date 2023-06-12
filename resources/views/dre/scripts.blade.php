@@ -114,11 +114,14 @@
         document.querySelectorAll(".amount[data-unity='R$']").forEach(item => {
             const dataForm = new FormData();
             const token = document.querySelector('meta[name="csrf-token"]').content;
-
             dataForm.append('id', item.dataset.id);
             dataForm.append('year', item.dataset.year);
             dataForm.append('_method', 'POST');
             dataForm.append('_token', token);
+
+            @foreach ($months as $key => $month)
+            dataForm.append('months[]', {!! $key !!});
+            @endforeach
 
             fetch('{{ route('dre.amount') }}', {
                     method: 'POST',
@@ -137,8 +140,7 @@
 
 <script>
     window.addEventListener("load", function() {
-        document.querySelector("#scroll_top div").style.width = document.querySelector(
-            "#accounting_classifications_table").clientWidth + 'px';
+        document.querySelector("#scroll_top div").style.width = document.querySelector("#accounting_classifications_table").clientWidth + 'px';
     });
     var wrapper1 = document.getElementById('scroll_top');
     var wrapper2 = document.getElementById('scroll_bottom');

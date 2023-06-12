@@ -2,14 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\User;
 use App\Models\Employee;
 use App\Models\Direction;
 use App\Models\Department;
 use App\Models\Occupation;
 use App\Models\WorkingDay;
 use App\Models\WorkRegime;
-use App\Models\EmployeeLog;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;

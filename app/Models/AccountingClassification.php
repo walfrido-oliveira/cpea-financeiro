@@ -389,13 +389,12 @@ class AccountingClassification extends Model
   }
 
 
-  public function getTotal($year)
+  public function getTotal($year, $months = [])
   {
     $sum = 0;
-
-    foreach (months() as $key => $month)
+    foreach ($months as $month)
     {
-        $sum += $this->getTotalClassificationDRE($key, $year);
+        $sum += $this->getTotalClassificationDRE($month, $year);
     }
 
     return $sum;
