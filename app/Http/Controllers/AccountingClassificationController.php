@@ -188,6 +188,7 @@ class AccountingClassificationController extends Controller
         $orderBy = $request->get('order_by');
         $ascending = $request->get('ascending');
         $paginatePerPage = $request->get('paginate_per_page');
+        $fields = $request->except('_token', '_method');
 
         return response()->json([
             'filter_result' => view('accounting-classifications.filter-result', compact('accountingClassifications', 'orderBy', 'ascending'))->render(),
@@ -196,6 +197,7 @@ class AccountingClassificationController extends Controller
                 'order_by' => $orderBy,
                 'ascending' => $ascending,
                 'paginate_per_page' => $paginatePerPage,
+                'fields' => $fields
                 ])->render(),
             ]);
     }
