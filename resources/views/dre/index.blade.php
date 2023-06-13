@@ -69,5 +69,14 @@
     @include('dre.edit-modal')
     @include('dre.scripts')
 
+    <link rel="stylesheet" href="/css/jquery.treetable.css">
+    <link rel="stylesheet" href="/css/jquery.treetable.theme.default.css">
+    <link rel="stylesheet" href="/css/screen.css">
 
+    <script src="/js/jquery-3.7.0.min.js"></script>
+    <script src="/js/jquery.treetable.js"></script>
+
+    <script>
+        jQuery("table").treetable();
+    </script>
 </x-app-layout>

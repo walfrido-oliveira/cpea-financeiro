@@ -1,6 +1,6 @@
-@foreach ($accountingClassificationChildrens as $accountingClassification2)
+@foreach ($accountingClassificationChildrens as $key2 => $accountingClassification2)
     <tr class="@if ( $accountingClassification2->featured) featured @endif total-classification"
-        data-id="{{ $accountingClassification2->id }}" data-year="{{ $year }}">
+        data-id="{{ $accountingClassification2->id }}" data-year="{{ $year }}" data-tt-id="{{ $key2 }}" data-tt-parent-id="{{ $key }}">
         <td class="sticky-col first-col"
             style="white-space: nowrap;
                 @if ($accountingClassification2->featured_color) background-color: {{ $accountingClassification2->featured_color }}; @endif

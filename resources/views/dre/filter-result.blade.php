@@ -1,4 +1,3 @@
-<thead>
     <tr class="thead-light">
         <x-table-sort-header :orderBy="$orderBy" :ascending="$ascending" columnName="" columnText="{{ __('Classificação') }}" class="sticky-col first-col"/>
         <x-table-sort-header :orderBy="$orderBy" :ascending="$ascending" columnName="" columnText="{!! __('Acumulado') . '<br>' . '(' . $year . ')' !!}" class="sticky-col second-col text-center"/>
@@ -8,14 +7,12 @@
             <x-table-sort-header :orderBy="$orderBy" :ascending="$ascending" columnName="{{ $month . '/' . $year }}" columnText="{{ $month . '/' . $year }}"/>
         @endforeach
     </tr>
-</thead>
-<tbody id="withdrawals_table_content">
     @forelse ($accountingClassifications as $key => $accountingClassification)
         <tr class="@if ( $accountingClassification->featured) featured @endif total-classification"
-            data-id="{{ $accountingClassification->id }}" data-year="{{ $year }}">
+            data-id="{{ $accountingClassification->id }}" data-year="{{ $year }}" data-tt-id="{{ $key }}">
             <td class="sticky-col first-col"
             style="white-space: nowrap;
-                  @if ($accountingClassification2->featured_color) background-color: {{ $accountingClassification2->featured_color }}; @endif
+                  @if ($accountingClassification->featured_color) background-color: {{ $accountingClassification2->featured_color }}; @endif
                   @if ($accountingClassification->color) color:{{ $accountingClassification->color }}; @endif
                   @if ($accountingClassification->bolder) font-weight:bolder; @endif
                   padding-left: {{ $accountingClassification->depth + 0.5 }}rem"
@@ -71,4 +68,3 @@
             <td class="text-center" colspan="5">{{ __("Nenhum resultado encontrado") }}</td>
         </tr>
     @endforelse
-<tbody>
