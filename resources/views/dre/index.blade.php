@@ -69,14 +69,22 @@
     @include('dre.edit-modal')
     @include('dre.scripts')
 
-    <link rel="stylesheet" href="/css/jquery.treetable.css">
-    <link rel="stylesheet" href="/css/jquery.treetable.theme.default.css">
-    <link rel="stylesheet" href="/css/screen.css">
-
-    <script src="/js/jquery-3.7.0.min.js"></script>
-    <script src="/js/jquery.treetable.js"></script>
-
     <script>
-        jQuery("table").treetable();
+        document.querySelectorAll("#accounting_classifications_table tr").forEach(tr => {
+            tr.addEventListener("click", function(e) {
+                e.stopPropagation();
+                document.querySelectorAll(`[data-tt-parent-id='${this.dataset.ttId}'], [data-tt-parent-id^='${this.dataset.ttId}.']`).forEach(item => {
+                    item.style.display = item.style.display == "none" ? "table-row" : "none";
+                });
+
+                if(tr.classList.contains("collapsed")) {
+                    tr.classList.add("expanded")
+                    tr.classList.remove("collapsed")
+                }else {
+                    tr.classList.remove("expanded")
+                    tr.classList.add("collapsed")
+                }
+            });
+        });
     </script>
 </x-app-layout>

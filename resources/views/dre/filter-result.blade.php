@@ -7,16 +7,19 @@
             <x-table-sort-header :orderBy="$orderBy" :ascending="$ascending" columnName="{{ $month . '/' . $year }}" columnText="{{ $month . '/' . $year }}"/>
         @endforeach
     </tr>
-    @forelse ($accountingClassifications as $key => $accountingClassification)
-        <tr class="@if ( $accountingClassification->featured) featured @endif total-classification"
-            data-id="{{ $accountingClassification->id }}" data-year="{{ $year }}" data-tt-id="{{ $key }}">
+    @forelse ($accountingClassifications as $level => $accountingClassification)
+        <tr class="@if ( $accountingClassification->featured) featured @endif total-classification expanded"
+            data-id="{{ $accountingClassification->id }}" data-year="{{ $year }}" data-tt-id="{{ $level }}">
             <td class="sticky-col first-col"
-            style="white-space: nowrap;
+                style="white-space: nowrap;
                   @if ($accountingClassification->featured_color) background-color: {{ $accountingClassification2->featured_color }}; @endif
                   @if ($accountingClassification->color) color:{{ $accountingClassification->color }}; @endif
                   @if ($accountingClassification->bolder) font-weight:bolder; @endif
                   padding-left: {{ $accountingClassification->depth + 0.5 }}rem"
                   title="{{ $accountingClassification->classification }}">
+                  @if (count($accountingClassification->children) > 0)
+                    <span class="indenter" style="padding-left: 0px;"><a href="#" title="Collapse">&nbsp;</a></span>
+                  @endif
                  {{ $accountingClassification->name }}
             </td>
 
@@ -60,7 +63,8 @@
                     $q->where('accounting_classification_accounting_config.accounting_config_id', count($accountingConfigs) > 0 ? $accountingConfigs[0]->id : 0)
                       ->where('visible', true)
                       ->where('type_classification', 'DRE Ajustável');
-                })->orderBy('accounting_classifications.order')->get()
+                })->orderBy('accounting_classifications.order')->get(),
+                'parent' => $level
             ])
         @endif
     @empty
