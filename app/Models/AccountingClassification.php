@@ -322,7 +322,7 @@ class AccountingClassification extends Model
 
           $dre = Dre::where("accounting_classification_id", $classification->id)->where("month", $month)->where("year", $year)->latest('created_at')->first();
 
-          if ($accountingControl && !$dre) {
+          if ($accountingControl && !$dre && isset($dre->value)) {
             if ($workingDaysType == '') {
               $accountingAnalytics = $accountingControl->accountingAnalytics()->where('accounting_classification_id', $classification->id)->first();
               if(!Cache::has("withdrawal-$month-$year-$classification->id")) Cache::put("withdrawal-$month-$year-$classification->id", Withdrawal::getTotalByMonthAndClassification($month, $year, $classification->id), 60);
