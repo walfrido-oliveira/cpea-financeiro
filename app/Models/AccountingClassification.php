@@ -231,7 +231,7 @@ class AccountingClassification extends Model
     return $total;
   }
 
-  public function getEspecialFomulas($year, $type)
+  public function getEspecialFomulas($year, $type, $months = [])
   {
     $formula = Formula::where('accounting_classification_id', $this->id)
         ->where('type_classification', $type)
@@ -246,7 +246,7 @@ class AccountingClassification extends Model
         foreach ($matches as $value2) {
           $result = explode("&", $value2[1]);
           $classification = self::where('classification', $result[0])->where('name', $result[1])->first();
-          if(!Cache::has("total-dre-$classification->id")) Cache::put("total-dre-$classification->id", $classification->getTotal($year), 60);
+          if(!Cache::has("total-dre-$classification->id")) Cache::put("total-dre-$classification->id", $classification->getTotal($year, $months), 60);
           $sum = Cache::get("total-dre-$classification->id");
           $formulaText = Str::replace($value2[0], $sum, $formulaText);
         }

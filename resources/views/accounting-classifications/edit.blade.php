@@ -83,27 +83,29 @@
                                 <span class="ml-2 text-sm text-gray-600">{{ __('Visível') }}</span>
                             </label>
                         </div>
-                    </div>
-
-                    <div class="flex flex-wrap mx-4 px-3 py-2 mt-4 items-center">
-                        <div class="w-full md:w-1/12 px-3 mb-6 md:mb-0">
-                            <label for="color" class="flex items-center">
-                                <span class="ml-2 text-sm text-gray-600">{{ __('Cor') }}</span>
-                                <x-jet-input id="color" class="form-control block mt-1 w-full" type="color" name="color"  placeholder="{{ __('Cor') }}" :value="$accountingClassification->color" />
-                            </label>
-                        </div>
-                        <div class="w-full md:w-1/12 px-3 mb-6 md:mb-0">
-                            <label for="featured_color" class="flex items-center">
-                                <span class="ml-2 text-sm text-gray-600">{{ __('Cor do destaque') }}</span>
-                                <x-jet-input id="featured_color" class="form-control block mt-1 w-full" type="color" name="featured_color"   :value="$accountingClassification->featured_color" />
-                            </label>
-                        </div>
-                        <div class="w-full md:w-auto px-3 mb-6 md:mb-0">
+                        <div class="w-full px-3 mb-6 md:mb-0">
                             <label for="bolder" class="flex items-center">
                                 <input id="bolder" type="checkbox" class="form-checkbox" name="bolder" @if ($accountingClassification->bolder)
                                 checked
                             @endif>
                                 <span class="ml-2 text-sm text-gray-600">{{ __('Negrito') }}</span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="flex flex-wrap mx-4 px-3 py-2 mt-4 items-center">
+                        <div class="w-full md:w-1/12 px-3 mb-6 md:mb-0">
+                            <label for="color" class="flex items-center">
+                                <span class="ml-2 text-sm text-gray-600 mr-1">{{ __('Cor') }}</span>
+                                <x-jet-input id="color" class="form-control block mt-1 w-full" type="color" name="color"  placeholder="{{ __('Cor') }}" :value="$accountingClassification->color" />
+                            </label>
+                        </div>
+                        <div class="w-full md:w-2/12 px-3 mb-6 md:mb-0">
+                            <label for="featured_color" class="flex items-center">
+                                <span class="ml-2 text-sm text-gray-600 mr-1">{{ __('Destaque') }}</span>
+                                <div style="width: 70px">
+                                    <x-jet-input id="featured_color" class="form-control block mt-1 w-full" type="color" name="featured_color"   :value="$accountingClassification->featured_color" />
+                                </div>
                             </label>
                         </div>
                     </div>

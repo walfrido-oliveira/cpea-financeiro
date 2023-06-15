@@ -185,9 +185,10 @@ class DREController extends Controller
     public function totalRL(Request $request)
     {
         $inputs = $request->all();
+        $months =  $inputs['months'];
         $year = $inputs['year'];
         $accountingClassification = AccountingClassification::findOrFail($inputs['id']);
-        $total = $accountingClassification->getEspecialFomulas($year, 'RL');
+        $total = $accountingClassification->getEspecialFomulas($year, 'RL', $months );
         $result = "-";
 
         $total *= 100;
@@ -210,9 +211,10 @@ class DREController extends Controller
     public function totalNSR(Request $request)
     {
         $inputs = $request->all();
+        $months =  $inputs['months'];
         $year = $inputs['year'];
         $accountingClassification = AccountingClassification::findOrFail($inputs['id']);
-        $total = $accountingClassification->getEspecialFomulas($year, 'NSR');
+        $total = $accountingClassification->getEspecialFomulas($year, 'NSR', $months );
         $result = "-";
 
         $total *= 100;
