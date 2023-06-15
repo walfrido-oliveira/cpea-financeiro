@@ -78,11 +78,11 @@
                 });
 
                 if(tr.classList.contains("collapsed")) {
-                    tr.classList.add("expanded")
-                    tr.classList.remove("collapsed")
+                    tr.classList.add("expanded");
+                    tr.classList.remove("collapsed");
                 }else {
-                    tr.classList.remove("expanded")
-                    tr.classList.add("collapsed")
+                    tr.classList.remove("expanded");
+                    tr.classList.add("collapsed");
                 }
             });
         });
