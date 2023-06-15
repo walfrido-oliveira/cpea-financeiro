@@ -74,7 +74,7 @@
             tr.addEventListener("click", function(e) {
                 e.stopPropagation();
                 document.querySelectorAll(`[data-tt-parent-id='${this.dataset.ttId}'], [data-tt-parent-id^='${this.dataset.ttId}.']`).forEach(item => {
-                    item.style.display = item.style.display == "none" ? "table-row" : "none";
+                    item.style.display = !tr.classList.contains("expanded") ? "table-row" : "none";
                 });
 
                 if(tr.classList.contains("collapsed")) {
