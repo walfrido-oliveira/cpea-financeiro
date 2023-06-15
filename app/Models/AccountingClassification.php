@@ -321,8 +321,9 @@ class AccountingClassification extends Model
             ->first();
 
           $dre = Dre::where("accounting_classification_id", $classification->id)->where("month", $month)->where("year", $year)->latest('created_at')->first();
+          if($dre) if(!$dre->value) $dre = null;
 
-          if ($accountingControl && !$dre && isset($dre->value)) {
+          if ($accountingControl && !$dre) {
             if ($workingDaysType == '') {
               $accountingAnalytics = $accountingControl->accountingAnalytics()->where('accounting_classification_id', $classification->id)->first();
               if(!Cache::has("withdrawal-$month-$year-$classification->id")) Cache::put("withdrawal-$month-$year-$classification->id", Withdrawal::getTotalByMonthAndClassification($month, $year, $classification->id), 60);
