@@ -291,7 +291,7 @@ class AccountingClassification extends Model
 
     $dre = Dre::where("accounting_classification_id", $this->id)->where("month", $month)->where("year", $year)->latest('created_at')->first();
 
-    if($dre) return $dre->value;
+    if($dre) if($dre->value) return $dre->value;
 
     if (!$formula && $sub) $formula = Formula::where('accounting_classification_id', $this->id)
     ->whereNotIn('type_classification', ['RL', 'NSR'])
