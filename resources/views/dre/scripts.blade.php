@@ -70,7 +70,7 @@
             dataForm.append('id', item.dataset.id);
             dataForm.append('year', item.dataset.year);
             @foreach ($months as $key => $month)
-                dataForm.append('months[{!! $key !!}]', '{!! $month !!}');
+                dataForm.append('months[]', {!! $key !!});
             @endforeach
             dataForm.append('_method', 'POST');
             dataForm.append('_token', token);
@@ -97,7 +97,7 @@
             dataForm.append('id', item.dataset.id);
             dataForm.append('year', item.dataset.year);
             @foreach ($months as $key => $month)
-                dataForm.append('months[{!! $key !!}]', '{!! $month !!}');
+                dataForm.append('months[]', {!! $key !!});
             @endforeach
             dataForm.append('_method', 'POST');
             dataForm.append('_token', token);
@@ -126,7 +126,7 @@
             dataForm.append('_token', token);
 
             @foreach ($months as $key => $month)
-            dataForm.append('months[]', {!! $key !!});
+                dataForm.append('months[]', {!! $key !!});
             @endforeach
 
             fetch('{{ route('dre.amount') }}', {
