@@ -8,7 +8,8 @@
         @endforeach
     </tr>
     @forelse ($accountingClassifications as $level => $accountingClassification)
-        <tr class="@if ( $accountingClassification->featured) featured @endif total-classification expanded"
+        <tr class="@if ( $accountingClassification->featured) featured @endif total-classification
+            @if($accountingClassification->initial_state == 'open') expanded @else collapsed @endif"
             data-id="{{ $accountingClassification->id }}" data-year="{{ $year }}" data-tt-id="{{ $level }}">
             <td class="sticky-col first-col"
                 style="white-space: nowrap;

@@ -1,5 +1,6 @@
 @foreach ($accountingClassificationChildrens as $key2 => $accountingClassification2)
-    <tr class="@if ( $accountingClassification2->featured) featured @endif total-classification expanded"
+    <tr class="@if ( $accountingClassification2->featured) featured @endif total-classification
+        @if($accountingClassification2->initial_state == 'open') expanded @else collapsed @endif"
         data-id="{{ $accountingClassification2->id }}" data-year="{{ $year }}" data-tt-id="{{ "$parent.$key2" }}" data-tt-parent-id="{{ $parent }}">
         <td class="sticky-col first-col"
             style="white-space: nowrap;
