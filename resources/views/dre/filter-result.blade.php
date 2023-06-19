@@ -9,7 +9,7 @@
     </tr>
     @forelse ($accountingClassifications as $level => $accountingClassification)
         <tr class="@if ( $accountingClassification->featured) featured @endif total-classification
-            @if($accountingClassification->initial_state == 'open') expanded @else collapsed @endif"
+                   @if($accountingClassification->initial_state == 'open') expanded @else collapsed @endif"
             data-id="{{ $accountingClassification->id }}" data-year="{{ $year }}" data-tt-id="{{ $level }}">
             <td class="sticky-col first-col"
                 style="white-space: nowrap;
@@ -26,6 +26,7 @@
 
             <td class="sticky-col second-col amount disablecel" data-id="{{ $accountingClassification->id }}" data-unity="{{ $accountingClassification->unity }}"
                 style="@if ($accountingClassification->color) color:{{ $accountingClassification->color }};@endif
+                       @if ($accountingClassification->featured_color) background-color: {{ $accountingClassification->featured_color }}; @endif
                        @if ($accountingClassification->bolder) font-weight:bolder; @endif"
                 data-id="{{ $accountingClassification->id }}" data-year="{{ $year }}">
                 -
@@ -35,7 +36,8 @@
                 @php $formula = App\Models\Formula::where("accounting_classification_id", $accountingClassification->id)->where("type_classification", "RL")->first() @endphp
                 title="{{ "[$accountingClassification->id]-$accountingClassification->classification-$accountingClassification->name =" }}{{ $formula ? $formula->formula : "" }}"
                 style=" @if ($accountingClassification->color) color:{{ $accountingClassification->color }}; @endif
-                                            @if ($accountingClassification->bolder) font-weight:bolder; @endif"
+                        @if ($accountingClassification->featured_color) background-color: {{ $accountingClassification->featured_color }}; @endif
+                        @if ($accountingClassification->bolder) font-weight:bolder; @endif"
                 data-id="{{ $accountingClassification->id }}" data-year="{{ $year }}">
                 -
             </td>
@@ -44,14 +46,17 @@
                 @php $formula = App\Models\Formula::where("accounting_classification_id", $accountingClassification->id)->where("type_classification", "NSR")->first() @endphp
                 title="{{ "[$accountingClassification->id]-$accountingClassification->classification-$accountingClassification->name =" }}{{ $formula ? $formula->formula : "" }}"
                 style="text-align: center; @if ($accountingClassification->color) color:{{ $accountingClassification->color }};@endif
-                                           @if ($accountingClassification->bolder) font-weight:bolder; @endif border-right: 2px solid #ccc;"
+                                           @if ($accountingClassification->bolder) font-weight:bolder; @endif
+                                           @if ($accountingClassification->featured_color) background-color: {{ $accountingClassification->featured_color }}; @endif
+                        border-right: 2px solid #ccc;"
                 data-id="{{ $accountingClassification->id }}" data-year="{{ $year }}">
                 -
             </td>
 
             @foreach ($months as $key => $month)
                 <td style="@if ($accountingClassification->color) color:{{ $accountingClassification->color }}; @endif
-                            @if ($accountingClassification->bolder) font-weight:bolder; @endif"
+                           @if ($accountingClassification->featured_color) background-color: {{ $accountingClassification->featured_color }}; @endif
+                           @if ($accountingClassification->bolder) font-weight:bolder; @endif"
                     data-id="{{ $accountingClassification->id }}" data-year="{{ $year }}" data-month="{{ $month }}" data-monthkey="{{ $key }}"
                     class="disablecel total-classification-result">
                     -

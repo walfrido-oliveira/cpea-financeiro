@@ -87,12 +87,16 @@
             });
         });
 
-        document.querySelectorAll("#accounting_classifications_table tr").forEach(tr => {
-            if(tr.dataset.hasOwnProperty('ttId')) {
-                document.querySelectorAll(`[data-tt-parent-id='${tr.dataset.ttId}'], [data-tt-parent-id^='${tr.dataset.ttId}.']`).forEach(item => {
-                    item.style.display = !tr.classList.contains("expanded") ? "none" : "table-row";
-                });
-            }
+        document.querySelectorAll("#accounting_classifications_table tr.expanded").forEach(tr => {
+            document.querySelectorAll(`[data-tt-parent-id='${tr.dataset.ttId}'], [data-tt-parent-id^='${tr.dataset.ttId}.']`).forEach(item => {
+                item.style.display = "table-row";
+            });
+        });
+
+        document.querySelectorAll("#accounting_classifications_table tr.collapsed").forEach(tr => {
+            document.querySelectorAll(`[data-tt-parent-id='${tr.dataset.ttId}'], [data-tt-parent-id^='${tr.dataset.ttId}.']`).forEach(item => {
+                item.style.display = "none";
+            });
         });
     </script>
 </x-app-layout>
