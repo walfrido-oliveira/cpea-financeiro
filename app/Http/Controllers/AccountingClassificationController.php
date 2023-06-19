@@ -79,6 +79,7 @@ class AccountingClassificationController extends Controller
             'visible' => isset($input['visible']) ? true : false,
             'color' => $input['color'],
             'featured_color' => $input['featured_color'],
+            'initial_state' => $input['initial_state'],
             'accounting_classification_id' => $input['accounting_classification_id'],
             'order' => $input['order'],
             'unity' => $input['unity']
@@ -146,6 +147,7 @@ class AccountingClassificationController extends Controller
             'visible' => isset($input['visible']) ? true : false,
             'color' => $input['color'],
             'featured_color' => $input['featured_color'],
+            'initial_state' => $input['initial_state'],
             'accounting_classification_id' => $input['accounting_classification_id'],
             'order' => $input['order'],
             'unity' => $input['unity']

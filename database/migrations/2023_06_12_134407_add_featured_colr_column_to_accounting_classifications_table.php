@@ -15,6 +15,7 @@ class AddFeaturedColrColumnToAccountingClassificationsTable extends Migration
     {
         Schema::table('accounting_classifications', function (Blueprint $table) {
             $table->string('featured_color')->nullable();
+            $table->string('initial_state')->default('open');
         });
     }
 

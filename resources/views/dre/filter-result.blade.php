@@ -12,7 +12,7 @@
             data-id="{{ $accountingClassification->id }}" data-year="{{ $year }}" data-tt-id="{{ $level }}">
             <td class="sticky-col first-col"
                 style="white-space: nowrap;
-                  @if ($accountingClassification->featured_color) background-color: {{ $accountingClassification2->featured_color }}; @endif
+                  @if ($accountingClassification->featured_color) background-color: {{ $accountingClassification->featured_color }}; @endif
                   @if ($accountingClassification->color) color:{{ $accountingClassification->color }}; @endif
                   @if ($accountingClassification->bolder) font-weight:bolder; @endif
                   padding-left: {{ $accountingClassification->depth + 0.5 }}rem"

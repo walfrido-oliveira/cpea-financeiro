@@ -56,13 +56,17 @@
                     </div>
 
                     <div class="flex flex-wrap mx-4 px-3 py-2 mt-4">
-                        <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
+                        <div class="w-full md:w-1/3 px-3 mb-6 md:mb-0">
                             <x-jet-label for="level" value="{{ __('Nível de Recuo (1 à 10)') }}" required/>
                             <x-jet-input id="level" class="form-control block mt-1 w-full" type="number" name="level" min="1" max="10" required autofocus autocomplete="name" placeholder="{{ __('Nível') }}"/>
                         </div>
-                        <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
+                        <div class="w-full md:w-1/3 px-3 mb-6 md:mb-0">
                             <x-jet-label for="order" value="{{ __('Ordem') }}" required/>
                             <x-jet-input id="order" class="form-control block mt-1 w-full" type="text" name="order" maxlength="45" required autofocus autocomplete="order" placeholder="{{ __('Ordem') }}"/>
+                        </div>
+                        <div class="w-full md:w-1/3 px-3 mb-6 md:mb-0">
+                            <x-jet-label for="initial_state" value="{{ __('Estado Inicial') }}" />
+                            <x-custom-select no-filter :options="['open' => 'Aberto', 'closed' => 'Fechado']" name="initial_state" id="initial_state" :value="app('request')->input('initial_state')"/>
                         </div>
                     </div>
 
@@ -79,6 +83,12 @@
                                 <span class="ml-2 text-sm text-gray-600">{{ __('Visível') }}</span>
                             </label>
                         </div>
+                        <div class="w-full px-3 mb-6 md:mb-0">
+                            <label for="bolder" class="flex items-center">
+                                <input id="bolder" type="checkbox" class="form-checkbox" name="bolder">
+                                <span class="ml-2 text-sm text-gray-600">{{ __('Negrito') }}</span>
+                            </label>
+                        </div>
                     </div>
 
                     <div class="flex flex-wrap mx-4 px-3 py-2 mt-4 items-center">
@@ -92,12 +102,6 @@
                             <label for="featured_color" class="flex items-center">
                                 <span class="ml-2 text-sm text-gray-600">{{ __('Destaque') }}</span>
                                 <x-jet-input id="featured_color" class="form-control block mt-1 w-full" type="color" name="featured_color"   value="" />
-                            </label>
-                        </div>
-                        <div class="w-full md:w-auto px-3 mb-6 md:mb-0">
-                            <label for="bolder" class="flex items-center">
-                                <input id="bolder" type="checkbox" class="form-checkbox" name="bolder">
-                                <span class="ml-2 text-sm text-gray-600">{{ __('Negrito') }}</span>
                             </label>
                         </div>
                     </div>
